@@ -3,7 +3,7 @@ rapachehandler <- function(){
 	#collect request data from rapache
   REQDATA <- list(
     METHOD = SERVER$method,
-    URI = SERVER$uri,
+    #URI = SERVER$uri,
     MOUNT = SERVER$cmd_path,
     PATH_INFO = SERVER$path_info,
     POST = POST,

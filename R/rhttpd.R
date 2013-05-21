@@ -14,11 +14,7 @@ rhttpdhandler <- function(reqpath, reqquery, reqbody, reqheaders){
       stop("multipart not supported by rhttpdhandler.")
     } else if(grepl("x-www-form-urlencoded", contenttype)){
       if(is.raw(reqbody)){
-        argslist <- strsplit(rawToChar(reqbody), "&")[[1]];
-        argslist <- strsplit(argslist, "=");
-        POST <- lapply(argslist, "[[", 2);
-        POST <- lapply(POST, function(s) {utils:::URLdecode(chartr('+',' ',s))});
-        names(POST) <- lapply(argslist, "[[", 1);        
+        POST <- parse_query(reqbody);
       } else {
         POST <- as.list(reqbody);
       }
@@ -36,7 +32,7 @@ rhttpdhandler <- function(reqpath, reqquery, reqbody, reqheaders){
   #collect data from Rook
   REQDATA <- list(
     METHOD = METHOD,
-    URI = reqpath,
+    #URI = reqpath,
     PATH_INFO = gsub("/custom/ocpu", "", reqpath),
     MOUNT = "/custom/ocpu",
     POST = POST,

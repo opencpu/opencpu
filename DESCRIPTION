@@ -7,4 +7,4 @@ Author: STATDEV
 Maintainer: STATDEV <administrations@statdev.org>
 Description: OpenCPU
 License: Apache2
-Imports: parallel, tools, httpuv, RJSONIO
+Imports: parallel, tools, httpuv, RJSONIO, Rook

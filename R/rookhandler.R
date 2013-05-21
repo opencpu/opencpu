@@ -2,19 +2,19 @@
 rookhandler <- function(env){
   
   #do some Rook processing
-  ROOKREQ <- Rook::Request$new(env);
-  GET <- ROOKREQ$GET();   
-  RAWPOST <- ROOKREQ$POST();		
+  #ROOKREQ <- Rook::Request$new(env);
+  GET <- parse_query(env[["QUERY_STRING"]]);  
+  RAWPOST <- Rook::Request$new(env)$POST();		
   fileindex <- vapply(RAWPOST, is.list, logical(1));
   REQFILES <- RAWPOST[fileindex];
   POST <- RAWPOST[!fileindex];  
 
   #collect data from Rook
   REQDATA <- list(
-    METHOD = ROOKREQ$request_method(),
-    URI = ROOKREQ$path(),
-    MOUNT = env$SCRIPT_NAME,
-    PATH_INFO = ROOKREQ$path_info(),
+    METHOD = env[["REQUEST_METHOD"]],
+    #URI = ROOKREQ$path(),
+    MOUNT = env[["SCRIPT_NAME"]],
+    PATH_INFO = env[["PATH_INFO"]],
     POST = POST,
     GET = GET,
     FILES = REQFILES

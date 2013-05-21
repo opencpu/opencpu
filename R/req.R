@@ -18,7 +18,7 @@ req <- local({
   };
   
   uri <- function(){
-    getvalue("URI");
+    paste(mount(), path_info(), sep="");
   };
   
   mount <- function(){
