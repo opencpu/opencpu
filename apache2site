@@ -1,0 +1,5 @@
+REvalOnStartup ".libPaths('/home/jeroen/R/x86_64-pc-linux-gnu-library/3.0');"
+<Location /ocpu>
+  SetHandler r-handler
+  RHandler ocpu:::rapachehandler
+</Location>

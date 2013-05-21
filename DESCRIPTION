@@ -1,0 +1,10 @@
+Package: ocpu
+Type: Package
+Title: revised opencpu framework
+Version: 1.0
+Date: 2013-03-08
+Author: STATDEV
+Maintainer: STATDEV <administrations@statdev.org>
+Description: OpenCPU
+License: Apache2
+Imports: parallel, tools, httpuv, RJSONIO

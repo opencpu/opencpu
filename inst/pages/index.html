@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rest test test...</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="">
+<meta name="author" content="">
+
+<!-- Le styles -->
+<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+<style>
+body {
+	padding-top: 60px;
+	/* 60px to make the container go all the way to the bottom of the topbar */
+}
+</style>
+<link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+<link href="debug.css" rel="stylesheet">
+
+<!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+	<div class="hidden">
+
+		<div class="httpfile">
+			<a class="close">&times;</a>
+			<div class="row show-grid">
+				<div class="span2">
+					<div class="control-group">
+						<div class="controls">
+							<input type="text" class="input-medium fakeinputname" value="">
+						</div>
+					</div>
+				</div>
+
+				<div class="span3">
+					<div class="control-group">
+						<div class="controls">
+							<input class="input-file realinputvalue" multiple type="file">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="httpparameter">
+			<a class="close">&times;</a>
+			<div class="row show-grid">
+				<div class="span2">
+					<div class="control-group">
+						<div class="controls">
+							<input type="text" class="input-medium fakeinputname" value="">
+						</div>
+					</div>
+				</div>
+
+				<div class="span3">
+					<div class="control-group">
+						<div class="controls">
+							<!-- <textarea class="input-xlarge realinputvalue" rows="2"></textarea>-->
+							<input type="text" class="input-xlarge realinputvalue" value="">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="navbar navbar-fixed-top">
+		<div class="navbar-inner">
+			<div class="container">
+				<a class="btn btn-navbar" data-toggle="collapse"
+					data-target=".nav-collapse"> <span class="icon-bar"></span> <span
+					class="icon-bar"></span> <span class="icon-bar"></span>
+				</a> <a class="brand" href="#">Rest test test...</a>
+				<div class="nav-collapse">
+					<ul class="nav">
+						<li class="active"><a href="http://resttesttest.com">Website</a></li>
+						<li><a
+							href="https://github.com/jeroenooms/resttesttest/zipball/gh-pages">Download</a></li>
+						<li><a href="http://github.com/jeroenooms/resttesttest">Source</a></li>
+						<li><a href="http://jeroenooms.github.com">Author</a></li>
+					</ul>
+				</div>
+				<!--/.nav-collapse -->
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+
+		<div class="row show-grid">
+			<div id="leftcolumn" class="span6">
+				<form id="paramform" class="well" target="outputframe">
+					<fieldset>
+						<legend>HTTP request options</legend>
+
+						<br />
+
+
+						<div class="row show-grid">
+							<div class="span1">
+								<div class="control-group">
+									<label class="control-label" for="httpmethod">Method</label>
+									<div class="controls">
+										<select class="input-small" id="httpmethod">
+											<option>GET</option>
+											<option>POST</option>
+											<option>PUT</option>
+											<option>DELETE</option>
+											<option>OPTIONS</option>
+											<option>HEAD</option>
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="span4">
+
+
+								<div class="control-group">
+									<label class="control-label" for="urlvalue">Endpoint</label>
+									<div class="controls">
+										<input type="text" class="input-xlarge" id="urlvalue"
+											value="http://public.opencpu.org/R/pub">
+									</div>
+								</div>
+
+
+
+							</div>
+						</div>
+
+						<p class="help-block">Method and Endpoint are required. Click
+							below to add additional parameters.</p>
+
+						<div id="allparameters">
+
+							<div class="row show-grid">
+								<div class="span2">
+									<div class="control-group">
+										<label class="control-label">Parameter Name</label>
+									</div>
+								</div>
+
+								<div class="span3">
+									<div class="control-group">
+										<label class="control-label">Parameter Value</label>
+									</div>
+								</div>
+							</div>
+
+						</div>
+
+						<div align="left">
+							<button id="addprambutton" class="btn btn-primary">
+								<i class="icon-plus icon-white"></i> Add parameter
+							</button>
+							<button id="addfilebutton" class="btn btn-primary">
+								<i class="icon-file icon-white"></i> Add file
+							</button>
+						</div>
+						<br />
+
+						<div align="right">
+							<button id="submitblank" class="btn btn-success"
+								data-targetframe="_blank">
+								<i class="icon-share icon-white"></i> Popup
+							</button>
+							<button id="submitform" class="btn btn-success">
+								<i class="icon-share icon-white"></i> iFrame
+							</button>
+							<img src="spinner.gif" id="formspinner" />
+							<button id="submitajax" class="btn btn-success btn-large">
+								<i class="icon-download-alt icon-white"></i> Ajax request
+							</button>
+							<img src="spinner.gif" id="ajaxspinner" />
+						</div>
+					</fieldset>
+				</form>
+
+				<div id="errordiv"></div>
+
+				<div id="cookiediv" class="well">
+
+					<legend> Local Cookies </legend>
+
+					<table class="table table-bordered">
+						<tbody id="cookietablebody">
+						</tbody>
+					</table>
+
+					<div id="cookiewarningdiv"></div>
+
+				</div>
+
+
+				<div class="alert">
+					<a class="close" data-dismiss="alert">&times;</a> <strong>Keep
+						in mind!</strong> Form method only supports GET and POST. Ajax method does
+					not support binary streams like uploading files or downloading
+					images. Keep in mind that for cross domain Ajax, CORS needs to be
+					enabled on the target server.
+				</div>
+
+				<div class="alert alert-success">
+					<a class="close" data-dismiss="alert">&times;</a> <strong>Tip
+						of the day!</strong> Use this page together with Firebug for the ultimate
+					REST/CORS service debugging tool.
+				</div>
+
+			</div>
+
+			<div class="span6">
+				<div id="ajaxoutput">
+					<pre id="statuspre">0</pre>
+					<pre class="pre-scrollable prettyprint linenums" id="outputpre"></pre>
+					<pre class="pre-scrollable prettyprint linenums" id="headerpre"></pre>
+				</div>
+
+				<iframe name="outputframe" id="outputframe" class="input-xxlarge"></iframe>
+			</div>
+		</div>
+
+		<br>
+
+
+	</div>
+	<!-- /container -->
+
+	<a href="http://github.com/jeroenooms/resttesttest"><img
+		style="z-index: 9999999999; position: absolute; top: 0; right: 0; border: 0;"
+		src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
+		alt="Fork me on GitHub"></a>
+
+
+
+	<!-- Le javascript
+    ================================================== -->
+	<!-- Placed at the end of the document so the pages load faster -->
+	<script src="jquery-1.7.2.min.js"></script>
+	<script src="bootstrap/js/bootstrap.js"></script>
+	<script src="debug.js"></script>
+
+	<!-- Google Analytics tracker -->
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push([ '_setAccount', 'UA-701288-7' ]);
+		_gaq.push([ '_trackPageview' ]);
+
+		(function() {
+			var ga = document.createElement('script');
+			ga.type = 'text/javascript';
+			ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl'
+					: 'http://www')
+					+ '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0];
+			s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+
+</body>
+</html>
