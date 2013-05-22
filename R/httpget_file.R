@@ -1,7 +1,8 @@
-httpget_file <- function(path){
-  if(file.exists(path)){
-    respond(200, asfile(path));
-  } else {
-    respond(404, "This file did not exist.")
-  }
+httpget_file <- function(fullpath){
+  res$checkfile(fullpath);
+  switch(req$method(),
+    "GET" = res$sendfile(fullpath),
+    "POST" = execute_file(fullpath),
+    stop("invalid method: ", req$method())
+  );  
 }
