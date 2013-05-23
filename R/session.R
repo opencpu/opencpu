@@ -71,7 +71,7 @@ session <- local({
   }
   
   sessionpath <- function(hash){
-    sub(prefix, "", sessiondir(hash));
+    paste("/tmp/", hash, sep="");
   }
   
   environment();
