@@ -1,9 +1,12 @@
 #GET for any sort of R object
 httpget_object <- local({
-  main <- function(object, reqformat, objectname){
+  main <- function(object, reqformat, objectname, defaultformat){
     #Default format
     if(is.na(reqformat)){
-      res$redirect(paste(req$uri(), "/print", sep=""))
+      if(missing(defaultformat)){
+        defaultformat <- "print";
+      }
+      res$redirect(paste(req$uri(), "/", defaultformat, sep=""))
     }
     
     #render object

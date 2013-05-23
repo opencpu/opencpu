@@ -35,9 +35,26 @@ extract <- local({
     output <- evaluation[index]
     output <- lapply(output, fixplot)
     return(output)  
+  }
+  
+  extract_console <- function(evaluation){
+    messages <- lapply(evaluation, function(x){
+      if(is(x, "warning") || is(x, "message") || is(x, "error")){ 
+        return(gettext(x));
+      } else if(is(x, "character")){
+        return(x);
+      } else if(is(x, "source")){
+        return(gsub("\n", "\n+ ", sub("\n$", "", paste(">",x$src))));
+      } else if(is(x, "recordedplot")){
+        return("[[ plot ]]");
+      } else {
+        return();
+      }
+    });
+    unlist(messages);
   }  
   
-  extract <- function(evaluation, what=c("source", "text", "graphics", "message", "warning", "error", "value")){
+  extract <- function(evaluation, what=c("source", "text", "graphics", "message", "warning", "error", "value", "console")){
     #stopifnot(is(evaluation, "evaluation"))
     stopifnot(length(what) == 1)
     
@@ -46,6 +63,7 @@ extract <- local({
        "source"  = extract_source(evaluation),
        "text"    = extract_text(evaluation),
        "message" = extract_message(evaluation),
+       "console" = extract_console(evaluation),
        "warning" = extract_warning(evaluation),
        "error"   = extract_error(evaluation),
        "graphics"= extract_graphics(evaluation)

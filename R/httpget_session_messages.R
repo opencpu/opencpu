@@ -7,5 +7,5 @@ httpget_session_messages <- function(filepath, requri){
   
   #render
   reqformat <- requri[1];
-  httpget_object(mymsg, reqformat, "messages");
+  httpget_object(mymsg, reqformat, "messages", "text");
 }

@@ -6,5 +6,5 @@ httpget_session_source <- function(filepath, requri){
 
   #render
   reqformat <- requri[1];
-  httpget_object(mysrc, reqformat, "warnings");
+  httpget_object(mysrc, reqformat, "warnings", "text");
 }

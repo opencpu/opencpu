@@ -47,7 +47,7 @@ session <- local({
       if(length(extract(myeval, "source"))){
         outlist <- c(outlist, "source");        
       }   
-      if(length(extract(myeval, "text"))){
+      if(length(extract(myeval, "console"))){
         outlist <- c(outlist, "console");        
       }        
       #outlist <- c(outlist, "report");

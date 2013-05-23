@@ -7,5 +7,5 @@ httpget_session_warnings <- function(filepath, requri){
   
   #render
   reqformat <- requri[1];
-  httpget_object(mywarnings, reqformat, "warnings");
+  httpget_object(mywarnings, reqformat, "warnings", "text");
 }
