@@ -10,7 +10,7 @@ eval_session <- function(input, args){
   
   #setup handler
   myhandler <- evaluate::new_output_handler(value=function(myval){
-    assign("value", myval, sessionenv);
+    assign(".value", myval, sessionenv);
     evaluate:::render(myval);
   });
   
@@ -25,7 +25,7 @@ eval_session <- function(input, args){
   output <- Filter(function(x){!emptyplot(x)}, output);
   
   #save
-  save(list=ls(sessionenv), file=".RData", envir=sessionenv);
+  save(list=ls(sessionenv, all.names=TRUE), file=".RData", envir=sessionenv);
   saveRDS(output, file=".REval");
   saveRDS(sessionInfo(), file=".RInfo");
   

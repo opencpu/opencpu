@@ -39,10 +39,14 @@ extract <- local({
   
   extract_console <- function(evaluation){
     messages <- lapply(evaluation, function(x){
-      if(is(x, "warning") || is(x, "message") || is(x, "error")){ 
-        return(gettext(x));
+      if(is(x, "warning")) {
+        return(paste("Warning message:", clean(x$message), sep="\n"));
+      } else if(is(x, "message")) {
+        return(paste("Message:", clean(x$message), sep="\n"));
+      } else if(is(x, "error")){ 
+        return(paste("Error:", x$message, sep="\n"));
       } else if(is(x, "character")){
-        return(x);
+        return(sub("\n$", "", x));
       } else if(is(x, "source")){
         return(gsub("\n", "\n+ ", sub("\n$", "", paste(">",x$src))));
       } else if(is(x, "recordedplot")){
@@ -53,6 +57,10 @@ extract <- local({
     });
     unlist(messages);
   }  
+  
+  clean <- function(x){
+    return(gsub("^[\\s]+|[\\s]+$", "", x, perl=TRUE));
+  }
   
   extract <- function(evaluation, what=c("source", "text", "graphics", "message", "warning", "error", "value", "console")){
     #stopifnot(is(evaluation, "evaluation"))

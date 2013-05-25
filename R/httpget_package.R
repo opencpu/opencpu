@@ -19,13 +19,15 @@ httpget_package <- function(pkgpath, requri){
   switch(reqhead,
     "R" = httpget_package_r(pkgpath, reqtail),
     "dpu" = httpget_package_dpu(pkgpath, reqtail),
-    "man" = httpget_package_man(pkgpath, reqtail),
-    "doc" = httpget_package_doc(pkgpath, reqtail),
-    "demo" = httpget_package_demo(pkgpath, reqtail),
     "html" = httpget_package_html(pkgpath, reqtail),
-    "www" = httpget_package_www(pkgpath, reqtail),
-    "DESCRIPTION" = res$sendfile(file.path(pkgpath, "DESCRIPTION")),
-    "NEWS" = res$sendfile(file.path(pkgpath, "NEWS")),
-    stop("invalid package api:",reqhead)
+    "man" = httpget_package_man(pkgpath, reqtail),
+    httpget_file(file.path(pkgpath, paste(requri, collapse="/")))     
+    
+    #"doc" = httpget_package_doc(pkgpath, reqtail),
+    #"demo" = httpget_package_demo(pkgpath, reqtail),
+    #"www" = httpget_package_www(pkgpath, reqtail),
+    #"DESCRIPTION" = res$sendfile(file.path(pkgpath, "DESCRIPTION")),
+    #"NEWS" = res$sendfile(file.path(pkgpath, "NEWS")),
+    #stop("invalid package api:",reqhead)
   );
 }

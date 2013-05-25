@@ -1,4 +1,9 @@
 mimelist <- list(  
+  "r" = "text/r",
+  "rmd" = "text/r-markdown",
+  "rnw" = "text/r-sweave",
+  "brew" = "text/r-brew",
+  "md" = "text/markdown",
 	"3gp"="video/3gpp",
 	"a"="application/octet-stream",
 	"ai"="application/postscript",

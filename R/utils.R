@@ -24,7 +24,7 @@ utils <- local({
     }
    
     #otherwise lookup in mimelist
-    input <- tail(strsplit(filename, ".", fixed=T)[[1]], 1)
+    input <- tolower(tail(strsplit(filename, ".", fixed=T)[[1]], 1));
     contenttype <- alltypes[[input]];
     if(is.null(contenttype)){
       contenttype <- "application/octet-stream";

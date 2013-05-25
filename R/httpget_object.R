@@ -12,6 +12,7 @@ httpget_object <- local({
     #render object
     switch(reqformat,
       "print" = httpget_object_print(object),
+      "pander" = httpget_object_pander(object),
       "text" = httpget_object_text(object),
       "ascii" = httpget_object_ascii(object),
       "bin" = httpget_object_bin(object, objectname),
@@ -87,6 +88,12 @@ httpget_object <- local({
     res$sendtext(outtext);
   }
   
+  httpget_object_pander <- function(object){
+    pander <- pander::pander;
+    outtext <- capture.output(do.call("pander", c(req$get(), list(x=object))));
+    res$sendtext(outtext);
+  }
+    
   httpget_object_text <- function(object){
     object <- paste(unlist(object), collapse="\n")
     mytmp <- tempfile(fileext=".txt")

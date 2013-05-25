@@ -14,7 +14,7 @@ httpget_session_r <- function(filepath, requri){
   #list session objects
   if(!length(reqobject)){
     res$checkmethod();
-    res$sendlist(ls(sessionenv));
+    res$sendlist(ls(sessionenv, all.names=TRUE));
   } 
   
   #load object

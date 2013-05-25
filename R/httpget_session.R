@@ -13,15 +13,12 @@ httpget_session <- function(filepath, requri){
     res$setheader("Location", req$uri());
     res$sendlist(session$list(filepath));
     
-    
-    
-    
     myfiles <- vector();
     if(file.exists(file.path(filepath, ".RData"))){
       myfiles <- c(myfiles, "R");
     }
     if(file.exists(file.path(filepath, ".REval"))){
-      myfiles <- c(myfiles, c("graphics", "report", "console", "source", "warnings", "messages"));
+      myfiles <- c(myfiles, c("graphics", "report", "console", "source", "warnings", "messages", "stdout"));
     }
     if(file.exists(file.path(filepath, ".RInfo"))){
       myfiles <- c(myfiles, c("info"));
@@ -41,6 +38,7 @@ httpget_session <- function(filepath, requri){
      "console" = httpget_session_console(filepath, reqtail),
      "warnings" = httpget_session_warnings(filepath, reqtail),
      "messages" = httpget_session_messages(filepath, reqtail),   
+     "stdout" = httpget_session_stdout(filepath, reqtail),
      "info" = httpget_session_info(filepath, reqtail),
      "zip" = httpget_session_zip(filepath, reqtail),
      "report" = httpget_session_report(filepath, reqtail),

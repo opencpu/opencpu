@@ -27,8 +27,8 @@ session <- local({
     if(file.exists(".RData")){
       myenv <- new.env();
       load(".RData", myenv);
-      if(length(ls(myenv))){
-        outlist <- c(outlist, paste("R", ls(myenv), sep="/"));        
+      if(length(ls(myenv, all.names=TRUE))){
+        outlist <- c(outlist, paste("R", ls(myenv, all.names=TRUE), sep="/"));        
       }
     }
     
