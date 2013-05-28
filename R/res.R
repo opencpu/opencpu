@@ -14,7 +14,6 @@ res <- local({
       stop("No body set.")
     }
     resvalue <- list(status=status, headers=headers, body=bodyfile);
-    reset();
     do.call(respond, resvalue);
   };
   

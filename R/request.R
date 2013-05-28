@@ -53,6 +53,9 @@ reshandler <- function(e){
   
   #set response size header here?
 
+  #reset req/res state
+  res$reset();
+  req$reset();
   
   #return
   return(response);

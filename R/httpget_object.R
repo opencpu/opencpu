@@ -12,7 +12,7 @@ httpget_object <- local({
     #render object
     switch(reqformat,
       "print" = httpget_object_print(object),
-      "pander" = httpget_object_pander(object),
+      "md" = httpget_object_pander(object),
       "text" = httpget_object_text(object),
       "ascii" = httpget_object_ascii(object),
       "bin" = httpget_object_bin(object, objectname),

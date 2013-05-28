@@ -6,6 +6,10 @@ req <- local({
     state <<- reqdata;
   };
   
+  reset <- function(){
+    init(NULL);
+  }
+  
   getvalue <- function(name){
     if(is.null(state)){
       stop("req not initiated.")

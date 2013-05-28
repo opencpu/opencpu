@@ -4,7 +4,7 @@ serve <- function(REQDATA){
   OS <- .Platform$OS.type;
   
   #for GET requests we use the main proc
-  if(identical(OS, "windows") && identical(REQDATA$METHOD, "GET")){
+  if(identical(OS, "windows") && (REQDATA$METHOD %in% c("HEAD", "GET"))){
     return(request(main(REQDATA)));   
   } 
   

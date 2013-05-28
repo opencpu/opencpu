@@ -10,6 +10,7 @@ main <- function(REQDATA){
   setwd(workdir);	    
   
   #initiate the request object
+  res$reset();
   req$init(REQDATA);
   
   #start processing

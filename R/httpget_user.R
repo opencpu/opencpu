@@ -1,4 +1,9 @@
 httpget_user <- function(uri){
+  
+  #no windows
+  if(identical(.Platform$OS.type, "windows")){
+    stop("The /ocpu/user API is not supported on MS windows.")
+  }
 
   #GET /ocpu/user/jeroen
   username <- uri[1];

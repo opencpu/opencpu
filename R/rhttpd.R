@@ -32,7 +32,6 @@ rhttpdhandler <- function(reqpath, reqquery, reqbody, reqheaders){
   #collect data from Rook
   REQDATA <- list(
     METHOD = METHOD,
-    #URI = reqpath,
     PATH_INFO = gsub("/custom/ocpu", "", reqpath),
     MOUNT = "/custom/ocpu",
     POST = POST,

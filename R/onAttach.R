@@ -13,10 +13,12 @@
     rhttpd$init();
     rhttpd$browse();
     
+    #start httpuv
+    httpuv$start();
+    httpuv$browse();    
+    
     if(.Platform$OS.type != "windows"){
-      #start httpuv
-		  httpuv$start();
-      httpuv$browse();
+
     }
 	}
 }

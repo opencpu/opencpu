@@ -1,49 +1,50 @@
 #object that interfaces to the server
 httpuv <- local({
   this <- environment();
-	server <- NULL;
-  port <- NULL;
+	pid <- NULL;
   uvurl <- NULL;
+  cl <- NULL;
   
   #note that this will mask base::stop()
 	stop <- function(){
-    tools::pskill(server$pid, SIGTERM)
-    mccollect(wait=FALSE);
-	  server <<- NULL;
-    port <<- NULL;
+	  tools::pskill(pid); #win
+	  tools::pskill(pid, tools::SIGKILL); #nix
+	  pid <<- NULL;
+    uvurl <<- NULL;
 		message("httpuv stopped.")
+	  try(parallel::stopCluster(cl), silent=TRUE);
     invisible();
 	}
   
-	start <- function(){
-    if(!is.null(server)){
-      message("httpuv already running.");
+	start <- function(port){
+    if(!is.null(pid)){
+      message("httpuv already running: ", uvurl);
       return(invisible())
     }
-	  myport <<- round(runif(1, 1024, 9999))
-	  myfork <<- parallel::mcparallel({
-      httpuv::runServer("0.0.0.0", myport, list(call=rookhandler))
-    }, silent=TRUE);
     
-    #we test if the server is running
-    #0.5s should be enough to start the server
-    output <- mccollect(myfork, timeout=0.5, wait=FALSE)[[1]];
-    if(is(output, "try-error")){
-      message(attr(output, "condition")$message);
-      tools::pskill(myfork$pid, SIGTERM)
-      mccollect(wait=FALSE);
+    #start cluster
+    cluster <- parallel::makePSOCKcluster(1);
+    child <- cluster[[1]];
+    parallel:::sendCall(child, eval, list(quote(Sys.getpid())));
+    mypid <- parallel:::recvResult(child);    
+    
+    #start httpuv
+    myport <- ifelse(missing(port), round(runif(1, 1024, 9999)), port);
+    parallel:::sendCall(child, eval, list(quote(httpuv::runServer("0.0.0.0", myport, list(call=ocpu:::rookhandler))), envir=list(myport=myport)));
+    
+    #should test for running server here
+    
+    #if ok:
+    pid <<- mypid;
+    cl <<- cluster;
+    
+    #try to get url
+    mainurl <- Sys.getenv("RSTUDIO_HTTP_REFERER");
+    if(!nchar(mainurl)){
+      uvurl <<- paste("http://localhost:", myport, "/", sep="");
     } else {
-      port <<- myport;
-      server <<- myfork;
-      
-      #try to get url
-      mainurl <- Sys.getenv("RSTUDIO_HTTP_REFERER");
-      if(!nchar(mainurl)){
-        uvurl <<- paste("http://localhost:", port, "/", sep="");
-      } else {
-        uvurl <<- gsub(":[0-9]{3,5}", paste(":", port, sep=""), mainurl)
-      }       
-    }
+      uvurl <<- gsub(":[0-9]{3,5}", paste(":", myport, sep=""), mainurl)
+    }       
     invisible();
 	}  
   
@@ -52,7 +53,7 @@ httpuv <- local({
   }
   
   browse <- function(){
-    if(is.null(server)){
+    if(is.null(uvurl)){
       message("httpuv not started.")
       return(invisible());
     }

@@ -12,7 +12,6 @@ rookhandler <- function(env){
   #collect data from Rook
   REQDATA <- list(
     METHOD = env[["REQUEST_METHOD"]],
-    #URI = ROOKREQ$path(),
     MOUNT = env[["SCRIPT_NAME"]],
     PATH_INFO = env[["PATH_INFO"]],
     POST = POST,
