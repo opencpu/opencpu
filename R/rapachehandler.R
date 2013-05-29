@@ -18,13 +18,12 @@ rapachehandler <- function(){
 	
 	#set status code
 	setStatus(response$status);
-	
-	#set headers
-	if(length(headerlist <- response$headers)){
-		for(i in length(headerlist)){
-			setHeader(names(headerlist[i]), headerlist[[i]]);
-		}
-	}
+	  
+  #set headers
+  headerlist <- response$headers;
+  for(i in seq_along(headerlist)){
+    setHeader(names(headerlist[i]), headerlist[[i]]);    
+  }
 	  
   #send buffered body
 	sendBin(readBin(response$body,'raw',n=file.info(response$body)$size));
