@@ -10,6 +10,7 @@ execute_file <- local({
       "brew" = httppost_brew(filepath),
       "pdr" = httppost_pander(filepath),
       "tex" = httppost_latex(filepath),     
+      "md" = httppost_markdown(filepath),
       stop("Unsupported script type: ", ext)
     );
   }
@@ -49,5 +50,17 @@ execute_file <- local({
     eval_session(brewcall);      
   }
 
+  #note: by default, pandoc puts new files in same dir as old files
+  httppost_markdown <- function(filepath){
+    knitcalls <- c(
+      "library(knitr)",
+      paste("pandoc('", filepath, "', format='html')", sep=""),
+      paste("pandoc('", filepath, "', format='docx')", sep=""),
+      paste("pandoc('", filepath, "', format='odt')", sep="")   
+    );    
+    knitcall <- paste(knitcalls, collapse="\n")
+    eval_session(knitcall);      
+  }  
+  
   main
 });
