@@ -18,8 +18,12 @@ httpget_session_r <- function(filepath, requri){
   } 
   
   #load object
-  myobject <- get(reqobject, envir=sessionenv)
-    
+  myobject <- get(reqobject, envir=sessionenv);
+  
   #return object
-  httpget_object(myobject, reqformat, reqobject);
+  switch(req$method(),
+     "GET" = httpget_object(myobject, reqformat, reqobject),
+     "POST" = execute_function(myobject, tail(requri, -1), reqobject),
+     stop("invalid method")
+  );  
 }

@@ -21,5 +21,5 @@ execute_function <- function(object, requri, objectname="FUN"){
   fnargs <- c(fnargs, structure(list(object), names=objectname));		
   
   #perform evaluation
-  eval_session(mycall, fnargs);
+  session$eval(mycall, fnargs)
 }

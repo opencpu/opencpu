@@ -3,31 +3,18 @@ httpget_session <- function(filepath, requri){
   #make sure it exists
   res$checkfile(filepath);
   
+  #enter the session path
+  setwd(filepath);
+  
   #reqhead is package api
   reqhead <- head(requri, 1);
   reqtail <- tail(requri, -1);    
   
-  #dirlist
+  #list the session contents
   if(!length(reqhead)){
     res$checkmethod();
     res$setheader("Location", req$uri());
     res$sendlist(session$list(filepath));
-    
-    myfiles <- vector();
-    if(file.exists(file.path(filepath, ".RData"))){
-      myfiles <- c(myfiles, "R");
-    }
-    if(file.exists(file.path(filepath, ".REval"))){
-      myfiles <- c(myfiles, c("graphics", "report", "console", "source", "warnings", "messages", "stdout"));
-    }
-    if(file.exists(file.path(filepath, ".RInfo"))){
-      myfiles <- c(myfiles, c("info"));
-    }    
-    if(length(list.files())){
-      myfiles <- c(myfiles, "files")
-    }
-    res$setheader("Location", req$uri());
-    res$sendlist(myfiles)
   }
 
   switch(reqhead,

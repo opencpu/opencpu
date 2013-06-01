@@ -17,13 +17,13 @@ execute_file <- local({
   
   httppost_rscript <- function(filepath){
     mycon <- file(filepath);
-    eval_session(mycon);
+    session$eval(mycon);
   } 
   
   httppost_rnw <- function(filepath){
     #explicit package so that we don't have to preload
     knitcall <- as.call(list(quote(tools::texi2pdf), as.call(list(quote(knitr::knit), filepath))));
-    eval_session(knitcall);
+    session$eval(knitcall);
   }
   
   httppost_rmd <- function(filepath){
@@ -34,20 +34,21 @@ execute_file <- local({
       paste("mdfile <- knit('", filepath, "')", sep=""),
       "pandoc(mdfile, format='html')",
       "pandoc(mdfile, format='docx')",     
-      "pandoc(mdfile, format='odt')"
+      "pandoc(mdfile, format='odt')",
+      "rm(mdfile)"
     );
     knitcall <- paste(knitcalls, collapse="\n")
-    eval_session(knitcall);
+    session$eval(knitcall);
   }  
   
   httppost_brew <- function(filepath){
     brewcall <- as.call(list(quote(brew::brew), file=filepath));
-    eval_session(brewcall);    
+    session$eval(brewcall);    
   }
   
   httppost_latex <- function(filepath){
     brewcall <- as.call(list(quote(tools::texi2pdf), file=filepath));
-    eval_session(brewcall);      
+    session$eval(brewcall);      
   }
 
   #note: by default, pandoc puts new files in same dir as old files
@@ -59,7 +60,7 @@ execute_file <- local({
       paste("pandoc('", filepath, "', format='odt')", sep="")   
     );    
     knitcall <- paste(knitcalls, collapse="\n")
-    eval_session(knitcall);      
+    session$eval(knitcall);      
   }  
   
   main
