@@ -1,13 +1,12 @@
 ## do req is the main function
 ## it should never actually return
 ## functions should always call respond() 
-request <- function(...){
+request <- function(expr){
 	tryCatch({
-		eval(...);
+		eval(expr);
 		respond(503L, utils$write_to_file("function returned without calling respond"));
 	}, error=reshandler);
 }
-
 
 respond <- function(status = 503L, body=NULL, headers=list()){
 	if(!is.numeric(status)){
@@ -21,22 +20,28 @@ respond <- function(status = 503L, body=NULL, headers=list()){
   if(!is.list(headers)){
     stop("respond was called with invalid headers argument.")
   }
-	
-	e <- simpleError("ocpu_response", call=NULL);
-	attr(e, "status") <- status;
-	attr(e, "body") <- body;
-	attr(e, "headers") <- headers;
+  
+	e <- structure(
+    list(
+      message="ocpu success", 
+      call=NULL
+    ),
+    class=c("error", "condition", "ocpu_response"),
+    status = status,
+    body = body,
+    headers = headers
+  );
+  
 	stop(e)
 }
 
 reshandler <- function(e){
+  
   #reset timer in case of error
   setTimeLimit();   
   
   #process response
-  message <- e$message;
-  if(message == "ocpu_response"){
-    #successful response
+  if(is(e, "ocpu_response")){    
     response <- list(
       status = attr(e, "status"),
       body = attr(e, "body"),
@@ -46,12 +51,10 @@ reshandler <- function(e){
     #error response
     response <- list(
       status = 400L,
-      body = utils$write_to_file(message),
+      body = utils$write_to_file(c(e$message, "","In call:", deparse(e$call))),
       headers = list("Content-Type" ="text/plain")
     );
   }
-  
-  #set response size header here?
 
   #reset req/res state
   res$reset();

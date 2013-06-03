@@ -4,7 +4,7 @@ session <- local({
   #initiates a new tmp session
   init <- function(){
     characters <- c(0:9, letters[1:6]);
-    hash <- paste(c("0x0", sample(characters, 7, replace=TRUE)), collapse="")
+    hash <- paste(c("x0", sample(characters, 7, replace=TRUE)), collapse="")
     mydir <- tmpsession(hash);
     stopifnot(dir.create(mydir));
     setwd(mydir);
@@ -26,8 +26,8 @@ session <- local({
   }
   
   #evaluates something inside a session
-  eval <- function(input, args=list()){
-
+  eval <- function(input, args){
+    
     #verify current session
     if(issession(getwd())){
       hash <- fork(getwd());
@@ -45,8 +45,12 @@ session <- local({
     olddir <- getwd();
     
     #create session for output objects
-    args <- as.environment(args);
-    parent.env(args) <- globalenv();
+    if(missing(args)){
+      args <- new.env(parent=globalenv())
+    } else {
+      args <- as.environment(args);
+      parent.env(args) <- globalenv();
+    }
     sessionenv <- new.env(parent=args);
     
     #note: we don't load or attach "old" R objects from a previous session.
@@ -78,13 +82,11 @@ session <- local({
   send <- function(hash){
     tmppath <- sessionpath(hash);
     outputpath <- paste(req$mount(), tmppath, "/", sep="");
-    res$setheader("Location", outputpath);
-    res$setbody(outputpath);
-    res$finish(303);  
+    res$redirect(outputpath, 303);    
   }
   
   #get a list of the contents of the current session
-  list <- function(filepath){
+  index <- function(filepath){
     
     #verify session exists
     stopifnot(issession(filepath))
@@ -92,7 +94,7 @@ session <- local({
     #set the dir
     setwd(filepath)
     
-
+    #outputs
     outlist <- vector();
     
     #list data files

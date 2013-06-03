@@ -48,8 +48,15 @@ parse_arg <- local({
       return(parse(text=x));
     }
     
-    #get 0x objects
-    #    
+    if(grepl("^x[0-9a-f]{6,12}$", x)){
+      filepath <- file.path(ocpu:::session$tmpsession(x), ".RData");
+      errorifnot(file.exists(filepath), paste("Session not found:", x));
+      myenv <- new.env();
+      load(filepath, envir=myenv);
+      errorifnot(exists(".value", myenv), "Session did not contain a .value");
+      return(myenv$.value);
+    }
+
     return(parsewithbrackets(x));
   }
   

@@ -28,20 +28,23 @@ execute_file <- local({
   
   httppost_rmd <- function(filepath){
     #explicit package so that we don't have to preload
-    #knitcall <- as.call(list(quote(tools::texi2pdf), as.call(list(quote(knitr::knit), filepath))));
+    library(knitr);
+    args <- lapply(req$post(), parse_arg);
+    if(is.null(args$format)){
+      args$format <- c("html", "docx", "odt")
+    }
+    
     knitcalls <- c(
-      "library(knitr)",
-      paste("mdfile <- knit('", filepath, "')", sep=""),
-      "pandoc(mdfile, format='html')",
-      "pandoc(mdfile, format='docx')",     
-      "pandoc(mdfile, format='odt')",
-      "rm(mdfile)"
+      paste("mdfile <- knit('", filepath, "')", sep=""),      
+      paste("knitr::pandoc(mdfile, format=format")   
     );
+
     knitcall <- paste(knitcalls, collapse="\n")
-    session$eval(knitcall);
+    session$eval(knitcall, args);
   }  
   
   httppost_brew <- function(filepath){
+    library(brew);
     brewcall <- as.call(list(quote(brew::brew), file=filepath));
     session$eval(brewcall);    
   }
@@ -53,12 +56,20 @@ execute_file <- local({
 
   #note: by default, pandoc puts new files in same dir as old files
   httppost_markdown <- function(filepath){
+    library(knitr);
+    format <- req$post()$format;
+    if(is.null(format)){
+      format <- c("html", "docx", "odt")
+    }
+    
     knitcalls <- c(
-      "library(knitr)",
-      paste("pandoc('", filepath, "', format='html')", sep=""),
-      paste("pandoc('", filepath, "', format='docx')", sep=""),
-      paste("pandoc('", filepath, "', format='odt')", sep="")   
+      paste("knitr::pandoc('", filepath, "', format='html')", sep=""),
+      paste("knitr::pandoc('", filepath, "', format='docx')", sep=""),
+      paste("knitr::pandoc('", filepath, "', format='odt')", sep="")   
     );    
+    
+    knitcalls <- paste("knitr::pandoc('", filepath, "', format='", format, "')", sep="");    
+    
     knitcall <- paste(knitcalls, collapse="\n")
     session$eval(knitcall);      
   }  

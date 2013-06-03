@@ -14,7 +14,7 @@ httpget_session <- function(filepath, requri){
   if(!length(reqhead)){
     res$checkmethod();
     res$setheader("Location", req$uri());
-    res$sendlist(session$list(filepath));
+    res$sendlist(session$index(filepath));
   }
 
   switch(reqhead,
@@ -31,7 +31,4 @@ httpget_session <- function(filepath, requri){
      "report" = httpget_session_report(filepath, reqtail),
      stop("invalid session api: /session/",reqhead)
   );  
-  
-  #dispatch to regular methods:
-  
 }

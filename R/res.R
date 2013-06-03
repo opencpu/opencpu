@@ -61,6 +61,11 @@ res <- local({
     setheader("Content-Type", "text/plain")
     finish(404);
   };
+  
+  error <- function(msg, status=400){
+    setbody(msg);
+    finish(status);
+  }
 
   checktrail <- function(){
     if(!substring(req$uri(), nchar(req$uri())) == "/"){
