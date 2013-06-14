@@ -1,0 +1,121 @@
+multipart <- local({
+  main <- function(body, contenttype){
+    if(!grepl("multipart/form-data; boundary=", contenttype, fixed=TRUE)){
+      stop("Content type is not multipart/form-data: ", contenttype);
+    }
+    
+    #we expect body to be raw vector
+    if(is.character(body)){
+      body <- charToRaw(body);
+    }
+    stopifnot(is.raw(body));
+    
+    #get the boundary string
+    boundary <- sub("multipart/form-data; boundary=", "--", contenttype, fixed=TRUE);
+    blength <- nchar(boundary);
+    
+    #indexes
+    indexes <- grepRaw(boundary, body, fixed=TRUE, all=TRUE);
+    
+    if(length(indexes) == 0){
+      stop("Boundary was not found in the body.")
+    }
+    
+    parts <- list();
+    for(i in seq_along(head(indexes, -1))){
+      from <- indexes[i] + blength;
+      to <- indexes[i+1] -1;
+      parts[[i]] <- body[from:to];
+    }
+
+    postparts <- lapply(parts, multipart_file);
+    
+    #same output as 'Rook' package
+    POST <- list();
+    for(i in seq_along(postparts)){
+      if(postparts[[i]]$type == "file"){
+        POST <- c(POST, list(list(name=postparts[[i]]$name, tmp_name=postparts[[i]]$value)));
+      } else {
+        POST <- c(POST, structure(list(postparts[[i]]$value), names=postparts[[i]]$name))
+      }
+    }
+    
+    return(POST);
+  }
+  
+  multipart_file <- function(bodydata){
+    stopifnot(is.raw(bodydata));
+    
+    #splitchar <- grepRaw("\n\n", bodydata, fixed=TRUE);
+    splitchar <- grepRaw("\\r\\n\\r\\n|\\n\\n|\\r\\r", bodydata);
+    if(!length(splitchar)){
+      stop("Invalid multipart part:\n\n", rawToChar(bodydata));
+    }
+    
+    headers <- bodydata[1:splitchar];
+    headers <- trail(rawToChar(headers));
+    headers <- gsub("\r\n", "\n", headers);
+    headerlist <- unlist(lapply(strsplit(headers, "\n")[[1]], trail));
+    
+    dispindex <- grep("^Content-Disposition:", headerlist);
+    if(!length(dispindex)){
+      stop("Content-Disposition header not found:", headers);
+    }
+    dispheader <- headerlist[dispindex];
+    
+    #get parameter name
+    regmatch <- regexpr("; name=\\\"(.*?)\\\"", dispheader);
+    if(regmatch < 0){
+      stop('failed to find the name="..." header')
+    }
+    namefield <- substring(dispheader, regmatch, regmatch+attr(regmatch,"match.length")-1);
+    namefield <- sub("; name=", "", namefield, fixed=TRUE);
+    namefield <- unquote(namefield)
+    
+    #test for file upload
+    regmatch <- regexpr("; filename=\\\"(.*?)\\\"", dispheader);
+    if(regmatch < 0){
+      type <- "value";
+      filenamefield = "";
+    } else {
+      type <- "file";
+      filenamefield <- substring(dispheader, regmatch, regmatch+attr(regmatch,"match.length"));
+      filenamefield <- sub("; filename=", "", filenamefield, fixed=TRUE);
+      filenamefield <- unquote(filenamefield)
+    }
+    
+    #filedata  
+    filedata <- bodydata[(splitchar+2):(length(bodydata)-1)];
+    if(type == "value"){
+      value <- rawToChar(filedata);
+    } else {
+      mytmp <- tempfile();
+      writeBin(filedata, mytmp);
+      value <- mytmp;
+    }
+    
+    list(
+      type = type,
+      value = value,
+      name = namefield,
+      filename = filenamefield
+    )
+  }
+  
+  trail <- function(str){
+    str <- sub("\\s+$", "", str, perl = TRUE);
+    sub("^\\s+", "", str, perl = TRUE);
+  }
+  
+  unquote <- function(str){
+    str <- sub('\\\"$', '', str, perl = TRUE);
+    sub('^\\\"', "", str, perl = TRUE);  
+  }
+  main
+});
+
+
+#body <- readBin("~/Desktop/body.txt", "raw", 1e6);
+#contenttype <- readLines("~/Desktop/type.txt");
+#multipart(body, contenttype);
+
