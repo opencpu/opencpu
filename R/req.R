@@ -58,7 +58,7 @@ req <- local({
   };
   
   files <- function(){
-    filevar = get("FILES");
+    filevar = getvalue("FILES");
     if(is.null(filevar)) {
       filevar = list();
     }

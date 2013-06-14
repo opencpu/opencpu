@@ -28,7 +28,7 @@ multipart <- local({
       parts[[i]] <- body[from:to];
     }
 
-    postparts <- lapply(parts, multipart_file);
+    postparts <- lapply(parts, multipart_sub);
     
     #same output as 'Rook' package
     POST <- list();
@@ -43,18 +43,19 @@ multipart <- local({
     return(POST);
   }
   
-  multipart_file <- function(bodydata){
+  multipart_sub <- function(bodydata){
     stopifnot(is.raw(bodydata));
     
     #splitchar <- grepRaw("\n\n", bodydata, fixed=TRUE);
     splitchar <- grepRaw("\\r\\n\\r\\n|\\n\\n|\\r\\r", bodydata);
     if(!length(splitchar)){
-      stop("Invalid multipart part:\n\n", rawToChar(bodydata));
+      stop("Invalid multipart subpart:\n\n", rawToChar(bodydata));
     }
     
-    headers <- bodydata[1:splitchar];
+    headers <- bodydata[1:(splitchar-1)];
     headers <- trail(rawToChar(headers));
     headers <- gsub("\r\n", "\n", headers);
+    headers <- gsub("\r", "\n", headers);
     headerlist <- unlist(lapply(strsplit(headers, "\n")[[1]], trail));
     
     dispindex <- grep("^Content-Disposition:", headerlist);
@@ -85,12 +86,20 @@ multipart <- local({
     }
     
     #filedata  
-    filedata <- bodydata[(splitchar+2):(length(bodydata)-1)];
-    if(type == "value"){
-      value <- rawToChar(filedata);
+    splitval  <- grepRaw("\\r\\n\\r\\n|\\n\\n|\\r\\r", bodydata, value=TRUE); 
+    start <- splitchar + length(splitval);
+    if(identical(tail(bodydata,2), charToRaw("\r\n"))){
+      end <- length(bodydata)-2;      
     } else {
-      mytmp <- tempfile();
-      writeBin(filedata, mytmp);
+      end <- length(bodydata)-1;      
+    }
+    subdata <- bodydata[start:end];
+    
+    if(type == "value"){
+      value <- rawToChar(subdata);
+    } else {
+      mytmp <- tempfile(fileext=paste("_", filenamefield, sep=""));
+      writeBin(subdata, mytmp);
       value <- mytmp;
     }
     

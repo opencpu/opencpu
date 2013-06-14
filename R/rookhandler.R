@@ -3,21 +3,23 @@ rookhandler <- function(env){
   
   #do some Rook processing
   GET <- parse_query(env[["QUERY_STRING"]]);   
+  RAWPOST <- list();
   
+  #parse POST request body
   if(env[["REQUEST_METHOD"]] %in% c("POST", "PUT")){
-    input <- env[["rook.input"]];
-    input$rewind();
     content_length <- as.integer(env$CONTENT_LENGTH);
-    postdata <- input$read(content_length);
-    RAWPOST <- parse_post(postdata, env[["CONTENT_TYPE"]]);
-  } else {
-    RAWPOST <- list();
-  }
+    if(content_length > 0){
+      input <- env[["rook.input"]];
+      input$rewind();
+      postdata <- input$read(content_length);
+      RAWPOST <- parse_post(postdata, env[["CONTENT_TYPE"]]);
+    }
+  } 
   
   #extract files
   fileindex <- vapply(RAWPOST, is.list, logical(1));
   FILES <- RAWPOST[fileindex];
-  POST <- RAWPOST[!fileindex];     
+  POST <- RAWPOST[!fileindex];  
   
   #collect data from Rook
   REQDATA <- list(
