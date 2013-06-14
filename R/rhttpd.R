@@ -5,24 +5,19 @@
 rhttpdhandler <- function(reqpath, reqquery, reqbody, reqheaders){
   
   #process POST request body
-  POST <- list();  
-  FILES <- list();
   if(!is.null(reqbody)){
     contenttype <- grep("Content-Type:", strsplit(rawToChar(reqheaders), "\n")[[1]], ignore.case=TRUE, value=TRUE);
-    contenttype <- sub("Content-Type: ?", "", contenttype, ignore.case=TRUE);
-    if(grepl("multipart", contenttype)){
-      stop("multipart not supported by rhttpdhandler.")
-    } else if(grepl("x-www-form-urlencoded", contenttype)){
-      if(is.raw(reqbody)){
-        POST <- parse_query(reqbody);
-      } else {
-        POST <- as.list(reqbody);
-      }
-    } else {
-      stop("POST body with unknown conntent type: ", contenttype);
-    }
+    RAWPOST <- parse_post(reqbody, contenttype);
+  } else {
+    RAWPOST <- list();  
   }
   
+  #extract files
+  fileindex <- vapply(RAWPOST, is.list, logical(1));
+  FILES <- RAWPOST[fileindex];
+  POST <- RAWPOST[!fileindex];    
+  
+  #fix for missing method in old versions of R
   METHOD <- grep("Request-Method:", strsplit(rawToChar(reqheaders), "\n")[[1]], ignore.case=TRUE, value=TRUE);
   METHOD <- sub("Request-Method: ?", "", METHOD, ignore.case=TRUE);
   if(!length(METHOD)){

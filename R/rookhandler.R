@@ -2,13 +2,23 @@
 rookhandler <- function(env){
   
   #do some Rook processing
-  #ROOKREQ <- Rook::Request$new(env);
-  GET <- parse_query(env[["QUERY_STRING"]]);  
-  RAWPOST <- Rook::Request$new(env)$POST();		
+  GET <- parse_query(env[["QUERY_STRING"]]);   
+  
+  if(env[["REQUEST_METHOD"]] %in% c("POST", "PUT")){
+    input <- env[["rook.input"]];
+    input$rewind();
+    content_length <- as.integer(env$CONTENT_LENGTH);
+    postdata <- input$read(content_length);
+    RAWPOST <- parse_post(postdata, env[["CONTENT_TYPE"]]);
+  } else {
+    RAWPOST <- list();
+  }
+  
+  #extract files
   fileindex <- vapply(RAWPOST, is.list, logical(1));
-  REQFILES <- RAWPOST[fileindex];
-  POST <- RAWPOST[!fileindex];  
-
+  FILES <- RAWPOST[fileindex];
+  POST <- RAWPOST[!fileindex];     
+  
   #collect data from Rook
   REQDATA <- list(
     METHOD = env[["REQUEST_METHOD"]],
@@ -16,7 +26,7 @@ rookhandler <- function(env){
     PATH_INFO = env[["PATH_INFO"]],
     POST = POST,
     GET = GET,
-    FILES = REQFILES
+    FILES = FILES
   );  
   
   #call method
