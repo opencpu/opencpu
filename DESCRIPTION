@@ -7,6 +7,6 @@ Author: STATDEV
 Maintainer: STATDEV <administrations@statdev.org>
 Description: OpenCPU
 License: Apache2
-Imports: parallel, tools, evaluate, httpuv, RJSONIO
+Imports: parallel, tools, evaluate, httpuv (>= 1.0.6.99), RJSONIO
 Suggests: knitr, pander, brew
 SystemRequirements: pandoc, texlive, apparmor

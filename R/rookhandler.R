@@ -13,7 +13,7 @@ rookhandler <- function(env){
       RAWPOST <- parse_post(postdata, env[["CONTENT_TYPE"]]);
       
       #debug
-      try(writeBin(postdata, tempfile("postdata", "~/Desktop", ".tmp")));      
+      #try(writeBin(postdata, tempfile("postdata", "~/Desktop", ".tmp")));      
     }
   } 
   
