@@ -21,6 +21,10 @@ multipart <- local({
       stop("Boundary was not found in the body.")
     }
     
+    if(length(indexes) == 1){
+      stop("The 'boundary' was only found once in the multipart/form-data message. It should appear at least twice. The request-body seems to be truncated.")
+    }
+    
     parts <- list();
     for(i in seq_along(head(indexes, -1))){
       from <- indexes[i] + blength;
