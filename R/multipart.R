@@ -122,9 +122,3 @@ multipart <- local({
   }
   main
 });
-
-
-#body <- readBin("~/Desktop/body.txt", "raw", 1e6);
-#contenttype <- readLines("~/Desktop/type.txt");
-#multipart(body, contenttype);
-

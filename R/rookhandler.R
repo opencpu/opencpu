@@ -7,12 +7,13 @@ rookhandler <- function(env){
   
   #parse POST request body
   if(env[["REQUEST_METHOD"]] %in% c("POST", "PUT")){
-    content_length <- as.integer(env$CONTENT_LENGTH);
-    if(content_length > 0){
+    if(env$CONTENT_LENGTH > 0){
       input <- env[["rook.input"]];
-      input$rewind();
-      postdata <- input$read(content_length);
+      postdata <- input$read();
       RAWPOST <- parse_post(postdata, env[["CONTENT_TYPE"]]);
+      
+      #debug
+      writeBin(postdata, tempfile("postdata", "~/Desktop", ".tmp"))      
     }
   } 
   

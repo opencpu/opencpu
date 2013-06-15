@@ -19,10 +19,14 @@ parse_post <- function(reqbody, contenttype){
   } else if(grepl("application/json", contenttype, fixed=TRUE)){
     library(RJSONIO)
     if(is.raw(reqbody)){
-      return(fromJSON(rawToChar(reqbody)));
+      jsondata <- rawToChar(reqbody);
     } else {
-      return(fromJSON(reqbody));        
+      jsondata <- reqbody;        
     }
+    if(!isValidJSON(jsondata, asText=TRUE)){
+      stop("Invalid JSON was posted.")
+    }
+    return(fromJSON(jsondata, asText=TRUE));
   } else {
     stop("POST body with unknown conntent type: ", contenttype);
   }  
