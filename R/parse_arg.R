@@ -6,6 +6,12 @@ parse_arg <- local({
       return(NULL);
     }
     
+    #special for json obj
+    if(is(x, "AsIs")){
+      class(x) <- tail(class(x), -1);
+      return(x);
+    }
+    
     #cast for security
     x <- as.character(x);
     

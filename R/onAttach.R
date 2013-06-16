@@ -24,5 +24,5 @@
 
 .onDetach <- function(libpath){
   httpuv$stop();
-  message("existing OpenCPU")
+  message("exiting OpenCPU");
 }

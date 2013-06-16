@@ -18,7 +18,7 @@ rookhandler <- function(env){
   } 
   
   #extract files
-  fileindex <- vapply(RAWPOST, is.list, logical(1));
+  fileindex <- vapply(RAWPOST, function(x){isTRUE(!is(x, "AsIs") && is.list(x))}, logical(1));
   FILES <- RAWPOST[fileindex];
   POST <- RAWPOST[!fileindex];  
   

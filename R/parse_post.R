@@ -26,7 +26,11 @@ parse_post <- function(reqbody, contenttype){
     if(!isValidJSON(jsondata, asText=TRUE)){
       stop("Invalid JSON was posted.")
     }
-    return(fromJSON(jsondata, asText=TRUE));
+    obj <- fromJSON(jsondata, asText=TRUE, simplify=FALSE, simplifyWithNames=FALSE);
+    if(!is.list(obj)){
+      stop("JSON input should be a list (json object).")
+    }
+    return(lapply(obj, I));
   } else {
     stop("POST body with unknown conntent type: ", contenttype);
   }  
