@@ -38,7 +38,7 @@ multipart <- local({
     POST <- list();
     for(i in seq_along(postparts)){
       if(postparts[[i]]$type == "file"){
-        POST <- c(POST, list(list(name=postparts[[i]]$name, tmp_name=postparts[[i]]$value)));
+        POST <- c(POST, structure(list(list(name=postparts[[i]]$filename, tmp_name=postparts[[i]]$value)), names=postparts[[i]]$name));
       } else {
         POST <- c(POST, structure(list(postparts[[i]]$value), names=postparts[[i]]$name))
       }

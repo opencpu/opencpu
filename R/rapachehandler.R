@@ -1,14 +1,26 @@
 rapachehandler <- function(){
   
+  #Post has not been parsed
+  if(isTRUE(SERVER$method %in% c("POST", "PUT") && !length(POST))){
+    rawdata <- receiveBin(1e8);
+    ctype <- SERVER[["headers_in"]][["Content-Type"]];
+    NEWPOST <- parse_post(rawdata, ctype);
+    NEWFILES <- list();
+  } else {
+    #evaluate promises
+    NEWPOST <- POST;
+    NEWFILES <- FILES;
+    NEWPOST[names(NEWFILES)] <- NULL;    
+  }
+  
 	#collect request data from rapache
   REQDATA <- list(
     METHOD = SERVER$method,
-    #URI = SERVER$uri,
     MOUNT = SERVER$cmd_path,
     PATH_INFO = SERVER$path_info,
-    POST = POST,
+    POST = NEWPOST,
     GET = GET,
-    FILES = FILES
+    FILES = NEWFILES
   );
     
 	#select method to parse request in a trycatch 
