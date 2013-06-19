@@ -26,7 +26,7 @@ session <- local({
   }
   
   #evaluates something inside a session
-  eval <- function(input, args){
+  eval <- function(input, args, storeval=FALSE){
     
     #verify current session
     if(issession(getwd())){
@@ -37,7 +37,9 @@ session <- local({
     
     #setup handler
     myhandler <- evaluate::new_output_handler(value=function(myval){
-      assign(".value", myval, sessionenv);
+      if(isTRUE(storeval)){
+        assign(".val", myval, sessionenv);
+      }
       evaluate:::render(myval);
     });
     
@@ -114,7 +116,10 @@ session <- local({
       }
       if(length(extract(myeval, "message"))){
         outlist <- c(outlist, "messages");        
-      }    
+      } 
+      if(length(extract(myeval, "text"))){
+        outlist <- c(outlist, "stdout");        
+      }       
       if(length(extract(myeval, "warning"))){
         outlist <- c(outlist, "warnings");        
       }        

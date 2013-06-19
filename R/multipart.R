@@ -50,7 +50,6 @@ multipart <- local({
   multipart_sub <- function(bodydata){
     stopifnot(is.raw(bodydata));
     
-    #splitchar <- grepRaw("\n\n", bodydata, fixed=TRUE);
     splitchar <- grepRaw("\\r\\n\\r\\n|\\n\\n|\\r\\r", bodydata);
     if(!length(splitchar)){
       stop("Invalid multipart subpart:\n\n", rawToChar(bodydata));
@@ -121,8 +120,12 @@ multipart <- local({
   }
   
   unquote <- function(str){
-    str <- sub('\\\"$', '', str, perl = TRUE);
-    sub('^\\\"', "", str, perl = TRUE);  
+    len <- nchar(str)
+    if(substr(str, 1, 1) == '"' && substr(str, len, len) == '"'){
+      return(substr(str, 2, len-1));
+    } else {
+      return(str)
+    }
   }
   main
 });

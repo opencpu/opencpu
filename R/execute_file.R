@@ -5,73 +5,112 @@ execute_file <- local({
     
     switch(ext,
       "r" = httppost_rscript(filepath),
-      "rnw" = httppost_rnw(filepath),
-      "rmd" = httppost_rmd(filepath),
-      "brew" = httppost_brew(filepath),
+      "rnw" = httppost_knittex2(filepath),
+      "rtex" = httppost_knittex2(filepath),           
+      "rmd" = httppost_knitpandoc(filepath),
+      "rrst" = httppost_knitpandoc(filepath),   
+      "rhtml" = httppost_knit(filepath),
+      "brew" = httppost_knit(filepath),
+      "md" = httppost_pandoc(filepath),
+      "rst" = httppost_pandoc(filepath),           
+      "tex" = httppost_latex(filepath),  
       "pdr" = httppost_pander(filepath),
-      "tex" = httppost_latex(filepath),     
-      "md" = httppost_markdown(filepath),
       stop("Unsupported script type: ", ext)
     );
   }
   
+  #Evaluate Rscript using evaluate
   httppost_rscript <- function(filepath){
     mycon <- file(filepath);
     session$eval(mycon);
   } 
   
-  httppost_rnw <- function(filepath){
+  #Standard knit
+  httppost_knit <- function(filepath){
+    #explicit package so that we don't have to preload
+    library(knitr);
+    
+    knitcalls <- c(
+      "library(knitr)",
+      paste("knit('", filepath, "')", sep="")
+    );
+    
+    knitcall <- paste(knitcalls, collapse="\n")
+    session$eval(knitcall);
+  }
+  
+  #Does both knitr and pdflatex
+  httppost_knittex <- function(filepath){
+    #explicit package so that we don't have to preload
+    library(knitr);
+    
+    knitcalls <- c(
+      "library(knitr)",
+      "library(tools)",
+      paste("texfile <- knit('", filepath, "')", sep=""),
+      "texi2pdf(texfile)"
+    );
+    
+    knitcall <- paste(knitcalls, collapse="\n")
+    session$eval(knitcall);
+  }    
+  
+  #alternative: single call
+  httppost_knittex2 <- function(filepath){
     #explicit package so that we don't have to preload
     knitcall <- as.call(list(quote(tools::texi2pdf), as.call(list(quote(knitr::knit), filepath))));
     session$eval(knitcall);
   }
   
-  httppost_rmd <- function(filepath){
+  #Do both knit and pandoc
+  httppost_knitpandoc <- function(filepath){
     #explicit package so that we don't have to preload
     library(knitr);
-    args <- lapply(req$post(), parse_arg);
+    args <- lapply(req$post(), parse_arg_prim);
     if(is.null(args$format)){
       args$format <- c("html", "docx", "odt")
     }
     
     knitcalls <- c(
-      paste("mdfile <- knit('", filepath, "')", sep=""),      
-      paste("knitr::pandoc(mdfile, format=format")   
+      "library(knitr)",
+      paste("mdfile <- knit('", filepath, "')", sep=""),   
+      paste("mapply(pandoc, input=mdfile, format =", deparse(args$format), ")"),
+      "rm(mdfile)"
     );
 
     knitcall <- paste(knitcalls, collapse="\n")
     session$eval(knitcall, args);
   }  
   
+  #not used anymore. We use knitr instead.
   httppost_brew <- function(filepath){
     library(brew);
     brewcall <- as.call(list(quote(brew::brew), file=filepath));
     session$eval(brewcall);    
   }
   
+  #compile a latex doc
   httppost_latex <- function(filepath){
     brewcall <- as.call(list(quote(tools::texi2pdf), file=filepath));
     session$eval(brewcall);      
   }
 
   #note: by default, pandoc puts new files in same dir as old files
-  httppost_markdown <- function(filepath){
+  httppost_pandoc <- function(filepath){
     library(knitr);
-    format <- req$post()$format;
-    if(is.null(format)){
-      format <- c("html", "docx", "odt")
+    args <- lapply(req$post(), parse_arg_prim);
+    if(is.null(args$format)){
+      args$format <- c("html", "docx", "odt")
     }
     
     knitcalls <- c(
-      paste("knitr::pandoc('", filepath, "', format='html')", sep=""),
-      paste("knitr::pandoc('", filepath, "', format='docx')", sep=""),
-      paste("knitr::pandoc('", filepath, "', format='odt')", sep="")   
-    );    
-    
-    knitcalls <- paste("knitr::pandoc('", filepath, "', format='", format, "')", sep="");    
+      "library(knitr)",
+      paste("mapply(pandoc, input=", deparse(filepath), ", format =", deparse(args$format), ")"),
+      "rm(mdfile)"
+    );
     
     knitcall <- paste(knitcalls, collapse="\n")
-    session$eval(knitcall);      
+    session$eval(knitcall, args);
   }  
   
   main
