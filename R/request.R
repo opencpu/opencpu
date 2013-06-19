@@ -14,13 +14,19 @@ respond <- function(status = 503L, body=NULL, headers=list()){
 	}
 	
 	if(!file.exists(body)){
-		stop("respond was called with invalid file as body: ", body)
+		stop("respond was called with invalid file as body: ", body);
 	}
   
   if(!is.list(headers)){
-    stop("respond was called with invalid headers argument.")
+    stop("respond was called with invalid headers argument.");
   }
   
+  #some static headers
+  headers[["X-ocpu-r"]] = R.version.string;
+	headers[["X-ocpu-locale"]] = Sys.getlocale("LC_CTYPE");
+	headers[["X-ocpu-time"]] = format(Sys.time(), usetz=TRUE); 
+  headers[["X-ocpu-version"]] = as.character(packageVersion("ocpu"));
+    
 	e <- structure(
     list(
       message="ocpu success", 
