@@ -1,7 +1,7 @@
 OpenCPU specification, revised
 ==============================
 
-The root mount is relative. E.g. on rapache it is /ocpu/, on Rook it is /custom/ocpu/.
+The root mount is relative. E.g. on rapache it is /ocpu/, on Rook it is /custom/ocpu/ and on httpuv it is /.
 
 Top level interfaces
 --------------------
@@ -13,7 +13,6 @@ Top level interfaces
 /ocpu/user/jeroen/lib/package   Packages from jeroen's home library
 /ocpu/user/jeroen/apps/package  Apps from jeroen's home library
 /ocpu/user/jeroen/proj/adv      Projects (~/foo/foo.Rproj) from jeroen's home.
-/ocpu/user/jeroen/tmp           Alias for /tmp. Tmp projects.
 /ocpu/gist/jeroen/123456        Scripts/docs from gist 
 /ocpu/gist/123456               Idem
 /ocpu/doc                       Mimics R help. 
@@ -25,7 +24,7 @@ Package / Apps sub-interfaces
 /NEWS                      ..
 /DESCRIPTION               ..
 /html/*                    GET mimics R help. 
-/R/obj/format              Renders R objects. POST calls functions.
+/R/obj/format              Renders R objects in .RData. POST calls functions.
 /man/obj/format            Renders dynamic manuals. GET only.
 /www                       GET serves files. POST executes doc/script.
 /doc                       GET mimics R help. POST executes doc/script.

@@ -28,6 +28,7 @@ httpget_session <- function(filepath, requri){
      "stdout" = httpget_session_stdout(filepath, reqtail),
      "info" = httpget_session_info(filepath, reqtail),
      "zip" = httpget_session_zip(filepath, reqtail),
+     "tar" = httpget_session_tar(filepath, reqtail),
      "report" = httpget_session_report(filepath, reqtail),
      stop("invalid session api: /session/",reqhead)
   );  

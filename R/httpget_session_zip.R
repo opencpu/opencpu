@@ -4,13 +4,12 @@ httpget_session_zip <- function(sessionpath, requri){
   tmpzip <- tempfile(fileext=".zip");
   zip(tmpzip, files=allfiles);
   
-  #debug
+  #debug 
   tryCatch(unzip(tmpzip), warning=function(w) {stop(w$message)});
-  res$setheader("tmpfile", tmpzip)  
   
   #continue
   res$setbody(file=tmpzip);
-  res$setheader("Content-Type", "application/octet-stream")
+  res$setheader("Content-Type", "application/zip")
   res$setheader("Content-Disposition", paste('attachment; filename="', basename(sessionpath), '.zip"', sep=""));
   res$finish();
 }
