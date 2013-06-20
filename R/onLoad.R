@@ -6,6 +6,7 @@ packagename = NULL;
 	options(repos=config('repos'));
 	options(keep.source = FALSE);
 	options(useFancyQuotes = FALSE);
+	options(hasgit = identical(0L, system("git --version")));  
   if(.Platform$OS.type != "windows"){
 	  Sys.setlocale(category='LC_ALL', 'en_US.UTF-8');
   }

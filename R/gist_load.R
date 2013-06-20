@@ -4,7 +4,7 @@ gist_load <- function(gistuser, gistid){
   maxage <- config("gist.cache");
   
   #is there is a blocker but its old, we remove it. This should not happen.
-  if(isTRUE(difftime(Sys.time(), file.info(blockpath)$mtime, units="secs") > maxage)){
+  if(isTRUE(difftime(Sys.time(), file.info(blockpath)$mtime, units="secs") > 120)){
     file.remove(blockpath, recursive=TRUE);    
   }
   

@@ -25,7 +25,7 @@ respond <- function(status = 503L, body=NULL, headers=list()){
   headers[["X-ocpu-r"]] = R.version.string;
 	headers[["X-ocpu-locale"]] = Sys.getlocale("LC_CTYPE");
 	headers[["X-ocpu-time"]] = format(Sys.time(), usetz=TRUE); 
-  headers[["X-ocpu-version"]] = as.character(packageVersion("ocpu"));
+  headers[["X-ocpu-version"]] = as.character(packageVersion(packagename));
     
 	e <- structure(
     list(

@@ -8,5 +8,5 @@ Maintainer: STATDEV <administrations@statdev.org>
 Description: OpenCPU
 License: Apache2
 Imports: parallel, tools, evaluate, httpuv (>= 1.0.6.99), RJSONIO
-Suggests: knitr, pander, brew
+Suggests: knitr, pander, devtools
 SystemRequirements: pandoc, texlive, apparmor
