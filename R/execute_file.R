@@ -10,7 +10,7 @@ execute_file <- local({
       "rmd" = httppost_knitpandoc(filepath),
       "rrst" = httppost_knitpandoc(filepath),   
       "rhtml" = httppost_knit(filepath),
-      "brew" = httppost_knit(filepath),
+      "brew" = httppost_brew(filepath),
       "md" = httppost_pandoc(filepath),
       "rst" = httppost_pandoc(filepath),           
       "tex" = httppost_latex(filepath),  
@@ -85,7 +85,11 @@ execute_file <- local({
   #not used anymore. We use knitr instead.
   httppost_brew <- function(filepath){
     library(brew);
-    brewcall <- as.call(list(quote(brew::brew), file=filepath));
+    output <- parse_arg_prim(req$post()$output); 
+    if(is.null(output)){
+      output <- quote(stdout())
+    }
+    brewcall <- as.call(list(quote(brew::brew), file=filepath, output=output));
     session$eval(brewcall);    
   }
   

@@ -1,6 +1,7 @@
 export(httpuv)
 export(rhttpd)
 export(install.apps)
+export(cleanup)
 import(parallel)
 import(tools)
 import(utils)
