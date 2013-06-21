@@ -2,10 +2,16 @@ httpget_gist <- function(uri){
 
   #GET /ocpu/gist/jeroen
   gistuser <- uri[1];
-  gistid <- uri[2];
-  if(is.na(gistuser) || is.na(gistid)){
+  if(is.na(gistuser)){
     res$checkmethod();    
     stop("Please specify a gist username and id, e.g. /ocpu/gist/jerry/123456/")
+  }
+
+  gistid <- uri[2];
+  if(is.na(gistid)){
+    res$checktrail();    
+    gists <- list_gists(gistuser);
+    res$sendlist(gists);
   }
   
   #init the gist

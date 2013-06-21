@@ -2,10 +2,16 @@ httpget_github <- function(uri){
 
   #GET /ocpu/github/jeroen/mypackage
   gituser <- uri[1];
-  gitrepo <- uri[2];
-  if(is.na(gituser) || is.na(gitrepo)){
+  if(is.na(gituser)){
     res$checkmethod();    
     stop("Please specify a github username and repository, e.g. /ocpu/github/jerry/jjplot2/")
+  }
+
+  gitrepo <- uri[2];
+  if(is.na(gitrepo)){
+    res$checktrail();
+    repos <- list_repos(gituser);
+    res$sendlist(repos);
   }
   
   #init the gist
