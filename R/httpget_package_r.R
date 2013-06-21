@@ -15,7 +15,7 @@ httpget_package_r <- function(pkgpath, requri){
   }
   
   #Get object. Throws error if object does not exist.
-  myobject <- get(reqobject, paste("package", reqpackage, sep=":"));
+  myobject <- get(reqobject, paste("package", reqpackage, sep=":"), inherits=FALSE);
   
   #return object
   switch(req$method(),

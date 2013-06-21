@@ -1,39 +1,35 @@
 session <- local({
   prefix <- config("session.prefix");
 
-  #initiates a new tmp session
-  init <- function(){
+  #generates a random session hash
+  generate <- function(){
     characters <- c(0:9, letters[1:6]);
     hash <- paste(c("x0", sample(characters, 7, replace=TRUE)), collapse="")
-    mydir <- tmpsession(hash);
-    stopifnot(dir.create(mydir));
-    setwd(mydir);
+    stopifnot(!file.exists(sessiondir(hash)));
     hash;
   }  
   
-  #copies files from an existing session into a new tmp session
-  fork <- function(olddir){
-    olddir <- olddir; #force eval
-    hash <- init();
-    newdir <- tmpsession(hash);
-    setwd(olddir)
-    file.copy(".", newdir, recursive=TRUE);
-    setwd(newdir);
-    unlink(".RData")
-    unlink(".REval");
-    unlink(".RInfo");
-    hash
+  #copies a session dir
+  fork <- function(oldhash){
+    olddir <- sessiondir(oldhash);
+    forkdir <- tempfile("fork_dir");
+    stopifnot(dir.create(forkdir));
+    file.copy(olddir, forkdir, recursive=TRUE);
+    stopifnot(identical(list.files(forkdir), basename(olddir)));
+    
+    newhash <- generate();
+    newdir <- sessiondir(newhash);
+    stopifnot(file.rename(list.files(forkdir, full.names=TRUE), newdir));
+    newhash
   }
   
   #evaluates something inside a session
   eval <- function(input, args, storeval=FALSE){
     
-    #verify current session
-    if(issession(getwd())){
-      hash <- fork(getwd());
-    } else {
-      hash <- init();
-    }
+    #create a temporary dir
+    execdir <- tempfile("ocpu_session_");
+    stopifnot(dir.create(execdir));
+    setwd(execdir);
     
     #setup handler
     myhandler <- evaluate::new_output_handler(value=function(myval){
@@ -42,9 +38,6 @@ session <- local({
       }
       evaluate:::render(myval);
     });
-    
-    #save dir
-    olddir <- getwd();
     
     #create session for output objects
     if(missing(args)){
@@ -65,16 +58,23 @@ session <- local({
     output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, new_device=FALSE, output_handler=myhandler);
     dev.off();   
     
+    #in case code changed dir
+    setwd(execdir);
+    
     #temp fix for evaluate bug
     output <- Filter(function(x){!emptyplot(x)}, output); 
-    
-    #in case code changed dir
-    setwd(olddir);
     
     #store output
     save(file=".RData", envir=sessionenv, list=ls(sessionenv, all.names=TRUE));
     saveRDS(output, file=".REval");
     saveRDS(sessionInfo(), file=".RInfo");  
+    
+    #store results permanently
+    hash <- generate();
+    stopifnot(file.rename(execdir, sessiondir(hash)));
+    
+    #debug test
+    fork(hash)
     
     #redirect client
     send(hash);
@@ -145,18 +145,20 @@ session <- local({
     return(outlist);
   }
   
-  tmpsession <- function(hash){
+  #actual directory
+  sessiondir <- function(hash){
     file.path(gettmpdir(), paste(prefix, hash, sep=""));
   }
   
+  #http path for a session
+  sessionpath <- function(hash){
+    paste("/tmp/", hash, sep="");
+  }  
+  
+  #test if a dir is a session
   issession <- function(mydir){
     any(file.exists(file.path(mydir, c(".RData", ".REval"))));
   }
   
-  sessionpath <- function(hash){
-    paste("/tmp/", hash, sep="");
-  }
-  
   environment();
 });
-

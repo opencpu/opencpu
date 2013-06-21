@@ -14,11 +14,15 @@ httpget_session_r <- function(filepath, requri){
   #list session objects
   if(!length(reqobject)){
     res$checkmethod();
+    dirlist <- ls(sessionenv, all.names=TRUE);
+    if(identical(dirlist, ".val")){
+      res$redirect(paste(req$uri(), "/.val", sep=""));
+    }
     res$sendlist(ls(sessionenv, all.names=TRUE));
   } 
   
   #load object
-  myobject <- get(reqobject, envir=sessionenv);
+  myobject <- get(reqobject, envir=sessionenv, inherits=FALSE);
   
   #return object
   switch(req$method(),

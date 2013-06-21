@@ -93,15 +93,26 @@ execute_file <- local({
     session$eval(brewcall);    
   }
   
-  #compile a latex doc
+  #Compile a latex doc.
+  #Need to copy the file otherwise latex writes files to orriginal location
   httppost_latex <- function(filepath){
-    brewcall <- as.call(list(quote(tools::texi2pdf), file=filepath));
-    session$eval(brewcall);      
+    library(tools);
+    filename <- basename(filepath);
+    
+    knitcalls <- c(
+      "library(tools)",
+      paste("file.copy(", deparse(filepath), ",", deparse(filename), ")"),
+      paste("texi2pdf(", deparse(filename), ", texinputs=", deparse(dirname(filepath)), ")")
+    );
+
+    knitcall <- paste(knitcalls, collapse="\n")
+    session$eval(knitcall);      
   }
 
   #note: by default, pandoc puts new files in same dir as old files
   httppost_pandoc <- function(filepath){
     library(knitr);
+    filename <- basename(filepath);    
     args <- lapply(req$post(), parse_arg_prim);
     if(is.null(args$format)){
       args$format <- c("html", "docx", "odt")
@@ -109,8 +120,8 @@ execute_file <- local({
     
     knitcalls <- c(
       "library(knitr)",
-      paste("mapply(pandoc, input=", deparse(filepath), ", format =", deparse(args$format), ")"),
-      "rm(mdfile)"
+      paste("file.copy(", deparse(filepath), ",", deparse(filename), ")"),
+      paste("mapply(pandoc, input=", deparse(filename), ", format =", deparse(args$format), ")")
     );
     
     knitcall <- paste(knitcalls, collapse="\n")
