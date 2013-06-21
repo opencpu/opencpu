@@ -31,13 +31,13 @@ gist_load <- function(gistuser, gistid){
   gisturl <- paste("https://gist.github.com", gistuser, gistid, "download", sep="/");
   out <- GET(gisturl, add_headers("User-Agent" = "OpenCPU"));
   stop_for_status(out);
-  gisttmpfile <- tempfile("gistfile");
+  gisttmpfile <- tempfile("gistfile", fileext=".tar.gz");
   writeBin(out$content, gisttmpfile);
   #download.file(gisturl, gisttmpfile, method="curl", quiet=TRUE);
   
   gisttmpdir <- tempfile("gistdir");
   stopifnot(dir.create(gisttmpdir));
-  untar(gisttmpfile, exdir=gisttmpdir, restore_times=FALSE);
+  stoponwarn(untar(windir(gisttmpfile), exdir=windir(gisttmpdir), restore_times=FALSE));
   
   #a gist archive contains exactly one dir
   gistcommitname <- list.files(gisttmpdir, include.dirs=TRUE, full.names=TRUE);
