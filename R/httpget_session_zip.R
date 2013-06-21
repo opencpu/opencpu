@@ -5,7 +5,7 @@ httpget_session_zip <- function(sessionpath, requri){
   zip(tmpzip, files=allfiles);
   
   #debug 
-  tryCatch(unzip(tmpzip), warning=function(w) {stop(w$message)});
+  stoponwarn(unzip(tmpzip));
   
   #continue
   res$setbody(file=tmpzip);

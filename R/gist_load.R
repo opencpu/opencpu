@@ -5,7 +5,7 @@ gist_load <- function(gistuser, gistid){
   
   #is there is a blocker but its old, we remove it. This should not happen.
   if(isTRUE(difftime(Sys.time(), file.info(blockpath)$mtime, units="secs") > 120)){
-    file.remove(blockpath, recursive=TRUE);    
+    stopifnot(unlink(blockpath, recursive=TRUE, force=TRUE));    
   }
   
   #wait for the block to disappear
@@ -19,13 +19,13 @@ gist_load <- function(gistuser, gistid){
     if(dirage < maxage){
       return(gistpath);      
     } else {
-      unlink(gistpath, recursive=TRUE);
+      unlink(gistpath, recursive=TRUE, force=TRUE);
     }
   }
   
   #setup a blocker (for concurrent requests to the same gist)
-  stopifnot(dir.create(blockpath));
-  on.exit(file.remove(blockpath));
+  stopifnot(file.create(blockpath));
+  on.exit(unlink(blockpath, force=TRUE));
 
   #init the gist
   gisturl <- paste("https://gist.github.com", gistuser, gistid, "download", sep="/");

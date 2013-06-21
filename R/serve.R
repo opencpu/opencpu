@@ -5,7 +5,7 @@ serve <- function(REQDATA){
   
   #for GET requests we use the main proc
   if(identical(OS, "windows") && (REQDATA$METHOD %in% c("HEAD", "GET"))){
-    return(request(main(REQDATA)));   
+    return(eval_current(request(main(REQDATA)), timeout=config("time.limit")));   
   } 
   
   #for non GET we use a psock process
