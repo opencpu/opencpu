@@ -71,7 +71,12 @@ session <- local({
     
     #store results permanently
     hash <- generate();
-    stopifnot(file.rename(execdir, sessiondir(hash)));
+    
+    #does not work on windows 
+    #stopifnot(file.rename(execdir, sessiondir(hash))); 
+    
+    stopifnot(dir.create(sessiondir(hash)))
+    stoponwarn(file.copy(list.files(recursive=TRUE, all=TRUE), sessiondir(hash)))
     
     #redirect client
     send(hash);
