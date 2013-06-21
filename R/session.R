@@ -73,9 +73,6 @@ session <- local({
     hash <- generate();
     stopifnot(file.rename(execdir, sessiondir(hash)));
     
-    #debug test
-    fork(hash)
-    
     #redirect client
     send(hash);
   }
