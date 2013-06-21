@@ -10,7 +10,7 @@ httpget_gist <- function(uri){
   gistid <- uri[2];
   if(is.na(gistid)){
     res$checktrail();    
-    gists <- list_gists(gistuser);
+    gists <- gist_list(gistuser);
     res$sendlist(gists);
   }
   

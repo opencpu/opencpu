@@ -10,7 +10,7 @@ httpget_github <- function(uri){
   gitrepo <- uri[2];
   if(is.na(gitrepo)){
     res$checktrail();
-    repos <- list_repos(gituser);
+    repos <- github_list(gituser);
     res$sendlist(repos);
   }
   
