@@ -1,10 +1,8 @@
 .onAttach <- function(path, package){
-  if("rapache" %in% search()){
-    #loaded in rapache
-    message("OpenCPU server ready...")
-  } else {
-    #loaded from within R (e.g. rook)
-    message("Initiating opencpu server...")
+  #note that --slave includes R CMD INSTALL test loads
+  if(!("rapache" %in% search()) && !("--slave" %in% commandArgs())) {    
+    #loaded from within R
+    message("Initiating OpenCPU server...")
     
     #start rhttpd
     httpuv$start();    
@@ -15,11 +13,8 @@
     Sys.sleep(0.5)
     rhttpd$browse();
     httpuv$browse();    
-    
-    if(.Platform$OS.type != "windows"){
-      
-    }
   }
+  message("OpenCPU server ready.");
 }
 
 .onDetach <- function(libpath){
