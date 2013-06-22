@@ -6,7 +6,10 @@ packagename = NULL;
 	options(repos=config('repos'));
 	options(keep.source = FALSE);
 	options(useFancyQuotes = FALSE);
-	options(hasgit = identical(0L, system("git --version", ignore.stdout=TRUE, ignore.stderr=TRUE)));  
+	options(hasgit = cmd_exists("git")); 
+	options(haspandoc = cmd_exists("pandoc"));  
+  options(hastex = cmd_exists("texi2dvi"));
+  
   if(.Platform$OS.type != "windows"){
 	  Sys.setlocale(category='LC_ALL', 'en_US.UTF-8');
   }

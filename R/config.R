@@ -2,7 +2,7 @@ config <- function(x){
 	switch(x,
 		"job.timeout" = 60,
 		"time.limit" = 90,
-    "gist.cache" = 120,
+    "gist.cache" = 5*60,
     "github.cache" = 60*60,
     "session.prefix" = "ocpu_tmp_",
     "appspaths" = c("/usr/local/lib/opencpu/apps-library"),
