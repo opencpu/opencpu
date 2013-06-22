@@ -1,9 +1,9 @@
 .onAttach <- function(path, package){
-	if("rapache" %in% search()){
-		#loaded in rapache
+  if("rapache" %in% search()){
+    #loaded in rapache
     message("OpenCPU server ready...")
-	} else {
-	  #loaded from within R (e.g. rook)
+  } else {
+    #loaded from within R (e.g. rook)
     message("Initiating opencpu server...")
     
     #start rhttpd
@@ -17,9 +17,9 @@
     httpuv$browse();    
     
     if(.Platform$OS.type != "windows"){
-
+      
     }
-	}
+  }
 }
 
 .onDetach <- function(libpath){
