@@ -5,8 +5,8 @@ execute_file <- local({
     
     switch(ext,
       "r" = httppost_rscript(filepath),
-      "rnw" = httppost_knittex2(filepath),
-      "rtex" = httppost_knittex2(filepath),           
+      "rnw" = httppost_knittex(filepath),
+      "rtex" = httppost_knittex(filepath),           
       "rmd" = httppost_knitpandoc(filepath),
       "rrst" = httppost_knitpandoc(filepath),   
       "rhtml" = httppost_knit(filepath),
@@ -32,7 +32,7 @@ execute_file <- local({
     
     knitcalls <- c(
       "library(knitr)",
-      paste("knit('", filepath, "')", sep="")
+      paste("knit(", deparse(filepath), ")", sep="")
     );
     
     knitcall <- paste(knitcalls, collapse="\n")
@@ -47,7 +47,7 @@ execute_file <- local({
     knitcalls <- c(
       "library(knitr)",
       "library(tools)",
-      paste("texfile <- knit('", filepath, "')", sep=""),
+      paste("texfile <- knit(", deparse(filepath), ")", sep=""),
       "texi2pdf(texfile)"
     );
     
@@ -73,7 +73,7 @@ execute_file <- local({
     
     knitcalls <- c(
       "library(knitr)",
-      paste("mdfile <- knit('", filepath, "')", sep=""),   
+      paste("mdfile <- knit(", deparse(filepath), ")", sep=""), 
       paste("mapply(pandoc, input=mdfile, format =", deparse(args$format), ")"),
       "rm(mdfile)"
     );
