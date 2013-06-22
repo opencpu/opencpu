@@ -37,7 +37,7 @@ gist_load <- function(gistuser, gistid){
   
   gisttmpdir <- tempfile("gistdir");
   stopifnot(dir.create(gisttmpdir));
-  stoponwarn(untar(windir(gisttmpfile), exdir=windir(gisttmpdir), restore_times=FALSE));
+  untar(gisttmpfile, exdir=gisttmpdir, tar="internal", restore_times=FALSE);
   
   #a gist archive contains exactly one dir
   gistcommitname <- list.files(gisttmpdir, include.dirs=TRUE, full.names=TRUE);
