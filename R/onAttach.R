@@ -1,6 +1,6 @@
 .onAttach <- function(path, package){
   #note that --slave includes R CMD INSTALL test loads
-  if(!("rapache" %in% search()) && !("--slave" %in% commandArgs())) {    
+  if(interactive() && !("rapache" %in% search()) && !("--slave" %in% commandArgs())) {  
     #loaded from within R
     message("Initiating OpenCPU server...")
     
