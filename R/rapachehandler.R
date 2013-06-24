@@ -8,8 +8,8 @@ rapachehandler <- function(){
     NEWFILES <- list();
   } else {
     #evaluate promises
-    NEWPOST <- POST;
-    NEWFILES <- FILES;
+    NEWPOST <- get("POST", "rapache");
+    NEWFILES <- get("FILES", "rapache");
     NEWPOST[names(NEWFILES)] <- NULL;    
   }
   
@@ -19,7 +19,7 @@ rapachehandler <- function(){
     MOUNT = SERVER$cmd_path,
     PATH_INFO = SERVER$path_info,
     POST = NEWPOST,
-    GET = GET,
+    GET = get("GET", "rapache"),
     FILES = NEWFILES
   );
     

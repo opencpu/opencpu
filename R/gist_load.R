@@ -5,7 +5,7 @@ gist_load <- function(gistuser, gistid){
   
   #is there is a blocker but its old, we remove it. This should not happen.
   if(isTRUE(difftime(Sys.time(), file.info(blockpath)$mtime, units="secs") > 120)){
-    stopifnot(unlink(blockpath, recursive=TRUE, force=TRUE));    
+    stopifnot(file.remove(blockpath, recursive=TRUE, force=TRUE));    
   }
   
   #wait for the block to disappear
@@ -19,7 +19,7 @@ gist_load <- function(gistuser, gistid){
     if(dirage < maxage){
       return(gistpath);      
     } else {
-      unlink(gistpath, recursive=TRUE, force=TRUE);
+      stopifnot(file.remove(gistpath, recursive=TRUE, force=TRUE));
     }
   }
   
