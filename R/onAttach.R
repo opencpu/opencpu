@@ -13,7 +13,12 @@
     Sys.sleep(0.5)
     rhttpd$browse();
     httpuv$browse();    
+  } 
+  
+  if("rapache" %in% search() && !isTRUE(getOption("hasrapparmor"))){
+    warning("SECURITY WARNING: OpenCPU is running without RAppArmor.");
   }
+  
   message("OpenCPU server ready.");
 }
 

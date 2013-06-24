@@ -5,7 +5,7 @@ eval_fork <- function(..., timeout=60){
   
   #dispatch based on method
   myfork <- parallel::mcparallel({
-    (...)
+    eval(...)
   }, silent=TRUE);
   
   #wait max n seconds for a result.
