@@ -21,26 +21,26 @@ parse_arg <- local({
     }
     
     if(x == "true" || x == "TRUE"){
-      return(TRUE);
+      return(as.expression(TRUE));
     }
     
     if(x == "false" || x == "FALSE"){
-      return(FALSE);
+      return(as.expression(FALSE));
     }  
     
     if(nchar(x) > 1 && substr(x, 1, 1) == "\"" && substr(x, nchar(x), nchar(x)) =="\""){
       #looks like a character string wrapped in double quotes
-      return(substr(x, 2, nchar(x)-1));
+      return(as.expression(substr(x, 2, nchar(x)-1)));
     }
     
     if(nchar(x) > 1 && substr(x, 1, 1) == "\'" && substr(x, nchar(x), nchar(x)) =="\'"){
       #chracter string with single quotes
-      return(substr(x, 2, nchar(x)-1));
+      return(as.expression(substr(x, 2, nchar(x)-1)));
     }    
     
     #try if is number
     if(x == gsub("[^0-9eE:.*/%+-]","", x)){
-      return(eval(parse(text=x)));
+      return(parse(text=x));
     }
     
     #if string starts with { or [ we test for json
