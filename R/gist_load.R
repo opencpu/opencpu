@@ -18,10 +18,11 @@ gist_load <- function(gistuser, gistid){
     dirage <- difftime(Sys.time(), file.info(gistpath)$mtime, units="secs");
     if(dirage < maxage){
       return(gistpath);      
-    } else {
-      stopifnot(file.remove(gistpath, recursive=TRUE, force=TRUE));
-    }
+    } 
   }
+  
+  #make sure its gone
+  unlink(gistpath, recursive=TRUE, force=TRUE);
   
   #setup a blocker (for concurrent requests to the same gist)
   stopifnot(file.create(blockpath));
@@ -33,7 +34,6 @@ gist_load <- function(gistuser, gistid){
   stop_for_status(out);
   gisttmpfile <- tempfile("gistfile", fileext=".tar.gz");
   writeBin(out$content, gisttmpfile);
-  #download.file(gisturl, gisttmpfile, method="curl", quiet=TRUE);
   
   gisttmpdir <- tempfile("gistdir");
   stopifnot(dir.create(gisttmpdir));

@@ -5,18 +5,26 @@
     message("Initiating OpenCPU server...")
     
     #start rhttpd
+    rhttpd$init();   
     httpuv$start();    
-    rhttpd$init();    
     
     #NOTE: browse() commands are for debugging only
     #in practice, apps should be calling browse()    
-    #Sys.sleep(1)
-    #rhttpd$browse();
-    #httpuv$browse();    
+    Sys.sleep(1)
+    rhttpd$browse();
+    httpuv$browse();    
   } 
   
+  #Check for RAppArmor when using Apache
   if("rapache" %in% search() && !isTRUE(getOption("hasrapparmor"))){
     warning("SECURITY WARNING: OpenCPU is running without RAppArmor.");
+  }
+  
+  #Make sure httpuv stops when exiting R.
+  if(!exists(".Last", globalenv())){
+    .Last <<- function(){
+      try(httpuv$stop(), silent=TRUE);
+    } 
   }
   
   message("OpenCPU server ready.");
