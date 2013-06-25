@@ -7,15 +7,13 @@ rhttpdhandler <- function(reqpath, reqquery, reqbody, reqheaders){
   #process POST request body
   if(!is.null(reqbody)){
     contenttype <- grep("Content-Type:", strsplit(rawToChar(reqheaders), "\n")[[1]], ignore.case=TRUE, value=TRUE);
-    RAWPOST <- parse_post(reqbody, contenttype);
+    MYRAW <- list(
+      body = reqbody,
+      ctype = contenttype
+    );
   } else {
-    RAWPOST <- list();  
+    MYRAW <- NULL;
   }
-  
-  #extract files
-  fileindex <- vapply(RAWPOST, is.list, logical(1));
-  FILES <- RAWPOST[fileindex];
-  POST <- RAWPOST[!fileindex];    
   
   #fix for missing method in old versions of R
   METHOD <- grep("Request-Method:", strsplit(rawToChar(reqheaders), "\n")[[1]], ignore.case=TRUE, value=TRUE);
@@ -29,9 +27,8 @@ rhttpdhandler <- function(reqpath, reqquery, reqbody, reqheaders){
     METHOD = METHOD,
     PATH_INFO = gsub("/custom/ocpu", "", reqpath),
     MOUNT = "/custom/ocpu",
-    POST = POST,
     GET = reqquery,
-    FILES = FILES
+    RAW = MYRAW
   );  
   
   #call method

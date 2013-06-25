@@ -4,10 +4,15 @@ rapachehandler <- function(){
   if(isTRUE(SERVER$method %in% c("POST", "PUT") && !length(POST))){
     rawdata <- receiveBin(1e8);
     ctype <- SERVER[["headers_in"]][["Content-Type"]];
-    NEWPOST <- parse_post(rawdata, ctype);
-    NEWFILES <- list();
+    MYRAW <- list(
+      body = rawdata,
+      ctype = ctype
+    );
+    NEWPOST <- NULL
+    NEWFILES <- NULL;
   } else {
     #evaluate promises
+    MYRAW <- NULL;
     NEWPOST <- get("POST", "rapache");
     NEWFILES <- get("FILES", "rapache");
     NEWPOST[names(NEWFILES)] <- NULL;    
@@ -20,7 +25,8 @@ rapachehandler <- function(){
     PATH_INFO = SERVER$path_info,
     POST = NEWPOST,
     GET = get("GET", "rapache"),
-    FILES = NEWFILES
+    FILES = NEWFILES,
+    RAW = MYRAW
   );
     
 	#select method to parse request in a trycatch 
