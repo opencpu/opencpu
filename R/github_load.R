@@ -35,9 +35,8 @@ github_load <- function(gituser, gitrepo){
   stopifnot(dir.create(gittmpdir));
   oldlib <- .libPaths();
   .libPaths(gittmpdir);
-  #eval_safe(devtools::install_github(gitrepo, gituser), timeout=config("time.limit")-5);
-  tryCatch(eval_safe(devtools::install_github(gitrepo, gituser)), error=function(e){
-    stop("devtools::install_github returned an error. Probably problem with gcc.\n", e$message)
+  tryCatch(eval_safe(devtools::install_github(gitrepo, gituser), timeout=config("time.limit")-5), error=function(e){
+    stop("devtools::install_github failed: ", e$message)
   });
   setLibPaths(oldlib);
   
