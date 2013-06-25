@@ -4,9 +4,10 @@ eval_fork <- function(..., timeout=60){
   setTimeLimit(timeout+5);		
   
   #dispatch based on method
+  ##NOTE!!!!! Due to a bug in mcparallel, we cannot use silent=TRUE for now.
   myfork <- parallel::mcparallel({
     eval(...)
-  }, silent=TRUE);
+  }, silent=FALSE);
   
   #wait max n seconds for a result.
   myresult <- parallel::mccollect(myfork, wait=FALSE, timeout=timeout);
