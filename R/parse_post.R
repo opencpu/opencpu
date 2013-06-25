@@ -17,7 +17,6 @@ parse_post <- function(reqbody, contenttype){
       return(as.list(reqbody));
     }
   } else if(grepl("application/json", contenttype, fixed=TRUE)){
-    library(RJSONIO)
     if(is.raw(reqbody)){
       jsondata <- rawToChar(reqbody);
     } else {

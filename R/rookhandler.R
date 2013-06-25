@@ -11,9 +11,6 @@ rookhandler <- function(env){
       input <- env[["rook.input"]];
       postdata <- input$read();
       RAWPOST <- parse_post(postdata, env[["CONTENT_TYPE"]]);
-      
-      #debug
-      #try(writeBin(postdata, tempfile("postdata", "~/Desktop", ".tmp")));      
     }
   } 
   

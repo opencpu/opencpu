@@ -10,10 +10,15 @@ httpget_session <- function(filepath, requri){
   reqhead <- head(requri, 1);
   reqtail <- tail(requri, -1);    
   
+  #Echo location to support AJAX with PRG pattern
+  #Note that the header can be overwritten by the request code.
+  if(req$method() %in% c("GET", "HEAD")){
+    res$setheader("Location", req$uri());
+  }
+  
   #list the session contents
   if(!length(reqhead)){
     res$checkmethod();
-    res$setheader("Location", req$uri());
     res$sendlist(session$index(filepath));
   }
 

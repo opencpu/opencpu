@@ -4,7 +4,7 @@ httpget_gist <- function(uri){
   gistuser <- uri[1];
   if(is.na(gistuser)){
     res$checkmethod();    
-    stop("Please specify a gist username and id, e.g. /ocpu/gist/jerry/123456/")
+    stop("Please specify a github username, e.g. /ocpu/gist/hadley")
   }
 
   gistid <- uri[2];
