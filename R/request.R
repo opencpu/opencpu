@@ -26,6 +26,11 @@ respond <- function(status = 503L, body=NULL, headers=list()){
 	headers[["X-ocpu-locale"]] = Sys.getlocale("LC_CTYPE");
 	headers[["X-ocpu-time"]] = format(Sys.time(), usetz=TRUE); 
   headers[["X-ocpu-version"]] = as.character(packageVersion(packagename));
+  
+	#Echo location to support AJAX with PRG pattern
+	if(is.null(headers[["Location"]]) && req$method() %in% c("GET", "HEAD")){
+	  headers[["Location"]] <- req$uri();
+	}
     
 	e <- structure(
     list(
