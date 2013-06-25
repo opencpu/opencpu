@@ -44,7 +44,8 @@ httpuv <- local({
       uvurl <<- paste("http://localhost:", myport, "/", sep="");
     } else {
       uvurl <<- gsub(":[0-9]{3,5}", paste(":", myport, sep=""), mainurl)
-    }       
+    }
+    message("[httpuv] ", uvurl);    
     invisible();
 	}  
   

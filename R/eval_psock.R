@@ -1,4 +1,4 @@
-eval_psock <- function(expr, envir=parent.frame(), timeout=60, opts=options()){
+eval_psock <- function(expr, envir=parent.frame(), timeout=60, opts){
   #create a child process
   cluster <- parallel::makePSOCKcluster(1);
   child <- cluster[[1]];
@@ -14,9 +14,11 @@ eval_psock <- function(expr, envir=parent.frame(), timeout=60, opts=options()){
     parallel:::stopNode(child);
   });
   
-  #TO DO: copy options() from parent
-  parallel:::sendCall(child, eval, list(quote(options(opts)), envir=list(opts=opts)));
-  parallel:::recvResult(child);
+  #try to set options
+  if(!missing(opts)){
+    parallel:::sendCall(child, eval, list(quote(options(opts)), envir=list(opts=as.list(opts))));
+    parallel:::recvResult(child);    
+  }
   
   #send the actual call
   #package/objects are already loaded??

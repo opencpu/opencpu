@@ -8,7 +8,8 @@ eval_safe <- function(expr, envir=parent.frame(), timeout=60){
   if(hasrap){
     return(eval.secure(expr, envir, timeout=timeout, RLIMIT_CPU=timeout+3));
   } else if(iswin){
-    return(eval(as.call(list(quote(eval_psock), expr=substitute(expr), envir=envir, timeout=timeout))));
+    opts <- options()[c("repos", "useFancyQuotes")]
+    return(eval(as.call(list(quote(eval_psock), expr=substitute(expr), envir=envir, timeout=timeout, opts=opts))));
   } else {
     return(eval_fork(expr, envir, timeout=timeout))
   }

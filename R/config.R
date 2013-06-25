@@ -1,15 +1,15 @@
 config <- function(x){
-	switch(x,
-		"job.timeout" = 60,
-		"time.limit" = 90,
+  switch(x,
+    "job.timeout" = 60,
+    "time.limit" = 90,
     "gist.cache" = 5*60,
     "github.cache" = 60*60,
     "session.prefix" = "ocpu_tmp_",
     "appspaths" = c("/usr/local/lib/opencpu/apps-library"),
-		"repos" = "http://cran.r-project.org",
+    "repos" = "http://cran.rstudio.com",
     "tmpdir" = "/tmp",
-		"libpaths" = list(),
-		"preload" = list(),
-		stop("invalid config entry: ", x)
-	);
+    "libpaths" = list(),
+    "preload" = list(),
+    stop("invalid config entry: ", x)
+  );
 }

@@ -59,6 +59,7 @@ rhttpd <- local({
       rhttpdurl <<- paste("http://localhost:", tools:::httpdPort, "/", sep="");
     }
     rhttpdurl <<- paste(rhttpdurl, "custom/ocpu/", sep="");
+    message("[rhttpd] ", rhttpdurl);    
     invisible();
   }
   url <- function(){

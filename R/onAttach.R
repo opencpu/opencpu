@@ -10,9 +10,9 @@
     
     #NOTE: browse() commands are for debugging only
     #in practice, apps should be calling browse()    
-    Sys.sleep(1)
-    rhttpd$browse();
-    httpuv$browse();    
+    #Sys.sleep(1)
+    #rhttpd$browse();
+    #httpuv$browse();    
   } 
   
   if("rapache" %in% search() && !isTRUE(getOption("hasrapparmor"))){
