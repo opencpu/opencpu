@@ -4,7 +4,7 @@ httpget_github <- function(uri){
   gituser <- uri[1];
   if(is.na(gituser)){
     res$checkmethod();    
-    stop("Please specify a github username and repository, e.g. /ocpu/github/jerry/jjplot2/")
+    stop("Please specify a github username, e.g. /ocpu/github/hadley/")
   }
 
   gitrepo <- uri[2];

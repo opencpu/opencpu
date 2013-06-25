@@ -33,12 +33,12 @@ github_load <- function(gituser, gitrepo){
   library(devtools)  
   gittmpdir <- tempfile("githubdir");
   stopifnot(dir.create(gittmpdir));
-  oldlib <- .libPaths();
-  .libPaths(gittmpdir);
-  tryCatch(eval_safe(devtools::install_github(gitrepo, gituser), timeout=config("time.limit")-5), error=function(e){
+  #oldlib <- .libPaths();
+  #.libPaths(gittmpdir);
+  tryCatch(eval_safe(devtools::install_github(gitrepo, gituser, args=paste("--library=", deparse(gittmpdir), sep="")), timeout=config("time.limit")-5), error=function(e){
     stop("devtools::install_github failed: ", e$message)
   });
-  setLibPaths(oldlib);
+  #setLibPaths(oldlib);
   
   #check if package has been installed
   if(!file.exists(file.path(gittmpdir, gitrepo))){
