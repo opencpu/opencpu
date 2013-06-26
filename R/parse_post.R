@@ -29,7 +29,14 @@ parse_post <- function(reqbody, contenttype){
     if(!is.list(obj)){
       stop("JSON input should be a list (json object).")
     }
-    return(lapply(obj, I));
+    return(lapply(obj, function(x){
+      if(isTRUE(is.vector(x) && length(x) == 1)){
+        #primitives as expressions
+        return(deparse(x))
+      } else {
+        return(I(x))
+      }
+    }));
   } else {
     stop("POST body with unknown conntent type: ", contenttype);
   }  
