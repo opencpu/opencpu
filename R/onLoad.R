@@ -26,7 +26,4 @@ packagename = "";
     try(getNamespace(thispackage), silent=FALSE);
   }
   
-  if(.Platform$OS.type == "windows" && sessionInfo()$R.version$arch == "x86_64"){
-    message("OpenCPU is experimental on R x64 in Windows. In case of trouble, run OpenCPU in R i386 (32 bit).")
-  }
 }
