@@ -1,4 +1,5 @@
 eval_psock <- function(expr, envir=parent.frame(), timeout=60, opts){
+  
   #create a child process
   cluster <- parallel::makePSOCKcluster(1);
   child <- cluster[[1]];

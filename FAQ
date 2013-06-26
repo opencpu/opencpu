@@ -1,0 +1,2 @@
+Q: OpenCPU hangs when loading in windows.
+A: Probably your firewall. Add R to your firewall exceptions rules.

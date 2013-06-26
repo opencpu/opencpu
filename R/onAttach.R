@@ -11,8 +11,8 @@
 
     #Start HTTPUV
     httpuv$start();
-    #Sys.sleep(1);
-    #httpuv$browse();  
+    Sys.sleep(1);
+    httpuv$browse();  
     
     #NOTE: browse() commands are for debugging only
     #in practice, apps should be calling browse()   
@@ -37,3 +37,4 @@
   httpuv$stop();
   message("exiting OpenCPU");
 }
+
