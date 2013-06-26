@@ -58,7 +58,6 @@ httpuv <- local({
       message("httpuv not started.")
       return(invisible());
     }
-    message("[httpuv] ", uvurl);
     browseURL(uvurl);    
   }
   

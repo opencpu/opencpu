@@ -4,15 +4,18 @@
     #loaded from within R
     message("Initiating OpenCPU server...")
     
-    #start rhttpd
-    rhttpd$init();   
-    httpuv$start();    
+    #start rhttpd only in rstudio server
+    if(nchar(Sys.getenv("RSTUDIO_HTTP_REFERER"))){
+      rhttpd$init();        
+    }
+
+    #Start HTTPUV
+    httpuv$start();
+    #Sys.sleep(1);
+    #httpuv$browse();  
     
     #NOTE: browse() commands are for debugging only
-    #in practice, apps should be calling browse()    
-    Sys.sleep(1)
-    rhttpd$browse();
-    httpuv$browse();    
+    #in practice, apps should be calling browse()   
   } 
   
   #Check for RAppArmor when using Apache

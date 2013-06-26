@@ -49,6 +49,9 @@ rhttpdhandler <- function(reqpath, reqquery, reqbody, reqheaders){
 rhttpd <- local({
   rhttpdurl <- "";
   init <- function(){
+    if(identical(.Platform$OS.type, "windows")){
+      warning("DyanmicHelp server has some serious issues on windows. Better use httpuv.")
+    }
     try(startDynamicHelp(TRUE), silent=TRUE);
     assign("ocpu", rhttpdhandler, tools:::.httpd.handlers.env);
     rhttpdurl <<- Sys.getenv("RSTUDIO_HTTP_REFERER");
@@ -63,7 +66,6 @@ rhttpd <- local({
     return(rhttpdurl)
   }
   browse <- function(){
-    message("[rhttpd] ", rhttpdurl);
     browseURL(rhttpdurl);
     invisible();
   }
