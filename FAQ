@@ -1,2 +1,5 @@
 Q: OpenCPU hangs when loading in windows.
-A: Probably your firewall. Add R to your firewall exceptions rules.
+A: Probably your firewall. Add R to your firewall exceptions rules. Also try using R i386 (32bit) instead of x64.
+
+Q: On windows, OpenCPU works in 32 bit but occasionally hangs on 64 bit.
+A: I'm not sure why this happens.

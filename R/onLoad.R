@@ -1,4 +1,4 @@
-packagename = NULL;
+packagename = "";
 
 .onLoad <- function(path, package){
   packagename <<- package;
@@ -6,9 +6,9 @@ packagename = NULL;
   options(repos=config('repos'));
   options(keep.source = FALSE);
   options(useFancyQuotes = FALSE);
-  options(hasgit = cmd_exists("git --version")); 
-  options(haspandoc = cmd_exists("pandoc --version"));  
-  options(hastex = cmd_exists("texi2dvi --version"));
+  #options(hasgit = cmd_exists("git --version")); 
+  #options(haspandoc = cmd_exists("pandoc --version"));  
+  #options(hastex = cmd_exists("texi2dvi --version"));
   options(hasrapparmor = suppressWarnings(require("RAppArmor", quietly=TRUE)));
   
   if(.Platform$OS.type != "windows"){
@@ -24,5 +24,9 @@ packagename = NULL;
   for(thispackage in config("preload")){
     #try to preload the packages. Make sure to complain about non existing packages.
     try(getNamespace(thispackage), silent=FALSE);
+  }
+  
+  if(.Platform$OS.type == "windows" && sessionInfo()$R.version$arch == "x86_64"){
+    message("OpenCPU is experimental on R x64 in Windows. In case of trouble, run OpenCPU in R i386 (32 bit).")
   }
 }
