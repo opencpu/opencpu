@@ -6,9 +6,9 @@ packagename = "";
   options(repos=config('repos'));
   options(keep.source = FALSE);
   options(useFancyQuotes = FALSE);
-  #options(hasgit = cmd_exists("git --version")); 
-  #options(haspandoc = cmd_exists("pandoc --version"));  
-  #options(hastex = cmd_exists("texi2dvi --version"));
+  options(hasgit = cmd_exists("git --version")); 
+  options(haspandoc = cmd_exists("pandoc --version"));  
+  options(hastex = cmd_exists("texi2dvi --version"));
   options(hasrapparmor = suppressWarnings(require("RAppArmor", quietly=TRUE)));
   
   if(.Platform$OS.type != "windows"){
