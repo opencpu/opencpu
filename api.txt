@@ -16,7 +16,7 @@ The PGR pattern
 The current version of OpenCPU uses a PGR pattern for all HTTP executions. 
 To execute call a function or execute a script, the client needs to perform two steps:
 
- 1) POST: Calls function or executes doc/script. If successful, results in a HTTP 303 redirect to a temporary session dir.
+ 1) POST: Calls function or executes doc/script. If successful, results in a HTTP 303 redirect to a temporary session dir. The path of the output is inferred from the "Location" response header.
  2) GET:  Retrieves execution output from the tmp session. See below under "Tmp session sub interfaces"
 
 These methods are consistent among different parts of the API, i.e. local packages, user package or packages on github.
@@ -72,7 +72,7 @@ Temporary session API
 /warnings                 Show warnings.
 /messages                 Show messages.
 /stdout                   Show stdout.
-/files                    GET serves files. POST loads .RData and executes doc/script.
+/files                    Serve static content. See "Static content API"
 /zip                      Exports project dir to zip
 /tar                      Exports project dir to tar.gz
 /report                   Renders basic report (not implemented)
