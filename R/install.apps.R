@@ -17,7 +17,7 @@ install.apps <- function(pkg, ...){
   } else {
     targetpath <- paste(Sys.getenv("R_LIBS_USER"), "-apps", sep="");
     if(!file.exists(targetpath)){
-      dir.create(targetpath);
+      dir.create(targetpath, recursive=TRUE);
     }
   }
   

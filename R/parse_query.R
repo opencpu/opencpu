@@ -3,6 +3,11 @@ parse_query <- function(query){
     query <- rawToChar(query);
   }
   stopifnot(is.character(query));
+
+  #httpuv includes the question mark in query string
+  if(identical(substring(query, 1,1), "?")){
+    query <- substring(query, 2);
+  }
   
   argslist <- strsplit(query, "&")[[1]];
   argslist <- strsplit(argslist, "=");
