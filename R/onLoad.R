@@ -3,6 +3,7 @@ packagename = "";
 .onLoad <- function(path, package){
   packagename <<- package;
   
+  options(max.print=50);
   options(repos=config('repos'));
   options(keep.source = FALSE);
   options(useFancyQuotes = FALSE);
