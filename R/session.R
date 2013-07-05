@@ -36,7 +36,13 @@ session <- local({
       if(isTRUE(storeval)){
         assign(".val", myval, sessionenv);
       }
-      evaluate:::render(myval);
+      #note: print can be really, really slow
+      if(identical(class(myval), "list")){
+        cat("List of length ", length(myval), "\n");
+        cat(paste("[", names(myval), "]", sep="", collapse="\n"));
+      } else {
+        evaluate:::render(myval);
+      }
     });
     
     #create session for output objects
@@ -86,7 +92,7 @@ session <- local({
   send <- function(hash){
     tmppath <- sessionpath(hash);
     outputpath <- paste(req$mount(), tmppath, "/", sep="");
-    res$redirect(outputpath, 303);    
+    res$redirect(outputpath, 201);    
   }
   
   #get a list of the contents of the current session
