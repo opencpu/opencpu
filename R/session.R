@@ -92,7 +92,16 @@ session <- local({
   send <- function(hash){
     tmppath <- sessionpath(hash);
     outputpath <- paste(req$mount(), tmppath, "/", sep="");
-    res$redirect(outputpath, 201);    
+    
+    #we are no longer redirecting
+    #res$redirect(outputpath, 303);    
+    
+    outlist <- index(sessiondir(hash));
+    text <- paste(outputpath, outlist, sep="", collapse="\n");
+    res$setbody(text);
+    res$setheader("Content-Type", "text/plain");
+    res$setheader("Location", outputpath);
+    res$finish(201);    
   }
   
   #get a list of the contents of the current session
