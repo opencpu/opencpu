@@ -2,7 +2,7 @@ rapachehandler <- function(){
   
   #Post has not been parsed
   if(isTRUE(SERVER$method %in% c("POST", "PUT") && !length(POST))){
-    rawdata <- receiveBin(1e8);
+    rawdata <- receiveBin();
     ctype <- SERVER[["headers_in"]][["Content-Type"]];
     MYRAW <- list(
       body = rawdata,
