@@ -167,7 +167,7 @@ session <- local({
     file.path(gettmpdir(), paste(prefix, hash, sep=""));
   }
   
-  #http path for a session
+  #http path for a session (not actual file path!)
   sessionpath <- function(hash){
     paste("/tmp/", hash, sep="");
   }  
