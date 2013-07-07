@@ -85,6 +85,24 @@ res <- local({
     }
   }
   
+  setcache <- function(what){
+    method <- req$method();
+    if(method == "POST"){
+      cachevalue <- config("httpcache.post");
+    } else if(method == "GET"){
+      cachevalue <- switch(what,
+        git = config("httpcache.git"),
+        lib = config("httpcache.lib"),
+        tmp = config("httpcache.tmp"),
+        pages = config("httpcache.pages"),  
+        stop("Setcache called for unknown type: ", what)
+      );
+    } else {
+      stop("Setcache called for unknown method: ", method);         
+    }
+    setheader("Cache-Control", paste("max-age=", cachevalue, ", public", sep=""));    
+  }
+  
   listdir <- function(dirpath){
     checkfile(dirpath);
     sendtext(list.files(dirpath));

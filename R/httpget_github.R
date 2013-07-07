@@ -20,6 +20,9 @@ httpget_github <- function(uri){
   #remaining of the api
   reqtail <- tail(uri, -2)  
   
+  #set cache value
+  res$setcache("git");  
+  
   #serve basic files
   httpget_package(pkgpath, reqtail);
 }

@@ -15,5 +15,10 @@ httpget_tmp <- function(requri){
   }
   
   sessionpath <- file.path(gettmpdir(), paste(prefix, reqhead, sep="")); 
+  
+  #set cache value
+  res$setcache("tmp");    
+  
+  #retrieve tmp session
   httpget_session(sessionpath, reqtail);
 }
