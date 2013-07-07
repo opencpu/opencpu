@@ -43,7 +43,7 @@ res <- local({
   }  
   
   redirect <- function(target, status=302){
-    setbody("Redirecting...")
+    setbody(paste("Redirect to", target));
     target <- gsub("//", "/", target);
     setheader("Location", target);
     finish(status);
