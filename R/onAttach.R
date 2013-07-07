@@ -25,12 +25,15 @@
   
   #Make sure httpuv stops when exiting R.
   if(!exists(".Last", globalenv())){
-    .Last <<- function(){
+    exitfun <- function(){
       try({
-        httpuv$stop();
+        ocpu:::httpuv$stop();
         rm(".Last", envir=globalenv());
       }, silent=TRUE);
     } 
+
+    environment(exitfun) <- globalenv();
+    assign(".Last", exitfun, globalenv());
   }
   
   message("OpenCPU server ready.");
