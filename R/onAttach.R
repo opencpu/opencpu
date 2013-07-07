@@ -26,7 +26,10 @@
   #Make sure httpuv stops when exiting R.
   if(!exists(".Last", globalenv())){
     .Last <<- function(){
-      try(httpuv$stop(), silent=TRUE);
+      try({
+        httpuv$stop();
+        rm(".Last", envir=globalenv());
+      }, silent=TRUE);
     } 
   }
   
@@ -37,4 +40,5 @@
   httpuv$stop();
   message("exiting OpenCPU");
 }
+
 
