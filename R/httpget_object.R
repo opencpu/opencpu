@@ -132,7 +132,7 @@ httpget_object <- local({
     }
     mytmp <- tempfile();
     do.call(function(width=800, height=600, pointsize=12, ...){
-      png(file=mytmp, width=as.numeric(width), height=as.numeric(height), pointsize=as.numeric(pointsize), ...);  
+      png(type="cairo", file=mytmp, width=as.numeric(width), height=as.numeric(height), pointsize=as.numeric(pointsize), ...);  
     }, req$get()); 
     print(object);
     dev.off();
