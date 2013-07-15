@@ -12,8 +12,7 @@ httpget <- function(){
   reqtail <- tail(reqpath, -1);
 
   switch(reqhead,
-    "library" = httpget_library(.libPaths(), reqtail),
-    "apps" = httpget_apps(config("appspaths"), reqtail),
+    "pub" = httpget_pub(reqtail),
     "tmp" = httpget_tmp(reqtail),
     "doc" = httpget_doc(reqtail),
     "user" = httpget_user(reqtail),
