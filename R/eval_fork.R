@@ -16,7 +16,7 @@ eval_fork <- function(..., timeout=60){
   tools::pskill(myfork$pid, tools::SIGKILL);	
   
   #clean up:
-  parallel::mccollect(myfork, wait=TRUE);
+  parallel::mccollect(myfork, wait=FALSE);
   
   #timeout?
   if(is.null(myresult)){

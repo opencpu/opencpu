@@ -21,6 +21,8 @@ packagename = "";
   
   #set some global options
   options(max.print=50);
+  options(device=pdf);
+  options(menu.graphics=FALSE);
   options(repos=config('repos'));
   options(keep.source = FALSE);
   options(useFancyQuotes = FALSE);
