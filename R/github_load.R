@@ -30,11 +30,17 @@ github_load <- function(gituser, gitrepo){
   on.exit(unlink(blockpath, force=TRUE));
 
   #install the app from github 
-  library(devtools)  
   gittmpdir <- tempfile("githubdir");
   stopifnot(dir.create(gittmpdir));
-  tryCatch(eval_safe(devtools::install_github(gitrepo, gituser, args=paste("--library=", deparse(gittmpdir), sep="")), timeout=config("time.limit")-5), error=function(e){
-    stop("devtools::install_github failed: ", e$message)
+
+  #NOTE: use the forked jeroenooms/devtools to capture stdout
+  outfile <- tempfile();
+  tryCatch(eval_safe(devtools::install_github(stdout=outfile, stderr=outfile, gitrepo, gituser, args=paste("--library=", deparse(gittmpdir), sep="")), timeout=config("time.limit")-5), error=function(e){
+    myerr <- paste("devtools::install_github failed: ", e$message);
+    if(file.exists(outfile)){
+      myerr <- paste(myerr, readLines(outfile), sep="\n", collapse="\n");
+    };
+    stop(myerr)
   });
   
   #check if package has been installed
