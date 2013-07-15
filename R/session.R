@@ -1,5 +1,4 @@
 session <- local({
-  prefix <- config("session.prefix");
 
   #generates a random session hash
   generate <- function(){
@@ -164,7 +163,7 @@ session <- local({
   
   #actual directory
   sessiondir <- function(hash){
-    file.path(gettmpdir(), paste(prefix, hash, sep=""));
+    file.path(gettmpdir(), paste(config("session.prefix"), hash, sep=""));
   }
   
   #http path for a session (not actual file path!)
