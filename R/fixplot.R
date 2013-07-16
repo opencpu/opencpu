@@ -1,7 +1,10 @@
-fixplot <- function(plot){
-  # packages need to be loaded for some reason
-  try(getNamespace("lattice"), silent=TRUE);
-  try(getNamespace("ggplot2"), silent=TRUE);  
+fixplot <- function(plot, loadpackages=FALSE){
+  
+  if(isTRUE(loadpackages)){
+    # packages need to be loaded for some reason
+    try(getNamespace("lattice"), silent=TRUE);
+    try(getNamespace("ggplot2"), silent=TRUE);  
+  }
   
   # restore native symbols for R >= 3.0
   rVersion <- getRversion()

@@ -4,6 +4,12 @@ httpget_session_r <- function(filepath, requri){
   reqobject <- head(requri, 1);
   reqformat <- requri[2];   
   
+  #reload packages
+  infofile <- file.path(filepath, ".RInfo");
+  if(file.exists(infofile)){
+    loadsessioninfo(infofile);
+  }   
+  
   #load session
   sessionenv <- new.env();
   sessionfile <- file.path(filepath, ".RData")

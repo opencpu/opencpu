@@ -4,6 +4,19 @@ httpget_session_graphics <- function(filepath, requri){
   reqplot <- requri[1];
   reqformat <- requri[2];   
   
+  #graphics packages sometimes need to be reloaded
+  infofile <- file.path(filepath, ".RInfo");
+  if(file.exists(infofile)){
+    myinfo <- readRDS(infofile);
+    allpackages <- c(names(myinfo$otherPkgs), names(myinfo$loadedOnly));
+    if("ggplot2" %in% allpackages){
+      getNamespace("ggplot2");
+    }
+    if("lattice" %in% allpackages){
+      getNamespace("lattice");
+    }    
+  }   
+  
   #load data
   myeval <- readRDS(sessionfile <- file.path(filepath, ".REval"));
   myplots <- extract(myeval, "graphics");
