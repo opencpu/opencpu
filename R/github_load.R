@@ -33,14 +33,9 @@ github_load <- function(gituser, gitrepo){
   gittmpdir <- tempfile("githubdir");
   stopifnot(dir.create(gittmpdir));
 
-  #NOTE: use the forked jeroenooms/devtools to capture stdout
-  outfile <- tempfile();
-  tryCatch(eval_safe(devtools::install_github(stdout=outfile, stderr=outfile, gitrepo, gituser, args=paste("--library=", deparse(gittmpdir), sep="")), timeout=config("time.limit")-5), error=function(e){
-    myerr <- paste("devtools::install_github failed: ", e$message);
-    if(file.exists(outfile)){
-      myerr <- paste(myerr, readLines(outfile), sep="\n", collapse="\n");
-    };
-    stop(myerr)
+  #NOTE: for now we can't capture output from install_github
+  tryCatch(eval_safe(devtools::install_github(gitrepo, gituser, args=paste("--library=", deparse(gittmpdir), sep="")), timeout=config("time.limit")-5), error=function(e){
+    stop("Package install failed. To debug:\n\nlibrary(devtools)\ninstall_github(", deparse(gitrepo), ", ", deparse(gituser), ")");
   });
   
   #check if package has been installed
