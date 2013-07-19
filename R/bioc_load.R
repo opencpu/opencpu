@@ -38,7 +38,7 @@ bioc_load <- function(pkgname){
         BiocInstaller::biocLite(pkgname);
       }
     }, error=function(e){
-      stop("Package installation of ", pkgname, " failed.");
+      stop("Package installation of ", pkgname, " failed: ", e$message);
     })
   );
   

@@ -36,7 +36,7 @@ cran_load <- function(pkgname){
   #NOTE: for now we can't capture output from install.packages
   inlib(cranpath,
     tryCatch(install.packages(pkgname), error=function(e){
-      stop("Package installation of ", pkgname, " failed.");
+      stop("Package installation of ", pkgname, " failed: ", e$message);
     })
   );
   
