@@ -94,6 +94,8 @@ res <- local({
         git = config("httpcache.git"),
         lib = config("httpcache.lib"),
         tmp = config("httpcache.tmp"),
+        cran = config("httpcache.cran"),
+        bioc = config("httpcache.bioc"),                           
         pages = config("httpcache.pages"),  
         stop("Setcache called for unknown type: ", what)
       );

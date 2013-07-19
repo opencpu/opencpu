@@ -3,7 +3,10 @@ httpget_package_r <- function(pkgpath, requri){
   #load package
   reqpackage <- basename(pkgpath);
   reqlib <- dirname(pkgpath);
-  library(reqpackage, lib.loc=reqlib, character.only=TRUE);  
+  
+  inlib(reqlib,
+    library(reqpackage, character.only=TRUE)
+  );  
   
   #reqhead is function/object name
   reqobject <- head(requri, 1);
