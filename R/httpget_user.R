@@ -9,7 +9,7 @@ httpget_user <- function(uri){
   username <- uri[1];
   if(is.na(username)){
     res$checkmethod();
-    res$sendfile("/home")
+    res$sendfile(userhome());
   }
   
   #GET /ocpu/user/jeroen/lib
