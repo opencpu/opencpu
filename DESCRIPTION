@@ -8,6 +8,6 @@ Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
 Description: OpenCPU
 License: GPL
 Depends: R (>= 3.0.0)
-Imports: parallel, tools, stats, evaluate, httpuv, RJSONIO, knitr, pander, devtools, httr, brew
-Suggests: RAppArmor
+Imports: parallel, tools, stats, evaluate, RJSONIO, knitr, devtools, httr, brew
+Suggests: lattice, ggplot2, httpuv, pander, RAppArmor
 SystemRequirements: pandoc, texlive, apparmor
