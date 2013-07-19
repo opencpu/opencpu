@@ -11,6 +11,6 @@ userhome <- function(){
   if(Sys.info()[["effective_user"]] == "root"){
     return("/home")
   } else {
-    return(dirname(path.expand("~"));
+    return(dirname(path.expand("~")));
   }
 }
