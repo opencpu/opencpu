@@ -36,7 +36,7 @@ github_load <- function(gituser, gitrepo){
   #NOTE: for now we can't capture output from install_github
   inlib(gittmpdir,
     tryCatch(install_github(gitrepo, gituser, args=paste0("--library=", deparse(gittmpdir))), error=function(e){
-      stop("Package install failed. To debug:\n\nlibrary(devtools)\ninstall_github(", deparse(gitrepo), ", ", deparse(gituser), ")");
+      stop("Package install failed: ", e$message, ". To debug:\n\nlibrary(devtools)\ninstall_github(", deparse(gitrepo), ", ", deparse(gituser), ")");
     })
   );
   
