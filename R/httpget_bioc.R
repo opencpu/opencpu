@@ -1,7 +1,11 @@
 httpget_bioc <- function(uri){
+
   #Load bioconductor
   biocpath <- bioc_load("BiocInstaller");
   library("BiocInstaller", lib.loc=dirname(biocpath));
+  
+  #set cache value
+  res$setcache("bioc");    
   
   #GET /ocpu/bioc/mypackage
   biocpkg <- uri[1];
@@ -16,9 +20,6 @@ httpget_bioc <- function(uri){
   
   #remaining of the api
   reqtail <- tail(uri, -1)  
-  
-  #set cache value
-  res$setcache("bioc");  
   
   #serve basic files
   httpget_package(pkgpath, reqtail);

@@ -1,5 +1,8 @@
 httpget_cran <- function(uri){
 
+  #set cache value (both for list and package)
+  res$setcache("cran");  
+  
   #GET /ocpu/cran/mypackage
   cranpkg <- uri[1];
   if(is.na(cranpkg)){
@@ -13,9 +16,6 @@ httpget_cran <- function(uri){
   
   #remaining of the api
   reqtail <- tail(uri, -1)  
-  
-  #set cache value
-  res$setcache("cran");  
   
   #serve basic files
   httpget_package(pkgpath, reqtail);
