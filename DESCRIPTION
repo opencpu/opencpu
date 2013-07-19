@@ -1,12 +1,12 @@
 Package: ocpu
 Type: Package
 Title: revised opencpu framework
-Version: 1.0
+Version: 0.8
 Date: 2013-03-08
-Author: STATDEV
-Maintainer: STATDEV <administrations@statdev.org>
+Author: Jeroen Ooms
+Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
 Description: OpenCPU
-License: Apache2
+License: GPL
 Depends: R (>= 3.0.0)
 Imports: parallel, tools, stats, evaluate, httpuv, RJSONIO, knitr, pander, devtools, httr, brew
 Suggests: RAppArmor

@@ -31,23 +31,29 @@ rookhandler <- function(env){
 
   #we always assume a file
   response$body = utils$asfile(response$body);
+  
+  #set server header
+  response$headers["X-ocpu-server"] <- "rook/httpuv";  
+  
+  #sort headers
+  #response$headers <- response$headers[order(names(response$headers))];
 
 	#return output
 	return(response);	
 }
 
 # The function below starts the R help server via the Rook package.
-# It is probably better to use httpuv instead.
-initrook <- function(){
-  library(Rook);
-  s <- Rhttpd$new();
-  s$start(quiet=TRUE);
-  
-  s$add(
-    name="ocpu",
-    app=rookhandler
-  );
-  
-  s$browse("ocpu")
-  return(s);	
-}
+# This is deprecated.
+# initrook <- function(){
+#   library(Rook);
+#   s <- Rhttpd$new();
+#   s$start(quiet=TRUE);
+#   
+#   s$add(
+#     name="ocpu",
+#     app=rookhandler
+#   );
+#   
+#   s$browse("ocpu")
+#   return(s);	
+# }

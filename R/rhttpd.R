@@ -38,6 +38,16 @@ rhttpdhandler <- function(reqpath, reqquery, reqbody, reqheaders){
   contenttype <- response$headers[["Content-Type"]];
   response$headers["Content-Type"] <- NULL;
   
+  #start rhttpd only in rstudio server
+  if(nchar(Sys.getenv("RSTUDIO_HTTP_REFERER"))){
+    response$headers["X-ocpu-server"] <- "rhelp/rstudio";        
+  } else {
+    response$headers["X-ocpu-server"] <- "rhelp/rhttpd";      
+  }
+  
+  #sort headers
+  #response$headers <- response$headers[order(names(response$headers))];  
+  
   list(
     "payload" = readBin(response$body, "raw", file.info(response$body)$size),
     "content-type" = contenttype,

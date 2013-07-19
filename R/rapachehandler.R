@@ -34,14 +34,22 @@ rapachehandler <- function(){
 	response <- serve(REQDATA);
 	sink();
 	
-	#set status code
-	setStatus(response$status);
+  #set server header  
+  response$headers["X-ocpu-server"] <- "rApache";      
+
+  #sort headers
+  #response$headers <- response$headers[order(names(response$headers))];  
 	  
+  #set status code
+  setStatus(response$status);
+
   #set headers
   headerlist <- response$headers;
   for(i in seq_along(headerlist)){
     setHeader(names(headerlist[i]), headerlist[[i]]);    
   }
+  
+
 	  
   #send buffered body
 	sendBin(readBin(response$body,'raw',n=file.info(response$body)$size));
