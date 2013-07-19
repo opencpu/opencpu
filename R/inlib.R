@@ -6,7 +6,7 @@ inlib <- function(lib, expr, addbaselib=TRUE){
   if(isTRUE(addbaselib)){
     lib <- c(lib, dirname(system.file(package="base")));    
   }
-  setlib(lib);
+  setlib(unique(normalizePath(lib)));
   return(force(expr));  
 }
 

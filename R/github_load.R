@@ -34,9 +34,11 @@ github_load <- function(gituser, gitrepo){
   stopifnot(dir.create(gittmpdir));
 
   #NOTE: for now we can't capture output from install_github
-  tryCatch(eval_safe(devtools::install_github(gitrepo, gituser, args=paste("--library=", deparse(gittmpdir), sep="")), timeout=config("time.limit")-5), error=function(e){
-    stop("Package install failed. To debug:\n\nlibrary(devtools)\ninstall_github(", deparse(gitrepo), ", ", deparse(gituser), ")");
-  });
+  inlib(gittmpdir,
+    tryCatch(install_github(gitrepo, gituser, args=paste0("--library=", deparse(gittmpdir))), error=function(e){
+      stop("Package install failed. To debug:\n\nlibrary(devtools)\ninstall_github(", deparse(gitrepo), ", ", deparse(gituser), ")");
+    })
+  );
   
   #check if package has been installed
   if(!file.exists(file.path(gittmpdir, gitrepo))){
