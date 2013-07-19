@@ -27,5 +27,4 @@ httpget_user <- function(uri){
     "projects" = httpget_user_projects(username, reqtail),
      res$notfound(message=paste("invalid api: /pub/", what, sep=""))
   );  
-  
 }
