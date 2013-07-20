@@ -1,13 +1,11 @@
-inlib <- function(lib, expr, addbaselib=TRUE, addsitelib=TRUE){
+inlib <- function(lib, expr, add=TRUE){
   oldlib <- .libPaths();
   on.exit(
     setlib(oldlib)
-  );
-  if(isTRUE(addsitelib)){
-    lib <- c(lib, base:::.Library.site);    
-  } else if(isTRUE(addbaselib)){
-    lib <- c(lib, base:::.Library);    
-  }
+  )
+  if(isTRUE(add)){
+    lib <- c(lib, .libPaths());
+  } 
   lib <- unique(normalizePath(lib, mustWork=FALSE));
   lib <- Filter(function(x){ 
     isTRUE(file.info(x)$isdir) 
