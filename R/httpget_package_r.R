@@ -5,9 +5,9 @@ httpget_package_r <- function(pkgpath, requri){
   reqlib <- dirname(pkgpath);
   
   #try to load package from reqlib, but otherwise other paths are OK
-  inlib(reqlib,
-    library(reqpackage, character.only=TRUE)
-  );  
+  #Use .libPaths because we want to save the library path after evaluation.
+  .libPaths(c(reqlib, .libPaths()));
+  library(reqpackage, character.only=TRUE)
   
   #reqhead is function/object name
   reqobject <- head(requri, 1);

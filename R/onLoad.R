@@ -40,6 +40,8 @@ packagename = "";
   #add non-system opencpu libraries
   if(length(config("libpaths")) > 0){
     .libPaths(unlist(config("libpaths")));
+  } else {
+    .libPaths(.Library.site);
   }
   
   #preload libraries

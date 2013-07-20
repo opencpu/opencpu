@@ -5,18 +5,25 @@ serve <- function(REQDATA){
   
   #for GET requests we use the main process
   if(identical(OS, "windows") && (REQDATA$METHOD %in% c("HEAD", "GET"))){
-    return(request(eval_current(main(REQDATA), timeout=config("time.limit"))));   
+    return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));   
   } 
   
   #for non GET we use a psock process
   if(identical(OS, "windows")){
     #we use another trycatch block because request happens inside psockcluster
     return(tryCatch({
-      eval_psock(ocpu:::request(ocpu:::main(REQDATA)), timeout=config("time.limit"));
+      eval_psock(ocpu:::request(ocpu:::main(REQDATA)), timeout=config("timelimit.post"));
     }, error = reshandler));
   } 
   
   #On unix we always fork:
+  #timelimit
+  if(REQDATA$METHOD %in% c("HEAD", "GET")){
+    totaltimelimit <- config("timelimit.get");
+  } else {
+    totaltimelimit <- config("timelimit.post");  
+  }  
+  
   #Note that fork happens inside request() instead of other way around.
-  request(eval_fork(main(REQDATA), timeout=config("time.limit")));
+  request(eval_fork(main(REQDATA), timeout=totaltimelimit));
 }

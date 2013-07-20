@@ -11,7 +11,7 @@ github_load <- function(gituser, gitrepo){
   maxage <- config("github.cache");
   
   #is there is a blocker but its old, we remove it. This should not happen.
-  if(isTRUE(difftime(Sys.time(), file.info(blockpath)$mtime, units="secs") > 120)){
+  if(isTRUE(difftime(Sys.time(), file.info(blockpath)$mtime, units="secs") > config("timelimit.get")+5)){
     stopifnot(file.remove(blockpath, recursive=TRUE, force=TRUE));    
   }
   
