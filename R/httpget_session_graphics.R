@@ -4,6 +4,12 @@ httpget_session_graphics <- function(filepath, requri){
   reqplot <- requri[1];
   reqformat <- requri[2];   
   
+  #try to use old libraries
+  libfile <- file.path(filepath, ".Rlibs");
+  if(file.exists(libfile)){
+    .libPaths(readRDS(libfile));
+  }     
+  
   #graphics packages sometimes need to be reloaded
   infofile <- file.path(filepath, ".RInfo");
   if(file.exists(infofile)){

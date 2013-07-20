@@ -1,7 +1,13 @@
 github_load <- function(gituser, gitrepo){
-  gitpath <- file.path(gettmpdir(), paste("ocpu_github", gituser, gitrepo, sep="_"));
+  githublib <- file.path(gettmpdir(), "github_library");
+  if(!file.exists(githublib)){
+    stopifnot(dir.create(githublib, recursive=TRUE));
+  }  
+  
+  gitpath <- file.path(githublib, paste("ocpu_github", gituser, gitrepo, sep="_"));
+  blockpath <- paste0(gitpath, "_block");
+
   pkgpath <- file.path(gitpath, gitrepo);
-  blockpath <-file.path(gettmpdir(), paste("ocpu_github", gituser, gitrepo, "block", sep="_"));
   maxage <- config("github.cache");
   
   #is there is a blocker but its old, we remove it. This should not happen.

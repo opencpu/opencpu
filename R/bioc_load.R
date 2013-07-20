@@ -1,5 +1,5 @@
 bioc_load <- function(pkgname){
-  biocpath <- file.path(gettmpdir(), "ocpu_bioc_library");
+  biocpath <- file.path(gettmpdir(), "bioc_library");
   if(!file.exists(biocpath)){
     stopifnot(dir.create(biocpath));
   }

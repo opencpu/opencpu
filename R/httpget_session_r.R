@@ -4,6 +4,12 @@ httpget_session_r <- function(filepath, requri){
   reqobject <- head(requri, 1);
   reqformat <- requri[2];   
   
+  #try to use old libraries
+  libfile <- file.path(filepath, ".Rlibs");
+  if(file.exists(libfile)){
+    .libPaths(readRDS(libfile));
+  }   
+  
   #reload packages
   infofile <- file.path(filepath, ".RInfo");
   if(file.exists(infofile)){

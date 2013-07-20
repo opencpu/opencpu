@@ -73,6 +73,7 @@ session <- local({
     save(file=".RData", envir=sessionenv, list=ls(sessionenv, all.names=TRUE));
     saveRDS(output, file=".REval");
     saveRDS(sessionInfo(), file=".RInfo");  
+    saveRDS(.libPaths(), file=".Rlibs"); 
     
     #store results permanently
     hash <- generate();
@@ -80,7 +81,7 @@ session <- local({
     #does not work on windows 
     #stopifnot(file.rename(execdir, sessiondir(hash))); 
     
-    stopifnot(dir.create(sessiondir(hash)))
+    stopifnot(dir.create(sessiondir(hash), recursive=TRUE))
     stoponwarn(file.copy(list.files(recursive=TRUE, all=TRUE), sessiondir(hash)))
     
     #redirect client
@@ -163,7 +164,7 @@ session <- local({
   
   #actual directory
   sessiondir <- function(hash){
-    file.path(gettmpdir(), paste(config("session.prefix"), hash, sep=""));
+    file.path(gettmpdir(), "ocpu_temp", paste0("ocpu_tmp_", hash));
   }
   
   #http path for a session (not actual file path!)

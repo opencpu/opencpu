@@ -1,6 +1,10 @@
 gist_load <- function(gistuser, gistid){
-  gistpath <- file.path(gettmpdir(), paste("ocpu_gist", gistuser, gistid, sep="_"));
-  blockpath <-file.path(gettmpdir(), paste("ocpu_gist", gistuser, gistid, "block", sep="_"));
+  gistlib <- file.path(gettmpdir(), "gist_library");
+  if(!file.exists(gistlib)){
+    stopifnot(dir.create(gistlib, recursive=TRUE));
+  }
+  gistpath <- file.path(gistlib, paste("ocpu_gist", gistuser, gistid, sep="_"));
+  blockpath <- paste0(gistpath, "_block")
   maxage <- config("gist.cache");
   
   #is there is a blocker but its old, we remove it. This should not happen.

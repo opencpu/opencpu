@@ -1,5 +1,5 @@
 cran_load <- function(pkgname){
-  cranpath <- file.path(gettmpdir(), "ocpu_cran_library");
+  cranpath <- file.path(gettmpdir(), "cran_library");
   if(!file.exists(cranpath)){
     stopifnot(dir.create(cranpath));
   }

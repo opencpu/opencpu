@@ -1,16 +1,21 @@
-inlib <- function(lib, expr, addbaselib=TRUE){
+inlib <- function(lib, expr, addbaselib=TRUE, addsitelib=TRUE){
   oldlib <- .libPaths();
   on.exit(
     setlib(oldlib)
   );
-  if(isTRUE(addbaselib)){
-    lib <- c(lib, dirname(system.file(package="base")));    
+  if(isTRUE(addsitelib)){
+    lib <- c(lib, base:::.Library.site);    
+  } else if(isTRUE(addbaselib)){
+    lib <- c(lib, base:::.Library);    
   }
-  setlib(unique(normalizePath(lib)));
+  lib <- unique(normalizePath(lib, mustWork=FALSE));
+  lib <- Filter(function(x){ 
+    isTRUE(file.info(x)$isdir) 
+  }, lib);
+  setlib(lib);
   return(force(expr));  
 }
 
 setlib <- function(lib){
-  stopifnot(isTRUE(all(file.info(lib)$isdir)));
   assign(".lib.loc", lib, envir=environment(.libPaths));
 }
