@@ -7,14 +7,18 @@ httpget_session_r <- function(filepath, requri){
   #try to use old libraries
   libfile <- file.path(filepath, ".Rlibs");
   if(file.exists(libfile)){
-    .libPaths(readRDS(libfile));
+    customlib <- readRDS(libfile);
+  } else {
+    customlib <- NULL;
   }   
   
   #reload packages
-  infofile <- file.path(filepath, ".RInfo");
-  if(file.exists(infofile)){
-    loadsessioninfo(infofile);
-  }   
+  inlib(customlib, {
+    infofile <- file.path(filepath, ".RInfo");
+    if(file.exists(infofile)){
+      loadsessioninfo(infofile);
+    }   
+  });
   
   #load session
   sessionenv <- new.env();

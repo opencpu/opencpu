@@ -4,27 +4,27 @@ httpget_package_r <- function(pkgpath, requri){
   reqpackage <- basename(pkgpath);
   reqlib <- dirname(pkgpath);
   
-  #try to load package from reqlib, but otherwise other paths are OK
-  #Use .libPaths because we want to save the library path after evaluation.
-  .libPaths(c(reqlib, .libPaths()));
-  library(reqpackage, character.only=TRUE)
-  
-  #reqhead is function/object name
-  reqobject <- head(requri, 1);
-  reqformat <- requri[2];    
-  
-  if(!length(reqobject)){
-    res$checkmethod();
-    res$sendlist(ls(paste("package", reqpackage, sep=":")));
-  }
-  
-  #Get object. Throws error if object does not exist.
-  myobject <- get(reqobject, paste("package", reqpackage, sep=":"), inherits=FALSE);
-  
-  #return object
-  switch(req$method(),
-    "GET" = httpget_object(myobject, reqformat, reqobject),
-    "POST" = execute_function(myobject, tail(requri, -1), reqobject),
-    stop("invalid method")
-  );
+  #Package has to be loaded from reqlib, but dependencies might be loaded from global libs.
+  inlib(reqlib,{
+    library(reqpackage, lib.loc=reqlib, character.only=TRUE);
+    
+    #reqhead is function/object name
+    reqobject <- head(requri, 1);
+    reqformat <- requri[2];    
+    
+    if(!length(reqobject)){
+      res$checkmethod();
+      res$sendlist(ls(paste("package", reqpackage, sep=":")));
+    }
+    
+    #Get object. Throws error if object does not exist.
+    myobject <- get(reqobject, paste("package", reqpackage, sep=":"), inherits=FALSE);
+    
+    #return object
+    switch(req$method(),
+      "GET" = httpget_object(myobject, reqformat, reqobject),
+      "POST" = execute_function(myobject, tail(requri, -1), reqobject),
+      stop("invalid method")
+    );
+  });
 }

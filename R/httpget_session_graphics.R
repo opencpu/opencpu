@@ -7,21 +7,25 @@ httpget_session_graphics <- function(filepath, requri){
   #try to use old libraries
   libfile <- file.path(filepath, ".Rlibs");
   if(file.exists(libfile)){
-    .libPaths(readRDS(libfile));
-  }     
-  
-  #graphics packages sometimes need to be reloaded
-  infofile <- file.path(filepath, ".RInfo");
-  if(file.exists(infofile)){
-    myinfo <- readRDS(infofile);
-    allpackages <- c(names(myinfo$otherPkgs), names(myinfo$loadedOnly));
-    if("ggplot2" %in% allpackages){
-      getNamespace("ggplot2");
+    customlib <- readRDS(libfile);
+  } else {
+    customlib <- NULL;
+  }        
+
+  #graphics packages sometimes need to be reloaded  
+  inlib(customlib, {  
+    infofile <- file.path(filepath, ".RInfo");
+    if(file.exists(infofile)){
+      myinfo <- readRDS(infofile);
+      allpackages <- c(names(myinfo$otherPkgs), names(myinfo$loadedOnly));
+      if("ggplot2" %in% allpackages){
+        getNamespace("ggplot2");
+      }
+      if("lattice" %in% allpackages){
+        getNamespace("lattice");
+      }    
     }
-    if("lattice" %in% allpackages){
-      getNamespace("lattice");
-    }    
-  }   
+  });
   
   #load data
   myeval <- readRDS(sessionfile <- file.path(filepath, ".REval"));

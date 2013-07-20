@@ -35,11 +35,6 @@ packagename = "";
   
   if(.Platform$OS.type != "windows"){
     Sys.setlocale(category='LC_ALL', 'en_US.UTF-8');
-  
-    #add non-system opencpu libraries
-    if(length(config("libpaths")) > 0){
-      .libPaths(unlist(config("libpaths")));
-    } 
   }
   
   #preload libraries

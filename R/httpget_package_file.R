@@ -5,8 +5,11 @@ httpget_package_file <- function(pkgpath, requri){
     reqlib <- dirname(pkgpath);
     
     #try to load package from reqlib, but otherwise other paths are OK
-    .libPaths(c(reqlib, .libPaths()));
-    library(reqpackage, character.only=TRUE)    
+    inlib(reqlib,{
+      library(reqpackage, character.only=TRUE);
+      httpget_file(file.path(pkgpath, paste(requri, collapse="/")));       
+    });
+  } else {
+    httpget_file(file.path(pkgpath, paste(requri, collapse="/"))); 
   }
-  httpget_file(file.path(pkgpath, paste(requri, collapse="/"))); 
 }
