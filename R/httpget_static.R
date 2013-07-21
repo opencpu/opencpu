@@ -1,4 +1,4 @@
-httpget_test <- function(){
+httpget_static <- function(){
   #only GET
   res$checkmethod();
   
