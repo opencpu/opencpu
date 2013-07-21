@@ -14,7 +14,7 @@ eval_current <- function(expr, envir=parent.frame(), timeout=60){
     nowattached <- search();
     todetach <- nowattached[!(nowattached %in% currentlyattached)];
     for(i in seq_along(todetach)){
-      try(detach(todetach[i], unload=TRUE));
+      try(detach(todetach[i], unload=TRUE, character.only=TRUE, force=TRUE));
     }
     
     #try to unload packages that are still loaded
