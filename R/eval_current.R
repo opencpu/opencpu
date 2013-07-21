@@ -18,11 +18,11 @@ eval_current <- function(expr, envir=parent.frame(), timeout=60){
     }
     
     #try to unload packages that are still loaded
-    nowloaded <- loadedNamespaces(); 
-    tounload <- nowloaded[!(nowloaded %in% currentlyloaded)];
-    for(i in seq_along(tounload)){
-      try(unloadNamespace(tounload[i]));
-    }    
+    #nowloaded <- loadedNamespaces(); 
+    #tounload <- nowloaded[!(nowloaded %in% currentlyloaded)];
+    #for(i in seq_along(tounload)){
+    #  try(unloadNamespace(tounload[i]));
+    #}    
     
   });
   

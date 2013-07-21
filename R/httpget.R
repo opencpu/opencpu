@@ -5,14 +5,15 @@ httpget <- function(){
   
   if(!length(reqpath)){
     res$checkmethod();
-    res$redirect(paste(req$uri(), "/pages", sep=""));    
+    res$redirect(paste(req$uri(), "/test", sep=""));    
   }
   
   reqhead <- head(reqpath, 1);
   reqtail <- tail(reqpath, -1);
 
   switch(reqhead,
-    "pub" = httpget_pub(reqtail),
+    "library" = httpget_library(.libPaths(), reqtail),
+    "apps" = httpget_apps(config("appspaths"), reqtail),         
     "tmp" = httpget_tmp(reqtail),
     "doc" = httpget_doc(reqtail),
     "user" = httpget_user(reqtail),
@@ -20,7 +21,7 @@ httpget <- function(){
     "github" = httpget_github(reqtail),     
     "cran" = httpget_cran(reqtail),
     "bioc" = httpget_bioc(reqtail),         
-    "pages" = httpget_pages(),
+    "test" = httpget_test(),
     res$notfound(message=paste("Invalid top level api: /", reqhead, sep=""))         
   )
 }	

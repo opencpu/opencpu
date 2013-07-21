@@ -4,11 +4,11 @@ serve <- function(REQDATA){
   OS <- .Platform$OS.type;
   
   #for GET requests we use the main process
-  if(identical(OS, "windows") && (REQDATA$METHOD %in% c("HEAD", "GET"))){
-    return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));   
+  if(identical(OS, "windows") && (REQDATA$METHOD %in% c("HEAD", "GET")) && !isdangerous(REQDATA$PATH_INFO)){
+    return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
   } 
   
-  #for non GET we use a psock process
+  #for non GETor unsafe we use a psock process in windows
   if(identical(OS, "windows")){
     #we use another trycatch block because request happens inside psockcluster
     return(tryCatch({

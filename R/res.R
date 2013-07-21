@@ -96,7 +96,7 @@ res <- local({
         tmp = config("httpcache.tmp"),
         cran = config("httpcache.cran"),
         bioc = config("httpcache.bioc"),                           
-        pages = config("httpcache.pages"),  
+        static = config("httpcache.static"),  
         stop("Setcache called for unknown type: ", what)
       );
     } else {

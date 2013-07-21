@@ -1,4 +1,4 @@
-httpget_pages <- function(){
+httpget_test <- function(){
   #only GET
   res$checkmethod();
   
@@ -6,7 +6,7 @@ httpget_pages <- function(){
   filepath <- sub("/$", "", req$path_info());  
   
   #set cache value
-  res$setcache("pages");   
+  res$setcache("static");   
   
   #send it
   res$sendfile(system.file(filepath, package=packagename));    
