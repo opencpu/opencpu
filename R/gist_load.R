@@ -48,7 +48,7 @@ gist_load <- function(gistuser, gistid){
   stopifnot(length(gistcommitname) == 1);
   
   #move to final destination
-  stopifnot(file.rename(gistcommitname, gistpath));
+  stopifnot(dir.move(gistcommitname, gistpath));
   file.remove(blockpath);
   
   #return the path 

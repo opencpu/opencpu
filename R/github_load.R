@@ -53,7 +53,7 @@ github_load <- function(gituser, gitrepo){
   }
 
   #move everything to new location
-  stopifnot(file.rename(gittmpdir, gitpath));
+  stopifnot(dir.move(gittmpdir, gitpath));
   file.remove(blockpath);
   
   #return the path 
