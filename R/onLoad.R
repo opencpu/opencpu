@@ -26,6 +26,7 @@ packagename = "";
   options(repos=config('repos'));
   options(keep.source = FALSE);
   options(useFancyQuotes = FALSE);
+  options(configure.vars = paste0("TMPDIR=", tempdir()));
   
   #check for software
   #options(hasgit = cmd_exists("git --version")); 
