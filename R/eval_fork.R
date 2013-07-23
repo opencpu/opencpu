@@ -14,6 +14,7 @@ eval_fork <- function(..., timeout=60){
   
   #kill fork after collect has returned
   tools::pskill(myfork$pid, tools::SIGKILL);	
+  tools::pskill(-1 * myfork$pid, tools::SIGKILL);  
   
   #clean up:
   parallel::mccollect(myfork, wait=FALSE);

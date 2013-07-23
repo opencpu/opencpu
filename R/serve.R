@@ -24,6 +24,10 @@ serve <- function(REQDATA){
     totaltimelimit <- config("timelimit.post");  
   }  
   
-  #Note that fork happens inside request() instead of other way around.
-  request(eval_fork(main(REQDATA), timeout=totaltimelimit));
+  if(isTRUE(getOption("rapache"))){
+    request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5));
+  } else { 
+    #Note that fork happens inside request() instead of other way around.
+    request(eval_fork(main(REQDATA), timeout=totaltimelimit));
+  }
 }

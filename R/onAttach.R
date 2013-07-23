@@ -1,14 +1,10 @@
 .onAttach <- function(path, package){
   #Cloud specific stuff
-  if("rapache" %in% search()){
+  if(isTRUE(getOption("rapache"))){
     
     #remove custom system lib
     .libPaths(c(.Library.site, .Library));
   
-    #Check for RAppArmor when using Apache    
-    if(!isTRUE(getOption("hasrapparmor"))){
-      warning("SECURITY WARNING: OpenCPU is running without RAppArmor.");
-    }
   } else {
     #Dont run in rscript
     if(!interactive() || ("--slave" %in% commandArgs())){

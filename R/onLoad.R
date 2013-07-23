@@ -26,13 +26,11 @@ packagename = "";
   options(repos=config('repos'));
   options(keep.source = FALSE);
   options(useFancyQuotes = FALSE);
-  options(configure.vars = paste0("TMPDIR=", tempdir()));
   
   #check for software
   #options(hasgit = cmd_exists("git --version")); 
   #options(haspandoc = cmd_exists("pandoc --version"));  
   #options(hastex = cmd_exists("texi2dvi --version"));
-  options(hasrapparmor = suppressWarnings(require("RAppArmor", quietly=TRUE)));
   
   if(.Platform$OS.type != "windows"){
     Sys.setlocale(category='LC_ALL', 'en_US.UTF-8');
