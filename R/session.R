@@ -51,20 +51,24 @@ session <- local({
       args <- as.environment(args);
       parent.env(args) <- globalenv();
     }
-    sessionenv <- new.env(parent=args);
+
+    #initiate environment
+    sessionenv <- new.env(parent=args);        
     
-    #note: we don't load or attach "old" R objects from a previous session.
-    #In case of a function call, scoping will find objects anyway.
-    
-    #run evaluation
+    #setup some prelim
     pdf(tempfile(), width=11.69, height=8.27, paper="A4r")
     dev.control(displaylist="enable");    
     par("bg" = "white");  
+
+    #run evaluation
+    #note: perhaps we should move some of the above inside eval.secure    
     if(isTRUE(getOption("rapache"))){
-      output <- RAppArmor::eval.secure(
-        evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, new_device=FALSE, output_handler=myhandler),
-        profile = "opencpu-exec"
-      );
+      outputlist <- RAppArmor::eval.secure({
+        output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, new_device=FALSE, output_handler=myhandler);
+        list(output=output, sessionenv=sessionenv);
+      }, profile = "opencpu-exec");
+      output <- outputlist$output;
+      sessionenv <- outputlist$sessionenv;
     } else {
       output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, new_device=FALSE, output_handler=myhandler);
     }
