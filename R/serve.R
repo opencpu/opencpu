@@ -25,7 +25,7 @@ serve <- function(REQDATA){
   }  
   
   if(isTRUE(getOption("rapache"))){
-    request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5));
+    request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5, RLIMIT_AS=1024^3, RLIMIT_NPROC=50, profile="opencpu-main"));
   } else { 
     #Note that fork happens inside request() instead of other way around.
     request(eval_fork(main(REQDATA), timeout=totaltimelimit));

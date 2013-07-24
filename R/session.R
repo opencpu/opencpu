@@ -60,7 +60,14 @@ session <- local({
     pdf(tempfile(), width=11.69, height=8.27, paper="A4r")
     dev.control(displaylist="enable");    
     par("bg" = "white");  
-    output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, new_device=FALSE, output_handler=myhandler);
+    if(isTRUE(getOption("rapache"))){
+      output <- RAppArmor::eval.secure(
+        evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, new_device=FALSE, output_handler=myhandler),
+        profile = "opencpu-exec"
+      );
+    } else {
+      output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, new_device=FALSE, output_handler=myhandler);
+    }
     dev.off();   
     
     #in case code changed dir
@@ -164,7 +171,7 @@ session <- local({
   
   #actual directory
   sessiondir <- function(hash){
-    file.path(gettmpdir(), "ocpu_temp", paste0("ocpu_tmp_", hash));
+    file.path(gettmpdir(), "tmp_library", paste0("ocpu_tmp_", hash));
   }
   
   #http path for a session (not actual file path!)

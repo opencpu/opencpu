@@ -1,6 +1,6 @@
 httpget_tmp <- function(requri){
   
-  tmpsessiondir <- file.path(gettmpdir(), "ocpu_temp");
+  tmpsessiondir <- file.path(gettmpdir(), "tmp_library");
   prefix <- "ocpu_tmp_";
 
   #reqhead is pub subapi
