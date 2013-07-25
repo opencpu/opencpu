@@ -16,5 +16,8 @@ gist_list <- function(username){
     res$setheader("X-RateLimit-Remaining", out$headers[["X-RateLimit-Remaining"]])
   }     
   
+  #cache the response
+  res$setcache("gitapi");   
+  
   unlist(lapply(response, function(x) {x$id}));                  
 }

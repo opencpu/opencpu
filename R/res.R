@@ -92,6 +92,7 @@ res <- local({
     } else if(method == "GET"){
       cachevalue <- switch(what,
         git = config("httpcache.git"),
+        gitapi = config("httpcache.gitapi"),                           
         lib = config("httpcache.lib"),
         tmp = config("httpcache.tmp"),
         cran = config("httpcache.cran"),

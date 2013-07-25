@@ -27,11 +27,11 @@ execute_file <- local({
   
   #Standard knit
   httppost_knit <- function(filepath){
-    #explicit package so that we don't have to preload
-    library(knitr);
+    #we are importing knitr now
+    #library(knitr);
     
     knitcalls <- c(
-      "library(knitr)",
+      "stopifnot(require(knitr))",
       paste("knit(", deparse(filepath), ")", sep="")
     );
     
@@ -41,11 +41,11 @@ execute_file <- local({
   
   #Does both knitr and pdflatex
   httppost_knittex <- function(filepath){
-    #explicit package so that we don't have to preload
-    library(knitr);
+    #we are importing knitr now
+    #library(knitr);
     
     knitcalls <- c(
-      "library(knitr)",
+      "stopifnot(require(knitr))",
       "library(tools)",
       paste("texfile <- knit(", deparse(filepath), ")", sep=""),
       "texi2pdf(texfile)"
@@ -64,15 +64,16 @@ execute_file <- local({
   
   #Do both knit and pandoc
   httppost_knitpandoc <- function(filepath){
-    #explicit package so that we don't have to preload
-    library(knitr);
+    #we are importing knitr now
+    #library(knitr);
+
     args <- lapply(req$post(), parse_arg_prim);
     if(is.null(args$format)){
       args$format <- c("html", "docx", "odt")
     }
     
     knitcalls <- c(
-      "library(knitr)",
+      "stopifnot(require(knitr))",
       paste("mdfile <- knit(", deparse(filepath), ")", sep=""), 
       paste("mapply(pandoc, input=mdfile, format =", deparse(args$format), ")"),
       "rm(mdfile)"
@@ -84,7 +85,9 @@ execute_file <- local({
   
   #not used anymore. We use knitr instead.
   httppost_brew <- function(filepath){
-    library(brew);
+    #we are importing brew now
+    #library(brew);
+    
     output <- parse_arg_prim(req$post()$output); 
     if(is.null(output)){
       output <- quote(stdout())
@@ -96,10 +99,10 @@ execute_file <- local({
   #Compile a latex doc.
   #Need to copy the file otherwise latex writes files to orriginal location
   httppost_latex <- function(filepath){
-    library(tools);
     filename <- basename(filepath);
     
     knitcalls <- c(
+      "stopifnot(require(knitr))",
       "library(tools)",
       paste("file.copy(", deparse(filepath), ",", deparse(filename), ")"),
       paste("texi2pdf(", deparse(filename), ", texinputs=", deparse(dirname(filepath)), ")")
@@ -111,7 +114,8 @@ execute_file <- local({
 
   #note: by default, pandoc puts new files in same dir as old files
   httppost_pandoc <- function(filepath){
-    library(knitr);
+    #we are importing knitr now
+    #library(knitr);
     filename <- basename(filepath);    
     args <- lapply(req$post(), parse_arg_prim);
     if(is.null(args$format)){
@@ -119,7 +123,7 @@ execute_file <- local({
     }
     
     knitcalls <- c(
-      "library(knitr)",
+      "stopifnot(require(knitr))",
       paste("file.copy(", deparse(filepath), ",", deparse(filename), ")"),
       paste("mapply(pandoc, input=", deparse(filename), ", format =", deparse(args$format), ")")
     );

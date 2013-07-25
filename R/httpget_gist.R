@@ -22,9 +22,9 @@ httpget_gist <- function(uri){
   
   #calc full path
   fullpath <- do.call("file.path", as.list(c(gist_path, reqtail)));
-  
+
   #set cache value
-  res$setcache("git");
+  res$setcache("git");  
   
   #serve basic files
   httpget_file(fullpath);
