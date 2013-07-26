@@ -32,6 +32,9 @@ packagename = "";
   #options(haspandoc = cmd_exists("pandoc --version"));  
   #options(hastex = cmd_exists("texi2dvi --version"));
   
+  #create tmp directories
+  stopifnot(file.exists(gettmpdir()));
+  
   if(.Platform$OS.type != "windows"){
     Sys.setlocale(category='LC_ALL', 'en_US.UTF-8');
   }
@@ -41,5 +44,4 @@ packagename = "";
     #try to preload the packages. Make sure to complain about non existing packages.
     try(getNamespace(thispackage), silent=FALSE);
   }
-  
 }

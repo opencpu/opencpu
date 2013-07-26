@@ -38,13 +38,13 @@
       assign(".Last", exitfun, globalenv());
     }
     
-    message("OpenCPU server ready.");
+    message("OpenCPU development server ready.");
   }
 }
 
 .onDetach <- function(libpath){
   httpuv$stop();
-  message("exiting OpenCPU");
+  message("Exiting OpenCPU");
 }
 
 
