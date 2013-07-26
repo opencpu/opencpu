@@ -21,17 +21,6 @@ respond <- function(status = 503L, body=NULL, headers=list()){
     stop("respond was called with invalid headers argument.");
   }
   
-  #some static headers
-  headers[["X-ocpu-r"]] = R.version.string;
-	headers[["X-ocpu-locale"]] = Sys.getlocale("LC_CTYPE");
-	headers[["X-ocpu-time"]] = format(Sys.time(), usetz=TRUE); 
-  headers[["X-ocpu-version"]] = as.character(packageVersion(packagename));
-  
-	#Echo location to support AJAX with PRG pattern
-	#if(is.null(headers[["Location"]]) && req$method() %in% c("GET", "HEAD")){
-	#  headers[["Location"]] <- req$uri();
-	#}
-    
 	e <- structure(
     list(
       message="ocpu success", 
@@ -66,6 +55,12 @@ reshandler <- function(e){
       headers = list("Content-Type" ="text/plain")
     );
   }
+  
+  #some static headers
+  response$headers[["X-ocpu-r"]] = R.version.string;
+  response$headers[["X-ocpu-locale"]] = Sys.getlocale("LC_CTYPE");
+  response$headers[["X-ocpu-time"]] = format(Sys.time(), usetz=TRUE); 
+  response$headers[["X-ocpu-version"]] = as.character(packageVersion(packagename));  
 
   #reset req/res state
   res$reset();
