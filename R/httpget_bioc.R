@@ -1,8 +1,7 @@
 httpget_bioc <- function(uri){
 
-  #Load bioconductor
+  #Load BiocInstaller
   biocpath <- bioc_load("BiocInstaller");
-  library("BiocInstaller", lib.loc=dirname(biocpath));
   
   #set cache value
   res$setcache("bioc");    

@@ -35,14 +35,25 @@ bioc_load <- function(pkgname){
       if(pkgname == "BiocInstaller"){
         source("http://bioconductor.org/biocLite.R");
       } else {
-        BiocInstaller::biocLite(pkgname);
+        BiocInstaller::biocLite(pkgname, lib.loc=biocpath, lib=biocpath, ask=FALSE);
       }
     }, error=function(e){
       stop("Package installation of ", pkgname, " failed: ", e$message);
     })
   );
   
-  #check if package has been installed
+  #Installer is done
+  if(pkgname == "BiocInstaller"){
+    #check if BiocInstaller was loaded.
+    if(!("package:BiocInstaller" %in% search())){
+      stop("Failed to load BiocInstaller.")
+    }       
+    
+    #return the path
+    return(system.file(package="BiocInstaller"));
+  }
+
+  #check if package has been installed 
   if(!file.exists(pkgpath)){
     stop("Package installation of ", pkgname, " was unsuccessful.");
   }
