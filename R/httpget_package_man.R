@@ -28,7 +28,7 @@ httpget_package_man <- local({
        "text" = man_text(rdfile, package=reqpackage),
        "tex" = man_tex(rdfile),
        "pdf" = man_pdf(topic=reqobject, package=reqpackage,lib.loc=reqlib),
-       "R.css" = res$sendfile(system.file("pages/R.css", package=packagename)),
+       "R.css" = res$sendfile(system.file("test/R.css", package=packagename)),
        stop("Unknown man format: /", reqformat)
     )
   }
