@@ -54,13 +54,13 @@ httpget_package_man <- local({
   
   man_tex <- function(rdfile){
     mytmp <- tempfile(fileext=".txt"); #.tex results in weird content-type
-    tools:::Rd2latex(rdfile, out=mytmp);
+    tools:::Rd2latex(rdfile, out=mytmp, outputEncoding="UTF-8");
     res$sendfile(mytmp);
   }
   
   man_text <- function(rdfile, package){
     mytmp <- tempfile(fileext=".txt")
-    tools:::Rd2txt(rdfile, out=mytmp, package=package, options=list(underline_titles=FALSE, code_quote=FALSE));
+    tools:::Rd2txt(rdfile, out=mytmp, package=package, outputEncoding="UTF-8", options=list(underline_titles=FALSE, code_quote=FALSE));
     res$sendfile(mytmp);
   }
   
