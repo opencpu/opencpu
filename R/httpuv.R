@@ -30,7 +30,7 @@ httpuv <- local({
     
     #start httpuv
     myport <- ifelse(missing(port), round(runif(1, 1024, 9999)), port);
-    parallel:::sendCall(child, eval, list(quote(httpuv::runServer("0.0.0.0", myport, list(call=ocpu:::rookhandler))), envir=list(myport=myport)));
+    parallel:::sendCall(child, eval, list(quote(httpuv::runServer("0.0.0.0", myport, list(call=opencpu:::rookhandler))), envir=list(myport=myport)));
     
     #should test for running server here
     

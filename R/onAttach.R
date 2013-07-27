@@ -32,7 +32,7 @@
     if(!exists(".Last", globalenv())){
       exitfun <- function(){
         try({
-          ocpu:::httpuv$stop();
+          opencpu:::httpuv$stop();
           rm(".Last", envir=globalenv());
         }, silent=TRUE);
       } 
@@ -41,7 +41,7 @@
       assign(".Last", exitfun, globalenv());
     }
     
-    message("OpenCPU development server ready.");
+    message("OpenCPU single-user server ready.");
   }
 }
 

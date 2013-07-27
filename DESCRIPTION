@@ -1,13 +1,14 @@
-Package: ocpu
+Package: opencpu
 Type: Package
-Title: revised opencpu framework
+Title: OpenCPU framework for embedded statistics and reproducible research.
 Version: 0.8
-Date: 2013-07-20
+Date: 2013-07-27
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
-Description: OpenCPU
-License: GPL
+License: Apache License (== 2.0)
 Depends: R (>= 3.0.0)
 Imports: parallel, tools, stats, evaluate, RJSONIO, knitr, devtools, httr, brew, httpuv, pander
 Suggests: RAppArmor
 SystemRequirements: pandoc, texlive, apparmor
+Description: The OpenCPU framework exposes a clean HTTP API for interfacing R, Latex and Pandoc.
+  It is available both as a single user server that runs in R, or as a cloud server that builds on rApache.

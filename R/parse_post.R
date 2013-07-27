@@ -25,7 +25,7 @@ parse_post <- function(reqbody, contenttype){
     if(!isValidJSON(jsondata, asText=TRUE)){
       stop("Invalid JSON was posted.")
     }
-    obj <- fromJSON(jsondata, asText=TRUE, simplify=FALSE, simplifyWithNames=FALSE);
+    obj <- fromJSON(jsondata, asText=TRUE);
     if(!is.list(obj)){
       stop("JSON input should be a list (json object).")
     }

@@ -23,7 +23,7 @@ session <- local({
   }
   
   #evaluates something inside a session
-  eval <- function(input, args, storeval=FALSE){
+  eval <- function(input, args, storeval=FALSE, format=NA){
     
     #create a temporary dir
     execdir <- tempfile("ocpu_session_");
@@ -95,12 +95,22 @@ session <- local({
     stopifnot(dir.create(sessiondir(hash), recursive=TRUE))
     stoponwarn(file.copy(list.files(recursive=TRUE, all=TRUE), sessiondir(hash)))
     
-    #redirect client
-    send(hash);
+    #send output format. Default is to send a list.
+    switch(format,
+      "json" = sendjson(hash, get(".val", sessionenv)),
+      sendlist(hash)    
+    );
+  }
+  
+  sendjson <- function(hash, obj){
+    tmppath <- sessionpath(hash);
+    outputpath <- paste(req$mount(), tmppath, "/", sep="");    
+    res$setheader("Location", outputpath);    
+    httpget_object(obj, "json");
   }
   
   #redirects the client to the session location
-  send <- function(hash){
+  sendlist <- function(hash){
     tmppath <- sessionpath(hash);
     outputpath <- paste(req$mount(), tmppath, "/", sep="");
     

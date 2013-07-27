@@ -12,7 +12,7 @@ serve <- function(REQDATA){
   if(identical(OS, "windows")){
     #we use another trycatch block because request happens inside psockcluster
     return(tryCatch({
-      eval_psock(ocpu:::request(ocpu:::main(REQDATA)), timeout=config("timelimit.post"));
+      eval_psock(opencpu:::request(opencpu:::main(REQDATA)), timeout=config("timelimit.post"));
     }, error = reshandler));
   } 
   
@@ -25,7 +25,7 @@ serve <- function(REQDATA){
   }  
   
   if(isTRUE(getOption("rapache"))){
-    request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5, RLIMIT_AS=1024^3, RLIMIT_NPROC=50, profile="opencpu-main"));
+    request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5, RLIMIT_AS=config("rlimit.as"), RLIMIT_FSIZE=config("rlimit.fsize"), RLIMIT_NPROC=config("rlimit.nproc"), profile="opencpu-main"));
   } else { 
     #Note that fork happens inside request() instead of other way around.
     request(eval_fork(main(REQDATA), timeout=totaltimelimit));

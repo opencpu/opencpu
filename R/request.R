@@ -51,7 +51,7 @@ reshandler <- function(e){
     #error response
     response <- list(
       status = 400L,
-      body = utils$write_to_file(c(e$message, "","In call:", deparse(e$call))),
+      body = error2file(e),
       headers = list("Content-Type" ="text/plain")
     );
   }
