@@ -2,6 +2,9 @@
   #Cloud specific stuff
   if(isTRUE(getOption("rapache"))){
     
+    #try set tempdir() to match config("tempdir")
+    inittempdir();
+    
     #remove custom system lib
     .libPaths(c(.Library.site, .Library));
   
