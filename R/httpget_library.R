@@ -1,4 +1,7 @@
 httpget_library <- function(lib.loc, requri){
+  #check if API has been enabled
+  check.enabled("api.library");  
+  
   #extract the package name
   pkgname <- head(requri, 1);
   if(!length(pkgname)){

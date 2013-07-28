@@ -1,4 +1,6 @@
 httpget_bioc <- function(uri){
+  #check if API has been enabled
+  check.enabled("api.bioc");  
 
   #Load BiocInstaller
   biocpath <- bioc_load("BiocInstaller");

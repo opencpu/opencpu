@@ -1,4 +1,6 @@
 httpget_github <- function(uri){
+  #check if API has been enabled
+  check.enabled("api.github");  
 
   #GET /ocpu/github/jeroen/mypackage
   gituser <- uri[1];

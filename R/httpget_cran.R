@@ -1,4 +1,6 @@
 httpget_cran <- function(uri){
+  #check if API has been enabled
+  check.enabled("api.cran");  
 
   #set cache value (both for list and package)
   res$setcache("cran");  

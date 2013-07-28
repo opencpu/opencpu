@@ -68,6 +68,8 @@ parse_arg <- local({
   
   #This code parses text and automatically wraps it in curly brackets when needed.  
   parsewithbrackets <- function(text){
+    #check if this is enabled
+    check.enabled("post.code");
     
     #strip trailing space
     text <- sub('[[:space:]]+$', '', text);

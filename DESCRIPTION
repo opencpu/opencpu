@@ -7,7 +7,7 @@ Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
 License: Apache License (== 2.0)
 Depends: R (>= 3.0.0)
-Imports: parallel, tools, stats, evaluate, RJSONIO, knitr, devtools, httr, brew, httpuv, pander
+Imports: parallel, tools, stats, evaluate, RJSONIO, knitr, devtools, httr, brew, httpuv (>= 1.0.6.99), pander
 Suggests: RAppArmor
 SystemRequirements: pandoc, texlive, apparmor
 Description: The OpenCPU framework exposes a clean HTTP API for interfacing R, Latex and Pandoc.

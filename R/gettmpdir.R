@@ -4,7 +4,7 @@ gettmpdir <- local({
   function(){
     if(is.null(mytmpdir)){
       myusername <- Sys.info()[["effective_user"]];
-      newtmpdir <- normalizePath(file.path(roottmpdir(), paste("ocpu", myusername, sep="-")));
+      newtmpdir <- normalizePath(file.path(roottmpdir(), paste("ocpu", myusername, sep="-")), mustWork=FALSE);
       if(!file.exists(newtmpdir)){
         dir.create(newtmpdir, recursive=TRUE);
       }

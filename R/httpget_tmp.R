@@ -1,4 +1,6 @@
 httpget_tmp <- function(requri){
+  #check if API has been enabled
+  check.enabled("api.tmp");    
   
   tmpsessiondir <- file.path(gettmpdir(), "tmp_library");
   prefix <- "ocpu_tmp_";

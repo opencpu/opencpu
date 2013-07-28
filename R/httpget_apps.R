@@ -1,4 +1,7 @@
 httpget_apps <- function(lib.loc, requri){
+  #check if API has been enabled
+  check.enabled("api.apps");
+  
   #list apps
   appname <- requri[1];
   if(is.na(appname)){

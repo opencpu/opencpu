@@ -1,4 +1,6 @@
 httpget_gist <- function(uri){
+  #check if API has been enabled
+  check.enabled("api.gist");  
 
   #GET /ocpu/gist/jeroen
   gistuser <- uri[1];

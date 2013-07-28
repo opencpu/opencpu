@@ -1,4 +1,6 @@
 httpget_user <- function(uri){
+  #check if API has been enabled
+  check.enabled("api.user");  
   
   #no windows
   if(identical(.Platform$OS.type, "windows")){
