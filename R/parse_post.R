@@ -25,9 +25,9 @@ parse_post <- function(reqbody, contenttype){
     if(!isValidJSON(jsondata, asText=TRUE)){
       stop("Invalid JSON was posted.")
     }
-    obj <- fromJSON(jsondata, asText=TRUE);
-    if(!is.list(obj)){
-      stop("JSON input should be a list (json object).")
+    obj <- as.list(fromJSON(jsondata, asText=TRUE));
+    if(!is.list(obj) || !length(names(obj))){
+      stop("JSON input should be a named list (json object).")
     }
     return(lapply(obj, function(x){
       if(isTRUE(is.vector(x) && length(x) == 1)){
