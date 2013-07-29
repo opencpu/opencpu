@@ -23,7 +23,7 @@ session <- local({
   }
   
   #evaluates something inside a session
-  eval <- function(input, args, storeval=FALSE, format=NA){
+  eval <- function(input, args, storeval=FALSE, format="list"){
     
     #create a temporary dir
     execdir <- tempfile("ocpu_session_");
