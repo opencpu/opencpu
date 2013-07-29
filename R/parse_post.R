@@ -26,7 +26,7 @@ parse_post <- function(reqbody, contenttype){
       stop("Invalid JSON was posted.")
     }
     obj <- as.list(fromJSON(jsondata, asText=TRUE));
-    if(!is.list(obj) || !length(names(obj))){
+    if(!is.list(obj) || length(names(obj)) < length(obj)){
       stop("JSON input should be a named list (json object).")
     }
     return(lapply(obj, function(x){
