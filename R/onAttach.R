@@ -18,13 +18,13 @@
     }
     
     #Start HTTPUV
-    httpuv$start();
+    opencpu$start();
   
     #Make sure httpuv stops when exiting R.
     if(!exists(".Last", globalenv())){
       exitfun <- function(){
         try({
-          opencpu:::httpuv$stop();
+          opencpu:::opencpu$stop();
           rm(".Last", envir=globalenv());
         }, silent=TRUE);
       } 
@@ -38,6 +38,6 @@
 }
 
 .onDetach <- function(libpath){
-  httpuv$stop();
+  opencpu$stop();
   message("Exiting OpenCPU");
 }

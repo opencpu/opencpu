@@ -11,8 +11,8 @@
 #' @importFrom RJSONIO toJSON fromJSON isValidJSON
 #' @importFrom httr GET stop_for_status add_headers
 #' @export
-#' @S3method print httpuv
-httpuv <- local({
+#' @S3method print opencpu
+opencpu <- local({
   this <- environment();
 	pid <- NULL;
   uvurl <- NULL;
@@ -24,14 +24,14 @@ httpuv <- local({
 	  tools::pskill(pid, tools::SIGKILL); #nix
 	  pid <<- NULL;
     uvurl <<- NULL;
-		message("httpuv stopped.")
+		message("OpenCPU stopped.")
 	  try(parallel::stopCluster(cl), silent=TRUE);
     invisible();
 	}
   
 	start <- function(port){
     if(!is.null(pid)){
-      message("httpuv already running: ", uvurl);
+      message("OpenCPU already running: ", uvurl);
       return(invisible())
     }
     
@@ -68,7 +68,7 @@ httpuv <- local({
   
   browse <- function(path="library/stats/man"){
     if(is.null(uvurl)){
-      message("httpuv not started.")
+      message("OpenCPU not started.")
       return(invisible());
     }
     browseURL(paste0(uvurl, path));    
@@ -80,17 +80,23 @@ httpuv <- local({
     this$browse();
 	}
   
-  structure(this, class=c("httpuv", "environment"));
+  structure(this, class=c("opencpu", "environment"));
 });
 
-print.httpuv <- function(x, ...){
-  cat("Control the httpuv based single-user OpenCPU server.\n")
-  cat("Note that httpuv runs in a parallel process and does not interact with the current session.\n")
+print.opencpu <- function(x, ...){
+  currenturl <- x$url();
+  currentstatus <- if(is.null(currenturl)){
+    "OFFLINE"
+  } else {
+    paste("ONLINE at", currenturl)
+  }
+  cat("Current status: OpenCPU (httpuv) is", currentstatus, "\n")
   cat("Example Usage:\n")
-  cat("  httpuv$start()                          - Start server.\n")  
-  cat("  httpuv$start(12345)                     - Start server on port 12345.\n")
-  cat("  httpuv$stop()                           - Stop current server.\n")  
-  cat("  httpuv$restart()                        - Restart current server.\n")    
-  cat("  httpuv$url()                            - Return the server address of current server.\n")
-  cat("  httpuv$browse('library/stats/man/glm')  - Try to open current server a web browser.\n")  
+  cat("  opencpu$start()                          - Start server.\n")  
+  cat("  opencpu$start(12345)                     - Start server on port 12345.\n")
+  cat("  opencpu$stop()                           - Stop current server.\n")  
+  cat("  opencpu$restart()                        - Restart current server.\n")    
+  cat("  opencpu$url()                            - Return the server address of current server.\n")
+  cat("  opencpu$browse('library/stats/man/glm')  - Try to open current server in a web browser.\n")  
+  cat("Note that httpuv runs in a parallel process and does not interact with the current session.\n")  
 }

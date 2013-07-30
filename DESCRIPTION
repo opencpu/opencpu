@@ -1,6 +1,7 @@
 Package: opencpu
 Type: Package
-Title: OpenCPU framework for embedded statistical computation and reproducible research.
+Title: OpenCPU framework for embedded statistical computation and reproducible
+    research.
 Version: 0.8
 Date: 2013-07-27
 Author: Jeroen Ooms
@@ -21,7 +22,7 @@ Imports:
     httpuv (>= 1.0.6.99),
     pander
 Suggests:
-    RAppArmor, 
+    RAppArmor,
     BiocInstaller
 SystemRequirements: pandoc, texlive, apparmor
 Description: The OpenCPU framework exposes a clean HTTP API for interfacing R,
