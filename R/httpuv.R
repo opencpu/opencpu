@@ -1,4 +1,17 @@
-#object that interfaces to the server
+#' The httpuv based OpenCPU server.
+#' 
+#' This object controls the httpuv based OpenCPU server. 
+#' It has methods: start, stop, restart, browse and url.
+#' 
+#' @import parallel tools utils stats
+#' @importFrom brew brew
+#' @importFrom evaluate evaluate
+#' @importFrom knitr knit doc
+#' @importFrom devtools install_github
+#' @importFrom RJSONIO toJSON fromJSON isValidJSON
+#' @importFrom httr GET stop_for_status add_headers
+#' @export
+#' @S3method print httpuv
 httpuv <- local({
   this <- environment();
 	pid <- NULL;
@@ -53,12 +66,12 @@ httpuv <- local({
     return(uvurl)
   }
   
-  browse <- function(){
+  browse <- function(path="library/stats/man"){
     if(is.null(uvurl)){
       message("httpuv not started.")
       return(invisible());
     }
-    browseURL(uvurl);    
+    browseURL(paste0(uvurl, path));    
   }
   
 	restart <- function(){
@@ -67,5 +80,17 @@ httpuv <- local({
     this$browse();
 	}
   
-  this;
+  structure(this, class=c("httpuv", "environment"));
 });
+
+print.httpuv <- function(x, ...){
+  cat("Control the httpuv based single-user OpenCPU server.\n")
+  cat("Note that httpuv runs in a parallel process and does not interact with the current session.\n")
+  cat("Example Usage:\n")
+  cat("  httpuv$start()                          - Start server.\n")  
+  cat("  httpuv$start(12345)                     - Start server on port 12345.\n")
+  cat("  httpuv$stop()                           - Stop current server.\n")  
+  cat("  httpuv$restart()                        - Restart current server.\n")    
+  cat("  httpuv$url()                            - Return the server address of current server.\n")
+  cat("  httpuv$browse('library/stats/man/glm')  - Try to open current server a web browser.\n")  
+}

@@ -56,6 +56,13 @@ rhttpdhandler <- function(reqpath, reqquery, reqbody, reqheaders){
   );
 }
 
+#' The rhttpd (r-help) based OpenCPU server.
+#' 
+#' This object controls the httpuv based OpenCPU server. 
+#' Note that this is recommended to use the httpuv based server instead if possible.
+#' 
+#' @export
+#' @S3method print rhttpd
 rhttpd <- local({
   rhttpdurl <- "";
   init <- function(){
@@ -75,9 +82,19 @@ rhttpd <- local({
   url <- function(){
     return(rhttpdurl)
   }
-  browse <- function(){
-    browseURL(rhttpdurl);
+  browse <- function(path="library/stats/man"){
+    browseURL(paste0(rhttpdurl, path));
     invisible();
   }
-  environment();
+  structure(environment(), class=c("rhttpd", "environment"));
 });
+
+print.rhttpd <- function(x, ...){
+  cat("Control the rhttpd (r-help or r-studio) based OpenCPU server.\n")
+  cat("Note that rhttpd runs in the currrent process and will block the session during http requests.\n")
+  cat("Unless you are using rstudio-server, the httpuv based OpenCPU server is preferred.\n")  
+  cat("Example Usage:\n")
+  cat("  rhttpd$init()                           - Start rhttpd and register OpenCPU.\n")  
+  cat("  rhttpd$url()                            - Return the server address of current server.\n")
+  cat("  rhttpd$browse('library/stats/man/glm')  - Try to open current server a web browser.\n")    
+}
