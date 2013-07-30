@@ -12,7 +12,7 @@ httpget_bioc <- function(uri){
   biocpkg <- uri[1];
   if(is.na(biocpkg)){
     res$checkmethod();    
-    pkglist <- available.packages(contrib.url(biocinstallRepos("http://bioconductor.org")));
+    pkglist <- available.packages(contrib.url(BiocInstaller::biocinstallRepos("http://bioconductor.org")));
     res$sendlist(row.names(pkglist));
   }
   

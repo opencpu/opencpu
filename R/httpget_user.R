@@ -26,7 +26,6 @@ httpget_user <- function(uri){
   switch(what,
     "library" = httpget_user_library(username, reqtail),
     "apps" = httpget_user_apps(username, reqtail),
-    "projects" = httpget_user_projects(username, reqtail),
      res$notfound(message=paste("invalid api: /pub/", what, sep=""))
   );  
 }

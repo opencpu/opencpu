@@ -13,8 +13,7 @@ execute_file <- local({
       "brew" = httppost_brew(filepath),
       "md" = httppost_pandoc(filepath),
       "rst" = httppost_pandoc(filepath),           
-      "tex" = httppost_latex(filepath),  
-      "pdr" = httppost_pander(filepath),
+      "tex" = httppost_latex(filepath),
       stop("Unsupported script type: ", ext)
     );
   }

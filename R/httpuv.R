@@ -6,7 +6,7 @@
 #' @import parallel tools utils stats
 #' @importFrom brew brew
 #' @importFrom evaluate evaluate
-#' @importFrom knitr knit doc
+#' @importFrom knitr knit pandoc
 #' @importFrom devtools install_github
 #' @importFrom RJSONIO toJSON fromJSON isValidJSON
 #' @importFrom httr GET stop_for_status add_headers

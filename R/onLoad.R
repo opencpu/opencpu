@@ -1,10 +1,10 @@
 packagename = "";
 
-.onLoad <- function(path, package){
-  packagename <<- package;
+.onLoad <- function(lib, pkg){
+  packagename <<- pkg;
   
   #load default package config file
-  defaultconf <- system.file("config/defaults.conf", package=package);
+  defaultconf <- system.file("config/defaults.conf", package=packagename);
   stopifnot(file.exists(defaultconf));
   environment(config)$load(defaultconf);
   

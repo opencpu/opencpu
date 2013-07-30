@@ -18,7 +18,6 @@ httpget_package <- function(pkgpath, requri){
   
   switch(reqhead,
     "R" = httpget_package_r(pkgpath, reqtail),
-    "dpu" = httpget_package_dpu(pkgpath, reqtail),
     "html" = httpget_package_html(pkgpath, reqtail),
     "man" = httpget_package_man(pkgpath, reqtail),
     httpget_package_file(pkgpath, requri)     
