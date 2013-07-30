@@ -1,4 +1,4 @@
-.onAttach <- function(path, package){
+.onAttach <- function(lib, pkg){
   #Cloud specific stuff
   if(isTRUE(getOption("rapache"))){
     
@@ -8,14 +8,9 @@
     #remove custom system lib
     .libPaths(c(.Library.site, .Library));
   
-  } else {
+  } else if(interactive() && !("--slave" %in% commandArgs())){
     #Dont run in rscript
-    if(!interactive() || ("--slave" %in% commandArgs())){
-      return();
-    }
-    
-    #loaded from within R
-    message("Initiating OpenCPU server...")
+    packageStartupMessage("Initiating OpenCPU server...")
     
     #start rhttpd only in rstudio server
     if(nchar(Sys.getenv("RSTUDIO_HTTP_REFERER"))){
@@ -24,9 +19,6 @@
     
     #Start HTTPUV
     httpuv$start();
-    Sys.sleep(1);
-    httpuv$browse();  
-    
   
     #Make sure httpuv stops when exiting R.
     if(!exists(".Last", globalenv())){
@@ -38,10 +30,10 @@
       } 
   
       environment(exitfun) <- globalenv();
-      assign(".Last", exitfun, globalenv());
+      eval(call("assign", ".Last", quote(exitfun), quote(globalenv())));
     }
     
-    message("OpenCPU single-user server ready.");
+    packageStartupMessage("OpenCPU single-user server ready.");
   }
 }
 
@@ -49,5 +41,3 @@
   httpuv$stop();
   message("Exiting OpenCPU");
 }
-
-
