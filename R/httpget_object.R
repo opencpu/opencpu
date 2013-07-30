@@ -55,7 +55,7 @@ httpget_object <- local({
       write.table(x=object, file=mytmp, row.names=as.logical(row.names), eol=eol, na=na, ...);
     }, req$get());
     res$setbody(file=mytmp);
-    res$setheader("Content-Type", "text/plain");
+    res$setheader("Content-Type", 'text/plain; charset="UTF-8"');
     res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".tab", sep=""));
     res$finish();
   }  

@@ -120,7 +120,7 @@ session <- local({
     outlist <- index(sessiondir(hash));
     text <- paste(outputpath, outlist, sep="", collapse="\n");
     res$setbody(text);
-    res$setheader("Content-Type", "text/plain");
+    res$setheader("Content-Type", 'text/plain; charset="UTF-8"');
     res$setheader("Location", outputpath);
     res$finish(201);    
   }
