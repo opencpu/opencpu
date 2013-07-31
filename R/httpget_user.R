@@ -18,7 +18,7 @@ httpget_user <- function(uri){
   what <- uri[2];
   if(is.na(what)){
     res$checkmethod();
-    res$sendlist(c("library", "apps", "projects"));
+    res$sendlist(c("library", "apps"));
   }
   
   #remaining of the api
@@ -26,6 +26,6 @@ httpget_user <- function(uri){
   switch(what,
     "library" = httpget_user_library(username, reqtail),
     "apps" = httpget_user_apps(username, reqtail),
-     res$notfound(message=paste("invalid api: /pub/", what, sep=""))
+     res$notfound(message=paste("invalid api: /user/", username, "/", what, sep=""))
   );  
 }
