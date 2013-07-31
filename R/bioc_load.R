@@ -1,5 +1,4 @@
-bioc_load <- function(pkgname){
-  biocpath <- file.path(gettmpdir(), "bioc_library");
+bioc_load <- function(pkgname, biocpath){
   if(!file.exists(biocpath)){
     stopifnot(dir.create(biocpath));
   }
@@ -30,18 +29,16 @@ bioc_load <- function(pkgname){
   on.exit(unlink(blockpath, force=TRUE));
   
   #NOTE: for now we can't capture output from install.packages
-  inlib(biocpath,
-    tryCatch({
-      if(pkgname == "BiocInstaller"){
-        source("http://bioconductor.org/biocLite.R");
-      } else {
-        BiocInstaller::biocLite(pkgname, lib.loc=biocpath, lib=biocpath, ask=FALSE);
-      }
-    }, error=function(e){
-      stop("Package installation of ", pkgname, " failed: ", e$message);
-    })
-  );
-  
+  tryCatch({
+    if(pkgname == "BiocInstaller"){
+      source("http://bioconductor.org/biocLite.R");
+    } else {
+      getExportedValue("BiocInstaller", "biocLite")(pkgname, lib.loc=biocpath, lib=biocpath, ask=FALSE);
+    }
+  }, error=function(e){
+    stop("Package installation of ", pkgname, " failed: ", e$message);
+  })
+
   #Installer is done
   if(pkgname == "BiocInstaller"){
     #check if BiocInstaller was loaded.

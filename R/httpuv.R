@@ -77,7 +77,6 @@ opencpu <- local({
 	restart <- function(){
 		this$stop();
 		this$start();
-    this$browse();
 	}
   
   structure(this, class=c("opencpu", "environment"));

@@ -5,8 +5,9 @@
     #try set tempdir() to match config("tempdir")
     inittempdir();
     
-    #remove custom system lib
-    .libPaths(c(.Library.site, .Library));
+    #move opencpu system lib to the end of the search lib
+    #note: removing a lib from which packages are already loaded results in weird behavior.
+    .libPaths(c(.Library.site, .Library, "/usr/lib/opencpu/library"));
   
   } else if(interactive() && !("--slave" %in% commandArgs())){
     #Dont run in rscript

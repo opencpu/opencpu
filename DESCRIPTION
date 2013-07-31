@@ -22,8 +22,7 @@ Imports:
     httpuv (>= 1.0.6.99),
     pander
 Suggests:
-    RAppArmor,
-    BiocInstaller
+    RAppArmor
 SystemRequirements: pandoc, texlive, apparmor
 Description: The OpenCPU framework exposes a clean HTTP API for interfacing R,
     Latex and Pandoc. It is available both as a single user server that runs in

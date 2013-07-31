@@ -6,7 +6,7 @@ packagename = "";
   #Makes sure methods is loaded, which should always be the case
   #This is needed for R CMD CHECK only... looks like a bug?
   #See Uwe @ https://stat.ethz.ch/pipermail/r-devel/2011-October/062261.html
-  eval(call("library", "methods"))
+  eval(call("require", "methods", quietly=TRUE))
   
   #load default package config file
   defaultconf <- system.file("config/defaults.conf", package=packagename);

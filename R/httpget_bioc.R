@@ -1,24 +1,29 @@
 httpget_bioc <- function(uri){
   #check if API has been enabled
   check.enabled("api.bioc");  
-
-  #Load BiocInstaller
-  biocpath <- bioc_load("BiocInstaller");
   
-  #set cache value
-  res$setcache("bioc");    
+  #the bioconductor library
+  biocpath <- file.path(gettmpdir(), "bioc_library");
   
-  #GET /ocpu/bioc/mypackage
-  biocpkg <- uri[1];
-  if(is.na(biocpkg)){
-    res$checkmethod();    
-    pkglist <- available.packages(contrib.url(BiocInstaller::biocinstallRepos("http://bioconductor.org")));
-    res$sendlist(row.names(pkglist));
-  }
-  
-  #init the gist
-  pkgpath <- bioc_load(biocpkg);
-  
+  inlib(biocpath, {
+    #Load BiocInstaller
+    bioc_load("BiocInstaller", biocpath);
+    
+    #set cache value
+    res$setcache("bioc");    
+    
+    #GET /ocpu/bioc/mypackage
+    biocpkg <- uri[1];
+    if(is.na(biocpkg)){
+      res$checkmethod();    
+      pkglist <- available.packages(contrib.url(getExportedValue("BiocInstaller", "biocinstallRepos")("http://bioconductor.org")));
+      res$sendlist(row.names(pkglist));
+    }
+    
+    #load the actual package path
+    pkgpath <- bioc_load(biocpkg, biocpath);
+  });    
+    
   #remaining of the api
   reqtail <- tail(uri, -1)  
   
