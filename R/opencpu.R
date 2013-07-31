@@ -1,8 +1,19 @@
-#' The httpuv based OpenCPU server.
+#' The httpuv based single-user OpenCPU server.
 #' 
 #' This object controls the httpuv based OpenCPU server. 
-#' It has methods: start, stop, restart, browse and url.
+#' This is the preferred method of running OpenCPU inside an R session.
+#' The server runs in a parallel process and does not interact with the current session.
 #' 
+#' Note that this is a single user server. It is inteneded to be used by the local user, for running and developing apps.
+#' Because R is single-threaded, there is no support for concurrent http requests (but httpuv does a great job in queueing them).
+#' Also there are no security restrictions being enforced, as is the case for the OpenCPU cloud server.
+#' 
+#' The OpenCPU server will automatically be started when the OpenCPU packge is attached.
+#' The OpenCPU API will be available at the root of the web server. 
+#' For example: \url{http://localhost:12345/library/stats}.
+#' 
+#' Once apps are working on the local OpenCPU server, they can easily be published using the OpenCPU cloud server.
+#'  
 #' @import parallel tools utils stats
 #' @importFrom brew brew
 #' @importFrom evaluate evaluate
@@ -10,8 +21,20 @@
 #' @importFrom devtools install_github
 #' @importFrom RJSONIO toJSON fromJSON isValidJSON
 #' @importFrom httr GET stop_for_status add_headers
-#' @export
 #' @S3method print opencpu
+#' @usage -
+#' @format Control object
+#' @family opencpu
+#' @export
+#' @references \url{www.opencpu.org}
+#' @examples
+#' \dontrun{
+#' opencpu$start(12345);
+#' opencpu$restart()
+#' opencpu$url()
+#' opencpu$browse('library/stats/man/glm')
+#' opencpu$stop()
+#' }
 opencpu <- local({
   this <- environment();
 	pid <- NULL;
@@ -92,8 +115,8 @@ print.opencpu <- function(x, ...){
   cat("Current status: OpenCPU (httpuv) is", currentstatus, "\n")
   cat("Example Usage:\n")
   cat("  opencpu$start()                          - Start server.\n")  
-  cat("  opencpu$start(12345)                     - Start server on port 12345.\n")
   cat("  opencpu$stop()                           - Stop current server.\n")  
+  cat("  opencpu$start(12345)                     - Start server on port 12345.\n")
   cat("  opencpu$restart()                        - Restart current server.\n")    
   cat("  opencpu$url()                            - Return the server address of current server.\n")
   cat("  opencpu$browse('library/stats/man/glm')  - Try to open current server in a web browser.\n")  

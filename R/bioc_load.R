@@ -42,11 +42,9 @@ bioc_load <- function(pkgname, biocpath){
   #Installer is done
   if(pkgname == "BiocInstaller"){
     #check if BiocInstaller was loaded.
-    if(!("package:BiocInstaller" %in% search())){
+    if(!require("BiocInstaller")){
       stop("Failed to load BiocInstaller.")
     }       
-    
-    #return the path
     return(system.file(package="BiocInstaller"));
   }
 

@@ -2,7 +2,7 @@
 #' 
 #' OpenCPU stores a library with recent sessions and packages on disk. 
 #' These files are stored in the temporary directory, so on most systems they are wiped on reboot.
-#' This function can be used to manually force removal of temporary files from disk.
+#' The cleanup function can be used to manually force removal of temporary files from disk.
 #' 
 #' @param what What to clean up? Values correspond to API /ocpu/:what/
 #' @param maxage The maximum age (in seconds) for a directory to exempted from deletion.

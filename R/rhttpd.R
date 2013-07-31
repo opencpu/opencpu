@@ -56,13 +56,33 @@ rhttpdhandler <- function(reqpath, reqquery, reqbody, reqheaders){
   );
 }
 
-#' The rhttpd (r-help) based OpenCPU server.
+#' The Rhttpd based single-user OpenCPU server.
 #' 
-#' This object controls the httpuv based OpenCPU server. 
-#' Note that this is recommended to use the httpuv based server instead if possible.
+#' The built-in Rhttpd, a.k.a "Dynamic Help Server" (\code{\link{startDynamicHelp}}) provides an 
+#' alternative http server in case httpuv is not available (e.g. due to firewall restrictions).
+#' Currently, two different implementations of this R help server exist: a simple built-in version in R, and
+#' a reimplementation which is part of rstudio-server (not rstudio-desktop). 
 #' 
-#' @export
+#' The performance and reliability of the built-in Rhttpd varies a lot, especially on Windows.
+#' When possible, it is recommended to avoid this and use the httpuv based OpenCPU server instead (see \code{\link{opencpu}}).
+#' The rstudio-server implementation of Rhttpd seems a bit better.
+#' Another disadvantage is that Rhttpd runs in the currrent process and will block the session during http requests.
+#' 
+#' When hosted using the Rhttpd, OpenCPU is API is mounted under the \url{/custom/ocpu/} url. 
+#' For example: \url{http://localhost:8787/custom/ocpu/library/stats}.
+#' 
 #' @S3method print rhttpd
+#' @usage -
+#' @format Control object
+#' @family opencpu
+#' @export
+#' @references \url{www.opencpu.org}
+#' @examples
+#' \dontrun{
+#' rhttpd$init()
+#' rhttpd$url()
+#' rhttpd$browse('library/stats/man/glm')
+#' }
 rhttpd <- local({
   rhttpdurl <- "";
   init <- function(){
