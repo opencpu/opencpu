@@ -4,13 +4,13 @@
 \title{The Rhttpd based single-user OpenCPU server.}
 \format{Control object}
 \description{
-  The built-in Rhttpd, a.k.a "Dynamic Help Server"
-  (\code{\link{startDynamicHelp}}) provides an alternative
-  http server in case httpuv is not available (e.g. due to
-  firewall restrictions). Currently, two different
-  implementations of this R help server exist: a simple
-  built-in version in R, and a reimplementation which is
-  part of rstudio-server (not rstudio-desktop).
+  The Rhttpd, a.k.a "Dynamic Help Server" provides an
+  alternative http server in case httpuv is not available
+  (e.g. due to firewall restrictions). Currently, two
+  different implementations of Rhttpd exist: a simple
+  built-in version in R (\code{\link{startDynamicHelp}}),
+  and a reimplementation which is part of rstudio-server
+  (not rstudio-desktop).
 }
 \details{
   The performance and reliability of the built-in Rhttpd
@@ -34,7 +34,7 @@ rhttpd$browse('library/stats/man/glm')
 }
 }
 \references{
-  \url{www.opencpu.org}
+  \url{http://www.opencpu.org}
 }
 \seealso{
   Other opencpu: \code{\link{opencpu}}

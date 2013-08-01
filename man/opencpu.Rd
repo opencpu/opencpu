@@ -10,13 +10,12 @@
   not interact with the current session.
 }
 \details{
-  Note that this is a single user server. It is inteneded
-  to be used by the local user, for running and developing
-  apps. Because R is single-threaded, there is no support
-  for concurrent http requests (but httpuv does a great job
-  in queueing them). Also there are no security
-  restrictions being enforced, as is the case for the
-  OpenCPU cloud server.
+  Note that this is a single user server; i.e. for local
+  use only. Because R is single-threaded, the single-user
+  server has no support for concurrent http requests (but
+  httpuv does a nice job in queueing them). Also there are
+  no security restrictions being enforced, as is the case
+  for the OpenCPU cloud server.
 
   The OpenCPU server will automatically be started when the
   OpenCPU packge is attached. The OpenCPU API will be
@@ -25,6 +24,9 @@
 
   Once apps are working on the local OpenCPU server, they
   can easily be published using the OpenCPU cloud server.
+  The cloud server does have support for concurrent
+  requests, security policies and caching mechanisms to
+  boost performance.
 }
 \examples{
 \dontrun{
@@ -36,7 +38,7 @@ opencpu$stop()
 }
 }
 \references{
-  \url{www.opencpu.org}
+  \url{http://www.opencpu.org}
 }
 \seealso{
   Other opencpu: \code{\link{rhttpd}}

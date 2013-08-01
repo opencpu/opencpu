@@ -58,9 +58,9 @@ rhttpdhandler <- function(reqpath, reqquery, reqbody, reqheaders){
 
 #' The Rhttpd based single-user OpenCPU server.
 #' 
-#' The built-in Rhttpd, a.k.a "Dynamic Help Server" (\code{\link{startDynamicHelp}}) provides an 
-#' alternative http server in case httpuv is not available (e.g. due to firewall restrictions).
-#' Currently, two different implementations of this R help server exist: a simple built-in version in R, and
+#' The Rhttpd, a.k.a "Dynamic Help Server" provides an alternative http server in case httpuv
+#' is not available (e.g. due to firewall restrictions). Currently, two different implementations
+#' of Rhttpd exist: a simple built-in version in R (\code{\link{startDynamicHelp}}), and
 #' a reimplementation which is part of rstudio-server (not rstudio-desktop). 
 #' 
 #' The performance and reliability of the built-in Rhttpd varies a lot, especially on Windows.
@@ -76,7 +76,7 @@ rhttpdhandler <- function(reqpath, reqquery, reqbody, reqheaders){
 #' @format Control object
 #' @family opencpu
 #' @export
-#' @references \url{www.opencpu.org}
+#' @references \url{http://www.opencpu.org}
 #' @examples
 #' \dontrun{
 #' rhttpd$init()

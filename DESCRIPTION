@@ -1,6 +1,7 @@
 Package: opencpu
 Type: Package
-Title: OpenCPU framework for embedded statistical computation and reproducible research.
+Title: OpenCPU framework for embedded statistical computation and reproducible
+    research.
 Version: 0.8
 Date: 2013-07-27
 Author: Jeroen Ooms
@@ -25,4 +26,6 @@ Imports:
 Suggests:
     RAppArmor
 SystemRequirements: pandoc, texlive, apparmor
-Description: The OpenCPU framework exposes a HTTP API for interfacing R, Latex and Pandoc. It is available both as a single user server that runs in R (on httpuv), or as a cloud server that builds on rApache.
+Description: The OpenCPU framework exposes a HTTP API for interfacing R, Latex
+    and Pandoc. It is available both as a single user server that runs in R (on
+    httpuv), or as a cloud server that builds on rApache.
