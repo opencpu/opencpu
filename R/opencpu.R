@@ -39,22 +39,27 @@
 #' }
 opencpu <- local({
   this <- environment();
-	pid <- NULL;
+  pid <- NULL;
   uvurl <- NULL;
   cl <- NULL;
   
   #note that this will mask base::stop()
-	stop <- function(){
-	  tools::pskill(pid); #win
-	  tools::pskill(pid, tools::SIGKILL); #nix
-	  pid <<- NULL;
+  stop <- function(){
+    tools::pskill(pid); #win
+    tools::pskill(pid, tools::SIGKILL); #nix
+    pid <<- NULL;
     uvurl <<- NULL;
-		message("OpenCPU stopped.")
-	  try(parallel::stopCluster(cl), silent=TRUE);
+    message("OpenCPU stopped.")
+    try(parallel::stopCluster(cl), silent=TRUE);
     invisible();
-	}
+  }
   
-	start <- function(port){
+  start <- function(port, rootpath = "/ocpu"){
+    #make sure rootpath starts with a slash and no trailing slash
+    rootpath <- sub("^//", "/", paste0("/", rootpath));
+    rootpath <- sub("/$", "", rootpath);
+    
+    #check if we already have a process going
     if(!is.null(pid)){
       message("OpenCPU already running: ", uvurl);
       return(invisible())
@@ -68,30 +73,56 @@ opencpu <- local({
     
     #start httpuv
     myport <- ifelse(missing(port), round(runif(1, 1024, 9999)), port);
-    parallel:::sendCall(child, eval, list(quote(httpuv::runServer("0.0.0.0", myport, list(call=opencpu:::rookhandler))), envir=list(myport=myport)));
+    parallel:::sendCall(child, eval, list(quote(httpuv::runServer("0.0.0.0", myport, list(call=opencpu:::rookhandler(rootpath)))), envir=list(rootpath=rootpath, myport=myport)));
     
     #should test for running server here
-    
-    #if ok:
     pid <<- mypid;
     cl <<- cluster;
     
     #try to get url
     mainurl <- Sys.getenv("RSTUDIO_HTTP_REFERER");
     if(!nchar(mainurl)){
-      uvurl <<- paste("http://localhost:", myport, "/", sep="");
+      uvurl <<- paste("http://localhost:", myport, rootpath, sep="");
     } else {
-      uvurl <<- gsub(":[0-9]{3,5}", paste(":", myport, sep=""), mainurl)
+      uvurl <<- paste0(gsub(":[0-9]{3,5}", paste(":", myport, sep=""), mainurl), substring(rootpath,2))
     }
     message("[httpuv] ", uvurl);    
     invisible();
-	}  
+  }  
+  
+  getchild <- function(){
+    return(cl)
+  }
+  
+  readchild <- function(){
+    parallel:::recvResult(cl[[1]]);   
+  }
+  
+  hasdied <- function(){
+    #set the timeout
+    output <- try({
+      setTimeLimit(elapsed=0.5, transient=TRUE);
+      on.exit({
+        #reset time limit
+        setTimeLimit(cpu=Inf, elapsed=Inf, transient=FALSE);    
+      })
+      readchild()   
+    }, silent=TRUE);    
+    
+    if(is(output, "try-error") && grepl("reached elapsed time limit", output)){
+      return(FALSE);
+    } else {
+      warning(output);
+      return(TRUE);
+    }
+  }
   
   url <- function(){
     return(uvurl)
   }
   
-  browse <- function(path="library/stats/man"){
+  browse <- function(path="/library/"){
+    path <- sub("^//", "/", paste0("/", path));    
     if(is.null(uvurl)){
       message("OpenCPU not started.")
       return(invisible());
@@ -99,10 +130,10 @@ opencpu <- local({
     browseURL(paste0(uvurl, path));    
   }
   
-	restart <- function(){
-		this$stop();
-		this$start();
-	}
+  restart <- function(){
+    this$stop();
+    this$start();
+  }
   
   structure(this, class=c("opencpu", "environment"));
 });
@@ -121,6 +152,6 @@ print.opencpu <- function(x, ...){
   cat("  opencpu$start(12345)                     - Start server on port 12345.\n")
   cat("  opencpu$restart()                        - Restart current server.\n")    
   cat("  opencpu$url()                            - Return the server address of current server.\n")
-  cat("  opencpu$browse('library/stats/man/glm')  - Try to open current server in a web browser.\n")  
+  cat("  opencpu$browse('/library/stats/man/glm')  - Try to open current server in a web browser.\n")  
   cat("Note that httpuv runs in a parallel process and does not interact with the current session.\n")  
 }

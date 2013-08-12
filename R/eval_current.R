@@ -16,14 +16,6 @@ eval_current <- function(expr, envir=parent.frame(), timeout=60){
     for(i in seq_along(todetach)){
       try(detach(todetach[i], unload=TRUE, character.only=TRUE, force=TRUE));
     }
-    
-    #try to unload packages that are still loaded
-    #nowloaded <- loadedNamespaces(); 
-    #tounload <- nowloaded[!(nowloaded %in% currentlyloaded)];
-    #for(i in seq_along(tounload)){
-    #  try(unloadNamespace(tounload[i]));
-    #}    
-    
   });
   
   eval(expr, envir) 

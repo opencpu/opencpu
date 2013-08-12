@@ -1,3 +1,4 @@
+##NOTE: the timeout works in rstudio and rgui on win, but it doesn't work in rterminal.
 eval_psock <- function(expr, envir=parent.frame(), timeout=60, opts){
   
   #create a child process
