@@ -95,13 +95,13 @@ opencpu <- local({
   }
   
   readchild <- function(){
-    parallel:::recvResult(cl[[1]]);   
+    parallel:::recvResult(getchild()[[1]]);   
   }
   
   hasdied <- function(){
     #set the timeout
     output <- try({
-      setTimeLimit(elapsed=0.5, transient=TRUE);
+      setTimeLimit(elapsed=1, transient=TRUE);
       on.exit({
         #reset time limit
         setTimeLimit(cpu=Inf, elapsed=Inf, transient=FALSE);    
@@ -112,8 +112,9 @@ opencpu <- local({
     if(is(output, "try-error") && grepl("reached elapsed time limit", output)){
       return(FALSE);
     } else {
-      warning(output);
-      return(TRUE);
+      message(output);
+      this$stop();
+      return(invisible(TRUE));
     }
   }
   
