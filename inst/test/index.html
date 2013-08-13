@@ -2,20 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>Rest test test...</title>
+<title>OpenCPU Test Page</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="description" content="">
 <meta name="author" content="">
 
 <!-- Le styles -->
-<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <style>
 body {
 	padding-top: 60px;
 	/* 60px to make the container go all the way to the bottom of the topbar */
 }
 </style>
-<link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
+<link href="bootstrap/css/bootstrap-responsive.min.css" rel="stylesheet">
 <link href="debug.css" rel="stylesheet">
 
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -79,14 +79,13 @@ body {
 				<a class="btn btn-navbar" data-toggle="collapse"
 					data-target=".nav-collapse"> <span class="icon-bar"></span> <span
 					class="icon-bar"></span> <span class="icon-bar"></span>
-				</a> <a class="brand" href="#">Rest test test...</a>
+				</a> <a class="brand" href="#">OpenCPU API Explorer</a>
 				<div class="nav-collapse">
 					<ul class="nav">
-						<li class="active"><a href="http://resttesttest.com">Website</a></li>
-						<li><a
-							href="https://github.com/jeroenooms/resttesttest/zipball/gh-pages">Download</a></li>
-						<li><a href="http://github.com/jeroenooms/resttesttest">Source</a></li>
-						<li><a href="http://jeroenooms.github.com">Author</a></li>
+						<li><a target="_blank" href="http://opencpu.org">Website</a></li>
+              <li><a target="_blank" href="http://jeroenooms.github.io/opencpu-manual/opencpu-manual.pdf">PDF manual</a></li>
+						<li><a target="_blank" href="http://github.com/jeroenooms/opencpu">Source</a></li>
+						<li><a target="_blank" href="http://jeroenooms.github.io">Author</a></li>
 					</ul>
 				</div>
 				<!--/.nav-collapse -->
@@ -123,18 +122,13 @@ body {
 							</div>
 
 							<div class="span4">
-
-
 								<div class="control-group">
 									<label class="control-label" for="urlvalue">Endpoint</label>
 									<div class="controls">
 										<input type="text" class="input-xlarge" id="urlvalue"
-											value="http://public.opencpu.org/R/pub">
+											value="/ocpu/library/">
 									</div>
 								</div>
-
-
-
 							</div>
 						</div>
 
@@ -187,20 +181,13 @@ body {
 				</form>
 
 				<div id="errordiv"></div>
-
-				<div id="cookiediv" class="well">
-
-					<legend> Local Cookies </legend>
-
-					<table class="table table-bordered">
-						<tbody id="cookietablebody">
-						</tbody>
-					</table>
-
-					<div id="cookiewarningdiv"></div>
-
-				</div>
-
+        
+  			<div class="alert alert-info">
+					<a class="close" data-dismiss="alert">&times;</a> <strong>Welcome!</strong>
+          Use this simple page to poke around at the API.
+          Specify HTTP method, URL and parameters, and click on <b>Ajax Request</b>.
+          For requests with file uploads, use the <b>iFrame</b> request instead.
+				</div>        
 
 				<div class="alert">
 					<a class="close" data-dismiss="alert">&times;</a> <strong>Keep
@@ -210,11 +197,6 @@ body {
 					enabled on the target server.
 				</div>
 
-				<div class="alert alert-success">
-					<a class="close" data-dismiss="alert">&times;</a> <strong>Tip
-						of the day!</strong> Use this page together with Firebug for the ultimate
-					REST/CORS service debugging tool.
-				</div>
 
 			</div>
 
@@ -233,39 +215,10 @@ body {
 
 
 	</div>
-	<!-- /container -->
 
-	<a href="http://github.com/jeroenooms/resttesttest"><img
-		style="z-index: 9999999999; position: absolute; top: 0; right: 0; border: 0;"
-		src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"
-		alt="Fork me on GitHub"></a>
-
-
-
-	<!-- Le javascript
-    ================================================== -->
-	<!-- Placed at the end of the document so the pages load faster -->
 	<script src="jquery-1.7.2.min.js"></script>
-	<script src="bootstrap/js/bootstrap.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
 	<script src="debug.js"></script>
-
-	<!-- Google Analytics tracker -->
-	<script type="text/javascript">
-		var _gaq = _gaq || [];
-		_gaq.push([ '_setAccount', 'UA-701288-7' ]);
-		_gaq.push([ '_trackPageview' ]);
-
-		(function() {
-			var ga = document.createElement('script');
-			ga.type = 'text/javascript';
-			ga.async = true;
-			ga.src = ('https:' == document.location.protocol ? 'https://ssl'
-					: 'http://www')
-					+ '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0];
-			s.parentNode.insertBefore(ga, s);
-		})();
-	</script>
-
+  
 </body>
 </html>
