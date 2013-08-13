@@ -153,6 +153,6 @@ print.opencpu <- function(x, ...){
   cat("  opencpu$start(12345)                     - Start server on port 12345.\n")
   cat("  opencpu$restart()                        - Restart current server.\n")    
   cat("  opencpu$url()                            - Return the server address of current server.\n")
-  cat("  opencpu$browse('/library/stats/man/glm')  - Try to open current server in a web browser.\n")  
+  cat("  opencpu$browse('/library/stats/man/glm') - Try to open current server in a web browser.\n")  
   cat("Note that httpuv runs in a parallel process and does not interact with the current session.\n")  
 }
