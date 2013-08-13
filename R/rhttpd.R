@@ -65,5 +65,5 @@ print.rhttpd <- function(x, ...){
   cat("Example Usage:\n")
   cat("  rhttpd$init()                           - Start rhttpd and register OpenCPU.\n")  
   cat("  rhttpd$url()                            - Return the server address of current server.\n")
-  cat("  rhttpd$browse('library/stats/man/glm')  - Try to open current server a web browser.\n")    
+  cat("  rhttpd$browse('/library/stats/man/glm')  - Try to open current server a web browser.\n")    
 }

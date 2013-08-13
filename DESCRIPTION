@@ -17,11 +17,11 @@ Imports:
     stats,
     evaluate,
     RJSONIO,
-    knitr,
+    knitr (>= 1.4),
     devtools,
     httr,
     brew,
-    httpuv (>= 1.0.6.99),
+    httpuv (>= 1.1),
     pander
 Suggests:
     RAppArmor
