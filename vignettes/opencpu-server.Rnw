@@ -1,4 +1,5 @@
 %\VignetteIndexEntry{The OpenCPU Server PDF Manual}
+%\VignetteEngine{knitr::knitr}
 
 \documentclass{scrartcl}\usepackage[]{graphicx}\usepackage[]{color}
 %% maxwidth is the original width if it is less than linewidth
@@ -62,7 +63,7 @@
 \usepackage{verbatim}
 
 \title{The OpenCPU Server PDF Manual}
-\subtitle{Version 1.0.0}
+\subtitle{Version 1.0}
 \author{Jeroen Ooms\vspace{-1ex}}
 \date{}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -199,7 +200,7 @@ Before installing OpenCPU, make sure the system is up to date:
 To install OpenCPU, first add the OpenCPU repository to the system:
 
 \begin{verbatim}
-  sudo add-apt-repository ppa:opencpu/opencpu-0.8 -y
+  sudo add-apt-repository ppa:opencpu/opencpu-1.0 -y
   sudo apt-get update
 \end{verbatim}
 We can now go ahead and install the server:
@@ -388,16 +389,8 @@ The \texttt{-L} flag makes \texttt{curl} follow redirects which is sometimes nee
 
 \begin{verbatim}
   curl http://your.server.com/ocpu/library/utils/R/sessionInfo -X POST
-  curl http://your.server.com/ocpu/library/stats/R/rnorm -d n=10\&mean=100
+  curl http://your.server.com/ocpu/library/stats/R/rnorm -d 'n=10&mean=100'
 \end{verbatim}
-
-\noindent Note that when using curl in the command line, shell characters such as \texttt{\&} or \texttt{"} need to be escaped:
-
-\begin{verbatim}
-  curl http://server.com/ocpu/library/graphics/R/plot -d x=cars\&main=\"Test\"
-\end{verbatim}
-
-
 
 
 \subsection{Reading package objects, manuals and files}
@@ -434,7 +427,7 @@ The \texttt{-L} flag makes \texttt{curl} follow redirects which is sometimes nee
 \noindent Performing a \texttt{HTTP POST} on a function results in a function call where the http request arguments are mapped to the function call. In OpenCPU, a successful \texttt{POST} requests usually returns a \texttt{HTTP 201} status, and the response body contains the locations of the output data:
 
 \begin{verbatim}
-  curl http://your.server.com/ocpu/library/stats/R/rnorm -d n=10\&mean=100
+  curl http://your.server.com/ocpu/library/stats/R/rnorm -d 'n=10&mean=100'
   
   /ocpu/tmp/x032a8fee/R/.val
   /ocpu/tmp/x032a8fee/stdout
@@ -454,7 +447,7 @@ The output can then be retrieved using \texttt{HTTP GET}. When calling an R func
 
 \begin{verbatim}
   curl http://your.server.com/ocpu/library/ggplot2/R/qplot \
-    -d x=[1,2,3,4,5]\&y=[8,9,7,8,7]\&geom=\"line\"
+    -d 'x=[1,2,3,4,5]&y=[8,9,7,8,7]&geom="line"'
   
   /ocpu/tmp/x07a773be/R/.val
   /ocpu/tmp/x07a773be/graphics/1
@@ -471,7 +464,7 @@ Which we can then retrieve in PNG, PDF or SVG format using \texttt{HTTP GET}: \\
 \noindent There is one exception to this rule: in the common special case where the client is only interested in the \texttt{JSON} representation of the object returned by the function, the \texttt{HTTP POST} request path can be post-fixed with \texttt{/json}:
 
 \begin{verbatim}
-  curl http://your.server.com/ocpu/library/stats/R/rnorm/json -d n=2
+  curl http://your.server.com/ocpu/library/stats/R/rnorm/json -d 'n=2'
   [
     -1.2804,
   	-0.75013
