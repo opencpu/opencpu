@@ -21,6 +21,7 @@
 #' @importFrom evaluate evaluate
 #' @importFrom knitr knit pandoc
 #' @importFrom devtools install_github
+#' @importFrom pander pander
 #' @importFrom RJSONIO toJSON fromJSON isValidJSON
 #' @importFrom httr GET stop_for_status add_headers
 #' @S3method print opencpu

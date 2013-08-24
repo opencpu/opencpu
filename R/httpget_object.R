@@ -1,4 +1,3 @@
-#GET for any sort of R object
 httpget_object <- local({
   main <- function(object, reqformat, objectname, defaultformat){
     #Default format
@@ -89,7 +88,6 @@ httpget_object <- local({
   }
   
   httpget_object_pander <- function(object){
-    pander <- pander::pander;
     outtext <- capture.output(do.call("pander", c(req$get(), list(x=object))));
     res$sendtext(outtext);
   }
