@@ -9,7 +9,7 @@ httpget_package_man <- local({
     #show a list of objects
     if(is.na(reqobject)){
       res$checktrail();
-      manlist <- names(tools:::fetchRdDB(file.path(pkgpath, "help", reqpackage)))
+      manlist <- names(from("tools", "fetchRdDB")(file.path(pkgpath, "help", reqpackage)))
       res$sendlist(manlist);
     }
     
@@ -39,7 +39,7 @@ httpget_package_man <- local({
     if(!length(helppath)){
       stop(capture.output(print(helppath)));
     }
-    utils:::.getHelpFile(helppath);
+    from("utils", ".getHelpFile")(helppath);
   }
   
   man_html <- function(rdfile, package, pkgpath){

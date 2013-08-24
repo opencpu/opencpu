@@ -40,7 +40,7 @@ session <- local({
         cat("List of length ", length(myval), "\n");
         cat(paste("[", names(myval), "]", sep="", collapse="\n"));
       } else {
-        evaluate:::render(myval);
+        from("evaluate", "render")(myval);
       }
     });
     

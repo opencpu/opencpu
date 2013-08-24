@@ -35,10 +35,10 @@ rhttpd <- local({
       warning("DyanmicHelp server has some serious issues on windows. Better use httpuv.")
     }
     try(startDynamicHelp(TRUE), silent=TRUE);
-    assign(substring(rootpath, 2), rhttpdhandler(fullpath), tools:::.httpd.handlers.env);
+    assign(substring(rootpath, 2), rhttpdhandler(fullpath), from("tools", ".httpd.handlers.env"));
     rhttpdurl <<- Sys.getenv("RSTUDIO_HTTP_REFERER");
     if(!nchar(rhttpdurl)){
-      rhttpdurl <<- paste("http://localhost:", tools:::httpdPort, "/", sep="");
+      rhttpdurl <<- paste("http://localhost:", from("tools", "httpdPort"), "/", sep="");
     }
     rhttpdurl <<- paste0(rhttpdurl, substring(fullpath, 2));
     message("[rhttpd] ", rhttpdurl);    
