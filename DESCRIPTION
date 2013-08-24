@@ -10,12 +10,12 @@ License: Apache License (== 2.0)
 URL: http://www.opencpu.org
 BugReports: http://github.com/jeroenooms/opencpu/issues
 Depends:
-    R (>= 3.0.0),
+    R (>= 3.0.0)
+Imports:
     parallel,
     tools,
-    stats
-Imports:
-    evaluate,
+    stats,
+    evaluate (>= 0.4.7),
     httpuv (>= 1.1),
     knitr (>= 1.4),
     RJSONIO,
