@@ -15,7 +15,7 @@ Imports:
     parallel,
     tools,
     stats,
-    evaluate,
+    evaluate (>= 0.4.7),
     httpuv (>= 1.1),
     knitr (>= 1.4),
     RJSONIO,
