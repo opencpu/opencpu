@@ -1,5 +1,5 @@
 - in .onLoad added `eval(call("require", "methods", quietly=TRUE))` to work around bug in R CMD check.
-- replaced ::: by %:% to avoid superfluous NOTEs about importing.
+- replaced ::: by from(pkg, obj) to avoid superfluous NOTEs about importing.
 - added 'importFrom httpuv startServer' to avoid erroneous NOTE 'All declared Imports should be used.'. This kind of sucks because httpuv and Rcpp are now loaded in the parent process without being needed.
 
 
