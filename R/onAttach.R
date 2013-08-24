@@ -25,7 +25,7 @@
     if(!exists(".Last", globalenv())){
       exitfun <- function(){
         try({
-          opencpu:::opencpu$stop();
+          get("opencpu", asNamespace("opencpu"))$stop();
           rm(".Last", envir=globalenv());
         }, silent=TRUE);
       } 

@@ -24,8 +24,8 @@ httpget_package_html <- function(pkgpath, requri){
   rdfile <- getrd(topic=reqobject, package=reqpackage, lib.loc=reqlib);
 
   #send html file
-  mylinks <- tools:::findHTMLlinks(pkgpath, lib.loc=reqlib);
+  mylinks <- tools::findHTMLlinks(pkgpath, lib.loc=reqlib);
   mytmp <- tempfile(fileext=".html");
-  tools:::Rd2HTML(rdfile, out=mytmp, package=reqpackage, Links=mylinks, stylesheet="R.css");
+  tools::Rd2HTML(rdfile, out=mytmp, package=reqpackage, Links=mylinks, stylesheet="R.css");
   res$sendfile(mytmp); 
 }

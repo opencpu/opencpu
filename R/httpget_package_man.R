@@ -43,24 +43,24 @@ httpget_package_man <- local({
   }
   
   man_html <- function(rdfile, package, pkgpath){
-    mylinks <- tools:::findHTMLlinks(pkgpath);
+    mylinks <- tools::findHTMLlinks(pkgpath);
     mylinks <- sub("../../", "../../../", mylinks, fixed=TRUE);
     mylinks <- sub("/html/", "/man/", mylinks, fixed=TRUE);
     mylinks <- sub(".html$", "/html", mylinks);
     mytmp <- tempfile(fileext=".html");
-    tools:::Rd2HTML(rdfile, out=mytmp, package=package, Links=mylinks, stylesheet="R.css");
+    tools::Rd2HTML(rdfile, out=mytmp, package=package, Links=mylinks, stylesheet="R.css");
     res$sendfile(mytmp); 
   }
   
   man_tex <- function(rdfile){
     mytmp <- tempfile(fileext=".txt"); #.tex results in weird content-type
-    tools:::Rd2latex(rdfile, out=mytmp, outputEncoding="UTF-8");
+    tools::Rd2latex(rdfile, out=mytmp, outputEncoding="UTF-8");
     res$sendfile(mytmp);
   }
   
   man_text <- function(rdfile, package){
     mytmp <- tempfile(fileext=".txt")
-    tools:::Rd2txt(rdfile, out=mytmp, package=package, outputEncoding="UTF-8", options=list(underline_titles=FALSE, code_quote=FALSE));
+    tools::Rd2txt(rdfile, out=mytmp, package=package, outputEncoding="UTF-8", options=list(underline_titles=FALSE, code_quote=FALSE));
     res$sendfile(mytmp);
   }
   

@@ -12,7 +12,7 @@ parse_query <- function(query){
   argslist <- strsplit(query, "&")[[1]];
   argslist <- strsplit(argslist, "=");
   ARGS <- lapply(argslist, "[[", 2);
-  ARGS <- lapply(ARGS, function(s) {utils:::URLdecode(chartr('+',' ',s))});
+  ARGS <- lapply(ARGS, function(s) {utils::URLdecode(chartr('+',' ',s))});
   names(ARGS) <- lapply(argslist, "[[", 1);    
   return(ARGS)
 }
