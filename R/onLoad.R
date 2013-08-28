@@ -27,6 +27,7 @@ packagename = "";
   #set some global options
   options(max.print=50);
   options(device=grDevices::pdf);
+  options(bitmapType = 'cairo');
   options(menu.graphics=FALSE);
   options(repos=config('repos'));
   options(keep.source = FALSE);
