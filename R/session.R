@@ -106,7 +106,8 @@ session <- local({
   sendjson <- function(hash, obj){
     tmppath <- sessionpath(hash);
     outputpath <- paste(req$mount(), tmppath, "/", sep="");    
-    res$setheader("Location", outputpath);    
+    res$setheader("Location", outputpath); 
+    res$setheader("X-ocpu-session", hash)
     httpget_object(obj, "json");
   }
   
@@ -123,6 +124,7 @@ session <- local({
     res$setbody(text);
     res$setheader("Content-Type", 'text/plain; charset="UTF-8"');
     res$setheader("Location", outputpath);
+    res$setheader("X-ocpu-session", hash)
     res$finish(201);    
   }
   
