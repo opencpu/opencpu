@@ -30,12 +30,16 @@ parse_arg <- local({
     
     if(nchar(x) > 1 && substr(x, 1, 1) == "\"" && substr(x, nchar(x), nchar(x)) =="\""){
       #looks like a character string wrapped in double quotes
-      return(as.expression(substr(x, 2, nchar(x)-1)));
+      return(parse(text=x))
+      #this fails for esape sequences
+      #return(as.expression(substr(x, 2, nchar(x)-1)));
     }
     
     if(nchar(x) > 1 && substr(x, 1, 1) == "\'" && substr(x, nchar(x), nchar(x)) =="\'"){
       #chracter string with single quotes
-      return(as.expression(substr(x, 2, nchar(x)-1)));
+      return(parse(text=x))
+      #this fails for escape sequences
+      #return(as.expression(substr(x, 2, nchar(x)-1)));
     }    
     
     #try if is number
