@@ -85,15 +85,16 @@ session <- local({
     saveRDS(output, file=".REval");
     saveRDS(sessionInfo(), file=".RInfo");  
     saveRDS(.libPaths(), file=".Rlibs"); 
-    
-    #store results permanently
-    hash <- generate();
-    
+
     #does not work on windows 
     #stopifnot(file.rename(execdir, sessiondir(hash))); 
     
-    stopifnot(dir.create(sessiondir(hash), recursive=TRUE))
-    stoponwarn(file.copy(list.files(recursive=TRUE, all=TRUE), sessiondir(hash)))
+    #store results permanently
+    hash <- generate();   
+    outputdir <- sessiondir(hash);
+    file.copy(execdir, dirname(outputdir), recursive=TRUE);
+    setwd(dirname(outputdir));
+    stopifnot(file.rename(basename(execdir), basename(outputdir)));
     
     #send output format. Default is to send a list.
     switch(format,
