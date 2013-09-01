@@ -96,6 +96,7 @@ session <- local({
     stopifnot(file.copy(execdir, dirname(outputdir), recursive=TRUE));
     setwd(dirname(outputdir));
     stopifnot(file.rename(basename(execdir), basename(outputdir)));
+    unlink(execdir, recursive=TRUE);
     
     #send output format. Default is to send a list.
     switch(format,
