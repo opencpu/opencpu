@@ -92,7 +92,8 @@ session <- local({
     #store results permanently
     hash <- generate();   
     outputdir <- sessiondir(hash);
-    file.copy(execdir, dirname(outputdir), recursive=TRUE);
+    suppressWarnings(dir.create(dirname(outputdir)));
+    stopifnot(file.copy(execdir, dirname(outputdir), recursive=TRUE));
     setwd(dirname(outputdir));
     stopifnot(file.rename(basename(execdir), basename(outputdir)));
     
