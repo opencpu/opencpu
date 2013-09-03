@@ -90,14 +90,19 @@ session <- local({
     #stopifnot(file.rename(execdir, sessiondir(hash))); 
     
     #store results permanently
-    hash <- generate();   
+    hash <- generate();  
     outputdir <- sessiondir(hash);
-    suppressWarnings(dir.create(dirname(outputdir)));
-    stopifnot(file.copy(execdir, dirname(outputdir), recursive=TRUE));
-    setwd(dirname(outputdir));
-    stopifnot(file.rename(basename(execdir), basename(outputdir)));
-    unlink(execdir, recursive=TRUE);
     
+    #First try renaming to destionation directory
+    if(!isTRUE(file.rename(execdir, outputdir))){
+      #When rename fails, try copying instead
+      suppressWarnings(dir.create(dirname(outputdir)));
+      stopifnot(file.copy(execdir, dirname(outputdir), recursive=TRUE));
+      setwd(dirname(outputdir));
+      stopifnot(file.rename(basename(execdir), basename(outputdir)));
+      unlink(execdir, recursive=TRUE);      
+    }
+
     #send output format. Default is to send a list.
     switch(format,
       "json" = sendjson(hash, get(".val", sessionenv)),
