@@ -56,6 +56,11 @@ reshandler <- function(e){
     );
   }
   
+  #add CORS header
+  if(isTRUE(config("enable.cors"))){
+    response$headers[["Access-Control-Allow-Origin"]] = "*";
+  }
+  
   #some static headers
   response$headers[["X-ocpu-r"]] = R.version.string;
   response$headers[["X-ocpu-locale"]] = Sys.getlocale("LC_CTYPE");
