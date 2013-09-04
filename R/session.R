@@ -30,6 +30,11 @@ session <- local({
     stopifnot(dir.create(execdir));
     setwd(execdir);
     
+    #copy files to execdir
+    lapply(req$files(), function(x){
+      stopifnot(file.copy(x$tmp_name, x$name))
+    });
+    
     #setup handler
     myhandler <- evaluate::new_output_handler(value=function(myval){
       if(isTRUE(storeval)){

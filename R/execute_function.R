@@ -7,7 +7,7 @@ execute_function <- function(object, requri, objectname="FUN"){
   
   #build the function call
   fnargs <- lapply(req$post(), parse_arg);
-  fileargs <- structure(lapply(req$files(), function(x){as.expression(x$tmp_name)}), names=names(req$files()));
+  fileargs <- structure(lapply(req$files(), function(x){as.expression(x$name)}), names=names(req$files()));
   fnargs <- c(fnargs, fileargs);
   
   argn <- lapply(names(fnargs), as.name);
