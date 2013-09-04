@@ -103,19 +103,21 @@ session <- local({
       unlink(execdir, recursive=TRUE);      
     }
 
-    #send output format. Default is to send a list.
-    switch(format,
-      "json" = sendjson(hash, get(".val", sessionenv)),
-      sendlist(hash)    
-    );
+    #Shortcuts to get object immediately
+    if(format %in% c("json", "print")){
+      sendobject(hash, get(".val", sessionenv), format);
+    } else {
+      #default: send 201 with output list.
+      sendlist(hash)
+    }
   }
   
-  sendjson <- function(hash, obj){
+  sendobject <- function(hash, obj, format){
     tmppath <- sessionpath(hash);
     outputpath <- paste(req$mount(), tmppath, "/", sep="");    
     res$setheader("Location", outputpath); 
     res$setheader("X-ocpu-session", hash)
-    httpget_object(obj, "json");
+    httpget_object(obj, format);
   }
   
   #redirects the client to the session location
