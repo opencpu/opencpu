@@ -30,9 +30,11 @@ rapachehandler <- function(){
   );
     
 	#select method to parse request in a trycatch 
-	sink(tempfile())
+  tmpnull <- tempfile();
+	sink(tmpnull);
 	response <- serve(REQDATA);
 	sink();
+  unlink(tmpnull);
 	
   #set server header  
   response$headers["X-ocpu-server"] <- "rApache";      
