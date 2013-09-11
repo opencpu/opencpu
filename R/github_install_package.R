@@ -22,7 +22,7 @@ github_install_package <- function(user, package, lib){
   untar(mytmp);
   
   #detect R path. Must be a better way.
-  R <- parallel::defaultClusterOptions$rprog; 
+  R <- from("parallel", "defaultClusterOptions")$rprog; 
   
   #call out to system
   system_capture(
