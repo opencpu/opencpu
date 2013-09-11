@@ -12,7 +12,7 @@ serve <- function(REQDATA){
   if(identical(OS, "windows")){
     #we use another trycatch block because request happens inside psockcluster
     return(tryCatch({
-      eval_psock(opencpu:::request(opencpu:::main(REQDATA)), timeout=config("timelimit.post"));
+      eval_psock(get("request", envir=asNamespace("opencpu"))(get("main", envir=asNamespace("opencpu"))(REQDATA)), timeout=config("timelimit.post"));
     }, error = reshandler));
   } 
   

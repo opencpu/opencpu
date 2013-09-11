@@ -4,8 +4,8 @@ eval_psock <- function(expr, envir=parent.frame(), timeout=60, opts){
   #create a child process
   cluster <- parallel::makePSOCKcluster(1);
   child <- cluster[[1]];
-  parallel:::sendCall(child, eval, list(quote(Sys.getpid())));
-  pid <- parallel:::recvResult(child);
+  from("parallel", "sendCall")(child, eval, list(quote(Sys.getpid())));
+  pid <- from("parallel", "recvResult")(child);
   
   #set the timeout
   setTimeLimit(elapsed=timeout, transient=TRUE);
@@ -13,19 +13,19 @@ eval_psock <- function(expr, envir=parent.frame(), timeout=60, opts){
     setTimeLimit(cpu=Inf, elapsed=Inf, transient=FALSE);
     tools::pskill(pid); #win
     tools::pskill(pid, tools::SIGKILL); #nix
-    parallel:::stopNode(child);
+    from("parallel", "stopNode")(child);
   });
   
   #try to set options
   if(!missing(opts)){
-    parallel:::sendCall(child, eval, list(quote(options(opts)), envir=list(opts=as.list(opts))));
-    parallel:::recvResult(child);    
+    from("parallel", "sendCall")(child, eval, list(quote(options(opts)), envir=list(opts=as.list(opts))));
+    from("parallel", "recvResult")(child);    
   }
   
   #send the actual call
   #package/objects are already loaded??
-  parallel:::sendCall(child, eval, list(expr=substitute(expr), envir=as.list(envir)));
-  myresult <- parallel:::recvResult(child);
+  from("parallel", "sendCall")(child, eval, list(expr=substitute(expr), envir=as.list(envir)));
+  myresult <- from("parallel", "recvResult")(child);
   
   #reset timelimit
   setTimeLimit(cpu=Inf, elapsed=Inf, transient=TRUE);

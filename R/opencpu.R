@@ -69,12 +69,12 @@ opencpu <- local({
     #start cluster
     cluster <- parallel::makePSOCKcluster(1);
     child <- cluster[[1]];
-    parallel:::sendCall(child, eval, list(quote(Sys.getpid())));
-    mypid <- parallel:::recvResult(child);    
+    from("parallel", "sendCall")(child, eval, list(quote(Sys.getpid())));
+    mypid <- from("parallel", "recvResult")(child);    
     
     #start httpuv
     myport <- ifelse(missing(port), round(runif(1, 1024, 9999)), port);
-    parallel:::sendCall(child, eval, list(quote(httpuv::runServer("0.0.0.0", myport, list(call=opencpu:::rookhandler(rootpath)))), envir=list(rootpath=rootpath, myport=myport)));
+    from("parallel", "sendCall")(child, eval, list(quote(httpuv::runServer("0.0.0.0", myport, list(call=get("rookhandler", envir=asNamespace("opencpu"))(rootpath)))), envir=list(rootpath=rootpath, myport=myport)));
     
     #should test for running server here
     pid <<- mypid;
@@ -96,7 +96,7 @@ opencpu <- local({
   }
   
   readchild <- function(){
-    parallel:::recvResult(getchild()[[1]]);   
+    from("parallel", "recvResult")(getchild()[[1]]);   
   }
   
   hasdied <- function(){
