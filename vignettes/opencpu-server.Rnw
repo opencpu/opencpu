@@ -1,5 +1,4 @@
 %\VignetteIndexEntry{The OpenCPU Server PDF Manual}
-%\VignetteEngine{knitr::knitr}
 
 \documentclass{scrartcl}\usepackage[]{graphicx}\usepackage[]{color}
 %% maxwidth is the original width if it is less than linewidth
@@ -55,12 +54,15 @@
 
 
 
+\usepackage{upquote}
 \usepackage[colorlinks, urlcolor=blue]{hyperref}
 \usepackage[toc,page]{appendix}
 \usepackage{fullpage}
 \usepackage{graphics}
 \usepackage{graphicx}
 \usepackage{verbatim}
+
+
 
 \title{The OpenCPU Server PDF Manual}
 \subtitle{Version 1.0}
@@ -293,7 +295,6 @@ From here it is business as usual:
 \begin{alltt}
 \hlkwd{install.packages}\hlstd{(}\hlstr{"ggplot2"}\hlstd{)}
 \hlkwd{install.packages}\hlstd{(}\hlstr{"glmnet"}\hlstd{)}
-
 \hlkwd{library}\hlstd{(devtools)}
 \hlkwd{install_github}\hlstd{(}\hlstr{"dplyr"}\hlstd{,} \hlstr{"hadley"}\hlstd{)}
 \end{alltt}
