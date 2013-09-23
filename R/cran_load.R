@@ -33,16 +33,23 @@ cran_load <- function(pkgname){
   stopifnot(file.create(blockpath));
   on.exit(unlink(blockpath, force=TRUE));
 
-  #NOTE: for now we can't capture output from install.packages
-  inlib(cranpath,
-    tryCatch(install.packages(pkgname), error=function(e){
-      stop("Package installation of ", pkgname, " failed: ", e$message);
-    })
-  );
-  
+  #in cran lib
+  inlib(cranpath,{
+    cmd <- c(
+      paste0("environment(.libPaths)$.lib.loc <- ", deparse(.libPaths(), 500), ";"),
+      paste0("options(repos = ", deparse(getOption('repos'), 500), ");"),
+      paste0("options(configure.vars = ", deparse(getOption('configure.vars'), 500), ");"),
+      paste0("install.packages(", deparse(pkgname), ");")
+    );
+    
+    scriptfile <- tempfile();
+    writeLines(cmd, scriptfile);      
+    output <- system2("Rscript", shQuote(scriptfile), stdout=TRUE, stderr=TRUE);
+  });
+    
   #check if package has been installed
   if(!file.exists(pkgpath)){
-    stop("Package installation of ", pkgname, " was unsuccessful.");
+    stop("Package installation of ", pkgname, " was unsuccessful.\n\n", paste(output, collapse="\n"));
   }
 
   #return the path 
