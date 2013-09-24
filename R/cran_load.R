@@ -35,16 +35,7 @@ cran_load <- function(pkgname){
 
   #in cran lib
   inlib(cranpath,{
-    cmd <- c(
-      paste0("environment(.libPaths)$.lib.loc <- ", deparse(.libPaths(), 500), ";"),
-      paste0("options(repos = ", deparse(getOption('repos'), 500), ");"),
-      paste0("options(configure.vars = ", deparse(getOption('configure.vars'), 500), ");"),
-      paste0("install.packages(", deparse(pkgname), ");")
-    );
-    
-    scriptfile <- tempfile();
-    writeLines(cmd, scriptfile);      
-    output <- system2("Rscript", shQuote(scriptfile), stdout=TRUE, stderr=TRUE);
+    output <- try_rscript(paste0("install.packages(", deparse(pkgname), ")"));
   });
     
   #check if package has been installed

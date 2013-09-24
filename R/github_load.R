@@ -41,15 +41,13 @@ github_load <- function(gituser, gitrepo){
 
   #NOTE: for now we can't capture output from install_github
   #Dependencies = TRUE otherwise it will skip currently loaded packages leading to problems.
-  inlib(gittmpdir,
-    tryCatch(install_github(gitrepo, gituser, dependencies=TRUE, args=paste0("--library=", deparse(gittmpdir))), error=function(e){
-      stop("Package install failed: ", e$message, ". To debug:\n\nlibrary(devtools)\ninstall_github(", deparse(gitrepo), ", ", deparse(gituser), ")");
-    })
-  );
+  inlib(gittmpdir, {
+    output <- try_rscript(paste0("library(methods);library(devtools);install_github(", deparse(gitrepo), ",", deparse(gituser), ", dependencies=TRUE, args='--library=", deparse(gittmpdir), "')"));
+  });
   
   #check if package has been installed
   if(!file.exists(file.path(gittmpdir, gitrepo))){
-    stop("Package installation failed.")
+    stop("Package installation failed.\n\n", paste(output, collapse="\n"))
   }
 
   #move everything to new location
