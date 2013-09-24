@@ -1,0 +1,7 @@
+1.0.2
+ - Capture output for install.packages, install_github and biocInstaller
+
+1.0.1 
+ - Fix bugs for uploading files
+ - Fix bugs for storing files from a session
+ - Set default bitmap type to Cairo (to prevent problems with forks on MAC)
