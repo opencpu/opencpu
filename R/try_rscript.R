@@ -10,7 +10,7 @@ try_rscript <- function(cmd){
     scriptfile <- tempfile();
     on.exit(unlink(scriptfile))
     writeLines(cmd, scriptfile);      
-    output <- system2("Rscript", shQuote(scriptfile), stdout=TRUE, stderr=TRUE);
+    output <- system2(file.path(R.home("bin"), "Rscript"), shQuote(scriptfile), stdout=TRUE, stderr=TRUE);
   }, error = function(e){
     stop("Command failed: ", cmd, ".\n\n", paste(output, collapse="\n"))
   });
