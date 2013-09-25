@@ -49,6 +49,7 @@ session <- local({
           from("evaluate", "render")(myval);
         }
       }
+      invisible();
     });
     
     #create session for output objects
