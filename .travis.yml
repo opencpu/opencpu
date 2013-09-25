@@ -15,7 +15,7 @@ install:
   - sudo apt-add-repository -y ppa:marutter/c2d4u
   - sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/marutter-c2d4u-precise.list"
       -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
-  - sudo apt-get install --no-install-recommends r-base-dev r-cran-xml r-cran-rcurl r-recommended
+  - sudo apt-get install --no-install-recommends r-base-dev r-cran-xml r-cran-rcurl r-recommended libapparmor-dev
       qpdf texinfo texlive-latex-recommended texlive-latex-extra lmodern texlive-fonts-recommended texlive-fonts-extra
   - "[ ! -d ~/R ] && mkdir ~/R"
   - R --version
