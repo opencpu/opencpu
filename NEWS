@@ -1,5 +1,10 @@
+1.0.3
+ - Invisible return values are now stored but not printed
+ - Dependency update to evaluate 0.4.10
+
 1.0.2
  - Capture output for install.packages, install_github and biocInstaller
+ - Remove rapache library change in onAttach
 
 1.0.1 
  - Fix bugs for uploading files

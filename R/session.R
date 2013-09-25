@@ -36,16 +36,18 @@ session <- local({
     });
     
     #setup handler
-    myhandler <- evaluate::new_output_handler(value=function(myval){
-      if(isTRUE(storeval)){
+    myhandler <- evaluate::new_output_handler(value=function(myval, visible=TRUE){
+      if(isTRUE(storeval) && !isTRUE(is.null(myval))){
         assign(".val", myval, sessionenv);
       }
-      #note: print can be really, really slow
-      if(identical(class(myval), "list")){
-        cat("List of length ", length(myval), "\n");
-        cat(paste("[", names(myval), "]", sep="", collapse="\n"));
-      } else {
-        from("evaluate", "render")(myval);
+      if(isTRUE(visible)){
+        #note: print can be really, really slow
+        if(identical(class(myval), "list")){
+          cat("List of length ", length(myval), "\n");
+          cat(paste("[", names(myval), "]", sep="", collapse="\n"));
+        } else {
+          from("evaluate", "render")(myval);
+        }
       }
     });
     
