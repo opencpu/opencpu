@@ -37,7 +37,7 @@ session <- local({
     
     #setup handler
     myhandler <- evaluate::new_output_handler(value=function(myval, visible=TRUE){
-      if(isTRUE(storeval) && !isTRUE(is.null(myval))){
+      if(isTRUE(storeval)){
         assign(".val", myval, sessionenv);
       }
       if(isTRUE(visible)){
