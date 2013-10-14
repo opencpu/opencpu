@@ -1,3 +1,8 @@
+1.0.4
+ - Fixed bug when timeout > 60s (reported by Jordy Coolen)
+ - Fixed nginx warning in the cloud server
+ - Upgrade evaluate to 0.5.1
+
 1.0.3
  - Invisible return values are now stored but not printed
  - Dependency update to evaluate 0.4.10
