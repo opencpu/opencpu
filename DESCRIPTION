@@ -2,8 +2,8 @@ Package: opencpu
 Type: Package
 Title: OpenCPU framework for embedded statistical computation and reproducible
     research.
-Version: 1.0.3
-Date: 2013-09-25
+Version: 1.0.4
+Date: 2013-10-14
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
 License: Apache License (== 2.0)
@@ -15,7 +15,7 @@ Imports:
     parallel,
     tools,
     stats,
-    evaluate (>= 0.4.10),
+    evaluate (>= 0.5.1),
     httpuv (>= 1.1),
     knitr (>= 1.4),
     RJSONIO,
