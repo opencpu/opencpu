@@ -30,7 +30,8 @@
 \dontrun{
 rhttpd$init()
 rhttpd$url()
-rhttpd$browse('/library/stats/man/glm')
+rhttpd$browse('test')
+rhttpd$browse('test', viewer=FALSE)
 }
 }
 \references{

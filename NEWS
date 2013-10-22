@@ -1,7 +1,11 @@
+1.0.5
+ - Change opencpu$browse() to take advantage of Rstudio viewing panel if available
+
 1.0.4
  - Fixed bug when timeout > 60s (reported by Jordy Coolen)
  - Fixed nginx warning in the cloud server
  - Upgrade evaluate to 0.5.1
+ - Add support for Apache 2.4 / Ubuntu Saucy in cloud server with mpm_prefork
 
 1.0.3
  - Invisible return values are now stored but not printed

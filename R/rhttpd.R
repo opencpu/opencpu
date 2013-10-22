@@ -23,7 +23,8 @@
 #' \dontrun{
 #' rhttpd$init()
 #' rhttpd$url()
-#' rhttpd$browse('/library/stats/man/glm')
+#' rhttpd$browse('test')
+#' rhttpd$browse('test', viewer=FALSE)
 #' }
 rhttpd <- local({
   rhttpdurl <- "";
@@ -50,11 +51,21 @@ rhttpd <- local({
     }
     return(rhttpdurl)
   }
-  browse <- function(path="/library/"){
+  
+  browse <- function(path="/test/", viewer=TRUE){
+    #build url path
     path <- sub("^//", "/", paste0("/", path));    
-    browseURL(paste0(url(), path));
-    invisible();
-  }
+    viewurl <- paste0(url(), path);    
+    
+    #use viewer or not
+    IDEviewer <- getOption("viewer")
+    if (isTRUE(viewer) && !is.null(IDEviewer)) {
+      IDEviewer(viewurl);
+    } else {
+      utils::browseURL(viewurl);
+    }    
+  }  
+  
   structure(environment(), class=c("rhttpd", "environment"));
 });
 
@@ -65,5 +76,6 @@ print.rhttpd <- function(x, ...){
   cat("Example Usage:\n")
   cat("  rhttpd$init()                           - Start rhttpd and register OpenCPU.\n")  
   cat("  rhttpd$url()                            - Return the server address of current server.\n")
-  cat("  rhttpd$browse('/library/stats/man/glm')  - Try to open current server a web browser.\n")    
+  cat("  rhttpd$browse('/test')                  - Open active server in viewer (if available) or browser.\n")    
+  cat("  rhttpd$browse('/test', viewer=FALSE)    - Open active server in a web browser.\n")  
 }

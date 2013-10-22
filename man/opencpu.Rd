@@ -34,7 +34,8 @@
 opencpu$start(12345);
 opencpu$restart()
 opencpu$url()
-opencpu$browse('library/stats/man/glm')
+opencpu$browse('/test')
+opencpu$browse('/test', viewer=FALSE)
 opencpu$stop()
 }
 }
