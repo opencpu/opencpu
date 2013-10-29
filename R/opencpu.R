@@ -56,6 +56,16 @@ opencpu <- local({
     invisible();
   }
   
+  debug <- function(port=9999, rootpath = "/ocpu"){
+    rootpath <- sub("^//", "/", paste0("/", rootpath));
+    rootpath <- sub("/$", "", rootpath);
+    cat(paste0("Starting server at http://localhost:", port, rootpath), "\n");
+    cat("Press ESC (or STOP in rstudio) to terminate server.")
+    httpuv::runServer("0.0.0.0", port, list(
+      call=get("rookhandler", envir=asNamespace("opencpu"))(rootpath)
+    ));
+  }
+  
   start <- function(port, rootpath = "/ocpu"){
     #make sure rootpath starts with a slash and no trailing slash
     rootpath <- sub("^//", "/", paste0("/", rootpath));
