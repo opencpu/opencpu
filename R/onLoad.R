@@ -27,11 +27,15 @@ packagename = "";
   #set some global options
   options(max.print=50);
   options(device=grDevices::pdf);
-  options(bitmapType = 'cairo');
   options(menu.graphics=FALSE);
   options(repos=config('repos'));
   options(keep.source = FALSE);
   options(useFancyQuotes = FALSE);
+  
+  #use cairo if available
+  if(isTRUE(capabilities()[["cairo"]])){
+    options(bitmapType = 'cairo');
+  }
   
   #check for software
   #options(hasgit = cmd_exists("git --version")); 
