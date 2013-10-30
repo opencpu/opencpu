@@ -24,7 +24,7 @@
 #' rhttpd$init()
 #' rhttpd$url()
 #' rhttpd$browse('test')
-#' rhttpd$browse('test', viewer=FALSE)
+#' rhttpd$view('test')
 #' }
 rhttpd <- local({
   rhttpdurl <- "";
@@ -52,7 +52,7 @@ rhttpd <- local({
     return(rhttpdurl)
   }
   
-  browse <- function(path="/test/", viewer=TRUE){
+  browse <- function(path="/test/", viewer=FALSE){
     #build url path
     path <- sub("^//", "/", paste0("/", path));    
     viewurl <- paste0(url(), path);    
@@ -64,7 +64,11 @@ rhttpd <- local({
     } else {
       utils::browseURL(viewurl);
     }    
-  }  
+  }
+  
+  view <- function(path="/test/"){
+    browse(path=path, viewer=TRUE)
+  }
   
   structure(environment(), class=c("rhttpd", "environment"));
 });
@@ -76,6 +80,6 @@ print.rhttpd <- function(x, ...){
   cat("Example Usage:\n")
   cat("  rhttpd$init()                           - Start rhttpd and register OpenCPU.\n")  
   cat("  rhttpd$url()                            - Return the server address of current server.\n")
-  cat("  rhttpd$browse('/test')                  - Open active server in viewer (if available) or browser.\n")    
-  cat("  rhttpd$browse('/test', viewer=FALSE)    - Open active server in a web browser.\n")  
+  cat("  rhttpd$view('/test')                    - Open active server in viewer (if available) or browser.\n")    
+  cat("  rhttpd$browse('/test')                  - Open active server in a web browser.\n")  
 }

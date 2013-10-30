@@ -31,7 +31,7 @@
 rhttpd$init()
 rhttpd$url()
 rhttpd$browse('test')
-rhttpd$browse('test', viewer=FALSE)
+rhttpd$view('test')
 }
 }
 \references{
