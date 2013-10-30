@@ -3,9 +3,11 @@ serve <- function(REQDATA){
   #detect OS
   OS <- .Platform$OS.type;
   
-  #for GET requests we use the main process
-  if(identical(OS, "windows") && (REQDATA$METHOD %in% c("HEAD", "GET")) && !isdangerous(REQDATA$PATH_INFO)){
-    return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
+  #On Win/Mac, for safe GET requests use the main process
+  if(identical(OS, "windows") || grepl("darwin", R.Version()$platform)) {   
+    if (REQDATA$METHOD %in% c("HEAD", "GET") && !isdangerous(REQDATA$PATH_INFO)){
+      return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
+    }
   } 
   
   #for non GETor unsafe we use a psock process in windows

@@ -2,6 +2,7 @@
  - Change opencpu$browse() to take advantage of Rstudio viewing panel if available
  - Set quick=true for install_github
  - Use bitmapType="cairo" if available
+ - Don't for on MAC for "safe" requests (to reduce risk of fork issues)
 
 1.0.4
  - Fixed bug when timeout > 60s (reported by Jordy Coolen)
