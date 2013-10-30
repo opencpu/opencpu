@@ -1,5 +1,5 @@
 1.0.5
- - Change opencpu$browse() to take advantage of Rstudio viewing panel if available
+ - Adding opencpu$view() to take advantage of Rstudio viewing panel if available
  - Set quick=true for install_github
  - Use bitmapType="cairo" if available
  - Don't for on MAC for "safe" requests (to reduce risk of fork issues)
