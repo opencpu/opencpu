@@ -9,6 +9,7 @@ fixplot <- function(plot, loadpackages=FALSE){
   # restore native symbols for R >= 3.0
   rVersion <- getRversion()
   if (rVersion >= "3.0") {
+    attr(plot, "pid") <- Sys.getpid();    
     for(i in 1:length(plot[[1]])) {
       # get the symbol then test if it's a native symbol
       symbol <- plot[[1]][[i]][[2]][[1]]
