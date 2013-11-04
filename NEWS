@@ -3,6 +3,7 @@
  - Set quick=true for install_github
  - Use bitmapType="cairo" if available
  - Don't for on MAC for "safe" requests (to reduce risk of fork issues)
+ - Temporary implementation of HTTP OPTIONS for CORS in chrome.
 
 1.0.4
  - Fixed bug when timeout > 60s (reported by Jordy Coolen)

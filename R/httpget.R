@@ -1,5 +1,12 @@
 httpget <- function(){
   
+  #temporary fix for OPTIONS method support
+  #should implement this per resource and send some text
+  if(isTRUE(req$method() == "OPTIONS")){
+    res$setheader("Allow", "GET,HEAD,POST,OPTIONS");
+    res$sendtext("Nothing here yet...");
+  }
+    
   #extract path
   reqpath <- strsplit(substring(URLdecode(req$path_info()), 2),"/")[[1]];
   
