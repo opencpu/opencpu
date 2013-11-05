@@ -60,7 +60,7 @@ opencpu <- local({
     rootpath <- sub("^//", "/", paste0("/", rootpath));
     rootpath <- sub("/$", "", rootpath);
     cat(paste0("Starting server at http://localhost:", port, rootpath), "\n");
-    cat("Press ESC (or STOP in rstudio) to terminate server.")
+    cat("To terminate server, hit ESC (or press STOP in rstudio).")
     httpuv::runServer("0.0.0.0", port, list(
       call=get("rookhandler", envir=asNamespace("opencpu"))(rootpath)
     ));
@@ -141,7 +141,7 @@ opencpu <- local({
     }
     
     #build url path
-    path <- sub("^//", "/", paste0("/", path));    
+    path <- sub("^//", "/", paste0("/", path));   
     viewurl <- paste0(uvurl, path);    
 
     #use viewer or not

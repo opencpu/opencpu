@@ -11,7 +11,8 @@ serve <- function(REQDATA){
   } 
   
   #for non GETor unsafe we use a psock process in windows
-  if(identical(OS, "windows")){
+  #NOTE as of 1.0.5 we also use psock on OSX because Mavericks has problems with forking.
+  if(identical(OS, "windows") || grepl("darwin", R.Version()$platform)){
     #we use another trycatch block because request happens inside psockcluster
     return(tryCatch({
       eval_psock(get("request", envir=asNamespace("opencpu"))(get("main", envir=asNamespace("opencpu"))(REQDATA)), timeout=config("timelimit.post"));
