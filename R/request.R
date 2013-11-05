@@ -59,6 +59,8 @@ reshandler <- function(e){
   #add CORS header
   if(isTRUE(config("enable.cors"))){
     response$headers[["Access-Control-Allow-Origin"]] = "*";
+    response$headers[["Access-Control-Allow-Headers"]] = "Origin, Content-Type, Accept";
+    response$headers[["Access-Control-Expose-Headers"]] = "Location, X-ocpu-session, Content-Type";    
   }
   
   #some static headers
