@@ -1,10 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-api.txt
-future.txt
-cranhacks.txt
-FAQ
 README.md
-r_help_test.R
 Makefile
 .travis.yml
+^teststuff$
