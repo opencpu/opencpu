@@ -4,7 +4,14 @@ gist_list <- function(username){
   if(!is.null(mysecret)){
     myurl <- paste(myurl, "?client_id=", mysecret$client_id, "&client_secret=", mysecret$client_secret, sep="");
   }
-  out <- GET(myurl, add_headers("User-Agent" = "OpenCPU"));
+  
+  #temporary fix for Mavericks CF
+  if(grepl("darwin", R.Version()$platform)){
+    out <-  eval_psock(httr::GET(myurl, httr::add_headers("User-Agent" = "OpenCPU")), list(myurl=myurl));
+  } else {
+    out <- GET(myurl, add_headers("User-Agent" = "OpenCPU"));
+  }  
+
   stop_for_status(out);
   response <- fromJSON(rawToChar(out$content));
   
