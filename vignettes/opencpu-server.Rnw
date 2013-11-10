@@ -1,12 +1,58 @@
 %\VignetteIndexEntry{The OpenCPU Server PDF Manual}
 
-\documentclass{scrartcl}
-
-<<insert-fun, echo=FALSE>>=
-insert_fun = function(name) {
-  read_chunk(lines = capture.output(dump(name, '')), labels = paste(name, 'source', sep = '-'))
+\documentclass{scrartcl}\usepackage[]{graphicx}\usepackage[]{color}
+%% maxwidth is the original width if it is less than linewidth
+%% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
 }
-@
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+
+
 
 \usepackage{upquote}
 \usepackage[colorlinks, urlcolor=blue]{hyperref}
@@ -22,6 +68,7 @@ insert_fun = function(name) {
 \subtitle{Version 1.0}
 \author{Jeroen Ooms\vspace{-1ex}}
 \date{}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
 
 \begin{document}
 
@@ -68,10 +115,15 @@ OpenCPU defines a standard way to build and share "apps". An OpenCPU app is an R
 
 \noindent Because OpenCPU apps are simply R packages, they are developed, distributed and installed the same way as any other R package. Several example apps are available from the OpenCPU github organization at \href{https://github.com/opencpu}{https://github.com/opencpu}. For example to install the \href{https://github.com/opencpu/gitstats}{gitstats} app, we can use the \texttt{devtools} package:
 
-<<eval=FALSE>>=
-library(devtools)
-install_github("gitstats", "opencpu")
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(devtools)}
+\hlkwd{install_github}\hlstd{(}\hlstr{"gitstats"}\hlstd{,} \hlstr{"opencpu"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
 
 \noindent If the application was installed on an OpenCPU cloud server, the app is directly available. Point your browser to \href{http://your.server.com/ocpu/library/gitstats/www}{http://your.server.com/ocpu/library/gitstats/www}. \\
 
@@ -81,22 +133,37 @@ install_github("gitstats", "opencpu")
 
 Two versions of OpenCPU are available: a single-user server that runs inside an interactive R session, and a cloud server that builds on Apache and Nginx. The single-user server is intended for development and local use only. The latest version can easily be installed in R from the Github repository:
 
-<<install-opencpu, eval=FALSE>>=
-library(devtools)
-install_github("opencpu", "jeroenooms")
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(devtools)}
+\hlkwd{install_github}\hlstd{(}\hlstr{"opencpu"}\hlstd{,} \hlstr{"jeroenooms"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
 
 \noindent When the opencpu package is loaded, the server is automatically started:
-<<load-opencpu>>=
-library(opencpu)
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{library}\hlstd{(opencpu)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
 
 \noindent Because R is single-threaded, the single-user server does not support concurrent requests (but httpuv does a good job in queuing them). Also it does not enforce any security. The single-user server is great for developing apps, that can later be published on the OpenCPU cloud server. When using the single-user server, we can easily load the apps for local use:
 
-<<eval=FALSE>>=
-install_github("gitstats", "opencpu")
-opencpu$browse("library/gitstats/www")
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{install_github}\hlstd{(}\hlstr{"gitstats"}\hlstd{,} \hlstr{"opencpu"}\hlstd{)}
+\hlstd{opencpu}\hlopt{$}\hlkwd{browse}\hlstd{(}\hlstr{"library/gitstats/www"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
 
 \noindent The \texttt{opencpu\$browse} function will automatically open the app in the default web browser.  
 
@@ -223,13 +290,18 @@ Alternatively we can start an interactive session and install packages straight 
   sudo R
 \end{verbatim}
 From here it is business as usual:
-<<eval=FALSE>>=
-install.packages("ggplot2")
-install.packages("glmnet")
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlkwd{install.packages}\hlstd{(}\hlstr{"ggplot2"}\hlstd{)}
+\hlkwd{install.packages}\hlstd{(}\hlstr{"glmnet"}\hlstd{)}
 
-library(devtools)
-install_github("dplyr", "hadley")
-@
+\hlkwd{library}\hlstd{(devtools)}
+\hlkwd{install_github}\hlstd{(}\hlstr{"dplyr"}\hlstd{,} \hlstr{"hadley"}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
 \noindent After restarting the OpenCPU service, the packages are accessible through the API:\\
 
 \indent \url{http://your.server.com/ocpu/library/ggplot2} \\
@@ -523,10 +595,15 @@ And to install:
   sudo apt-get install r-cran-ggplot2
 \end{verbatim}
 This is great but there is one caveat: because the packages are precompiled, they will only work if they were built using R 3.0 or higher. Fortunately this is the case for almost all packages on \texttt{c2d4u}. However, it is wise to double check this in R after installing, by inspecting the \texttt{Built} column from the \texttt{installed.packages()} output:
-<<eval=FALSE>>=
-allpackages <- installed.packages()
-which(allpackages[,"Built"] < 3.0)
-@
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
+\begin{alltt}
+\hlstd{allpackages} \hlkwb{<-} \hlkwd{installed.packages}\hlstd{()}
+\hlkwd{which}\hlstd{(allpackages[,} \hlstr{"Built"}\hlstd{]} \hlopt{<} \hlnum{3}\hlstd{)}
+\end{alltt}
+\end{kframe}
+\end{knitrout}
+
 \noindent If any packages show up which have been built with an older version of R, it is best to uninstall them because they won't work and will cause an error when loaded.
 
 
