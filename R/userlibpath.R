@@ -1,11 +1,23 @@
 #doesn't work on windows. R_LIBS_USER will always be logged in user.
 userlibpath <- function(username, postfix=""){
-  homelib <- path.expand(sub("~", paste0("~", username), Sys.getenv("R_LIBS_USER"), fixed=TRUE));
+  home <- homedir(username);
+  homelib <- sub("~", home, Sys.getenv("R_LIBS_USER"), fixed=TRUE);
   homelib <- gsub("/+$", "", homelib);
   homelib <- paste(homelib, postfix, sep="");
   if(file.exists(homelib)){
     return(homelib);
   } 
+  
+  #failed
+  return("");
+}
+
+homedir <- function(username){
+  #easiest method
+  home <- path.expand(paste0("~", username));
+  if(file.exists(home)){
+    return(home);
+  }
   
   #second method
   if(file.exists("/etc/passwd")){
@@ -16,8 +28,7 @@ userlibpath <- function(username, postfix=""){
         return(homelib)
       }
     }
-  }   
+  }
   
-  #all failed
-  return("");
+  stop("Could not find home directory for user", username);
 }
