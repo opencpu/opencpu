@@ -1,16 +1,13 @@
 #doesn't work on windows. R_LIBS_USER will always be logged in user.
 userlibpath <- function(username, postfix=""){
-  userhomepath <- file.path(userhome(), username);
-  homelib <- sub("~", userhomepath, Sys.getenv("R_LIBS_USER"));
+  usertable <- read.table("/etc/passwd", sep=":", as.is=TRUE, row.names=1);
+  userhome <- usertable[username,"V6"];
+  homelib <- sub("~", userhome, Sys.getenv("R_LIBS_USER"));
   homelib <- gsub("/+$", "", homelib);
-  homelib <- paste(homelib, postfix, sep="");  
-  return(homelib);
-}
-
-userhome <- function(){
-  if(Sys.info()[["effective_user"]] %in% c("root", "www-data")){
-    return("/home")
+  homelib <- paste(homelib, postfix, sep="");
+  if(file.exists(homelib)){
+    return(homelib);
   } else {
-    return(dirname(path.expand("~")));
+    return("");
   }
 }

@@ -7,18 +7,27 @@ httpget_user <- function(uri){
     stop("The /ocpu/user API is not supported on MS windows.")
   }
 
-  #GET /ocpu/user/jeroen
+  #GET /ocpu/user
   username <- uri[1];
   if(is.na(username)){
     res$checkmethod();
-    res$sendfile(userhome());
+    res$sendlist(listallusers());
+  }
+  
+  #Check that user exists
+  if(!(username %in% listallusers())){
+    res$error(paste("User", username, "not found."), 404);
   }
   
   #GET /ocpu/user/jeroen/lib
   what <- uri[2];
   if(is.na(what)){
     res$checkmethod();
-    res$sendlist(c("library", "apps"));
+    if(file.exists(userlibpath(username))){
+      res$sendlist(c("library"));
+    } else {
+      res$sendlist(c());
+    }
   }
   
   #remaining of the api
@@ -26,6 +35,6 @@ httpget_user <- function(uri){
   switch(what,
     "library" = httpget_user_library(username, reqtail),
     "apps" = httpget_user_apps(username, reqtail),
-     res$notfound(message=paste("invalid api: /user/", username, "/", what, sep=""))
+     res$notfound(message=paste("invalid user api: ", what, sep=""))
   );  
 }
