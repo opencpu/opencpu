@@ -47,7 +47,10 @@ github_load <- function(gituser, gitrepo){
   
   #check if package has been installed
   if(!file.exists(file.path(gittmpdir, gitrepo))){
-    stop("Package '",gitrepo, "' did not successfully install.\nEither installation failed or github repository name does not match package name.\n\n", paste(output, collapse="\n"))
+    #note that stop() might not work because error message is too large (install log)
+    header <- paste("Package '",gitrepo, "' did not successfully install.\nEither installation failed or github repository name does not match package name.\n\n");
+    msg <- paste(output, collapse="\n");
+    res$error(paste(header, msg, sep="\n"));
   }
 
   #move everything to new location

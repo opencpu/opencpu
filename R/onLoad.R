@@ -31,6 +31,7 @@ packagename = "";
   options(repos=config('repos'));
   options(keep.source = FALSE);
   options(useFancyQuotes = FALSE);
+  options(warning.length=8000);
   
   #use cairo if available
   if(isTRUE(capabilities()[["cairo"]])){
