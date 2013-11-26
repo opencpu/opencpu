@@ -1,3 +1,7 @@
+1.0.7
+ - Adding Github CI stuff
+ - New config parameters: "public.url" and "smtp.server"
+
 1.0.6
  - Version bump for CRAN release.
  - Detect /ocpu/user libraries from /etc/passwd.

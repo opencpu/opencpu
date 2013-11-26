@@ -2,7 +2,7 @@ config <- local({
   conflist <- list()
   
   load <- function(filepath){
-    newconf <- as.list(fromJSON(filepath));
+    newconf <- as.list(fromJSON(filepath, simplifyWithNames=FALSE));
     for(i in seq_along(newconf)){
       name <- names(newconf[i]);
       conflist[[name]] <<- newconf[[i]];
