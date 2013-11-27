@@ -25,8 +25,16 @@ serve <- function(REQDATA){
     }
   } 
   
-  #If none of the above: use forking method
-  totaltimelimit <- ifelse(isTRUE(REQDATA$METHOD %in% c("HEAD", "GET")), config("timelimit.get"), config("timelimit.post"));  
+  #Determine time limits
+  totaltimelimit <- if(grepl("^/?ocpu/webhook", REQDATA$PATH_INFO)) {
+    config("timelimit.webhook");
+  } else if(isTRUE(REQDATA$METHOD %in% c("HEAD", "GET"))){
+    config("timelimit.get");
+  } else {
+    config("timelimit.post");
+  };  
+  
+  #On Linux use forking
   if(isTRUE(getOption("rapache"))){
     request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5, RLIMIT_AS=config("rlimit.as"), RLIMIT_FSIZE=config("rlimit.fsize"), RLIMIT_NPROC=config("rlimit.nproc"), profile="opencpu-main"));
   } else { 
