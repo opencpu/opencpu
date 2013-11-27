@@ -26,7 +26,7 @@ serve <- function(REQDATA){
   } 
   
   #Determine time limits
-  totaltimelimit <- if(grepl("^/?ocpu/webhook", REQDATA$PATH_INFO)) {
+  totaltimelimit <- if(grepl("^/webhook", REQDATA$PATH_INFO)) {
     config("timelimit.webhook");
   } else if(isTRUE(REQDATA$METHOD %in% c("HEAD", "GET"))){
     config("timelimit.get");
