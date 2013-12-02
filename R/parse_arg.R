@@ -17,7 +17,7 @@ parse_arg <- local({
     
     #empty string
     if(nchar(x) == 0){
-      return(x);
+      return(NULL);
     }
     
     if(x == "true" || x == "TRUE"){

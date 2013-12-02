@@ -15,7 +15,7 @@ rapachehandler <- function(){
     MYRAW <- NULL;
     NEWPOST <- getrapache("POST");
     NEWFILES <- getrapache("FILES");
-    NEWPOST[names(NEWFILES)] <- NULL;    
+    NEWPOST[names(NEWFILES)] <- NULL;
   }
   
   #collect request data from rapache
@@ -45,7 +45,7 @@ rapachehandler <- function(){
   #set headers
   headerlist <- response$headers;
   for(i in seq_along(headerlist)){
-    if(names(headerlist[i]) == "Content-Type"){
+    if(identical(names(headerlist[i]), "Content-Type")){
       setContentType(headerlist[[i]]);
     } else {
       getrapache("setHeader")(names(headerlist[i]), headerlist[[i]]);          
