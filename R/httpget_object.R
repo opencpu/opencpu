@@ -71,7 +71,7 @@ httpget_object <- local({
   
   httpget_object_json <- function(object){
     jsonstring <- do.call(function(pretty=TRUE, ...){
-      RJSONIO::toJSON(x=object, pretty=pretty, ...);
+      toJSON(x=object, pretty=pretty, ...);
     }, req$get());
     res$setbody(jsonstring);
     if(is.null(req$get()$padding)){

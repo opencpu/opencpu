@@ -15,7 +15,7 @@ httpget_webhook <- function(){
   }
   
   #convert from JSON
-  payload <- fromJSON(payload, asText=TRUE, simplifyWithNames=FALSE);
+  payload <- fromJSON(payload);
   
   #Post-Receive data
   gitref <- payload$ref;

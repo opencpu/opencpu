@@ -13,7 +13,7 @@ gist_list <- function(username){
   }  
 
   stop_for_status(out);
-  response <- fromJSON(rawToChar(out$content), simplifyWithNames=FALSE);
+  response <- fromJSON(rawToChar(out$content));
   
   #proxy limit headers
   if(length(out$headers[["X-RateLimit-Limit"]])){

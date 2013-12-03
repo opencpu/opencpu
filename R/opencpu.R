@@ -22,7 +22,7 @@
 #' @importFrom knitr knit pandoc
 #' @importFrom devtools install_github
 #' @importFrom pander pander
-#' @importFrom RJSONIO toJSON fromJSON isValidJSON
+#' @importFrom jsonlite toJSON fromJSON validate
 #' @importFrom httr GET stop_for_status add_headers
 #' @importFrom httpuv runServer
 #' @S3method print opencpu

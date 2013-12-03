@@ -1,3 +1,6 @@
+1.2.0
+ - Replaced dependency RJSONIO with jsonlite for all toJSON/fromJSON
+
 1.0.7
  - Adding Github CI stuff
  - New config parameters: "public.url" and "smtp.server", "timelimit.webhook"
