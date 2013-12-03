@@ -1,4 +1,8 @@
-mimelist <- list(  
+mimelist <- list (
+  "woff" = "application/font-woff",
+  "otf" = "font/opentype",
+  "ttf" = "font/truetype",
+  "eot" = "application/vnd.ms-fontobject",
   "r" = "text/r",
   "rmd" = "text/r-markdown",
   "rnw" = "text/r-sweave",
