@@ -22,7 +22,7 @@ parse_post <- function(reqbody, contenttype){
     } else {
       jsondata <- reqbody;        
     }
-    if(!validate(jsondata, asText=TRUE)){
+    if(!validate(jsondata)){
       stop("Invalid JSON was posted.")
     }
     obj <- as.list(fromJSON(jsondata));

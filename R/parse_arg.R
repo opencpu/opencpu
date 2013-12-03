@@ -19,7 +19,7 @@ parse_arg <- local({
     
     #if string starts with { or [ we test for json
     if(grepl("^[ \t\r\n]*(\\{|\\[)", x)) {
-      if(validate(x, TRUE)) {
+      if(validate(x)) {
         return(fromJSON(x));
       }
     }
