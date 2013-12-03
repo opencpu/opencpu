@@ -83,7 +83,9 @@ httpget_object <- local({
   }
   
   httpget_object_print <- function(object){
+    oldopt <- options(max.print=1e6);
     outtext <- capture.output(do.call("print", c(req$get(), list(x=object))));
+    options(max.print=oldopt$max.print)
     res$sendtext(outtext);
   }
   

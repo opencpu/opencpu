@@ -25,7 +25,7 @@ packagename = "";
   }
   
   #set some global options
-  options(max.print=50);
+  options(max.print=1000);
   options(device=grDevices::pdf);
   options(menu.graphics=FALSE);
   options(repos=config('repos'));
