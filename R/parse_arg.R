@@ -3,7 +3,7 @@ parse_arg <- local({
     
     #in case of null we keep null
     if(is.null(x)){
-      return(NULL);
+      return(expression());
     }
     
     #special for json obj
@@ -17,7 +17,7 @@ parse_arg <- local({
     
     #empty string
     if(nchar(x) == 0){
-      return(NULL);
+      return(expression());
     }
     
     if(x == "true" || x == "TRUE"){
