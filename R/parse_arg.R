@@ -11,18 +11,14 @@ parse_arg <- local({
     x <- as.character(x);
     
     #some special cases for json compatibility
-    if(x == "true"){
-      return(as.expression(TRUE));
-    }
-    if(x == "false"){
-      return(as.expression(FALSE));
-    }
-    if(x == "null"){
-      return(as.expression(NULL));
-    }
+    switch(x,
+      "true" = return(as.expression(TRUE)),
+      "false" = return(as.expression(FALSE)),
+      "null" = return(as.expression(NULL))
+    );
     
     #if string starts with { or [ we test for json
-    if(substr(x, 1, 1) %in% c("{", "[")) {
+    if(grepl("^[ \t\r\n]*(\\{|\\[)", x)) {
       if(RJSONIO::isValidJSON(x, TRUE)) {
         return(RJSONIO::fromJSON(x));
       }
