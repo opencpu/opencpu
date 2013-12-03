@@ -74,10 +74,7 @@ parse_arg <- local({
   }
   
   #This code parses text and automatically wraps it in curly brackets when needed.  
-  parsewithbrackets <- function(text){
-    #check if this is enabled
-    check.enabled("post.code");
-    
+  parsewithbrackets <- function(text){    
     #try to parse code
     mycode <- tryCatch(parse(text=text, keep.source=FALSE), error = function(e){
       stop("Unparsable argument: ", text);
