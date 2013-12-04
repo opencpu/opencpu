@@ -26,5 +26,6 @@ github_list <- function(username){
   #cache the response
   res$setcache("gitapi"); 
   
-  unlist(lapply(response, function(x) {x$name}));                  
+  #repo names
+  return(response$name);                  
 }

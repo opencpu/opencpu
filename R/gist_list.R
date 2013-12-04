@@ -26,5 +26,6 @@ gist_list <- function(username){
   #cache the response
   res$setcache("gitapi");   
   
-  unlist(lapply(response, function(x) {x$id}));                  
+  #return gist ID's
+  return(response$id);                
 }
