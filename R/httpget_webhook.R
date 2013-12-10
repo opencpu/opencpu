@@ -19,12 +19,10 @@ httpget_webhook <- function(){
   
   #Post-Receive data
   gitref <- payload$ref;
-  after <- payload$after;
   giturl <- payload$repository$url;  
   gitrepo <- payload$repository$name;
   gitmaster <- payload$repository$master_branch;
   gituser <- payload$repository$owner$name;
-  gitemail <- payload$repository$owner$email;
   
   #Ignore all but master
   if(is.null(gitref) || is.na(gitref) || !length(gitref) || gitref != paste0("refs/heads/", gitmaster)){
@@ -61,7 +59,7 @@ httpget_webhook <- function(){
   
   #Send email results
   if(is.null(req$get()$sendmail) || isTRUE(req$get()$sendmail)) {
-    tryCatch(mail_CI(success, output, gituser, gitrepo, gitemail, after), error = function(e){
+    tryCatch(mail_CI(success, output, gituser, gitrepo, payload), error = function(e){
       stop("Build successful but error when sending email (check your SMTP server): ", e$message);
     });
   }
