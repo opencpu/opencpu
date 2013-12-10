@@ -9,7 +9,7 @@ listallusers <- function(user.only=TRUE){
     out <- try(read.table("/etc/passwd", sep=":", as.is=TRUE));
     if(!is(out, "try-error") && length(out) && nrow(out)){
       if(isTRUE(user.only)){
-        out <- subset(out, V3 > 999 & V3 < 65534) 
+        out <- out[out$V3 > 999 & out$V3 < 65534, ]
       }      
       return(out$V1)
     }

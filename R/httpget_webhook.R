@@ -59,7 +59,7 @@ httpget_webhook <- function(){
   
   #Send email results
   if(is.null(req$get()$sendmail) || isTRUE(req$get()$sendmail)) {
-    tryCatch(mail_CI(success, output, gituser, gitrepo, payload), error = function(e){
+    tryCatch(mail_CI(success, output, payload), error = function(e){
       stop("Build successful but error when sending email (check your SMTP server): ", e$message);
     });
   }

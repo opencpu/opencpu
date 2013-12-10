@@ -46,7 +46,7 @@ rapachehandler <- function(){
   headerlist <- response$headers;
   for(i in seq_along(headerlist)){
     if(identical(names(headerlist[i]), "Content-Type")){
-      setContentType(headerlist[[i]]);
+      getrapache("setContentType")(headerlist[[i]]);
     } else {
       getrapache("setHeader")(names(headerlist[i]), headerlist[[i]]);          
     }
