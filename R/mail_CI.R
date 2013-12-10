@@ -31,9 +31,15 @@ mail_CI <- function(success, output, payload) {
   subject <- paste0("Build ", ifelse(success, "successful", "failed"), ": ", what, " (", after, ") ");
   
   #create commit(s) info
-  timestamps <- strptime(payload$commits$timestamp, format="%Y-%m-%dT%H:%M:%S");
-  messages <- payload$commits$message;
-  commitinfo <- paste0(" - ", messages, " (", timestamps, ")", collapse="\n")
+  ids <- paste0("[", substring(payload$commits$id, 1, 10), "]")
+  authors <- paste("Author:", payload$commits$author$name)
+  timestamps <- paste("Time:", strptime(payload$commits$timestamp, format="%Y-%m-%dT%H:%M:%S"));
+  messages <- paste0("Message: \"", payload$commits$message, "\"");
+  urls <- paste("URL:", payload$commits$url);
+  commitinfo <- paste("NEW COMMITS:", paste(ids, timestamps, authors, messages, urls, "", collapse="\n", sep="\n  "), sep="\n")
+  
+  #create sessionInfo
+  mysession <- paste("SESSION INFO", paste0(capture.output(sessionInfo()), collapse="\n"), sep="\n")
   
   #format first line
   if(success){
@@ -43,7 +49,7 @@ mail_CI <- function(success, output, payload) {
   }
   
   #creat the body
-  msg <- paste(msg, output, commitinfo, sep="\n\n")
+  msg <- paste(msg, commitinfo, output, mysession, sep="\n\n")
   
   #try to send email
   email(to = to, from = from, subject = subject, msg = msg, control = list(smtpServer=config("smtp.server")))
