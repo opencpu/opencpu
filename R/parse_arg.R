@@ -10,6 +10,11 @@ parse_arg <- local({
     #cast (e.g. for NULL)
     x <- as.character(x);
     
+    #empty vector causes issues
+    if(!length(x)){
+      x <- " ";
+    }
+    
     #some special cases for json compatibility
     switch(x,
       "true" = return(as.expression(TRUE)),
