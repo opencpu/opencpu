@@ -32,6 +32,7 @@ packagename = "";
   options(keep.source = FALSE);
   options(useFancyQuotes = FALSE);
   options(warning.length=8000);
+  options(scipen=3);
   
   #use cairo if available
   if(isTRUE(capabilities()[["cairo"]])){
