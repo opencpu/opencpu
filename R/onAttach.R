@@ -22,24 +22,21 @@
     #Start HTTPUV
     opencpu$start();
   
-    #Make sure httpuv stops when exiting R.
-    if(!exists(".Last", globalenv())){
-      exitfun <- function(){
-        try({
+    #Try to stop httpuv if opencpu is still attached when exiting R
+    reg.finalizer(globalenv(), function(env){
+      try({
+        if("package:opencpu" %in% search()){
           get("opencpu", asNamespace("opencpu"))$stop();
-          rm(".Last", envir=globalenv());
-        }, silent=TRUE);
-      } 
-  
-      environment(exitfun) <- globalenv();
-      eval(call("assign", ".Last", quote(exitfun), quote(globalenv())));
-    }
+        }
+      }, silent=TRUE)
+    }, onexit = TRUE);
     
     packageStartupMessage("OpenCPU single-user server ready.");
   }
 }
 
+#onDetach for detach
 .onDetach <- function(libpath){
   opencpu$stop();
-  message("Exiting OpenCPU");
+  message("Stopping OpenCPU");
 }
