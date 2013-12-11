@@ -27,7 +27,8 @@
       try({
         #if not attached, then .onDetach already stopped the server
         if("package:opencpu" %in% search()){
-          get("opencpu", asNamespace("opencpu"))$stop();
+          opencpu$stop();
+          cleanwin();
         }
       }, silent = TRUE)
     }, onexit = TRUE);
