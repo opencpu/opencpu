@@ -16,7 +16,7 @@
     
     #start rhttpd only in rstudio server
     if(nchar(Sys.getenv("RSTUDIO_HTTP_REFERER"))){
-      rhttpd$init();        
+      rhttpd$init();
     }
     
     #Start HTTPUV
@@ -25,10 +25,11 @@
     #Try to stop httpuv if opencpu is still attached when exiting R
     reg.finalizer(globalenv(), function(env){
       try({
+        #if not attached, then .onDetach already stopped the server
         if("package:opencpu" %in% search()){
           get("opencpu", asNamespace("opencpu"))$stop();
         }
-      }, silent=TRUE)
+      }, silent = TRUE)
     }, onexit = TRUE);
     
     packageStartupMessage("OpenCPU single-user server ready.");
