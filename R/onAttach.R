@@ -35,7 +35,7 @@
       exitfun <- function(){
         if("package:opencpu" %in% search()){
           opencpu$stop();
-          try(system("taskkill /IM Rscript.exe /f", show.output.on.console=FALSE), silent=TRUE)
+          get("cleanwin", asNamespace("opencpu"))();
         }
         rm(".Last", envir=globalenv());
       }
