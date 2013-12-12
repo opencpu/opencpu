@@ -33,6 +33,19 @@
       }, silent = TRUE)
     }, onexit = TRUE);
     
+    #on windows the finalizer doesn't always work
+    if(identical(.Platform$OS.type, "windows") && !exists(".Last", globalenv())){
+      exitfun <- function(){
+        try({
+          get("opencpu", asNamespace("opencpu"))$stop();
+          rm(".Last", envir=globalenv());
+        }, silent=TRUE);
+      } 
+      
+      environment(exitfun) <- globalenv();
+      eval(call("assign", ".Last", quote(exitfun), quote(globalenv())));
+    }
+    
     packageStartupMessage("OpenCPU single-user server ready.");
   }
 }
