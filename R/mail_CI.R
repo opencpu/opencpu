@@ -28,7 +28,7 @@ mail_CI <- function(success, output, payload) {
   to <- c(to, address("OpenCPU CI Mailing List", "opencpu-ci@googlegroups.com"))
 
   #compose subject
-  subject <- paste0("Build ", ifelse(success, "successful", "failed"), ": ", what, " (", after, ") ");
+  subject <- paste0("Build ", ifelse(success, "successful", "failed"), ": ", what);
   
   #create commit(s) info
   ids <- paste0("[", substring(payload$commits$id, 1, 10), "]")
