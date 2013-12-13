@@ -99,6 +99,11 @@ opencpu <- local({
     } else {
       uvurl <<- paste0(gsub(":[0-9]{3,5}", paste(":", myport, sep=""), mainurl), substring(rootpath,2))
     }
+    
+    #make sure we're online
+    checkstatus();
+    
+    #announce url
     message("[httpuv] ", uvurl);    
     invisible();
   }  
@@ -109,6 +114,13 @@ opencpu <- local({
   
   readchild <- function(){
     from("parallel", "recvResult")(getchild()[[1]]);   
+  }
+  
+  checkstatus <- function(){
+    tryCatch(stop_for_status(GET(paste0(opencpu$url(), "/test/"))), error = function(e){
+      message("Server unresponsive... attempting restart.")
+      restart();
+    });
   }
   
   hasdied <- function(){
@@ -140,6 +152,9 @@ opencpu <- local({
       message("OpenCPU not started.")
       return(invisible());
     }
+    
+    #check that server is online
+    checkstatus();
     
     #build url path
     path <- sub("^//", "/", paste0("/", path));   
