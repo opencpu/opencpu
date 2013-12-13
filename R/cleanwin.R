@@ -3,6 +3,6 @@
 #Use with care
 cleanwin <- function(){
   if(identical(.Platform$OS.type, "windows")){
-    try(system("taskkill /IM Rscript.exe /f", show.output.on.console=FALSE), silent=TRUE)
+    suppressWarnings(try(system("taskkill /IM Rscript.exe /f", intern=TRUE, show.output.on.console=FALSE), silent=TRUE))
   }
 }
