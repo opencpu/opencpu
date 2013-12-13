@@ -3,9 +3,6 @@
 \alias{rhttpd}
 \title{The Rhttpd based single-user OpenCPU server.}
 \format{Control object}
-\usage{
-  -
-}
 \description{
   The Rhttpd, a.k.a "Dynamic Help Server" provides an
   alternative http server in case httpuv is not available
@@ -33,8 +30,8 @@
 \dontrun{
 rhttpd$init()
 rhttpd$url()
+rhttpd$view('/test')
 rhttpd$browse('test')
-rhttpd$view('test')
 }
 }
 \references{

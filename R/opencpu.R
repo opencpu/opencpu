@@ -25,6 +25,7 @@
 #' @importFrom jsonlite toJSON fromJSON validate
 #' @importFrom httr GET stop_for_status add_headers
 #' @importFrom httpuv runServer
+#' @usage opencpu$start(12345)
 #' @S3method print opencpu
 #' @format Control object
 #' @family opencpu

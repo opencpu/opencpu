@@ -14,7 +14,7 @@
 #' For example: \url{http://localhost:8787/custom/ocpu/library/stats}.
 #' 
 #' @S3method print rhttpd
-#' @usage -
+#' @usage rhttpd$init()
 #' @format Control object
 #' @family opencpu
 #' @export
@@ -23,8 +23,8 @@
 #' \dontrun{
 #' rhttpd$init()
 #' rhttpd$url()
+#' rhttpd$view('/test') 
 #' rhttpd$browse('test')
-#' rhttpd$view('test')
 #' }
 rhttpd <- local({
   rhttpdurl <- "";
