@@ -101,6 +101,7 @@ opencpu <- local({
     }
     
     #make sure we're online
+    Sys.sleep(0.5)
     checkstatus();
     
     #announce url
@@ -123,33 +124,13 @@ opencpu <- local({
     });
   }
   
-  hasdied <- function(){
-    #set the timeout
-    output <- try({
-      setTimeLimit(elapsed=1, transient=TRUE);
-      on.exit({
-        #reset time limit
-        setTimeLimit(cpu=Inf, elapsed=Inf, transient=FALSE);    
-      })
-      readchild()   
-    }, silent=TRUE);    
-    
-    if(is(output, "try-error") && grepl("reached elapsed time limit", output)){
-      return(FALSE);
-    } else {
-      message(output);
-      this$stop();
-      return(invisible(TRUE));
-    }
-  }
-  
   url <- function(){
     return(uvurl)
   }
   
   browse <- function(path="/test/", viewer=FALSE){
     if(is.null(uvurl)){
-      message("OpenCPU not started.")
+      message("OpenCPU not started. Use: opencpu$start()")
       return(invisible());
     }
     
