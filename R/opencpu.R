@@ -118,7 +118,7 @@ opencpu <- local({
   }
   
   checkstatus <- function(){
-    tryCatch(stop_for_status(GET(paste0(opencpu$url(), "/test/"))), error = function(e){
+    tryCatch(stop_for_status(GET(paste0(uvurl, "/test/"))), error = function(e){
       message("Server unresponsive... attempting restart.")
       restart();
     });

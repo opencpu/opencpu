@@ -50,5 +50,4 @@
 #onDetach for detach
 .onDetach <- function(libpath){
   opencpu$stop();
-  message("Stopping OpenCPU");
 }
