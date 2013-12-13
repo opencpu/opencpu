@@ -34,7 +34,7 @@
     if(identical(.Platform$OS.type, "windows") && !exists(".Last", globalenv())){
       exitfun <- function(){
         if("package:opencpu" %in% search()){
-          opencpu$stop();
+          suppressMessages(opencpu$stop());
           get("cleanwin", asNamespace("opencpu"))();
         }
         rm(".Last", envir=globalenv());
