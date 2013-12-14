@@ -47,7 +47,8 @@ packagename = "";
   #create tmp directories
   stopifnot(file.exists(gettmpdir()));
   
-  if(.Platform$OS.type != "windows"){
+  #default locale in apache is "C"
+  if(isTRUE(getOption("rapache")){
     Sys.setlocale(category='LC_ALL', 'en_US.UTF-8');
   }
   
