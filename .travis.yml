@@ -1,36 +1,52 @@
-# it is not really python, but there is no R support on Travis CI yet
-language: python
+# .travis.yml for r-travis.
+#
+# If you're looking to use r-travis with your project, DO NOT USE THIS
+# FILE -- use `sample.travis.yml` instead.
 
-# environment variables
+language: c
+# language: objective-c
+
 env:
-  - R_LIBS_USER=~/R
-
-# install dependencies
+  global:
+    - OS=$(uname -s)
+  matrix:
+    - BOOTSTRAP_LATEX=" "
+    - R_BUILD_ARGS=" " R_CHECK_ARGS="--as-cran" BOOTSTRAP_LATEX="1"
+script: ./travis-tool.sh run_tests
+notifications:
+  email:
+    on_success: change
+    on_failure: change
+before_install:
+  - cp scripts/travis-tool.sh fakepackage
+  - cd fakepackage
+  - ./travis-tool.sh bootstrap
+before_script:
+  - ./travis-tool.sh dump_sysinfo
+after_success:
+  - ./travis-tool.sh dump_logs_by_extension out
+after_failure:
+  - ./travis-tool.sh dump_logs
 install:
-  - echo "deb http://cran.rstudio.com/bin/linux/ubuntu `lsb_release -cs`/"
-      | sudo tee /etc/apt/sources.list.d/cran.list
-  - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E084DAB9
-  - sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/cran.list"
-      -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
-  - sudo apt-add-repository -y ppa:marutter/c2d4u
-  - sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/marutter-c2d4u-precise.list"
-      -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
-  - sudo apt-get install --no-install-recommends r-base-dev r-cran-xml r-cran-rcurl r-recommended libapparmor-dev
-      qpdf texinfo texlive-latex-recommended texlive-latex-extra lmodern texlive-fonts-recommended texlive-fonts-extra
-  - "[ ! -d ~/R ] && mkdir ~/R"
-  - R --version
-  - R -e '.libPaths(); sessionInfo()'
-  - Rscript -e 'install.packages("opencpu", dep = TRUE, repos = c("http://rforge.net", "http://cran.rstudio.org"))'
-
-# run tests
-script:
-  - make install
-  - make check
-
-# run check against R-devel
-after_script:
-  - sudo add-apt-repository -y ppa:marutter/rdev
-  - sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/marutter-rdev-precise.list"
-      -o Dir::Etc::sourceparts="-" -o APT::Get::List-Cleanup="0"
-  - sudo apt-get upgrade
-  - make check
+  - ./travis-tool.sh install_deps
+  # TESTS
+  #
+  # The following lines exist to test various features of our travis
+  # scripts; don't use these as a model for other `.travis.yml` files.
+  # Test install_aptget with multiple arguments.
+  - if test ${OS} = Linux; then test -z "$(which tmux)"; fi
+  - if test ${OS} = Linux; then test -z "$(which sponge)"; fi
+  - if test ${OS} = Linux; then ./travis-tool.sh install_aptget tmux moreutils; fi
+  - if test ${OS} = Linux; then test -n "$(which tmux)"; fi
+  - if test ${OS} = Linux; then test -n "$(which sponge)"; fi
+  # Test install_r (which accepts multiple arguments).
+  - ./travis-tool.sh install_r stringr lubridate
+  - Rscript -e 'library(stringr); library(lubridate)'
+  # Test github package installation (which accepts multiple arguments).
+  - Rscript -e 'stopifnot(!any(c("assertthat", "testthat", "roxygen2") %in% installed.packages())'
+  - ./travis-tool.sh install_github assertthat testthat klutometis/roxygen
+  - Rscript -e 'library(assertthat); library(testthat); library(roxygen2)'
+  # Test R binary installation.
+  - if test ${OS} = Linux; then ./travis-tool.sh install_r_binary RUnit survey; fi
+  - if test ${OS} = Linux; then Rscript -e 'library(RUnit); library(survey)'; fi
+  - ./travis-tool.sh dump_sysinfo | grep -q 'R version '
