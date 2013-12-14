@@ -101,7 +101,6 @@ opencpu <- local({
     }
     
     #make sure we're online
-    Sys.sleep(0.5)
     checkstatus();
     
     #announce url
@@ -118,10 +117,18 @@ opencpu <- local({
   }
   
   checkstatus <- function(){
-    tryCatch(stop_for_status(GET(paste0(uvurl, "/test/"))), error = function(e){
-      message("Server unresponsive... attempting restart.")
-      restart();
-    });
+    #wait for 10 seconds for the server to come online
+    for(i in 1:10){
+      tryCatch({
+        stop_for_status(GET(paste0(uvurl, "/test/")));
+        return("OK");
+      }, error = function(e){
+        message("Waiting for server to respond...")
+        Sys.sleep(1)
+      });
+    }
+    message("Server unresponsive... attempting restart.")
+    restart(); 
   }
   
   url <- function(){
