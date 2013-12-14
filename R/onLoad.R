@@ -48,7 +48,7 @@ packagename = "";
   stopifnot(file.exists(gettmpdir()));
   
   #default locale in apache is "C"
-  if(isTRUE(getOption("rapache")){
+  if(isTRUE(getOption("rapache"))){
     Sys.setlocale(category='LC_ALL', 'en_US.UTF-8');
   }
   
