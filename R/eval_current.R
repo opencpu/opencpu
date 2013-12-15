@@ -2,19 +2,26 @@ eval_current <- function(expr, envir=parent.frame(), timeout=60){
   #set the timeout
   setTimeLimit(elapsed=timeout, transient=TRUE);
   
-  #currently loaded packages
-  currentlyattached <- search();
-  currentlyloaded <- loadedNamespaces();
+  #currently attached packages
+  attached_before <- search();
   
   on.exit({
     #reset time limit
     setTimeLimit(cpu=Inf, elapsed=Inf, transient=FALSE);
     
     #try to detach packages that were attached during eval
-    nowattached <- search();
-    todetach <- nowattached[!(nowattached %in% currentlyattached)];
-    for(i in seq_along(todetach)){
-      try(detach(todetach[i], unload=TRUE, character.only=TRUE, force=TRUE));
+    attached_after <- search();
+    loaded_after <- loadedNamespaces();
+    
+    #only deals only with attaching, not unloading
+    for(pkg in attached_after){
+      if(pkg %in% attached_before){
+        next;
+      } else if(sub("package:", "", pkg) %in% loaded_after) {
+        try(detach(pkg, unload=FALSE, character.only=TRUE, force=TRUE));
+      } else {
+        try(detach(pkg, unload=TRUE, character.only=TRUE, force=TRUE));        
+      }
     }
   });
   
