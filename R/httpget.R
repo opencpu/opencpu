@@ -30,6 +30,7 @@ httpget <- function(){
     "bioc" = httpget_bioc(reqtail), 
     "webhook" = httpget_webhook(),
     "test" = httpget_static(),
+    "info" = httpget_info(),
     res$notfound(message=paste("Invalid top level api: /", reqhead, sep=""))         
   )
 }	
