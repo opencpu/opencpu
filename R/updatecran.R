@@ -13,5 +13,4 @@ updatecran <- function(){
   if(length(list.files(cranpath))){
     system2("touch", paste0(cranpath, "/*"));
   }
-  
 }
