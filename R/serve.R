@@ -1,9 +1,20 @@
 serve <- function(REQDATA){
   
-  #On Windows and OSX we don't fork. 
-  if(grepl("darwin|mingw", R.Version()$platform)){
+  #On Windows either use current or psock process
+  if(grepl("mingw", R.Version()$platform)){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
       return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
+    } else {
+      return(tryCatch({
+        eval_psock(get("request", envir=asNamespace("opencpu"))(get("main", envir=asNamespace("opencpu"))(REQDATA)), timeout=config("timelimit.post"));
+      }, error = reshandler));
+    }
+  }
+  
+  #On OSX, either use fork or psock or psock process
+  if(grepl("darwin", R.Version()$platform)){
+    if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
+      return(request(eval_fork(main(REQDATA), timeout=config("timelimit.get"))));
     } else {
       return(tryCatch({
         eval_psock(get("request", envir=asNamespace("opencpu"))(get("main", envir=asNamespace("opencpu"))(REQDATA)), timeout=config("timelimit.post"));
