@@ -1,9 +1,15 @@
-loadPackageFrom <- function(package, lib.loc){
+loadPackageFrom <- function(package, lib.loc, force = TRUE){
   stopifnot(is.character(package));
   library(package, lib.loc=lib.loc, character.only=TRUE);
   
-  loadedpath <- attr(as.environment(paste0("package:", package)), "path");
-  if(!identical(normalizePath(lib.loc), normalizePath(dirname(loadedpath)))){
-    stop("Package loaded from incorrect library:", loadedpath);
+  #force double checks if the package was loaded form the correct library
+  #this is needed when the package was alread loaded from another library before the request
+  if(isTRUE(force)){
+    name <- paste0("package:", package);
+    loadedpath <- attr(as.environment(name), "path");
+    if(!identical(normalizePath(lib.loc), normalizePath(dirname(loadedpath)))){
+      detach(name, unload=TRUE, character.only=TRUE, force=TRUE);
+      library(package, lib.loc=lib.loc, character.only=TRUE);
+    }
   }
 }
