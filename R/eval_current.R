@@ -23,6 +23,9 @@ eval_current <- function(expr, envir=parent.frame(), timeout=60){
         try(detach(pkg, unload=TRUE, character.only=TRUE, force=TRUE));        
       }
     }
+    
+    #also unload non-attached namespaces here?
+    #currently this is difficult because they need to be unloaded in the correct order  
   });
   
   eval(expr, envir) 
