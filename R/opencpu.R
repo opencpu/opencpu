@@ -104,6 +104,7 @@ opencpu <- local({
     checkstatus();
     
     #announce url
+    message("OpenCPU started.")
     message("[httpuv] ", uvurl);    
     invisible();
   }  
@@ -117,17 +118,25 @@ opencpu <- local({
   }
   
   checkstatus <- function(){
-    #wait for 10 seconds for the server to come online
-    for(i in 1:10){
+    iswaiting = FALSE;
+    #try 10 times max
+    #total time is (GET-timeout + 0.25) * 10
+    for(i in 10:1){
       tryCatch({
         stop_for_status(GET(paste0(uvurl, "/test/")));
+        if(isTRUE(iswaiting)) cat("\n");
         return("OK");
       }, error = function(e){
-        message("Waiting for server to respond...")
-        Sys.sleep(1)
+        if(!isTRUE(iswaiting)){
+          iswaiting <<- TRUE;
+          cat("Waiting for server to respond");
+        }
+        Sys.sleep(0.25);
+        cat(".");
       });
     }
-    message("Server unresponsive... attempting restart.")
+    cat("\n")
+    message("Server unresponsive; restarting.")
     restart(); 
   }
   

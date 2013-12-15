@@ -1,5 +1,9 @@
 #rookhandler can either be used by Rook or by httpuv
 rookhandler <- function(rootpath){
+  #load opencpu configuration
+  loadconfigs(preload=TRUE);
+  
+  #handler
   function(env){
     #preprocess
     if(!grepl(paste0("^", rootpath), env[["PATH_INFO"]])){

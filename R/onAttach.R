@@ -5,10 +5,11 @@
     #try set tempdir() to match config("tempdir")
     inittempdir();
     
-    #move opencpu system lib to the end of the search lib
-    #note: removing a lib from which packages are already loaded results in weird behavior.
-    #.libPaths(c(.Library.site, .Library, "/usr/lib/opencpu/library"));
-    #note undo this because of version conflicts with packages installed in global library
+    #default locale in apache is "C"
+    Sys.setlocale(category='LC_ALL', 'en_US.UTF-8');
+    
+    #load opencpu configuration
+    loadconfigs(preload=TRUE); 
   
   } else if(interactive() && !("--slave" %in% commandArgs())){
     #Dont run in rscript

@@ -33,7 +33,7 @@ rhttpd <- local({
     
     fullpath <- paste0("/custom", rootpath)
     if(identical(.Platform$OS.type, "windows")){
-      warning("DyanmicHelp server has some serious issues on windows. Better use httpuv.")
+      warning("DyanmicHelp server has some serious issues on windows. Better use httpuv. See ?opencpu for more details.", call.=FALSE)
     }
     try(startDynamicHelp(TRUE), silent=TRUE);
     assign(substring(rootpath, 2), rhttpdhandler(fullpath), from("tools", ".httpd.handlers.env"));
@@ -76,7 +76,7 @@ rhttpd <- local({
 print.rhttpd <- function(x, ...){
   cat("Control the rhttpd (r-help or r-studio) based OpenCPU server.\n")
   cat("Note that rhttpd runs in the currrent process and will block the session during http requests.\n")
-  cat("Unless you are using rstudio-server behind a firewall, the httpuv based OpenCPU server is preferred.\n")  
+  cat("The httpuv based OpenCPU server (see ?opencpu) is usually preferred.\n")  
   cat("Example Usage:\n")
   cat("  rhttpd$init()                           - Start rhttpd and register OpenCPU.\n")  
   cat("  rhttpd$url()                            - Return the server address of current server.\n")

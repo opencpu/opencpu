@@ -1,4 +1,7 @@
 main <- function(REQDATA){
+  #load config (in case of eval_psock)
+  loadconfigs();
+  
   #set a seed
   myseed <- floor(runif(1,1e8, 1e9));
   set.seed(myseed);
