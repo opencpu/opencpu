@@ -131,7 +131,7 @@ opencpu <- local({
           iswaiting <<- TRUE;
           cat("Waiting for server to respond");
         }
-        Sys.sleep(0.25);
+        Sys.sleep(0.5);
         cat(".");
       });
     }
