@@ -120,22 +120,18 @@ opencpu <- local({
   checkstatus <- function(){
     iswaiting = FALSE;
     #try 10 times max
-    #total time is (GET-timeout + 0.25) * 10
-    for(i in 10:1){
+    #total time is (GET-timeout + 0.5) * 10
+    for(i in 1:10){
       tryCatch({
         stop_for_status(GET(paste0(uvurl, "/test/")));
-        if(isTRUE(iswaiting)) cat("\n");
         return("OK");
       }, error = function(e){
-        if(!isTRUE(iswaiting)){
-          iswaiting <<- TRUE;
-          cat("Waiting for server to respond");
+        if(i == 3){
+          message("Waiting for server to respond...");
         }
         Sys.sleep(0.5);
-        cat(".");
       });
     }
-    cat("\n")
     message("Server unresponsive; restarting.")
     restart(); 
   }

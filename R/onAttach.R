@@ -15,6 +15,9 @@
     packageStartupMessage("OpenCPU cloud server ready.");
   
   } else if(interactive() && !("--slave" %in% commandArgs())){
+    #This will start XQuartz in OSX
+    capabilities();
+    
     #Dont run in rscript
     packageStartupMessage("Initiating OpenCPU server...")
     
