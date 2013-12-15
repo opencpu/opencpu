@@ -15,13 +15,13 @@
     #Dont run in rscript
     packageStartupMessage("Initiating OpenCPU server...")
     
+    #Start HTTPUV
+    opencpu$start();
+    
     #start rhttpd only in rstudio server
     if(nchar(Sys.getenv("RSTUDIO_HTTP_REFERER"))){
       rhttpd$init();
     }
-    
-    #Start HTTPUV
-    opencpu$start();
   
     #Try to stop httpuv if opencpu is still attached when exiting R
     reg.finalizer(globalenv(), function(env){
