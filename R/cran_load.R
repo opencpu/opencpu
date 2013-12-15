@@ -18,9 +18,9 @@ cran_load <- function(pkgname){
     Sys.sleep(1);
   }
   
-  #see if it exists and if it is fresh enough
+  #see if it exists and if it is fresh enough. OSX requires ctime (mtime is pkg build time)
   if(file.exists(pkgpath)){
-    dirage <- difftime(Sys.time(), file.info(pkgpath)$mtime, units="secs");
+    dirage <- difftime(Sys.time(), file.info(pkgpath)$ctime, units="secs");
     if(dirage < maxage){
       return(pkgpath);      
     } 

@@ -12,6 +12,6 @@ cleanup <- function(what = c("tmp", "gist", "github", "cran", "bioc"), maxage=10
   libnames <- file.path(gettmpdir(), paste0(what, "_library"));
   allfiles <- list.files(libnames, full.names=TRUE, include.dirs=TRUE);
   infos <- file.info(allfiles);
-  ages <- difftime(Sys.time(), infos$mtime, units="secs");
+  ages <- difftime(Sys.time(), infos$ctime, units="secs");
   unlink(allfiles[ages > maxage], recursive=TRUE);
 }
