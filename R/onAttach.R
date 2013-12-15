@@ -10,6 +10,9 @@
     
     #load opencpu configuration
     loadconfigs(preload=TRUE); 
+    
+    #for the log files
+    packageStartupMessage("OpenCPU cloud server ready.");
   
   } else if(interactive() && !("--slave" %in% commandArgs())){
     #Dont run in rscript
