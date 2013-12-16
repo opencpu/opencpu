@@ -45,5 +45,5 @@ httpget_webhook <- function(){
   }
   
   #success
-  res$sendtext(paste("CI Done. Build", ifelse(success, "successful", "failed")));
+  res$sendtext(paste("CI Done. Build", ifelse(result$success, "successful", "failed")));
 }

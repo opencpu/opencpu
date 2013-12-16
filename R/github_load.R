@@ -28,34 +28,24 @@ github_load <- function(gituser, gitrepo){
     } 
   } 
     
-  #make sure its gone
+  #wipe old stuff
   unlink(gitpath, recursive=TRUE, force=TRUE);
     
   #setup a blocker (for concurrent requests to the same gist)
   stopifnot(file.create(blockpath));
   on.exit(unlink(blockpath, force=TRUE));
 
-  #install the app from github 
-  gittmpdir <- tempfile("githubdir");
-  stopifnot(dir.create(gittmpdir));
-
-  #Dependencies = TRUE otherwise it will skip currently loaded packages leading to problems.
-  #Removed dependencies=TRUE because it was too slow. Let's see what happens.
-  inlib(gittmpdir, {
-    output <- try_rscript(paste0("library(methods);library(devtools);install_github(", deparse(gitrepo), ",", deparse(gituser), ", quick=TRUE, args='--library=", deparse(gittmpdir), "')"));
-  });
+  #install package
+  result <- github_install(gitrepo, gituser);
+  file.remove(blockpath);
   
   #check if package has been installed
-  if(!file.exists(file.path(gittmpdir, gitrepo))){
+  if(!isTRUE(result$success)){
     #note that stop() might not work because error message is too large (install log)
     header <- paste("Package'",gitrepo,"' did not successfully install.\nEither installation failed or github repository name does not match package name.\n\n");
-    msg <- paste(output, collapse="\n");
+    msg <- paste(result$output, collapse="\n");
     res$error(paste(header, msg, sep="\n"));
   }
-
-  #move everything to new location
-  stopifnot(dir.move(gittmpdir, gitpath));
-  file.remove(blockpath);
   
   #return the path 
   return(pkgpath);
