@@ -8,8 +8,8 @@ updatecran <- function(){
   cranpath <- file.path(gettmpdir(), "cran_library");
 
   #nothing to update
-  if(!file.exists(cranpath)){
-    message("No bioc library. Exiting.")
+  if(!length(list.files(cranpath))){
+    message("CRAN library does not exist or is empty. Done.")
     return();
   }
   

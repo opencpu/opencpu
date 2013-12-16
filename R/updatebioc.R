@@ -8,8 +8,8 @@ updatebioc <- function(){
   biocpath <- file.path(gettmpdir(), "bioc_library");
   
   #nothing to update
-  if(!file.exists(biocpath)){
-    message("No bioc library. Exiting.")
+  if(!length(list.files(biocpath))){
+    message("BIOC library does not exist or is empty. Done.")
     return();
   }
   
