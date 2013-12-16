@@ -6,6 +6,14 @@ updatebioc <- function(){
   
   #load library
   biocpath <- file.path(gettmpdir(), "bioc_library");
+  
+  #nothing to update
+  if(!file.exists(biocpath)){
+    message("No bioc library. Exiting.")
+    return();
+  }
+  
+  #set path  
   .libPaths(biocpath);
   
   #load BIOC packages
