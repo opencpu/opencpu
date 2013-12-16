@@ -7,6 +7,9 @@ updatebioc <- function(){
   #load library
   biocpath <- file.path(gettmpdir(), "bioc_library");
   
+  #cleanup blockers (should not be necesssary)
+  unlink(list.files(biocpath, full.names=TRUE, pattern="_block$"));
+  
   #nothing to update
   if(!length(list.files(biocpath))){
     message("BIOC library does not exist or is empty. Done.")

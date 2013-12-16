@@ -6,6 +6,9 @@ updatecran <- function(){
   
   #Get the lib
   cranpath <- file.path(gettmpdir(), "cran_library");
+  
+  #cleanup blockers (should not be necesssary)
+  unlink(list.files(cranpath, full.names=TRUE, pattern="_block$"));    
 
   #nothing to update
   if(!length(list.files(cranpath))){

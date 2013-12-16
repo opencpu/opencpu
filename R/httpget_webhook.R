@@ -34,33 +34,13 @@ httpget_webhook <- function(){
     stop("Currently only Github CI is supported.");
   }
   
-  #github libraries
-  githublib <- file.path(gettmpdir(), "github_library");  
-  gitpath <- file.path(githublib, paste("ocpu_github", gituser, gitrepo, sep="_"));
-  
-  #install from github 
-  gittmpdir <- tempfile("githubdir");
-  stopifnot(dir.create(gittmpdir));
-  
-  #NOTE: for now we can't capture output from install_github
-  #Dependencies = TRUE otherwise it will skip currently loaded packages leading to problems.
-  inlib(gittmpdir, {
-    output <- try_rscript(paste0("library(methods);library(devtools);install_github(", deparse(gitrepo), ",", deparse(gituser), ",", deparse(gitmaster), ", quick=TRUE, args='--library=", deparse(gittmpdir), "')"));
-  });  
-  
-  #We require package name with identical repo name
-  success <- isTRUE(file.exists(file.path(gittmpdir, gitrepo)));
-
-  #move everything to new location
-  if(success){
-    unlink(gitpath, recursive=TRUE);
-    dir.move(gittmpdir, gitpath);
-  }
+  #install the package
+  result <- github_install(gitrepo, gituser, gitmaster);
   
   #Send email results
   if(is.null(req$get()$sendmail) || isTRUE(req$get()$sendmail)) {
-    tryCatch(mail_CI(success, output, payload), error = function(e){
-      stop("Build successful but error when sending email (check your SMTP server): ", e$message);
+    tryCatch(mail_CI(result$success, result$output, payload), error = function(e){
+      stop("Build successful but error when sending email (check SMTP server): ", e$message);
     });
   }
   
