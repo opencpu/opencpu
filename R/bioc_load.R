@@ -30,7 +30,7 @@ bioc_load <- function(pkgname, biocpath){
   
   #NOTE: for now we can't capture output from install.packages
   if(pkgname == "BiocInstaller"){
-    output <- try_rscript(paste0('.libPaths(', deparse(biocpath), '); source("http://bioconductor.org/biocLite.R");')
+    output <- try_rscript(paste0('.libPaths(', deparse(biocpath), '); source("http://bioconductor.org/biocLite.R");'));
   } else {
     output <- try_rscript(paste0("BiocInstaller::biocLite(", deparse(pkgname), ", ask=FALSE, lib.loc=", deparse(biocpath), ", lib=", deparse(biocpath), ");"))
   }
