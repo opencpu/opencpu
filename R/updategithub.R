@@ -1,6 +1,9 @@
 #this function is called by a cronjob
 #not used by the API
 updategithub <- function(){
+  #import
+  eval.secure <- from("RAppArmor", "eval.secure");  
+  
   #make sure config is initiated
   loadconfigs();
     
@@ -21,11 +24,14 @@ updategithub <- function(){
   
   #update all packages
   results <- lapply(allpkgs, function(x){
-    try({
-      pkg <- strsplit(x, "_", fixed=TRUE)[[1]];
-      result <- github_install(pkg[4], pkg[3]);
-      cat("Github update of", pkg[3], "/", pkg[4], ": ", ifelse(result$success, "successful.\n", "failed.\n"));
-    });
+    #get the git username and repo
+    pkg <- strsplit(x, "_", fixed=TRUE)[[1]];
+    
+    #Update github packages
+    result <- eval.secure(github_install(pkg[4], pkg[3]), timeout=30*60, RLIMIT_CPU=30*60, RLIMIT_AS = 2e9, profile="opencpu-main");  
+  
+    #cat some output
+    try(cat("Github update of", pkg[3], "/", pkg[4], ": ", ifelse(result$success, "successful.\n", "failed.\n")));
   });
   
   #do something with results

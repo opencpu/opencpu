@@ -1,6 +1,9 @@
 #this function is called by a cronjob
 #not used by the API
 updatebioc <- function(){
+  #import
+  eval.secure <- from("RAppArmor", "eval.secure");  
+  
   #make sure config is initiated
   loadconfigs();
   
@@ -22,9 +25,11 @@ updatebioc <- function(){
   #load BIOC packages
   source("http://bioconductor.org/biocLite.R");
   
-  #update
-  update.packages(lib.loc=biocpath, repos=eval(call("biocinstallRepos")), ask = FALSE, checkBuilt=TRUE);
-  if(length(list.files(biocpath))){
-    system2("touch", paste0(biocpath, "/*"));
-  }  
+  #Update bioc packages
+  eval.secure({
+    update.packages(lib.loc=biocpath, repos=eval(call("biocinstallRepos")), ask = FALSE, checkBuilt=TRUE);
+    if(length(list.files(biocpath))){
+      system2("touch", paste0(biocpath, "/*"));
+    }  
+  }, timeout=60*60*4, RLIMIT_CPU=60*60*4, RLIMIT_AS = 2e9, profile="opencpu-main");  
 }
