@@ -19,7 +19,7 @@ github_install <- function(gitrepo, gituser, gitbranch = "master"){
   #move everything to new location
   if(success){
     unlink(gitpath, recursive=TRUE);
-    dir.move(gittmpdir, gitpath);
+    stopifnot(dir.move(gittmpdir, gitpath));
   }  
   
   #return success and output

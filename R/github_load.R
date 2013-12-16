@@ -29,7 +29,7 @@ github_load <- function(gituser, gitrepo){
   } 
     
   #make sure its gone
-  unlink(gitpath, recursive=TRUE, force=TRUE);    
+  unlink(gitpath, recursive=TRUE, force=TRUE);
     
   #setup a blocker (for concurrent requests to the same gist)
   stopifnot(file.create(blockpath));
