@@ -2,14 +2,14 @@
   #Cloud specific stuff
   if(isTRUE(getOption("rapache"))){
     
-    #try set tempdir() to match config("tempdir")
+    #load opencpu configuration
+    loadconfigs(preload=TRUE);     
+    
+    #try set tempdir() to match config("tempdir"). Must be after loadconfigs!
     inittempdir();
     
     #default locale in apache is "C"
     Sys.setlocale(category='LC_ALL', 'en_US.UTF-8');
-    
-    #load opencpu configuration
-    loadconfigs(preload=TRUE); 
     
     #for the log files
     packageStartupMessage("OpenCPU cloud server ready.");
