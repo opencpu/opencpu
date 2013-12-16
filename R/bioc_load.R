@@ -44,9 +44,12 @@ bioc_load <- function(pkgname, biocpath){
     return(system.file(package="BiocInstaller"));
   }
 
-  #check if package has been installed 
+  #check if package has been installed
   if(!file.exists(pkgpath)){
-    stop("Package installation of ", pkgname, " was unsuccessful\n\n", paste(output, collapse="\n"));
+    #note that stop() might not work because error message is too large (install log)
+    header <- paste("Package installation of", pkgname, "was unsuccessful.\n\n");
+    msg <- paste(output, collapse="\n");
+    res$error(paste(header, msg, sep="\n"));
   }
   
   #return the path 
