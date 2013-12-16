@@ -23,7 +23,8 @@ updategithub <- function(){
   results <- lapply(allpkgs, function(x){
     try({
       pkg <- strsplit(x, "_", fixed=TRUE)[[1]];
-      github_install(pkg[4], pkg[3]);
+      result <- github_install(pkg[4], pkg[3]);
+      cat("Github update of", pkg[3], "/", pkg[4], ": ", ifelse(result$success, "successful.\n", "failed.\n"));
     });
   });
   
