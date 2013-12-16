@@ -39,10 +39,10 @@ github_load <- function(gituser, gitrepo){
   gittmpdir <- tempfile("githubdir");
   stopifnot(dir.create(gittmpdir));
 
-  #NOTE: for now we can't capture output from install_github
   #Dependencies = TRUE otherwise it will skip currently loaded packages leading to problems.
+  #Removed dependencies=TRUE because it was too slow. Let's see what happens.
   inlib(gittmpdir, {
-    output <- try_rscript(paste0("library(methods);library(devtools);install_github(", deparse(gitrepo), ",", deparse(gituser), ", dependencies=TRUE, quick=TRUE, args='--library=", deparse(gittmpdir), "')"));
+    output <- try_rscript(paste0("library(methods);library(devtools);install_github(", deparse(gitrepo), ",", deparse(gituser), ", quick=TRUE, args='--library=", deparse(gittmpdir), "')"));
   });
   
   #check if package has been installed
