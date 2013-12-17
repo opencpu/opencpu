@@ -8,9 +8,6 @@
     #try set tempdir() to match config("tempdir"). Must be after loadconfigs!
     inittempdir();
     
-    #default locale in apache is "C"
-    Sys.setlocale(category='LC_ALL', 'en_US.UTF-8');
-    
     #for the log files
     packageStartupMessage("OpenCPU cloud server ready.");
   

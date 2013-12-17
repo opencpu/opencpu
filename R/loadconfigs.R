@@ -37,8 +37,8 @@ loadconfigs <- local({
     options(scipen=3);
     
     #use cairo if available
-    if(isTRUE(capabilities()[["cairo"]])){
-      options(bitmapType = 'cairo');
+    if(!identical(getOption("bitmapType"), "cairo") && isTRUE(capabilities()[["cairo"]])){
+      options(bitmapType = "cairo");
     } 
     
     #create tmp directories
