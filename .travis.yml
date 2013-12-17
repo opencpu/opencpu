@@ -40,8 +40,8 @@ install:
   - if test ${OS} = Linux; then test -n "$(which tmux)"; fi
   - if test ${OS} = Linux; then test -n "$(which sponge)"; fi
   # Test install_r (which accepts multiple arguments).
-  - ./travis-tool.sh install_r stringr lubridate
-  - Rscript -e 'library(stringr); library(lubridate)'
+  - ./travis-tool.sh install_r stringr lubridate jsonlite
+  - Rscript -e 'library(stringr); library(lubridate); library(jsonlite);'
   # Test github package installation (which accepts multiple arguments).
   - Rscript -e 'stopifnot(!any(c("assertthat", "testthat", "roxygen2") %in% installed.packages())'
   - ./travis-tool.sh install_github assertthat testthat klutometis/roxygen
