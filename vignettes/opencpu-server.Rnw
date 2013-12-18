@@ -65,7 +65,7 @@
 
 
 \title{The OpenCPU Server PDF Manual}
-\subtitle{Version 1.0}
+\subtitle{Version 1.2}
 \author{Jeroen Ooms\vspace{-1ex}}
 \date{}
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -202,7 +202,7 @@ Before installing OpenCPU, make sure the system is up to date:
 To install OpenCPU, first add the OpenCPU repository to the system:
 
 \begin{verbatim}
-  sudo add-apt-repository ppa:opencpu/opencpu-1.0 -y
+  sudo add-apt-repository ppa:opencpu/opencpu-1.2 -y
   sudo apt-get update
 \end{verbatim}
 We can now go ahead and install the server:
