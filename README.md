@@ -10,14 +10,10 @@ Install Single User Server
 
 Latest stable version (recommended):
 
-    install.packages('opencpu')
-    library(opencpu)
+    install.packages("opencpu")
 
-Bleeding edge from rforge:
+Bleeding edge from Github:
   
     #update existing packages first
-    update.packages(ask = FALSE, repos = 'http://cran.rstudio.org')
-    install.packages('opencpu', repos = c('http://rforge.net', 'http://cran.rstudio.org'),
-      type = 'source')
-      
-
+    library(devtools)
+    install_github("opencpu", "jeroenooms")
