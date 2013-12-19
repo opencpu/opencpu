@@ -18,9 +18,12 @@ httpget_package_data <- function(pkgpath, requri){
     }
     
     #Get object. Throws error if object does not exist.
-    if(exists(reqobject, asNamespace(reqpackage))){
+    ns <- as.environment(paste0("package:", reqpackage));
+    if(exists(reqobject, ns, inherits=FALSE)){
       #if lazy load is enabled, then use it
-      myobject <- get(reqobject, asNamespace(reqpackage));
+      #note1: this will also find "regular" R objects.
+      #note2: the /R api will also find lazyLoaded datasets. So they overlap a bit.
+      myobject <- get(reqobject, ns, inherits=FALSE);
     } else {
       myenv <- new.env(parent=emptyenv());  
       withCallingHandlers({
