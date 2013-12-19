@@ -31,10 +31,10 @@ httpget_package_data <- function(pkgpath, requri){
       myobject <- get(reqobject, myenv, inherits=FALSE);
     }
     
+    #check method
+    res$checkmethod("GET")
+    
     #return object
-    switch(req$method(),
-      "GET" = httpget_object(myobject, reqformat, reqobject),
-      stop("invalid method")
-    );
+    httpget_object(myobject, reqformat, reqobject);  
   });
 }

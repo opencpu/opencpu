@@ -1,5 +1,8 @@
 httpget_package_man <- local({
   main <- function(pkgpath, requri){
+    #only GET allowed
+    res$checkmethod("GET")
+    
     #extract names
     reqpackage <- basename(pkgpath);
     reqlib <- dirname(pkgpath);  

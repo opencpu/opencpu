@@ -20,6 +20,9 @@ httpget_package_r <- function(pkgpath, requri){
     #Get object. Throws error if object does not exist.
     myobject <- get(reqobject, paste("package", reqpackage, sep=":"), inherits=FALSE);
     
+    #only GET/POST allowed
+    res$checkmethod(c("GET", "POST"));    
+    
     #return object
     switch(req$method(),
       "GET" = httpget_object(myobject, reqformat, reqobject),

@@ -81,7 +81,7 @@ res <- local({
   
   checkmethod <- function(methods = "GET"){
     if(!(req$method() %in% methods)){
-      stop(paste("Method:", req$method(), "invalid on", req$path_info()));
+      error(paste("Method:", req$method(), "invalid on", req$path_info()), 405);
     }
   }
   

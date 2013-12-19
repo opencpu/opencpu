@@ -40,6 +40,9 @@ httpget_session_r <- function(filepath, requri){
   #load object
   myobject <- get(reqobject, envir=sessionenv, inherits=FALSE);
   
+  #only GET/POST allowed
+  res$checkmethod(c("GET", "POST"));  
+  
   #return object
   switch(req$method(),
      "GET" = httpget_object(myobject, reqformat, reqobject),
