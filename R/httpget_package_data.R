@@ -17,16 +17,15 @@ httpget_package_data <- function(pkgpath, requri){
       res$sendlist(data(package=reqpackage)$results[,"Item"]);
     }
     
-    #Get object. Throws error if object does not exist.
-    ns <- as.environment(paste0("package:", reqpackage));
-    if(exists(reqobject, ns, inherits=FALSE)){
-      #if lazy load is enabled, then use it
-      #note1: this will also find "regular" R objects.
-      #note2: the /R api will also find lazyLoaded datasets. So they overlap a bit.
+    #if lazy load is enabled, then use it
+    #we check the data promise to make sure it's really a dataset (and not a regular object)
+    ns <- as.environment(paste0("package:", reqpackage));    
+    if(exists(reqobject, ns, inherits=FALSE) && identical("lazyLoadDBfetch", deparse(substitute(as.name(reqobject), ns)[[1]]))){
       myobject <- get(reqobject, ns, inherits=FALSE);
     } else {
       myenv <- new.env(parent=emptyenv());  
       withCallingHandlers({
+        #Get object using data(). Throws error if object does not exist.        
         data(list=reqobject, package=reqpackage, envir=myenv)
       }, warning = function(e) {stop(e$message, call.= FALSE)});
       myobject <- get(reqobject, myenv, inherits=FALSE);
