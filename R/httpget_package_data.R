@@ -20,7 +20,7 @@ httpget_package_data <- function(pkgpath, requri){
     #if lazy load is enabled, then use it
     #we check the data promise to make sure it's really a dataset (and not a regular object)
     ns <- as.environment(paste0("package:", reqpackage));    
-    if(exists(reqobject, ns, inherits=FALSE) && identical("lazyLoadDBfetch", deparse(substitute(as.name(reqobject), ns)[[1]]))){
+    if(islazydata(reqobject, ns)){
       myobject <- get(reqobject, ns, inherits=FALSE);
     } else {
       myenv <- new.env(parent=emptyenv());  
