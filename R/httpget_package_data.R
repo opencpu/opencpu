@@ -18,11 +18,16 @@ httpget_package_data <- function(pkgpath, requri){
     }
     
     #Get object. Throws error if object does not exist.
-    myenv <- new.env(parent=emptyenv());
-    withCallingHandlers({
-      data(list=reqobject, package=reqpackage, envir=myenv)
-    }, warning = function(e) {stop(e$message, call.= FALSE)});
-    myobject <- get(reqobject, myenv, inherits=FALSE);
+    if(exists(reqobject, asNamespace(reqpackage))){
+      #if lazy load is enabled, then use it
+      myobject <- get(reqobject, asNamespace(reqpackage));
+    } else {
+      myenv <- new.env(parent=emptyenv());  
+      withCallingHandlers({
+        data(list=reqobject, package=reqpackage, envir=myenv)
+      }, warning = function(e) {stop(e$message, call.= FALSE)});
+      myobject <- get(reqobject, myenv, inherits=FALSE);
+    }
     
     #return object
     switch(req$method(),
