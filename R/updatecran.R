@@ -1,9 +1,6 @@
 #this function is called by a cronjob
 #not used by the API
 updatecran <- function(){
-  #import
-  eval.secure <- from("RAppArmor", "eval.secure");
-  
   #make sure config is initiated
   loadconfigs();
   
@@ -23,7 +20,7 @@ updatecran <- function(){
   .libPaths(cranpath)
   
   #CRAN packages
-  eval.secure({
+  RAppArmor::eval.secure({
     update.packages(lib.loc = cranpath, repos = "http://cran.r-project.org", ask = FALSE, checkBuilt=TRUE);
     if(length(list.files(cranpath))){
       system2("touch", paste0(cranpath, "/*"));
