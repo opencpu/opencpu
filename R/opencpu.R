@@ -97,7 +97,8 @@ opencpu <- local({
     if(!nchar(mainurl)){
       uvurl <<- paste("http://localhost:", myport, rootpath, sep="");
     } else {
-      uvurl <<- paste0(gsub(":[0-9]{3,5}", paste(":", myport, sep=""), mainurl), substring(rootpath,2))
+      #uvurl <<- paste0(gsub(":[0-9]{3,5}", paste(":", myport, sep=""), mainurl), substring(rootpath,2))
+      uvurl <<- paste0(mainurl, "p/", myport, rootpath)
     }
     
     #make sure we're online
