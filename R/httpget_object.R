@@ -176,7 +176,7 @@ httpget_object <- local({
     }        
     res$setbody(file=mytmp);
     res$setheader("Content-Type", "image/svg+xml");
-    res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".svg", sep=""));      
+    #res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".svg", sep=""));      
     res$finish();    
   }    
   
