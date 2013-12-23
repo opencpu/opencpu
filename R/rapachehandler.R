@@ -1,7 +1,12 @@
 rapachehandler <- function(){
   
-  #Post has not been parsed
-  if(isTRUE(getrapache("SERVER")$method %in% c("POST", "PUT") && !length(getrapache("POST")))){
+  #Note getrapache("POST") before internals("postParsed") to evaluate the promise.
+  if(isTRUE(
+    getrapache("SERVER")$method %in% c("POST", "PUT") && 
+    !length(getrapache("POST")) && 
+    !isTRUE(getrapache("SERVER")$internals("postParsed"))
+  )){
+    #Post has not been parsed by apreq
     rawdata <- getrapache("receiveBin")();
     ctype <- getrapache("SERVER")[["headers_in"]][["Content-Type"]];
     MYRAW <- list(
@@ -11,7 +16,7 @@ rapachehandler <- function(){
     NEWPOST <- NULL
     NEWFILES <- NULL;
   } else {
-    #evaluate promises
+    #post was parsed by apreq (or not post at all)
     MYRAW <- NULL;
     NEWPOST <- getrapache("POST");
     NEWFILES <- getrapache("FILES");
