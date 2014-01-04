@@ -37,6 +37,12 @@ parse_post <- function(reqbody, contenttype){
         return(I(x))
       }
     }));
+  } else if(grepl("protobuf", contenttype, fixed=TRUE)){
+    if(is.raw(reqbody)){
+      return(RProtoBuf::unserialize_pb(reqbody));
+    } else {
+      stop("ProtoBuf payload was posted as text ??")
+    }    
   } else {
     stop("POST body with unknown conntent type: ", contenttype);
   }  

@@ -18,14 +18,15 @@ Imports:
     evaluate (>= 0.5.1),
     httpuv (>= 1.1),
     knitr (>= 1.4),
-    jsonlite (>= 0.9.1),
+    jsonlite (>= 0.9.3),
     devtools,
     httr,
     brew,
     pander
 Suggests:
     RAppArmor,
-    sendmailR
+    sendmailR,
+    RProtoBuf (>= 0.3.2.4)
 SystemRequirements: latex, pandoc, apparmor
 Description: The OpenCPU framework exposes a web API interfacing R, Latex and
     Pandoc. This API is used for example to integrate statistical functionality

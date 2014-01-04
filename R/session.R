@@ -112,7 +112,7 @@ session <- local({
     }
 
     #Shortcuts to get object immediately
-    if(format %in% c("json", "print")){
+    if(format %in% c("json", "print", "pb")){
       sendobject(hash, get(".val", sessionenv), format);
     } else if(format %in% c("console")) {
       sendobject(hash, extract(output, format), "text");
@@ -127,7 +127,7 @@ session <- local({
     outputpath <- paste(req$mount(), tmppath, "/", sep="");    
     res$setheader("Location", outputpath); 
     res$setheader("X-ocpu-session", hash)
-    httpget_object(obj, format);
+    httpget_object(obj, format, "object");
   }
   
   #redirects the client to the session location
