@@ -27,10 +27,10 @@ req <- local({
   
   mount <- function(){
     #this will result in relative url redirects
-    #getvalue("MOUNT");
+    getvalue("MOUNT");
     
     #this will result in absolute url redirects
-    getvalue("FULLMOUNT");
+    #getvalue("FULLMOUNT");
   };
   
   path_info <- function(){
