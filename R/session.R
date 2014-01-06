@@ -124,7 +124,7 @@ session <- local({
   
   sendobject <- function(hash, obj, format){
     tmppath <- sessionpath(hash);
-    outputpath <- paste(req$mount(), tmppath, "/", sep="");    
+    outputpath <- paste0(req$mount(), tmppath, "/");
     res$setheader("Location", outputpath); 
     res$setheader("X-ocpu-session", hash)
     httpget_object(obj, format, "object");
@@ -133,15 +133,12 @@ session <- local({
   #redirects the client to the session location
   sendlist <- function(hash){
     tmppath <- sessionpath(hash);
-    outputpath <- paste(req$mount(), tmppath, "/", sep="");
-    
+    outputpath <- paste0(req$uri(), tmppath, "/");
     outlist <- index(sessiondir(hash));
     text <- paste(outputpath, outlist, sep="", collapse="\n");
-    res$setbody(text);
     res$setheader("Content-Type", 'text/plain; charset="UTF-8"');
-    res$setheader("Location", outputpath);
     res$setheader("X-ocpu-session", hash)
-    res$finish(201);    
+    res$redirect(outputpath, 201, text)
   }
   
   #get a list of the contents of the current session

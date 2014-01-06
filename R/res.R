@@ -42,14 +42,18 @@ res <- local({
     invisible();
   }  
   
-  redirect <- function(target, status=302){
-    setbody(paste("Redirect to", target));
+  redirect <- function(target, status=302, txt){
+    if(missing(txt)){
+      setbody(paste("Redirect to", target));
+    } else {
+      setbody(txt);
+    }    
     setheader("Location", target);
     finish(status);
   };
-  
+    
   redirectpath <- function(subpath, status = 302){
-    baseuri <- req$uri();
+    baseuri <- paste0(req$uri(), req$path_info());
     baseuri <- sub("/$", "", baseuri);
     subpath <- sub("^/", "", subpath);
     fullpath <- paste0(baseuri, "/", subpath);
@@ -75,7 +79,7 @@ res <- local({
   }
 
   checktrail <- function(){
-    if(!substring(req$uri(), nchar(req$uri())) == "/"){
+    if(!grepl("/$", req$path_info())){
       redirectpath("/")
     }
   };
