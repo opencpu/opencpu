@@ -30,12 +30,19 @@ rookhandler <- function(rootpath){
       );
     } else {
       MYRAW <- NULL;
-    } 
+    }
+    
+    #reconstruct the full URL
+    scheme <- env[["rook.url_scheme"]];
+    hostport <- env[["HTTP_HOST"]];
+    mount <- paste0(env[["SCRIPT_NAME"]], rootpath);
+    fullmount <- paste0(scheme, "://", hostport, mount);
     
     #collect data from Rook
     REQDATA <- list(
       METHOD = env[["REQUEST_METHOD"]],
-      MOUNT = paste0(env[["SCRIPT_NAME"]], rootpath),
+      MOUNT = mount,
+      FULLMOUNT = fullmount,
       PATH_INFO = env[["PATH_INFO"]],
       GET = GET,
       RAW = MYRAW

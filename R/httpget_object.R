@@ -5,7 +5,7 @@ httpget_object <- local({
       if(missing(defaultformat)){
         defaultformat <- "print";
       }
-      res$redirect(paste(req$uri(), "/", defaultformat, sep=""))
+      res$redirectpath(defaultformat);
     }
     
     #render object

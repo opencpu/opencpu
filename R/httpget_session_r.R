@@ -32,7 +32,7 @@ httpget_session_r <- function(filepath, requri){
     res$checkmethod();
     dirlist <- ls(sessionenv, all.names=TRUE);
     if(identical(dirlist, ".val")){
-      res$redirect(paste(req$uri(), "/.val", sep=""));
+      res$redirectpath("/.val");
     }
     res$sendlist(ls(sessionenv, all.names=TRUE));
   } 

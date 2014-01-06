@@ -44,10 +44,17 @@ res <- local({
   
   redirect <- function(target, status=302){
     setbody(paste("Redirect to", target));
-    target <- gsub("//", "/", target);
     setheader("Location", target);
     finish(status);
   };
+  
+  redirectpath <- function(subpath, status = 302){
+    baseuri <- req$uri();
+    baseuri <- sub("/$", "", baseuri);
+    subpath <- sub("^/", "", subpath);
+    fullpath <- paste0(baseuri, "/", subpath);
+    redirect(fullpath, status=status);
+  }
   
   notfound <- function(filepath, message){
     if(missing(message)){
@@ -69,7 +76,7 @@ res <- local({
 
   checktrail <- function(){
     if(!substring(req$uri(), nchar(req$uri())) == "/"){
-      redirect(paste(req$uri(), "/", sep=""))
+      redirectpath("/")
     }
   };
   

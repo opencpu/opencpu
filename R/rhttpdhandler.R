@@ -32,6 +32,7 @@ rhttpdhandler <- function(rootpath){
       METHOD = METHOD,
       PATH_INFO = gsub(rootpath, "", reqpath),
       MOUNT = rootpath,
+      FULLMOUNT = paste0(sub("/$", "", Sys.getenv("RSTUDIO_HTTP_REFERER")), rootpath),
       GET = reqquery,
       RAW = MYRAW
     );  

@@ -21,7 +21,7 @@ httpget_package_man <- local({
     
     #default format is text
     if(is.na(reqformat)){
-      res$redirect(paste(req$uri(), "/text", sep=""))
+      res$redirectpath("/text")
       reqformat <- "text";
     }
     

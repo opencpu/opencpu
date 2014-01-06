@@ -23,10 +23,18 @@ rapachehandler <- function(){
     NEWPOST[names(NEWFILES)] <- NULL;
   }
   
+  #reconstruct the full URL
+  scheme <- ifelse(isTRUE(getrapache("SERVER")$HTTPS), "https", "http");
+  hostname <- getrapache("SERVER")$hostname;
+  port <- getrapache("SERVER")$port;
+  mount <- getrapache("SERVER")$cmd_path;
+  fullmount <- paste0(scheme, "://", hostname, ":", port, mount);
+
   #collect request data from rapache
   REQDATA <- list(
     METHOD = getrapache("SERVER")$method,
     MOUNT = getrapache("SERVER")$cmd_path,
+    FULLMOUNT = fullmount,
     PATH_INFO = getrapache("SERVER")$path_info,
     POST = NEWPOST,
     GET = getrapache("GET"),

@@ -135,9 +135,6 @@ session <- local({
     tmppath <- sessionpath(hash);
     outputpath <- paste(req$mount(), tmppath, "/", sep="");
     
-    #we are no longer redirecting
-    #res$redirect(outputpath, 303);    
-    
     outlist <- index(sessiondir(hash));
     text <- paste(outputpath, outlist, sep="", collapse="\n");
     res$setbody(text);

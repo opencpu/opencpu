@@ -55,7 +55,7 @@ httpget_session_graphics <- function(filepath, requri){
     
   #default to PNG
   if(is.na(reqformat)){
-    res$redirect(paste(req$uri(), "/png", sep=""))
+    res$redirectpath("/png")
   }
   
   newfilename <- paste(tail(strsplit(basename(filepath), "_", fixed=TRUE)[[1]], 1), reqplot, sep="_plot");

@@ -12,7 +12,7 @@ httpget <- function(){
   
   if(!length(reqpath)){
     res$checkmethod();
-    res$redirect(paste(req$uri(), "/test", sep=""));    
+    res$redirectpath("/test");    
   }
   
   reqhead <- head(reqpath, 1);
