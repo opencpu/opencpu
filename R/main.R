@@ -3,7 +3,7 @@ main <- function(REQDATA){
   loadconfigs();
   
   #set a seed
-  myseed <- (unclass(Sys.time())*1e9) %% 1e9;
+  myseed <- (unclass(Sys.time())*1e9*Sys.getpid()) %% 1e9;
   set.seed(myseed);
 
   #To be sure. Note that POST requests will eventually switch to a session dir.
