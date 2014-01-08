@@ -61,7 +61,10 @@ session <- local({
     }
 
     #initiate environment
-    sessionenv <- new.env(parent=args);        
+    sessionenv <- new.env(parent=args);
+    
+    #need to do this before evaluate, in case evaluate uses set.seed
+    hash <- generate();
     
     #setup some prelim
     pdf(tempfile(), width=11.69, height=8.27, paper="A4r")
@@ -98,7 +101,6 @@ session <- local({
     #stopifnot(file.rename(execdir, sessiondir(hash))); 
     
     #store results permanently
-    hash <- generate();  
     outputdir <- sessiondir(hash);
     
     #First try renaming to destionation directory
