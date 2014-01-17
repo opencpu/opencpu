@@ -26,7 +26,7 @@ Imports:
 Suggests:
     RAppArmor,
     sendmailR,
-    RProtoBuf (>= 0.3.2.4)
+    RProtoBuf (>= 0.4)
 SystemRequirements: latex, pandoc, apparmor
 Description: The OpenCPU framework exposes a web API interfacing R, Latex and
     Pandoc. This API is used for example to integrate statistical functionality
