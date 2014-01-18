@@ -1,33 +1,23 @@
-#outputframe{
-  height: 600px;
-  border: 1px lightgray solid;  
+body {
+  padding-top: 60px; 
 }
 
-#outputpre{
-  min-height: 350px;
-}
-
-#headerpre{
-  min-height: 100px;
-}
-
-#allparameters{
+#allparameters {
   display: none;
 }
 
-#formspinner, #ajaxspinner, #outputframe{
+#ajaxspinner {
   display: none;
 }
 
-#urlvalue{
+#urlvalue {
 	width: 400px;
 }
 
-.cookiebutton{
-	float: right;
+#outputpre {
+  min-height: 350px;
 }
 
-#submitform, #submitblank{
-	margin-right: 5px;
-	margin-bottom: -10px;
+#headerpre {
+  min-height: 100px;
 }
