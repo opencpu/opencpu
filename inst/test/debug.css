@@ -16,8 +16,10 @@ body {
 
 #outputpre {
   min-height: 350px;
+  font-size: 85%;
 }
 
 #headerpre {
   min-height: 100px;
+  font-size: 85%;  
 }
