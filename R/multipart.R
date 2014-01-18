@@ -22,7 +22,13 @@ multipart <- local({
     }
     
     if(length(indexes) == 1){
-      stop("The 'boundary' was only found once in the multipart/form-data message. It should appear at least twice. The request-body seems to be truncated.")
+      if(length(body) < nchar(boundary)+5){
+        #in case of an empty JS FormData object
+        return(list())
+      } else {
+        #this probably means something went wrong
+        stop("The 'boundary' was only found once in the multipart/form-data message. It should appear at least twice. The request-body seems to be truncated.")        
+      }
     }
     
     parts <- list();

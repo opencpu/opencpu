@@ -6,6 +6,13 @@ function showParamHeaders() {
 	}
 }
 
+//this specifies the parameter names
+$(".fakeinputname").blur(function() {
+  var newparamname = $(this).val();
+  $(this).parent().parent().parent().parent().find(".realinputvalue").attr("name", newparamname);
+});
+ 
+
 $(".close").click(function(e) {
   e.preventDefault();
   $(this).parent().remove();
@@ -59,7 +66,7 @@ function postWithAjax(myajax) {
 	$("#statuspre").removeClass("alert-warning");
 
   $('#ajaxspinner').show();
-	$.ajax(myajax).always(function(){
+	var req = $.ajax(myajax).always(function(){
     $('#ajaxspinner').hide();
 	});
 }
