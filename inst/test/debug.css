@@ -1,5 +1,20 @@
-body {
-  padding-top: 60px; 
+@media (min-width: 979px){
+  #maincontainer {
+    padding-top: 60px; 
+  }
+}
+
+@media (min-width: 979px) and (max-width: 1200px) {
+  #urlwrapper {
+    margin-left: 50px; 
+  }
+}
+
+@media (min-width: 768px) and (max-width: 979px) {
+  #urlwrapper {
+    margin-top: 75px;
+    margin-left: -43px;
+  }
 }
 
 #allparameters {
@@ -10,8 +25,10 @@ body {
   display: none;
 }
 
-#urlvalue {
-	width: 400px;
+@media (min-width: 1200px){
+  #urlvalue {
+    width: 400px;
+  }  
 }
 
 #outputpre {
