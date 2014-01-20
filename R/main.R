@@ -2,9 +2,9 @@ main <- function(REQDATA){
   #load config (in case of eval_psock)
   loadconfigs();
   
-  #set a seed
-  myseed <- (unclass(Sys.time())*1e9*Sys.getpid()) %% 1e9;
-  set.seed(myseed);
+  #for some reason this creates RNG collisions on rapache
+  #myseed <- (unclass(Sys.time())*1e9 + Sys.getpid()) %% 1e9;
+  #set.seed(myseed);
 
   #To be sure. Note that POST requests will eventually switch to a session dir.
   setwd(tempdir()); 
