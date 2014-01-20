@@ -1,8 +1,8 @@
 gist_list <- function(username){
-  myurl <- paste("https://api.github.com/users", username, "gists", sep="/");
+  myurl <- paste("https://api.github.com/users", username, "gists?per_page=100", sep="/");
   mysecret <- gitsecret();
   if(!is.null(mysecret)){
-    myurl <- paste(myurl, "?client_id=", mysecret$client_id, "&client_secret=", mysecret$client_secret, sep="");
+    myurl <- paste(myurl, "&client_id=", mysecret$client_id, "&client_secret=", mysecret$client_secret, sep="");
   }
   
   #temporary fix for Mavericks CF
