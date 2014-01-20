@@ -8,6 +8,12 @@
   #urlwrapper {
     margin-left: 50px; 
   }
+  .fakeinputname{
+    width: 120px;
+  }
+  .realinputvalue{
+    width: 220px;
+  }  
 }
 
 @media (min-width: 768px) and (max-width: 979px) {
@@ -15,6 +21,12 @@
     margin-top: 75px;
     margin-left: -43px;
   }
+  .fakeinputname{
+    width: 80px;
+  }
+  .realinputvalue{
+    width: 160px;
+  }  
 }
 
 #allparameters {
