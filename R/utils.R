@@ -17,7 +17,7 @@ utils <- local({
     #files without a dot are special
     if(!grepl(".", filename, fixed=TRUE)){
       if(is.ascii(filepath)){
-        return('text/plain; charset="UTF-8"');
+        return('text/plain; charset=utf-8');
       } else {
         return("application/octet-stream");
       }

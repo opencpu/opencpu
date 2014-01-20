@@ -52,7 +52,7 @@ reshandler <- function(e){
     response <- list(
       status = 400L,
       body = error2file(e),
-      headers = list("Content-Type" = 'text/plain; charset="UTF-8"')
+      headers = list("Content-Type" = 'text/plain; charset=utf-8')
     );
   }
   

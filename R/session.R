@@ -138,7 +138,7 @@ session <- local({
     outputpath <- paste0(req$uri(), tmppath, "/");
     outlist <- index(sessiondir(hash));
     text <- paste(outputpath, outlist, sep="", collapse="\n");
-    res$setheader("Content-Type", 'text/plain; charset="UTF-8"');
+    res$setheader("Content-Type", 'text/plain; charset=utf-8');
     res$setheader("X-ocpu-session", hash)
     res$redirect(outputpath, 201, text)
   }

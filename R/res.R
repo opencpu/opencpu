@@ -132,7 +132,7 @@ res <- local({
   sendtext <- function(text){
     text <- paste(text, collapse="\n");
     setbody(text);
-    setheader("Content-Type", 'text/plain; charset="UTF-8"')
+    setheader("Content-Type", 'text/plain; charset=utf-8')
     finish(200);
   };
   
