@@ -1,7 +1,7 @@
 gist_list <- function(username){
   myurl <- paste("https://api.github.com/users", username, "gists?per_page=100", sep="/");
   mysecret <- gitsecret();
-  if(!is.null(mysecret)){
+  if(length(mysecret) && length(mysecret$client_secret) && nchar(mysecret$client_secret)){
     myurl <- paste(myurl, "&client_id=", mysecret$client_id, "&client_secret=", mysecret$client_secret, sep="");
   }
   
