@@ -1,3 +1,6 @@
+1.2.3
+ - Add support for private github repositories using access token authentication.
+
 1.2.2
  - Don't send attachement header for SVG anymore.
  - Upgrade rApache to 1.2.5: avoid receiveBin() when apreq alread parsed
