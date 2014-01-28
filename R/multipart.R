@@ -107,7 +107,7 @@ multipart <- local({
     if(type == "value"){
       value <- rawToChar(subdata);
     } else {
-      mytmp <- tempfile(fileext=paste("_", filenamefield, sep=""));
+      mytmp <- tempfile(fileext=paste("_", basename(filenamefield), sep=""));
       writeBin(subdata, mytmp);
       value <- mytmp;
     }

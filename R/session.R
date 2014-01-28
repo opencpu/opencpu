@@ -32,7 +32,7 @@ session <- local({
     
     #copy files to execdir
     lapply(req$files(), function(x){
-      stopifnot(file.copy(x$tmp_name, x$name))
+      stopifnot(file.copy(x$tmp_name, basename(x$name)))
     });
     
     #setup handler
