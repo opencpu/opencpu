@@ -6,7 +6,12 @@ execute_function <- function(object, requri, objectname="FUN"){
   }   
   
   #build the function call
-  fnargs <- lapply(req$post(), parse_arg);
+  fnargs <- req$post();
+  dotargs <- parse_dots(fnargs[["..."]]);
+  fnargs["..."] <- NULL;
+  
+  #parse arguments
+  fnargs <- lapply(fnargs, parse_arg);
   fileargs <- structure(lapply(req$files(), function(x){as.expression(basename(x$name))}), names=names(req$files()));
   fnargs <- c(fnargs, fileargs);
   
@@ -18,6 +23,9 @@ execute_function <- function(object, requri, objectname="FUN"){
   if(length(exprargs) > 0){
     argn[names(fnargs[exprargs])] <-lapply(fnargs[exprargs], function(z){if(length(z)) z[[1]] else substitute()});
   }  
+  
+  #add unnamed arguments
+  argn <- c(argn, dotargs)
 
   #construct call
   mycall <- as.call(c(list(as.name(objectname)), argn));
