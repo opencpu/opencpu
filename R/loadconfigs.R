@@ -26,6 +26,13 @@ loadconfigs <- local({
       lapply(as.list(conffiles), environment(config)$load);
     }
     
+    #override with system config file
+    if(file.exists("~/.opencpu.conf")){
+      environment(config)$load("~/.opencpu.conf");    
+    } else {
+      try(file.copy(defaultconf, "~/.opencpu.conf"));
+    }
+    
     #set some global options
     options(max.print=1000);
     options(device=grDevices::pdf);
