@@ -20,8 +20,8 @@ execute_file <- local({
   
   #Evaluate Rscript using evaluate
   httppost_rscript <- function(filepath){
-    mycon <- file(filepath);
-    session$eval(mycon);
+    rcode <- readLines(filepath);
+    session$eval(rcode);
   } 
   
   #Standard knit
