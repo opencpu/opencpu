@@ -46,12 +46,13 @@ httpget_package_man <- local({
   }
   
   man_html <- function(rdfile, package, pkgpath){
-    mylinks <- tools::findHTMLlinks(pkgpath);
-    mylinks <- sub("../../", "../../../", mylinks, fixed=TRUE);
-    mylinks <- sub("/html/", "/man/", mylinks, fixed=TRUE);
-    mylinks <- sub(".html$", "/html", mylinks);
+    #mylinks <- tools::findHTMLlinks(pkgpath);
+    #mylinks <- sub("../../", "../../../", mylinks, fixed=TRUE);
+    #mylinks <- sub("/html/", "/man/", mylinks, fixed=TRUE);
+    #mylinks <- sub(".html$", "/html", mylinks);
+    #tools::Rd2HTML(rdfile, out=mytmp, package=package, Links=mylinks, stylesheet="R.css");
     mytmp <- tempfile(fileext=".html");
-    tools::Rd2HTML(rdfile, out=mytmp, package=package, Links=mylinks, stylesheet="R.css");
+    Rd2HTML(rdfile, out=mytmp, package=package, stylesheet="R.css");
     res$sendfile(mytmp); 
   }
   
