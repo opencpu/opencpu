@@ -78,6 +78,9 @@ opencpu <- local({
       return(invisible())
     }
     
+    #check that a config file is available
+    createconfigfile();
+    
     #start cluster
     cluster <- parallel::makePSOCKcluster(1);
     child <- cluster[[1]];
