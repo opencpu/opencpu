@@ -1,5 +1,9 @@
 1.2.3
  - Add support for private github repositories using access token authentication.
+ - Use ~/.opencpu.conf as primary config file for single user server.
+ - Disable hyperlinks in HTML man pages.
+ - Bug fix for rscripts on the cloud server.
+ - Experimental support for dot-dot-dot arguments.
 
 1.2.2
  - Don't send attachement header for SVG anymore.
