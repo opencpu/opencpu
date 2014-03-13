@@ -23,10 +23,10 @@ req <- local({
   
   uri <- function(){
     #this will result in relative url redirects
-    return(mount())
+    #return(mount())
     
     #this will result in absolute url redirects
-    #return(fullmount())
+    return(fullmount())
   };
   
   mount <- function(){
