@@ -25,10 +25,9 @@ rapachehandler <- function(){
   
   #reconstruct the full URL
   scheme <- ifelse(isTRUE(getrapache("SERVER")$HTTPS), "https", "http");
-  hostname <- getrapache("SERVER")$hostname;
-  port <- getrapache("SERVER")$port;
+  host <- getrapache("SERVER")$headers_in$Host
   mount <- getrapache("SERVER")$cmd_path;
-  fullmount <- paste0(scheme, "://", hostname, ":", port, mount);
+  fullmount <- paste0(scheme, "://", host, mount);
 
   #collect request data from rapache
   REQDATA <- list(
