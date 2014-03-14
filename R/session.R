@@ -126,7 +126,7 @@ session <- local({
   
   sendobject <- function(hash, obj, format){
     tmppath <- sessionpath(hash);
-    outputpath <- paste0(req$mount(), tmppath, "/");
+    outputpath <- paste0(req$uri(), tmppath, "/");
     res$setheader("Location", outputpath); 
     res$setheader("X-ocpu-session", hash)
     httpget_object(obj, format, "object");
