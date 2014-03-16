@@ -92,10 +92,10 @@ session <- local({
     output <- Filter(function(x){!emptyplot(x)}, output); 
     
     #store output
-    save(file=".RData", envir=sessionenv, list=ls(sessionenv, all.names=TRUE));
-    saveRDS(output, file=".REval");
-    saveRDS(sessionInfo(), file=".RInfo");  
-    saveRDS(.libPaths(), file=".Rlibs"); 
+    save(file=".RData", envir=sessionenv, list=ls(sessionenv, all.names=TRUE), compress=FALSE);
+    saveRDS(output, file=".REval", compress=FALSE);
+    saveRDS(sessionInfo(), file=".RInfo", compress=FALSE);  
+    saveRDS(.libPaths(), file=".Rlibs", compress=FALSE); 
 
     #does not work on windows 
     #stopifnot(file.rename(execdir, sessiondir(hash))); 
