@@ -41,30 +41,30 @@ parse_arg <- function(x){
   #try to parse code
   myexpr <- tryCatch(parse(text=x, keep.source=FALSE), error = function(e){
     stop("Unparsable argument: ", x);
-  });    
-
-  #check if it is an object    
-  if(!length(myexpr)){
-    return(expression());
-  } else if(exists(x)){
-    return(parse(text=x));
-  }
+  });
   
-  #check if it is a boolean, number or string 
-  if(identical(1L, length(myexpr))) {
-    if(is.character(myexpr[[1]]) || is.logical(myexpr[[1]]) || is.numeric(myexpr[[1]])) {
-      return(myexpr);
-    }
-  }
-  
-  #otherwise its probably an R snippet
+  #inject code if enabled
   if(isTRUE(config("enable.post.code"))){
     #check length
     if(length(myexpr) > 1){
       myexpr <- parse(text = paste("{", x, "}"), keep.source=FALSE);
+    } else {
+      return(myexpr);      
     }
-    return(myexpr);
-  } else {
-    stop("Invalid argument: ", x, ".\nThis server has disabled posting R code in arguments.");    
   }
+
+  #otherwise check for primitive   
+  if(!length(myexpr)){
+    return(expression());
+  }
+  
+  #check if it is a boolean, number or string 
+  if(identical(1L, length(myexpr))) {
+    if(is.character(myexpr[[1]]) || is.logical(myexpr[[1]]) || is.numeric(myexpr[[1]]) || is.name(myexpr[[1]])) {
+      return(myexpr);
+    }
+  }
+  
+  #failed to parse argument
+  stop("Invalid argument: ", x, ".\nThis server has disabled posting R code in arguments.");    
 }
