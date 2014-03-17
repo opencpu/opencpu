@@ -17,15 +17,16 @@ parse_arg_prim <- function(x){
   
   if(x == "false" || x == "FALSE"){
     return(FALSE);
-  }   
+  }
   
-  #try if is number
-  if(x == gsub("[^0-9eE:.*/%+-]","", x)){
-    num <- as.numeric(x);
-    if(!(is.na(num))){
-      return(num);
+  #check if it is a boolean, number or string 
+  myexpr <- parse(text=x);
+  if(identical(1L, length(myexpr))) {
+    obj <- myexpr[[1]];
+    if(is.character(obj) || is.logical(obj) || is.numeric(obj)) {
+      return(obj);
     }
-  }  
+  }
   
   #default to no changes
   return(x);
