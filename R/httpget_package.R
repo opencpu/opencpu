@@ -12,6 +12,10 @@ httpget_package <- function(pkgpath, requri){
     res$checktrail();
     reqpackage <- basename(pkgpath);
     reqlib <- dirname(pkgpath);
+    indexhtml <- file.path(reqlib, reqpackage, "index.html")
+    if(file.exists(indexhtml)){
+      httpget_file(indexhtml)
+    }
     pkghelp <- eval(call("help", package=reqpackage, lib.loc=reqlib, help_type="text"))
     res$sendtext(format(pkghelp));
   }
