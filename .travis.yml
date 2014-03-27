@@ -7,7 +7,7 @@
 language: c
 
 before_install:
-  - sudo apt-get install libapparmor-dev libprotobuf-dev
+  - sudo apt-get install libapparmor-dev libprotobuf-dev libprotoc-dev protobuf-compiler
   - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
   - chmod 755 ./travis-tool.sh
   - ./travis-tool.sh bootstrap
