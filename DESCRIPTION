@@ -20,7 +20,7 @@ Imports:
     knitr (>= 1.4),
     jsonlite (>= 0.9.5),
     devtools,
-    httr,
+    httr (>= 0.3),
     brew,
     pander
 Suggests:
