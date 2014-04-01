@@ -47,7 +47,7 @@ parse_arg <- function(x){
   if(isTRUE(config("enable.post.code"))){
     #check length
     if(length(myexpr) > 1){
-      myexpr <- parse(text = paste("{", x, "}"), keep.source=FALSE);
+      return(parse(text = paste("{", x, "}"), keep.source=FALSE));
     } else {
       return(myexpr);      
     }
