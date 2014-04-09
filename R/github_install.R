@@ -10,7 +10,7 @@ github_install <- function(gitrepo, gituser, gitbranch = "master"){
   #For private repos
   mysecret <- gitsecret();
   if(length(mysecret) && length(mysecret$auth_token) && nchar(mysecret$auth_token)){
-    auth = paste0(", auth_user=", deparse(mysecret$auth_token), ", password=\"x-oauth-basic\"")
+    auth = paste0(", auth_token=", deparse(mysecret$auth_token))
   } else {
     auth = "";
   }
