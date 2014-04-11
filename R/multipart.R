@@ -125,6 +125,7 @@ multipart <- local({
     sub("^\\s+", "", str, perl = TRUE);
   }
   
+  #same as base::noquote?
   unquote <- function(str){
     len <- nchar(str)
     if(substr(str, 1, 1) == '"' && substr(str, len, len) == '"'){
