@@ -37,8 +37,9 @@ parse_arg <- function(x){
     errorifnot(exists(".val", myenv), paste("Session", x, "does not contain an object .val"));
     return(myenv$.val);
   }    
-  
-  #try to parse code
+    
+  #try to parse code. R doesn't like CR+LF
+  x <- gsub("\r\n", "\n", x);  
   myexpr <- tryCatch(parse(text=x, keep.source=FALSE), error = function(e){
     stop("Unparsable argument: ", x);
   });
