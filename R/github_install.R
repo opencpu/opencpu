@@ -17,7 +17,7 @@ github_install <- function(gitrepo, gituser, gitbranch = "master"){
   
   #Dependencies = TRUE would also install currently loaded packages.
   inlib(gittmpdir, {
-    output <- try_rscript(paste0("library(methods);library(devtools);install_github(", deparse(gitrepo), ",", deparse(gituser), ",", deparse(gitbranch), auth, ", quick=TRUE, args='--library=", deparse(gittmpdir), "')"));
+    output <- try_rscript(paste0("library(methods);suppressPackageStartupMessages(library(devtools));install_github(", deparse(gitrepo), ",", deparse(gituser), ",", deparse(gitbranch), auth, ", quick=TRUE, args='--library=", deparse(gittmpdir), "')"));
   });  
   
   #We require package name with identical repo name
