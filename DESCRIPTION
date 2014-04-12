@@ -28,6 +28,7 @@ Suggests:
     sendmailR,
     RProtoBuf (>= 0.4)
 SystemRequirements: latex, pandoc, apparmor
+VignetteBuilder: knitr
 Description: The OpenCPU system exposes a HTTP API interfacing R, Latex and
     Pandoc. This API is used for example to integrate statistical functionality
     into systems, share and execute scripts or reports on centralized servers,
