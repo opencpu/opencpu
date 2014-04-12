@@ -2,7 +2,7 @@ Package: opencpu
 Type: Package
 Title: The OpenCPU framework for embedded scientific computing and reproducible
     research.
-Version: 1.2.99
+Version: 1.4.0
 Date: 2014-03-13
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
@@ -28,7 +28,7 @@ Suggests:
     sendmailR,
     RProtoBuf (>= 0.4)
 SystemRequirements: latex, pandoc, apparmor
-Description: The OpenCPU framework exposes a web API interfacing R, Latex and
+Description: The OpenCPU system exposes a HTTP API interfacing R, Latex and
     Pandoc. This API is used for example to integrate statistical functionality
     into systems, share and execute scripts or reports on centralized servers,
     and build R based "apps". The OpenCPU server can run either as a
