@@ -4,6 +4,7 @@
 \documentclass{scrartcl}
 
 <<insert-fun, echo=FALSE>>=
+library(knitr)
 opts_chunk$set(eval=FALSE)
 @
 
