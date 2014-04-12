@@ -3,11 +3,6 @@
 
 \documentclass{scrartcl}
 
-<<insert-fun, echo=FALSE>>=
-library(knitr)
-opts_chunk$set(eval=FALSE)
-@
-
 \usepackage[colorlinks, urlcolor=blue]{hyperref}
 \usepackage[toc,page]{appendix}
 \usepackage{fullpage}
@@ -97,7 +92,7 @@ The \texttt{MAC} based security profiles make it possible to open up an \OpenCPU
 
 Because \OpenCPU apps are simply \R packages, they are developed, distributed and installed the same way as any other \R package. Several example apps are available from the \OpenCPU github organization at \href{https://github.com/opencpu}{https://github.com/opencpu}. For example to install the \href{https://github.com/opencpu/gitstats}{gitstats} app, we can use the \texttt{devtools} package:
 
-<<>>=
+<<eval=FALSE>>=
 library(devtools)
 install_github("gitstats", "opencpu")
 @
@@ -110,19 +105,19 @@ If the application was installed on an \OpenCPU cloud server, the app is directl
 
 Two implementations of \OpenCPU are available: a single-user server that runs inside an interactive \R session, and a cloud server that builds on \apache and \nginx. The single-user server is intended for development and local use only. The latest version can easily be installed in \R from \CRAN:
 
-<<>>=
+<<eval=FALSE>>=
 install.packages("opencpu")
 @
 
 When the \OpenCPU package is loaded, the server is automatically started:
 
-<<>>=
+<<eval=FALSE>>=
 library(opencpu)
 @
 
  Because \R is single-threaded, the single-user server does not support concurrent requests (but httpuv does a good job in queuing them). Also it does not enforce any security. The single-user server is great for developing apps, that can later be published on the \OpenCPU cloud server. When using the single-user server, we can easily load the apps for local use:
 
-<<>>=
+<<eval=FALSE>>=
 install_github("gitstats", "opencpu")
 opencpu$browse("library/gitstats/www")
 @
@@ -265,7 +260,7 @@ R
 \end{codeblock}
 
 From here it is business as usual:
-<<>>=
+<<eval=FALSE>>=
 install.packages("ggplot2")
 install.packages("glmnet")
 
