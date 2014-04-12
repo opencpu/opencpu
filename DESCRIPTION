@@ -6,7 +6,7 @@ Version: 1.4.0
 Date: 2014-04-12
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
-License: Apache License (== 2.0)
+License: Apache License 2.0
 URL: http://www.opencpu.org
 BugReports: http://github.com/jeroenooms/opencpu/issues
 Depends:
@@ -29,12 +29,12 @@ Suggests:
     RProtoBuf (>= 0.4)
 SystemRequirements: latex, pandoc, apparmor
 VignetteBuilder: knitr
-Description: The OpenCPU system exposes a HTTP API interfacing R, Latex and
-    Pandoc. This API is used for example to integrate statistical functionality
-    into systems, share and execute scripts or reports on centralized servers,
-    and build R based "apps". The OpenCPU server can run either as a
-    single-user server inside the interactive R session (using httpuv), or as a
-    cloud server that builds on Linux and rApache. The current R package forms
-    the core of the framework. When loaded in R, it automatically initiates the
-    single-user server and displays the web address in the console. For more
-    information, visit the OpenCPU website.
+Description: The OpenCPU system exposes an HTTP API to R for embedded scientific
+    computing. It can be used to build applications with integrated analysis and
+    visualization, or to share and execute data, scripts or reports on centralized
+    servers. The OpenCPU server can run either as a single-user server inside the 
+    interactive R session (using httpuv), or as a cloud server that builds on 
+    Ubuntu Linux and rApache. The current R package forms the core of the 
+    framework. When loaded in R, it automatically initiates the single-user server
+    and displays the web address in the console. For more information, visit the
+    OpenCPU website.
