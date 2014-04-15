@@ -29,7 +29,7 @@ parse_arg <- function(x){
   }
   
   #check if it is a session key
-  if(grepl("^x[0-9a-f]{6,12}$", x)){
+  if(grepl("^x[0-9a-f]{4,18}$", x)){
     filepath <- file.path(session$sessiondir(x), ".RData");
     errorifnot(file.exists(filepath), paste("Session not found:", x));
     myenv <- new.env();

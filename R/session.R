@@ -3,7 +3,7 @@ session <- local({
   #generates a random session hash
   generate <- function(){
     characters <- c(0:9, letters[1:6]);
-    hash <- paste(c("x0", sample(characters, 7, replace=TRUE)), collapse="")
+    hash <- paste(c("x0", sample(characters, config("key.length"), replace=TRUE)), collapse="")
     stopifnot(!file.exists(sessiondir(hash)));
     hash;
   }  
