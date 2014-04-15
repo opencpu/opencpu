@@ -1,5 +1,15 @@
-1.3.0
+1.4.1
+ - Make session-key lenght configurable, default to 9.
+
+1.4.0
  - HTTP 201 301 302 now uses absolute URL in Location header
+ - Don't print call for internal stop() errors
+ - Change vignette builder to knitr
+ - Update devtools and httr dependencies
+ - Replace CR+LF by LF before parsing code snippets
+ - Add support for index.html in package root dir
+ - Disable compression in storring sessions to gain speed
+ - Clean up parsing code
 
 1.2.3
  - Add support for private github repositories using access token authentication.
