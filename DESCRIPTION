@@ -18,7 +18,7 @@ Imports:
     evaluate (>= 0.5.1),
     httpuv (>= 1.1),
     knitr (>= 1.4),
-    jsonlite (>= 0.9.5),
+    jsonlite (>= 0.9.7),
     devtools (>= 1.5),
     httr (>= 0.3),
     brew,

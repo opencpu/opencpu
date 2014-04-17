@@ -32,7 +32,7 @@ respond <- function(status = 503L, body=NULL, headers=list()){
     headers = headers
   );
   
-	stop(e)
+	base::stop(e)
 }
 
 reshandler <- function(e){
