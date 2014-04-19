@@ -17,3 +17,4 @@ Bleeding edge from Github:
     #update existing packages first
     library(devtools)
     install_github("opencpu", "jeroenooms")
+
