@@ -1,5 +1,9 @@
 rapachehandler <- function(){
   
+  #Fix for case insensitive headers
+  reqheaders <- getrapache("SERVER")$headers_in;
+  names(reqheaders) <- tolower(names(reqheaders));
+  
   #Note getrapache("POST") before internals("postParsed") to evaluate the promise.
   if(isTRUE(
     getrapache("SERVER")$method %in% c("POST", "PUT") && 
@@ -8,7 +12,7 @@ rapachehandler <- function(){
   )){
     #Post has not been parsed by apreq
     rawdata <- getrapache("receiveBin")();
-    ctype <- getrapache("SERVER")[["headers_in"]][["Content-Type"]];
+    ctype <- reqheaders[["content-type"]];
     MYRAW <- list(
       body = rawdata,
       ctype = ctype
@@ -25,7 +29,7 @@ rapachehandler <- function(){
   
   #reconstruct the full URL
   scheme <- ifelse(isTRUE(getrapache("SERVER")$HTTPS), "https", "http");
-  host <- getrapache("SERVER")$headers_in$Host
+  host <- reqheaders[["host"]];
   mount <- getrapache("SERVER")$cmd_path;
   fullmount <- paste0(scheme, "://", host, mount);
 
