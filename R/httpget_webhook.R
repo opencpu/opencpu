@@ -9,7 +9,7 @@ httpget_webhook <- function(){
   res$checkmethod("POST")
   
   #webhook payload can either be pure json or url-encoded
-  if(grepl("application/json", req$ctype())){
+  if(isTRUE(grepl("application/json", req$ctype()))){
     payload <- req$post();
   } else {
     #extract hook payload
