@@ -33,6 +33,10 @@ req <- local({
     getvalue("MOUNT");
   };
   
+  ctype <- function(){
+    getvalue("CTYPE");
+  };
+  
   fullmount <- function(){
     getvalue("FULLMOUNT");    
   }

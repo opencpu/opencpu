@@ -8,14 +8,18 @@ httpget_webhook <- function(){
   #make sure it's POST
   res$checkmethod("POST")
   
-  #extract hook payload
-  payload <- req$post()$payload;
-  if(is.null(payload)){
-    stop("No argument 'payload' posted.")
+  #webhook payload can either be pure json or url-encoded
+  if(grepl("application/json", req$ctype())){
+    payload <- req$post();
+  } else {
+    #extract hook payload
+    payload <- req$post()$payload;
+    if(is.null(payload)){
+      stop("No argument 'payload' posted.")
+    }
+    #convert from JSON
+    payload <- fromJSON(payload);
   }
-  
-  #convert from JSON
-  payload <- fromJSON(payload);
   
   #Post-Receive data
   gitref <- payload$ref;

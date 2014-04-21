@@ -45,7 +45,8 @@ rookhandler <- function(rootpath){
       FULLMOUNT = fullmount,
       PATH_INFO = env[["PATH_INFO"]],
       GET = GET,
-      RAW = MYRAW
+      RAW = MYRAW,
+      CTYPE = env[["CONTENT_TYPE"]]
     );  
     
     #call method

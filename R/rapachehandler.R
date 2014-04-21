@@ -42,7 +42,8 @@ rapachehandler <- function(){
     POST = NEWPOST,
     GET = getrapache("GET"),
     FILES = NEWFILES,
-    RAW = MYRAW
+    RAW = MYRAW,
+    CTYPE = reqheaders[["content-type"]]
   );
     
   #select method to parse request in a trycatch 
