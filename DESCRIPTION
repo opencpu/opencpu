@@ -30,11 +30,11 @@ Suggests:
 SystemRequirements: latex, pandoc, apparmor
 VignetteBuilder: knitr
 Description: The OpenCPU system exposes an HTTP API for embedded scientific
-    computing with R. It can be used to build applications with integrated 
-    analysis and visualization, or to share and execute data, scripts or 
-    reports on centralized servers. The OpenCPU server can run either as a 
-    single-user server inside the interactive R session (using httpuv), or 
-    as a cloud server that builds on Ubuntu Linux and rApache. The current R
-    package forms the core of the system. When loaded in R, it automatically
+    computing with R. It is a great basis for integrating R based analysis
+    and visualization modules into pipelines, web applications and big data 
+    infrastructures. The OpenCPU server can run either as a single-user 
+    server inside the interactive R session (using httpuv), or as a cloud 
+    server that builds on Ubuntu Linux and rApache. The current R package
+    forms the core of the system. When loaded in R, it automatically 
     initiates the single-user server and displays the web address in the 
-    console. For more information, visit the OpenCPU website.
+    console. For more information visit the OpenCPU website.
