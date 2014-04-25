@@ -152,12 +152,13 @@ Before installing \OpenCPU, make sure the system is up to date:
 sudo apt-get update
 sudo apt-get upgrade
 \end{codeblock}
-To install \OpenCPU, first add the repository to the system:
+To install \OpenCPU start by adding the repository to the system:
 
 \begin{codeblock}
 sudo add-apt-repository ppa:opencpu/opencpu-1.4 -y
 sudo apt-get update
 \end{codeblock}
+
 We can now go ahead and install the server:
 
 \begin{codeblock}
@@ -180,7 +181,7 @@ Alternatively, to install only the cache server:
 sudo apt-get install opencpu-cache
 \end{codeblock}
 
-Note that installing just \texttt{opencpu-cache} is only useful in combination with another server running \texttt{opencpu-server}. This is how you would set up a load-balancer. Some additional configuration if needed to make the cache server proxy to \OpenCPU servers other than your.server.com.
+Note that installing just \texttt{opencpu-cache} is only useful in combination with another server running \texttt{opencpu-server}. This is how you would set up a load-balancer. Some additional configuration if needed to make the cache server proxy to \OpenCPU servers other than localhost.
 
  Finally, to get install \OpenCPU together with a lot of other potentially useful things:
 
@@ -234,6 +235,7 @@ When things are not working as expected, in most cases the problem is reported b
 \begin{codeblock}
 sudo tail /var/log/apache2/error.log
 sudo tail /var/log/nginx/error.log
+sudo tail /var/log/opencpu/apache_error.log
 \end{codeblock}
 
 If you are seeing permission denied errors, either in the \OpenCPU \API or in the \apache logs, this is likely a problem with the \AppArmor security profile. \AppArmor security violations are logged to \texttt{kern.log}:
@@ -249,10 +251,11 @@ Section \ref{security} has more information on customizing \OpenCPU security pol
 In order for packages to be accessible through the \texttt{/ocpu/library} \API, they need to be installed in the global library. Note that \R needs to be started as root to install packages in the global library. To install a single source package:
 
 \begin{codeblock}
-sudo \R CMD INSTALL glmnet_1.9-5.tar.gz
+wget http://cran.r-project.org/src/contrib/glmnet_1.9-5.tar.gz
+sudo R CMD INSTALL glmnet_1.9-5.tar.gz
 \end{codeblock}
 
-Alternatively we can start an interactive session as root and install packages straight from \CRAN or \Github:
+Alternatively we can use an interactive session to install packages from \CRAN or \Github:
 
 \begin{codeblock}
 sudo -i
@@ -284,30 +287,40 @@ Appendix \ref{c2d4u} explains how to use third party repositories like \texttt{c
 
 \subsection{Configuring the OpenCPU cloud server}
 
-The \OpenCPU configuration file is written in \JSON and located at \texttt{/etc/opencpu/server.conf}. It has a hand full of server-wide settings and options to enable/disable or fine-tune certain parts of the system. To modify configurations, the administrator can edit this file, or alternatively create a new file in the directory \texttt{server.conf.d}. Files in \texttt{/etc/opencpu/server.conf.d/} with a filename that ends in \texttt{".conf"} will automatically be loaded by opencpu-server. These settings will override settings in \texttt{/etc/opencpu/server.conf}. The server needs a restart for changed configurations to take effect:
+The \OpenCPU configuration file is written in \JSON and located at \texttt{/etc/opencpu/server.conf}. It has a hand full of server-wide settings and options to enable/disable or fine-tune certain parts of the system. A few important options are:
+
+\begin{itemize}
+ \item \textbf{httpcache.post} -- Value of \texttt{cache-control} header: time in seconds that \HTTP \POST requests are cached if cache server is installed. Defaults to 5 minutes.
+ \item \textbf{preload} -- List of packages to be preloaded when the server starts. This can severely increase performance of frequently used packages.
+ \item \textbf{timelimit.post} -- Time in seconds after which \HTTP \POST requests get terminated. Defaults to 90 seconds.
+ \item \textbf{rlimit.as} -- Maximum memory that can be allocated by a single request. Default 2 GB.
+ \item \textbf{rlimit.fsize} -- Maximum size of files that a request can create. Default 100 MB.
+ \item \textbf{rlimit.nproc} -- Maximum number of concurrent processes that the server is allowed to use. Defaults to 50 processes.
+\end{itemize}
+
+To modify configurations, the administrator can edit this file or alternatively create a new file in the directory \texttt{server.conf.d}. Files in \texttt{/etc/opencpu/server.conf.d/} with a filename ending in \texttt{.conf} are automatically loaded by opencpu-server. These settings override settings in \texttt{/etc/opencpu/server.conf}. The server needs a restart for configurations to take effect:
 
 \begin{codeblock}
 sudo service opencpu restart
 \end{codeblock}
 
-Please make sure that any configuration files are formatted using valid \JSON at all times. Finally there is an additional optional configuration file that is only used for github authentication information at \texttt{/etc/opencpu/secret.conf}. This file is readable by the \OpenCPU system, but not by \OpenCPU users. It has only two fields: \texttt{client\_id} and \texttt{client\_secret}. Setting a valid \Github "application access token" will raise hourly github \API limits from 100 to 5000 hits per hour. Currently this is only relevant for listing repositories from a user though the \texttt{/ocpu/gist} and \texttt{/ocpu/github} \API.
+Please make sure that any configuration files are formatted using valid \JSON at all times. Finally there is an additional optional configuration file that is only used for github authentication information at \texttt{/etc/opencpu/secret.conf}. This file is readable by the \OpenCPU system, but not by \OpenCPU users. It has three fields: \texttt{auth\_token}, \texttt{client\_id} and \texttt{client\_secret}. Setting a valid \Github "application access token" makes it possible to use continuous integration with private \Github repositories. It also raised the hourly github \API limits from 100 to 5000 hits per hour. Currently this is only relevant for listing repositories from a user though the \texttt{/ocpu/gist} and \texttt{/ocpu/github} \API.
 
 \subsection{Setting up SSL certificates for HTTPS}
 
-Installation of \OpenCPU will automatically enable HTTPS in your web server. Hence you should be able to access \OpenCPU via \texttt{https://your.server.com/ocpu}. By default, the server uses self-signed "snake-oil" SSL certificates that ship with Ubuntu. These are convenient for development, but don't provide real security and will trigger the "untrusted host" warning in most modern browsers. Once you go in production, it is recommended to replace these certificates with your own SSL certificates, signed by a certificate authority. 
+Installation of \OpenCPU will automatically enable \HTTPS in your web server. Hence you should be able to access \OpenCPU via \texttt{https://your.server.com/ocpu}. By default, the server uses self-signed "snake-oil" SSL certificates that ship with Ubuntu. These are convenient for development, but don't provide real security and will trigger the "untrusted host" warning in most modern browsers. Once you go in production, it is recommended to replace these certificates with your own SSL certificates, signed by a certificate authority. 
 
- To set up HTTPS when using \texttt{opencpu-server} \emph{without} \texttt{opencpu-cache}, the certificates need to be configured in \apache. This is done in \texttt{/etc/apache2/sites-available/default-ssl}. The file contains comments with further instructions. On the other hand, on a server which does have \texttt{opencpu-cache} installed, the certificates need to be configured in the following \nginx configuration file: \texttt{/etc/nginx/sites-available/opencpu}. After installing the certificates, restart \apache/\nginx for things to take effect.
+ To set up \HTTPS when using \texttt{opencpu-server} \emph{without} \texttt{opencpu-cache}, the certificates need to be configured in \apache. This is done in \texttt{/etc/apache2/sites-available/default-ssl}. The file contains comments with further instructions. On the other hand, on a server which does have \texttt{opencpu-cache} installed, the certificates need to be configured in the following \nginx configuration file: \texttt{/etc/nginx/sites-available/opencpu}. After installing the certificates, restart \apache/\nginx for things to take effect.
 
 \subsection{Customizing the security profile}
 \label{security}
 
 The \OpenCPU cloud server uses \AppArmor profiles and the \texttt{RAppArmor} package to enforce security policies. The profiles used by \OpenCPU are stored in \texttt{/etc/apparmor.d/opencpu.d/}. For an introduction on the topic see the \href{https://github.com/jeroenooms/RAppArmor#readme}{RAppArmor Github page} and \href{http://arxiv.org/abs/1303.4808}{RAppArmor article in JSS}.
 
-The default profiles included with \OpenCPU are quite liberal but prevent most types of malicious behavior. However, if you plan to use \OpenCPU in production, it is recommended to review these policies and revise them according to your needs. To keep your custom rules separated from the general profiles, add them to the \texttt{/etc/apparmor.d/opencpu.d/custom} file. After modifying a security profile restart \AppArmor and \OpenCPU:
+The default profiles included with \OpenCPU are quite liberal but prevent most types of malicious behavior. However, if you plan to use \OpenCPU in production, it is recommended to review these policies and revise them according to your needs. To keep your custom rules separated from the general profiles, add them to the \texttt{/etc/apparmor.d/opencpu.d/custom} file. After modifying a security profile restart \AppArmor:
 
 \begin{codeblock}
 sudo service apparmor restart
-sudo service opencpu restart
 \end{codeblock}
 
 One nice way to debug a security profile is by monitoring the \texttt{kern.log} file while using \OpenCPU:
