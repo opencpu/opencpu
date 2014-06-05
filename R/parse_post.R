@@ -35,7 +35,7 @@ parse_post <- function(reqbody, contenttype){
       stop("JSON input should be a named list (json object).")
     }
     return(lapply(obj, function(x){
-      if(isTRUE(is.vector(x) && length(x) == 1)){
+      if(isTRUE(is.atomic(x) && length(x) == 1)){
         #primitives as expressions
         return(deparse(x))
       } else {
