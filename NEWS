@@ -1,3 +1,7 @@
+1.4.2
+ - Bug fix for JSON input data
+ - Bump jsonlite depends to 0.9.8
+
 1.4.1
  - Make session-key lenght configurable, default to 9.
 
