@@ -9,10 +9,22 @@ github_install <- function(gitrepo, gituser, gitbranch = "master"){
   
   #For private repos
   mysecret <- gitsecret();
-  if(length(mysecret) && length(mysecret$auth_token) && nchar(mysecret$auth_token)){
-    auth = paste0(", auth_token=", deparse(mysecret$auth_token))
+  if(length(mysecret) && length(mysecret$auth_token) &&
+     any(nchar(mysecret$auth_token))){
+      if(length(mysecret$auth_token) == 1) {
+          ## one auth_token provided, assume it is for the given
+          ## gitrepo
+          auth <- paste0(", auth_token=", deparse(mysecret$auth_token))
+      } else if(length(mysecret$auth_token[[gituser]])) {
+          ## multiple pats are available, choose the one for this gitrepo 
+          ## name
+          auth <- paste0(", auth_token=", deparse(mysecret$auth_token[[gituser]]))
+      } else {
+          ## multiple pats are available, but none with name of this repo
+          auth <- "";
+      }
   } else {
-    auth = "";
+      auth <- "";
   }
   
   #Dependencies = TRUE would also install currently loaded packages.
