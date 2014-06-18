@@ -37,6 +37,10 @@ req <- local({
     getvalue("CTYPE");
   };
   
+  rawbody <- function(){
+    getvalue("RAW")$body
+  }
+  
   fullmount <- function(){
     getvalue("FULLMOUNT");    
   }

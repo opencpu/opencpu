@@ -10,16 +10,21 @@ httpget_webhook <- function(){
   
   #webhook payload can either be pure json or url-encoded
   if(isTRUE(grepl("application/json", req$ctype()))){
-    payload <- req$post();
+    #reparse JSON to avoid the deparsing of primitives from RPC post requests
+    payload <- req$rawbody()
+    if(is.raw(payload)){
+      payload <- rawToChar(payload)
+    }
   } else {
     #extract hook payload
     payload <- req$post()$payload;
     if(is.null(payload)){
       stop("No argument 'payload' posted.")
     }
-    #convert from JSON
-    payload <- fromJSON(payload);
   }
+  
+  #convert from JSON
+  payload <- fromJSON(payload);  
   
   #Post-Receive data
   gitref <- payload$ref;
