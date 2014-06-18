@@ -1,3 +1,6 @@
+1.4.3
+ - Add support for application/json payloads for Github webhooks
+
 1.4.2
  - Bug fix for JSON input data
  - Bump jsonlite depends to 0.9.8
