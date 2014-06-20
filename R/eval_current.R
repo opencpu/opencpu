@@ -20,7 +20,9 @@ eval_current <- function(expr, envir=parent.frame(), timeout=60){
       } else if(sub("package:", "", pkg) %in% loaded_before) {
         try(detach(pkg, unload=FALSE, character.only=TRUE, force=TRUE));
       } else {
-        try(detach(pkg, unload=TRUE, character.only=TRUE, force=TRUE));        
+        #Unloading in R is buggy
+        #try(detach(pkg, unload=TRUE, character.only=TRUE, force=TRUE)); 
+        try(detach(pkg, unload=FALSE, character.only=TRUE, force=TRUE));
       }
     }
     
