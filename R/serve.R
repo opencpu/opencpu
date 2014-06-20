@@ -14,7 +14,7 @@ serve <- function(REQDATA){
   #On OSX, either use fork or psock or psock process
   if(grepl("darwin", R.Version()$platform)){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
-      return(request(eval_fork(main(REQDATA), timeout=config("timelimit.get"))));
+      return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
     } else {
       return(tryCatch({
         eval_psock(get("request", envir=asNamespace("opencpu"))(get("main", envir=asNamespace("opencpu"))(REQDATA)), timeout=config("timelimit.post"));
