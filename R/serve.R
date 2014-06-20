@@ -12,6 +12,7 @@ serve <- function(REQDATA){
   }
   
   #On OSX, either use fork or psock or psock process
+  #Note: forks now disabled cause of problems with rJava and RCurl
   if(grepl("darwin", R.Version()$platform)){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
       return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
