@@ -2,6 +2,8 @@
  - Add support for application/json payloads for Github webhooks
  - Disable forks in OSX (again) due to issues with rJava
  - Disable unloading of packages in eval_current due to issues with rJavas
+ - Fix for eol in csv/tab output on Windows
+ - Fix for hash collisions with large amounts of sessions
 
 1.4.2
  - Bug fix for JSON input data
