@@ -51,6 +51,12 @@ httpget_session_graphics <- function(filepath, requri){
   if(is.na(index)){
     stop("Plot must either be numeric value or 'last'");
   }
+  
+  #check out of bounds
+  if(index > length(myplots)){
+    res$notfound(message = "Graphic not found (out of bounds)")  
+  }
+  
   myobject <- myplots[[index]];
     
   #default to PNG
