@@ -7,7 +7,7 @@ Date: 2014-06-06
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
 License: Apache License 2.0
-URL: http://www.opencpu.org
+URL: http://www.opencpu.org, http://arxiv.org/abs/1406.4806
 BugReports: http://github.com/jeroenooms/opencpu/issues
 Depends:
     R (>= 3.0.0)

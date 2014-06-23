@@ -1,5 +1,5 @@
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{The OpenCPU Server PDF Manual}
+%\VignetteIndexEntry{OpenCPU Server Manual}
 
 \documentclass{scrartcl}
 

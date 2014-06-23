@@ -4,6 +4,7 @@
  - Disable unloading of packages in eval_current due to issues with rJavas
  - Fix for eol in csv/tab output on Windows
  - Fix for hash collisions with large amounts of sessions
+ - Add whitepaper vignette and url to package
 
 1.4.2
  - Bug fix for JSON input data
