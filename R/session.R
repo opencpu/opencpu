@@ -2,9 +2,8 @@ session <- local({
 
   #generates a random session hash
   generate <- function(){
-    characters <- c(0:9, letters[1:6]);
     while(file.exists(sessiondir(
-      hash <- paste(c("x0", sample(characters, config("key.length"), replace=TRUE)), collapse="")
+      hash <- paste0("x0", system( paste("openssl rand -hex",config("key.length")/2), intern = T ) )
     ))){}
     hash;
   }  
