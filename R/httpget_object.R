@@ -126,7 +126,7 @@ httpget_object <- local({
     mytmp <- tempfile();
     do.call("saveRDS", c(req$get(), list(object=object, file=mytmp)));
     res$setbody(file=mytmp);
-    res$setheader("Content-Type", "application/octet-stream");
+    res$setheader("Content-Type", "application/r-rds");
     res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".rds", sep=""));
     res$finish();
   }

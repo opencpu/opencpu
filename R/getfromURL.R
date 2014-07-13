@@ -1,5 +1,8 @@
 getfromURL <- function(url){
-  req <- GET(url)
+  req <- GET(url, httr::config(
+    httpheader = c(`User-Agent` = "RCurl/OpenCPU", Accept="application/r-rds, application/json, */*")
+  ))
+  
   ctype <- req$headers[["content-type"]];
   
   if(!length(ctype) || !nchar(ctype)){
@@ -16,9 +19,9 @@ getfromURL <- function(url){
     return(RProtoBuf::unserialize_pb(req$content));
   }
   
-  if(ctype == "application/r-rds" || ctype == "application/octet-stream"){
+  if(ctype == "application/r-rds"){
     return(unserialize(gzcon(rawConnection(req$content))))
   }
   
-  stop("Unsupported content type ", ctype, "for argument: ", req$url)
+  stop("Unsupported content type ", ctype, " for argument: ", req$url)
 }
