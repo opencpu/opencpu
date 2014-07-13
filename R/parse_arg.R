@@ -28,6 +28,11 @@ parse_arg <- function(x){
     }
   }
   
+  #if string looks like a URL, download data
+  if(grepl("^https?://", x)){
+    return(getfromURL(x))
+  }
+  
   #check if it is a session key
   if(grepl("^x[0-9a-f]{4,18}$", x)){
     filepath <- file.path(session$sessiondir(x), ".RData");
