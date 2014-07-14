@@ -46,7 +46,8 @@ rookhandler <- function(rootpath){
       PATH_INFO = env[["PATH_INFO"]],
       GET = GET,
       RAW = MYRAW,
-      CTYPE = env[["CONTENT_TYPE"]]
+      CTYPE = env[["CONTENT_TYPE"]],
+      ACCEPT = env[["HTTP_ACCEPT"]]
     );  
     
     #call method

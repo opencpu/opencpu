@@ -43,7 +43,8 @@ rapachehandler <- function(){
     GET = getrapache("GET"),
     FILES = NEWFILES,
     RAW = MYRAW,
-    CTYPE = reqheaders[["content-type"]]
+    CTYPE = reqheaders[["content-type"]],
+    ACCEPT = reqheaders[["accept"]]
   );
     
   #select method to parse request in a trycatch 
