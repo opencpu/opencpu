@@ -1,3 +1,10 @@
+1.4.4
+ - Add Accept header to input
+ - Update /man/html stylesheet
+ - Add back support for URL parameters (won't work in single-user server)
+ - Only use AppArmor if available
+
+
 1.4.3
  - Add support for application/json payloads for Github webhooks
  - Disable forks in OSX (again) due to issues with rJava
