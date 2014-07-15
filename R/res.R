@@ -136,6 +136,13 @@ res <- local({
     finish(200);
   };
   
+  sendhtml <- function(text){
+    text <- paste(text, collapse="\n");
+    setbody(text);
+    setheader("Content-Type", 'text/html; charset=utf-8')
+    finish(200);
+  };  
+  
   sendfile <- function(filepath, mimetype){
     #windows doesn't like trailing slash
     filepath <- sub("/$", "", filepath);
