@@ -37,6 +37,10 @@ req <- local({
     getvalue("CTYPE");
   };
   
+  accept <- function(){
+    getvalue("ACCEPT")
+  }
+  
   rawbody <- function(){
     getvalue("RAW")$body
   }
