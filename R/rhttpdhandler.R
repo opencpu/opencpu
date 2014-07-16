@@ -11,7 +11,8 @@ rhttpdhandler <- function(rootpath){
     
     #get headers
     contenttype <- grep("Content-Type:", strsplit(rawToChar(reqheaders), "\n")[[1]], ignore.case=TRUE, value=TRUE);
-    accept <- grep("Accept:", strsplit(rawToChar(reqheaders), "\n")[[1]], ignore.case=TRUE, value=TRUE);    
+    accept <- grep("Accept:", strsplit(rawToChar(reqheaders), "\n")[[1]], ignore.case=TRUE, value=TRUE);
+    accept <- sub("^accept: ?", "", accept, ignore.case=TRUE)
     
     #process POST request body
     if(!is.null(reqbody)){
