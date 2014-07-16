@@ -81,11 +81,7 @@ httpget_object <- local({
       toJSON(x=object, pretty=pretty, ...);
     }, req$get());
     res$setbody(jsonstring);
-    if(is.null(req$get()$padding)){
-      res$setheader("Content-Type", "application/json");
-    } else {
-      res$setheader("Content-Type", "application/javascript");    
-    }
+    res$setheader("Content-Type", "application/json");
     res$finish();
   }
   
