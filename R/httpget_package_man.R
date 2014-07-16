@@ -11,9 +11,7 @@ httpget_package_man <- local({
     
     #show a list of objects
     if(is.na(reqobject)){
-      res$checktrail();
-      manlist <- names(from("tools", "fetchRdDB")(file.path(pkgpath, "help", reqpackage)))
-      res$sendlist(manlist);
+      send_index(find_aliases(pkgpath, reqpackage))
     }
     
     #get the help file
