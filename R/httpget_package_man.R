@@ -37,8 +37,17 @@ httpget_package_man <- local({
   getrd <- function(topic, package, lib.loc){
     #read the help file
     helppath <- eval(call('help', topic, package=package, lib.loc=lib.loc, help_type="text"));
-    if(!length(helppath)){
-      stop(capture.output(print(helppath)));
+    if(!length(helppath)) {
+      #convert the general help topic name to one of the actual aliases
+      pkgpath <- find.package(package, lib.loc)
+      all_topics <- sort(readRDS(file.path(pkgpath, "help", "aliases.rds")))
+      helpkey <- names(which(topic == all_topics))
+      if(length(helpkey)){
+        topic <- helpkey[1]
+        helppath <- eval(call('help', topic, package=package, lib.loc=lib.loc, help_type="text"));
+      } else {
+        res$notfound(message=capture.output(print(helppath)));
+      }
     }
     from("utils", ".getHelpFile")(helppath);
   }

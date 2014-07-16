@@ -1,9 +1,11 @@
 find_aliases <- function(pkgpath, pkgname) {
-  manlist <- names(from("tools", "fetchRdDB")(file.path(pkgpath, "help", pkgname)))
-  aliases <- readRDS(file.path(pkgpath, "help", "aliases.rds"))
-  aliasstring = character(length(manlist))
-  for(i in 1:length(manlist)){
-    aliasstring[i] <- paste(names(which(manlist[i] == aliases & manlist[i] != names(aliases))), collapse=", ")
+  all_topics <- sort(readRDS(file.path(pkgpath, "help", "aliases.rds")))
+  topic_names <- unique(all_topics)
+  aliasstring = character(length(topic_names))
+  for(i in 1:length(topic_names)) {
+    aliasstring[i] <- paste(names(which(topic_names[i] == all_topics & topic_names[i] != names(all_topics))), collapse=", ")
   }
-  data.frame(name=manlist, alias=aliasstring, stringsAsFactors = FALSE)  
+  data.frame(name=topic_names, alias=aliasstring, stringsAsFactors = FALSE)  
 }
+
+#links <- names(all_topics)[match(unique(all_topics), all_topics)]
