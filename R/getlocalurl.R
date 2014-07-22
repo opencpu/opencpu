@@ -14,7 +14,7 @@ getlocalurl <- function(url){
   tmpres <- eval_psock(
     tryCatch(
       get("request", envir=asNamespace("opencpu"))(get("main", envir=asNamespace("opencpu"))(REQDATA)), error=get("reshandler", envir=asNamespace("opencpu"))
-    ), timeout=config("timelimit.get")
+    ), timeout=config("timelimit.get")-3
   )
   
   if(tmpres$status != 200L){
