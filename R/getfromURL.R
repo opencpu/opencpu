@@ -1,4 +1,8 @@
 getfromURL <- function(url){
+  if(!isTRUE(getOption("rapache")) && grepl(req$fullmount(), rstudioproxy(url))){
+    stop("Loopback URL arguments currently not supported in single-user server: ", url)
+  }
+  
   req <- GET(url, httr::config(
     httpheader = c(`User-Agent` = "RCurl/OpenCPU", Accept="application/r-rds, application/json, */*")
   ))
