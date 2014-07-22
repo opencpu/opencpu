@@ -1,5 +1,25 @@
 serve <- function(REQDATA){
   
+  #Cloud server
+  if(isTRUE(getOption("rapache"))){
+    #Determine time limits
+    totaltimelimit <- if(isTRUE(grepl("^/webhook", REQDATA$PATH_INFO))) {
+      config("timelimit.webhook");
+    } else if(isTRUE(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS"))){
+      config("timelimit.get");
+    } else {
+      config("timelimit.post");
+    };
+    
+    #Use AppArmor if available.
+    if(isTRUE(getOption("apparmor"))){
+      request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5, RLIMIT_AS=config("rlimit.as"), RLIMIT_FSIZE=config("rlimit.fsize"), RLIMIT_NPROC=config("rlimit.nproc"), profile="opencpu-main"));
+    } else { 
+      #Note that fork happens inside request() instead of other way around.
+      request(eval_fork(main(REQDATA), timeout=totaltimelimit));
+    }
+  }
+  
   #On Windows either use current or psock process
   if(grepl("mingw", R.Version()$platform)){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
@@ -11,8 +31,7 @@ serve <- function(REQDATA){
     }
   }
   
-  #On OSX, either use fork or psock or psock process
-  #Note: forks now disabled cause of problems with rJava and RCurl
+  #Note: forks now disabled on OSX cause of problems with rJava and RCurl
   if(grepl("darwin", R.Version()$platform)){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
       return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
@@ -23,20 +42,10 @@ serve <- function(REQDATA){
     }
   }
   
-  #Determine time limits
-  totaltimelimit <- if(isTRUE(grepl("^/webhook", REQDATA$PATH_INFO))) {
-    config("timelimit.webhook");
-  } else if(isTRUE(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS"))){
-    config("timelimit.get");
+  #On Linux, BSD:
+  if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
+    return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
   } else {
-    config("timelimit.post");
-  };  
-  
-  #On Linux use forking
-  if(isTRUE(getOption("apparmor"))){
-    request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5, RLIMIT_AS=config("rlimit.as"), RLIMIT_FSIZE=config("rlimit.fsize"), RLIMIT_NPROC=config("rlimit.nproc"), profile="opencpu-main"));
-  } else { 
-    #Note that fork happens inside request() instead of other way around.
-    request(eval_fork(main(REQDATA), timeout=totaltimelimit));
+    request(eval_fork(main(REQDATA), timeout=config("timelimit.post")));
   }
 }
