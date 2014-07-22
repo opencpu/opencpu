@@ -1,13 +1,13 @@
 getlocalurl <- function(url){
   path <- sub(req$fullmount(), "", url)
   split <- strsplit(path, "?", fixed=TRUE)[[1]];
-  GET <- ifelse(is.na(split[2]), list(), parse_query(split[2]))
+
   REQDATA = list(
     METHOD = "GET",
     MOUNT = req$mount(),
-    PATH_INFO = path,
+    PATH_INFO = split[1],
     FULLMOUNT = req$fullmount(),
-    GET = GET,
+    GET = if(is.na(split[2])) list() else parse_query(split[2]),
     ACCEPT = "*/*" 
   )
   
