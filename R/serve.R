@@ -21,7 +21,7 @@ serve <- function(REQDATA){
   }
   
   #Note: forks now disabled on OSX cause of problems with rJava and RCurl
-  if(is.windows() || is_mac()){
+  if(is_windows() || is_mac()){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
       return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
     } else {
