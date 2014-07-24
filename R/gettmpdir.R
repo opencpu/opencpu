@@ -19,7 +19,7 @@ roottmpdir <- function() {
   if(!is(mydir, "try-error")) {
     return(mydir);
   }
-  if(isTRUE(getOption("rapache"))){
+  if(is_rapache()){
     return("/tmp");
   }
   tm <- Sys.getenv(c('TMPDIR', 'TMP', 'TEMP'))

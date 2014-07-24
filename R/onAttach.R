@@ -1,6 +1,6 @@
 .onAttach <- function(lib, pkg){
   #Cloud specific stuff
-  if(isTRUE(getOption("rapache"))){
+  if(is_rapache()){
     
     #load opencpu configuration
     loadconfigs(preload=TRUE);     

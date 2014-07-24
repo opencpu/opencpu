@@ -16,7 +16,7 @@ loadconfigs <- local({
     environment(config)$load(defaultconf);
     
     #override with system config file
-    if(isTRUE(getOption("rapache"))){
+    if(is_rapache()){
       #for cloud server
       if(file.exists("/etc/opencpu/server.conf")){
         environment(config)$load("/etc/opencpu/server.conf");    

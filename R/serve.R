@@ -1,7 +1,7 @@
 serve <- function(REQDATA){
   
   #Cloud server
-  if(isTRUE(getOption("rapache"))){
+  if(is_rapache()){
     #Determine time limits
     totaltimelimit <- if(isTRUE(grepl("^/webhook", REQDATA$PATH_INFO))) {
       config("timelimit.webhook");
@@ -12,7 +12,7 @@ serve <- function(REQDATA){
     };
     
     #Use AppArmor if available.
-    if(isTRUE(getOption("apparmor"))){
+    if(has_apparmor()){
       request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5, RLIMIT_AS=config("rlimit.as"), RLIMIT_FSIZE=config("rlimit.fsize"), RLIMIT_NPROC=config("rlimit.nproc"), profile="opencpu-main"));
     } else { 
       #Note that fork happens inside request() instead of other way around.
@@ -20,19 +20,8 @@ serve <- function(REQDATA){
     }
   }
   
-  #On Windows either use current or psock process
-  if(grepl("mingw", R.Version()$platform)){
-    if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
-      return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
-    } else {
-      return(tryCatch({
-        eval_psock(get("request", envir=asNamespace("opencpu"))(get("main", envir=asNamespace("opencpu"))(REQDATA)), timeout=config("timelimit.post"));
-      }, error = reshandler));
-    }
-  }
-  
   #Note: forks now disabled on OSX cause of problems with rJava and RCurl
-  if(grepl("darwin", R.Version()$platform)){
+  if(is.windows() || is_mac()){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
       return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
     } else {
@@ -42,7 +31,7 @@ serve <- function(REQDATA){
     }
   }
   
-  #On Linux, BSD:
+  #Linux, BSD, etc
   if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
     return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
   } else {

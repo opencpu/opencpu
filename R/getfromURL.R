@@ -1,5 +1,5 @@
 getfromURL <- function(url){
-  if(!isTRUE(getOption("rapache")) && grepl(req$fullmount(), rstudioproxy(url))){
+  if(!is_rapache() && grepl(req$fullmount(), rstudioproxy(url))){
     #stop("Loopback URL arguments currently not supported in single-user server: ", url)
     tmpres <- getlocalurl(rstudioproxy(url))
     ctype <- tmpres$headers[["Content-Type"]]
