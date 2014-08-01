@@ -90,7 +90,7 @@ session <- local({
     setwd(execdir);
     
     #temp fix for evaluate bug
-    output <- Filter(function(x){!emptyplot(x)}, output); 
+    #output <- Filter(function(x){!emptyplot(x)}, output); 
     
     #store output
     save(file=".RData", envir=sessionenv, list=ls(sessionenv, all.names=TRUE), compress=FALSE);
