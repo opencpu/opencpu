@@ -22,8 +22,14 @@ httpget_package_r <- function(pkgpath, requri){
       #send_index(indexdata)
     }
     
-    #Get object. Throws error if object does not exist.
-    myobject <- getFromNamespace(reqobject, reqpackage)
+    #Get object. Try package namespace first (won't work for lazy data)
+    ns <- asNamespace(reqpackage)
+    myobject <- if(exists(reqobject, ns, inherits = FALSE)){
+      get(reqobject, envir = ns, inherits = FALSE)
+    } else {
+      #Fall back on exported env
+      get(reqobject, paste("package", reqpackage, sep=":"), inherits = FALSE)
+    }
     
     #only GET/POST allowed
     res$checkmethod(c("GET", "POST"));    
