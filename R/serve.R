@@ -13,10 +13,10 @@ serve <- function(REQDATA){
     
     #Use AppArmor if available.
     if(has_apparmor()){
-      request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5, RLIMIT_AS=config("rlimit.as"), RLIMIT_FSIZE=config("rlimit.fsize"), RLIMIT_NPROC=config("rlimit.nproc"), profile="opencpu-main"));
+      return(request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5, RLIMIT_AS=config("rlimit.as"), RLIMIT_FSIZE=config("rlimit.fsize"), RLIMIT_NPROC=config("rlimit.nproc"), profile="opencpu-main")));
     } else { 
       #Note that fork happens inside request() instead of other way around.
-      request(eval_fork(main(REQDATA), timeout=totaltimelimit));
+      return(request(eval_fork(main(REQDATA), timeout=totaltimelimit)));
     }
   }
   
@@ -35,6 +35,6 @@ serve <- function(REQDATA){
   if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
     return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
   } else {
-    request(eval_fork(main(REQDATA), timeout=config("timelimit.post")));
+    return(request(eval_fork(main(REQDATA), timeout=config("timelimit.post"))));
   }
 }
