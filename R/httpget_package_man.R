@@ -11,16 +11,39 @@ httpget_package_man <- local({
     
     #show a list of objects
     if(is.na(reqobject)){
-      send_index(find_aliases(pkgpath, reqpackage))
+      res$sendlist(readRDS(file.path(pkgpath, "help", "aliases.rds")))
+      #HTML:
+      #send_index(find_aliases(pkgpath, reqpackage))      
+    }
+    
+    #read the package alias list
+    aliases <- sort(readRDS(file.path(pkgpath, "help", "aliases.rds")))
+    topic <- aliases[reqobject]
+    
+    #redirect aliases to the topic page
+    if(!is.na(topic) && topic != reqobject){
+      current_url <- URLdecode(paste0(req$uri(), req$path_info()))
+      new_url <- sub(paste0("/man/", reqobject, "($|/)"), paste0("/man/", topic, "/"), current_url)
+      if(current_url == new_url){
+        stop("Redirect failed: ", current_url)
+      }
+      res$redirect(URLencode(new_url))
+    }
+      
+    #Convert the topic back to one of the aliases when needed
+    alias <- if(!(reqobject %in% names(aliases)) && reqobject %in% aliases){
+      #The topic itself is not an alias. 
+      names(which(reqobject == aliases))[1]
+    } else {
+      reqobject
     }
     
     #get the help file
-    rdfile <- getrd(topic=reqobject, package=reqpackage,lib.loc=reqlib);
+    rdfile <- getrd(alias, package=reqpackage,lib.loc=reqlib);
     
     #default format is text
     if(is.na(reqformat)){
       res$redirectpath("/text")
-      reqformat <- "text";
     }
     
     #output
@@ -28,26 +51,17 @@ httpget_package_man <- local({
        "html" = man_html(rdfile, package=reqpackage, pkgpath=pkgpath),
        "text" = man_text(rdfile, package=reqpackage),
        "tex" = man_tex(rdfile),
-       "pdf" = man_pdf(topic=reqobject, package=reqpackage,lib.loc=reqlib),
+       "pdf" = man_pdf(topic=alias, package=reqpackage,lib.loc=reqlib),
        "R.css" = res$sendfile(system.file("test/R.css", package=packagename)),
        stop("Unknown man format: /", reqformat)
     )
   }
   
-  getrd <- function(topic, package, lib.loc){
-    #read the help file
-    helppath <- eval(call('help', topic, package=package, lib.loc=lib.loc, help_type="text"));
-    if(!length(helppath)) {
-      #convert the general help topic name to one of the actual aliases
-      pkgpath <- find.package(package, lib.loc)
-      all_topics <- sort(readRDS(file.path(pkgpath, "help", "aliases.rds")))
-      helpkey <- names(which(topic == all_topics))
-      if(length(helpkey)){
-        topic <- helpkey[1]
-        helppath <- eval(call('help', topic, package=package, lib.loc=lib.loc, help_type="text"));
-      } else {
-        res$notfound(message=capture.output(print(helppath)));
-      }
+  getrd <- function(alias, package, lib.loc){
+    #convert page name back to one of the aliases
+    helppath <- eval(call('help', alias, package=package, lib.loc=lib.loc, help_type="text"));
+    if(!length(helppath)){
+      res$notfound(message=capture.output(print(helppath)));
     }
     from("utils", ".getHelpFile")(helppath);
   }

@@ -15,9 +15,11 @@ httpget_package_r <- function(pkgpath, requri){
     if(!length(reqobject)){
       res$checkmethod();
       ns <- paste("package", reqpackage, sep=":")
-      indexdata <- data.frame(name = ls(ns), stringsAsFactors=FALSE)
-      indexdata$size <- unname(vapply(indexdata$name, function(x){object.size(get(x, ns))}, numeric(1)))
-      send_index(indexdata)
+      res$sendlist(ls(ns))
+      #HTML:
+      #indexdata <- data.frame(name = ls(ns), stringsAsFactors=FALSE)
+      #indexdata$size <- unname(vapply(indexdata$name, function(x){object.size(get(x, ns))}, numeric(1)))
+      #send_index(indexdata)
     }
     
     #Get object. Throws error if object does not exist.

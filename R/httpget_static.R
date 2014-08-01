@@ -3,7 +3,7 @@ httpget_static <- function(){
   res$checkmethod();
   
   #windows doesn't like trailing slash
-  filepath <- sub("/$", "", req$path_info());  
+  filepath <- sub("/$", "", URLdecode(req$path_info()));
   
   #set cache value
   res$setcache("static");   

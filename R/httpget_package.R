@@ -15,9 +15,9 @@ httpget_package <- function(pkgpath, requri){
     indexhtml <- file.path(reqlib, reqpackage, "index.html")
     if(file.exists(indexhtml)){
       httpget_file(indexhtml)
+    } else {
+      res$redirectpath("/info")   
     }
-    pkghelp <- eval(call("help", package=reqpackage, lib.loc=reqlib, help_type="text"))
-    res$sendtext(format(pkghelp));
   }
   
   switch(reqhead,
@@ -25,6 +25,7 @@ httpget_package <- function(pkgpath, requri){
     "data" = httpget_package_data(pkgpath, reqtail),         
     "html" = httpget_package_html(pkgpath, reqtail),
     "man" = httpget_package_man(pkgpath, reqtail),
+    "info" = httpget_package_info(pkgpath),    
     httpget_package_file(pkgpath, requri)     
   );
 }

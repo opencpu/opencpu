@@ -6,8 +6,10 @@ httpget_library <- function(lib.loc, requri){
   pkgname <- head(requri, 1);
   if(!length(pkgname)){
     res$checkmethod();
-    indexdata <- installed.packages(lib.loc=lib.loc)[, c("Package", "Version", "Built")]
-    send_index(indexdata)
+    res$sendlist(row.names(installed.packages(lib.loc=lib.loc)))
+    #HTML:
+    #indexdata <- installed.packages(lib.loc=lib.loc)[, c("Package", "Version", "Built")]
+    #send_index(indexdata)
   }
   
   #set cache value
