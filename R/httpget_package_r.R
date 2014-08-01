@@ -23,7 +23,7 @@ httpget_package_r <- function(pkgpath, requri){
     }
     
     #Get object. Throws error if object does not exist.
-    myobject <- getFromNamespace(reqobject reqpackage)
+    myobject <- getFromNamespace(reqobject, reqpackage)
     
     #only GET/POST allowed
     res$checkmethod(c("GET", "POST"));    
