@@ -78,7 +78,7 @@ session <- local({
       outputlist <- RAppArmor::eval.secure({
         output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, new_device=FALSE, output_handler=myhandler);
         list(output=output, sessionenv=sessionenv);
-      }, profile = "opencpu-exec", timeout=-1); #actual timeout set in serve()
+      }, profile = "opencpu-exec", closeAllConnections = FALSE, timeout=-1); #actual timeout set in serve()
       output <- outputlist$output;
       sessionenv <- outputlist$sessionenv;
     } else {
