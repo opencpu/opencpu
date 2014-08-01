@@ -8,5 +8,6 @@ inittempdir <- function(){
   
   #These are needed for install packages
   Sys.setenv(TMPDIR = tempdir());
+  Sys.setenv(HOME = tempdir());
   options(configure.vars = paste0("TMPDIR=", tempdir()));  
 }
