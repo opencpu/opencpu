@@ -69,8 +69,12 @@ session <- local({
     
     #setup some prelim
     pdf(tempfile(), width=11.69, height=8.27, paper="A4r")
-    dev.control(displaylist="enable");    
-    par("bg" = "white");  
+    dev.control(displaylist="enable");
+    par("bg" = "white");
+    
+    #Prevent assignments to .globalEnv
+    #Maybe enable this in a later version
+    #lockEnvironment(globalenv())
 
     #run evaluation
     #note: perhaps we should move some of the above inside eval.secure    
@@ -84,7 +88,7 @@ session <- local({
     } else {
       output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, new_device=FALSE, output_handler=myhandler);
     }
-    dev.off();   
+    dev.off();
     
     #in case code changed dir
     setwd(execdir);
