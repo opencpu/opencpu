@@ -1,6 +1,9 @@
 httpget_library <- function(lib.loc, requri){
   #check if API has been enabled
   check.enabled("api.library");  
+
+  #set cache value
+  res$setcache("lib");    
   
   #extract the package name
   pkgname <- head(requri, 1);
@@ -11,10 +14,7 @@ httpget_library <- function(lib.loc, requri){
     #indexdata <- installed.packages(lib.loc=lib.loc)[, c("Package", "Version", "Built")]
     #send_index(indexdata)
   }
-  
-  #set cache value
-  res$setcache("lib");    
-  
+
   #find the package is the specified library.
   pkgpath <- find.package(pkgname, lib.loc=lib.loc)
   httpget_package(pkgpath, tail(requri, -1));
