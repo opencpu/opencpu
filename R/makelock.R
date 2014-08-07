@@ -12,4 +12,5 @@ makelock <- function()({
 
 
 is_rapache <- makelock()
+no_rapparmor <- makelock()
 use_apparmor <- makelock()
