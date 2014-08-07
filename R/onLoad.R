@@ -8,7 +8,7 @@ packagename = "";
   }
   
   if(isTRUE(getOption("apparmor"))){
-    has_apparmor(TRUE)
+    use_apparmor(TRUE)
   }
   
   #Makes sure methods is loaded, which should always be the case

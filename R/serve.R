@@ -11,14 +11,15 @@ serve <- function(REQDATA){
       config("timelimit.post");
     };
     
-    #Use AppArmor if available.
-    if(has_apparmor()){
+    # On RApache, the RAppArmor package must always be installed. But we use the profile only if available.
+    if(use_apparmor()){
       return(request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5, 
         RLIMIT_AS=config("rlimit.as"), RLIMIT_FSIZE=config("rlimit.fsize"), RLIMIT_NPROC=config("rlimit.nproc"),
         closeAllConnections = TRUE, profile="opencpu-main")));
     } else { 
-      #Note that fork happens inside request() instead of other way around.
-      return(request(eval_fork(main(REQDATA), timeout=totaltimelimit)));
+      return(request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5, 
+        RLIMIT_AS=config("rlimit.as"), RLIMIT_FSIZE=config("rlimit.fsize"), RLIMIT_NPROC=config("rlimit.nproc"),
+        closeAllConnections = TRUE)));  
     }
   }
   
