@@ -11,7 +11,7 @@ serve <- function(REQDATA){
       config("timelimit.post");
     };
     
-    # Run with RAppArmor on legacy systems.
+    # Run without RAppArmor on legacy systems.
     if(no_rapparmor()){
       return(request(eval_fork(main(REQDATA), timeout=totaltimelimit)))
     }
