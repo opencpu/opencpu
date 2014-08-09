@@ -51,12 +51,12 @@ parse_arg <- function(x){
   
   #inject code if enabled
   if(isTRUE(config("enable.post.code"))){
-    #check length
+    #wrap in block if more than one call
     if(length(myexpr) > 1){
-      return(parse(text = paste("{", x, "}"), keep.source=FALSE));
-    } else {
-      return(myexpr);      
+      myexpr <- parse(text = paste("{", x, "}"), keep.source=FALSE);
     }
+    load_session_namespaces(myexpr)
+    return(myexpr)
   }
 
   #otherwise check for primitive   
