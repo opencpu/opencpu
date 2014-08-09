@@ -30,5 +30,5 @@ homedir <- function(username){
     }
   }
   
-  stop("Could not find home directory for user", username);
+  stop("Could not find or access home directory of user ", username);
 }
