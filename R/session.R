@@ -88,10 +88,13 @@ session <- local({
     } else {
       output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, new_device=FALSE, output_handler=myhandler);
     }
-    dev.off();
+    dev.off()
     
     #in case code changed dir
-    setwd(execdir);
+    setwd(execdir)
+    
+    #unload session namespaces, otherwise sessionInfo() crashes
+    unload_session_namespaces()
     
     #temp fix for evaluate bug
     #output <- Filter(function(x){!emptyplot(x)}, output); 
@@ -100,8 +103,8 @@ session <- local({
     save(file=".RData", envir=sessionenv, list=ls(sessionenv, all.names=TRUE), compress=FALSE);
     saveRDS(output, file=".REval", compress=FALSE);
     saveRDS(sessionInfo(), file=".RInfo", compress=FALSE);  
-    saveRDS(.libPaths(), file=".Rlibs", compress=FALSE); 
-
+    saveRDS(.libPaths(), file=".Rlibs", compress=FALSE);
+    
     #does not work on windows 
     #stopifnot(file.rename(execdir, sessiondir(hash))); 
     
