@@ -1,3 +1,8 @@
+#create the regex to identify session keys
+session_regex <- function(){
+  paste0("^x[0-9a-f]{", config("key.length") + 1, "}$")
+}
+
 session <- local({
 
   #generates a random session hash
@@ -7,7 +12,7 @@ session <- local({
       hash <- paste(c("x0", sample(characters, config("key.length"), replace=TRUE)), collapse="")
     ))){}
     hash;
-  }  
+  }
   
   #copies a session dir
   fork <- function(oldhash){

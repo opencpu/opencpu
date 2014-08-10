@@ -1,5 +1,5 @@
 load_session_namespaces <- function(expr){
-  all_sessions <- unique(grep("^x[0-9a-f]{4,18}$", findnamespaces(expr), value = TRUE))
+  all_sessions <- unique(grep(session_regex(), findnamespaces(expr), value = TRUE))
   lapply(all_sessions, function(key){
     filepath <- file.path(session$sessiondir(key), ".RData");
     errorifnot(file.exists(filepath), paste("Session not found:", key));
@@ -11,7 +11,7 @@ load_session_namespaces <- function(expr){
 }
 
 unload_session_namespaces <- function(){
-  all_sessions <- unique(grep("^x[0-9a-f]{4,18}$", loadedNamespaces(), value = TRUE))
+  all_sessions <- unique(grep(session_regex(), loadedNamespaces(), value = TRUE))
   lapply(all_sessions, function(key){
     unloadNamespace(.getNamespace(key))
   })

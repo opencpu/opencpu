@@ -34,7 +34,7 @@ parse_arg <- function(x){
   }
   
   #check if it is a session key
-  if(grepl("^x[0-9a-f]{4,18}$", x)){
+  if(grepl(session_regex(), x)){
     x <- paste0(x, "::.val")
   }
     
