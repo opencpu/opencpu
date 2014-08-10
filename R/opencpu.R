@@ -25,8 +25,6 @@
 #' @importFrom jsonlite toJSON fromJSON validate
 #' @importFrom httr GET stop_for_status add_headers
 #' @importFrom httpuv runServer
-#' @usage opencpu$start(12345)
-#' @S3method print opencpu
 #' @format Control object
 #' @family opencpu
 #' @export
@@ -178,6 +176,7 @@ opencpu <- local({
   structure(this, class=c("opencpu", "environment"));
 });
 
+#' @export
 print.opencpu <- function(x, ...){
   currenturl <- x$url();
   currentstatus <- if(is.null(currenturl)){

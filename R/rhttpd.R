@@ -13,8 +13,6 @@
 #' When hosted using the Rhttpd, OpenCPU is API is mounted under the \url{/custom/ocpu/} url. 
 #' For example: \url{http://localhost:8787/custom/ocpu/library/stats}.
 #' 
-#' @S3method print rhttpd
-#' @usage rhttpd$init()
 #' @format Control object
 #' @family opencpu
 #' @export
@@ -73,6 +71,7 @@ rhttpd <- local({
   structure(environment(), class=c("rhttpd", "environment"));
 });
 
+#' @export
 print.rhttpd <- function(x, ...){
   cat("Control the rhttpd (r-help or r-studio) based OpenCPU server.\n")
   cat("Note that rhttpd runs in the currrent process and will block the session during http requests.\n")
