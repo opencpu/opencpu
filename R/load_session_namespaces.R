@@ -17,12 +17,17 @@ unload_session_namespaces <- function(){
   })
 }
 
-#' @importFrom namespace makeNamespace
 env2ns <- function(name, env){
   env <- force(env)
+  #NOTE: there is also an exported copy of makeNamespace in the 'namespace' package
+  makeNamespace <- getFromNamespace("makeNamespace", "devtools")
   ns <- makeNamespace(name)
-  lapply(ls(env), function(x){assign(x, get(x, env, inherits = FALSE), ns)})
-  setNamespaceInfo(ns, "exports", as.environment(structure(as.list(ls(env)), names=ls(env))))
+  exports <- getNamespaceInfo(ns, "exports")
+  object_names <- ls(env, all=TRUE)
+  lapply(object_names, function(x){
+    assign(x, get(x, env, inherits = FALSE), ns)
+    assign(x, x, exports)
+  })
 }
 
 #env2ns("test", iris); test::Species

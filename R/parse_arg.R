@@ -35,13 +35,8 @@ parse_arg <- function(x){
   
   #check if it is a session key
   if(grepl("^x[0-9a-f]{4,18}$", x)){
-    filepath <- file.path(session$sessiondir(x), ".RData");
-    errorifnot(file.exists(filepath), paste("Session not found:", x));
-    myenv <- new.env();
-    load(filepath, envir=myenv);
-    errorifnot(exists(".val", myenv), paste("Session", x, "does not contain an object .val"));
-    return(myenv$.val);
-  }    
+    x <- paste0(x, "::.val")
+  }
     
   #try to parse code. R doesn't like CR+LF
   x <- gsub("\r\n", "\n", x);  
