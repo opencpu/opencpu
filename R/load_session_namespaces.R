@@ -5,7 +5,7 @@ load_session_namespaces <- function(expr){
     errorifnot(file.exists(filepath), paste("Session not found:", key));
     myenv <- new.env();
     load(filepath, envir=myenv);
-    env2ns(key, myenv)
+    env2ns(key, myenv, lib=dirname(dirname(filepath)))
   })
   all_sessions
 }
@@ -17,11 +17,11 @@ unload_session_namespaces <- function(){
   })
 }
 
-env2ns <- function(name, env){
+env2ns <- function(name, env, lib){
   env <- force(env)
   #NOTE: there is also an exported copy of makeNamespace in the 'namespace' package
   makeNamespace <- getFromNamespace("makeNamespace", "devtools")
-  ns <- makeNamespace(name)
+  ns <- makeNamespace(name, lib = lib)
   exports <- getNamespaceInfo(ns, "exports")
   object_names <- ls(env, all=TRUE)
   lapply(object_names, function(x){

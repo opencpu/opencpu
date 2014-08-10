@@ -104,6 +104,7 @@ session <- local({
     saveRDS(output, file=".REval", compress=FALSE);
     saveRDS(sessionInfo(), file=".RInfo", compress=FALSE);  
     saveRDS(.libPaths(), file=".Rlibs", compress=FALSE);
+    saveDESCRIPTION(hash)
     
     #does not work on windows 
     #stopifnot(file.rename(execdir, sessiondir(hash))); 
@@ -212,7 +213,7 @@ session <- local({
   
   #actual directory
   sessiondir <- function(hash){
-    file.path(gettmpdir(), "tmp_library", paste0("ocpu_tmp_", hash));
+    file.path(gettmpdir(), "tmp_library", hash);
   }
   
   #http path for a session (not actual file path!)

@@ -5,6 +5,9 @@
  - Only use AppArmor if available
  - Add default robots.txt and favicon to cloud server
  - Cloud server now sets HOME envvar to tempdir()
+ - Add support for x12345::foo arguments
+ - Remove ocpu_tmp_ prefix for session directories in tmp_library
+ - Bunch of internal changes to support Fedora/Redhat RPM packages
 
 1.4.3
  - Add support for application/json payloads for Github webhooks

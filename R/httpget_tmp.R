@@ -3,7 +3,7 @@ httpget_tmp <- function(requri){
   check.enabled("api.tmp");    
   
   tmpsessiondir <- file.path(gettmpdir(), "tmp_library");
-  prefix <- "ocpu_tmp_";
+  prefix <- "x0";
 
   #reqhead is pub subapi
   reqhead <- head(requri, 1);
@@ -13,11 +13,10 @@ httpget_tmp <- function(requri){
     res$checkmethod();
     res$checktrail();
     allfiles <- list.files(tmpsessiondir, pattern=paste("^", prefix, sep=""));
-    allfiles <- sub(paste("^", prefix, sep=""), "", allfiles);
     res$sendlist(allfiles);
   }
   
-  sessionpath <- file.path(tmpsessiondir, paste(prefix, reqhead, sep="")); 
+  sessionpath <- file.path(tmpsessiondir, reqhead); 
   
   #set cache value
   res$setcache("tmp");    
