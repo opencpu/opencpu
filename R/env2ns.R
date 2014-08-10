@@ -16,6 +16,7 @@ env2ns <- function(name, env){
   ns <- makeNamespace(name)
   lapply(ls(env), function(x){assign(x, get(x, env, inherits = FALSE), ns)})
   setNamespaceInfo(ns, "exports", as.environment(structure(as.list(ls(env)), names=ls(env))))
+  setNamespaceInfo(ns, "path", tempdir())
 }
 
 #env2ns("test", iris); test::Species
