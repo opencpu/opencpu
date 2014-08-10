@@ -23,7 +23,7 @@ env2ns <- function(name, env, lib){
   makeNamespace <- getFromNamespace("makeNamespace", "devtools")
   ns <- makeNamespace(name, lib = lib)
   exports <- getNamespaceInfo(ns, "exports")
-  object_names <- ls(env, all=TRUE)
+  object_names <- ls(env, all.names=TRUE)
   lapply(object_names, function(x){
     assign(x, get(x, env, inherits = FALSE), ns)
     assign(x, x, exports)
