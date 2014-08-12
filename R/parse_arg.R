@@ -61,8 +61,13 @@ parse_arg <- function(x){
   
   #check if it is a boolean, number or string 
   if(identical(1L, length(myexpr))) {
+    #parse primitives
     if(is.character(myexpr[[1]]) || is.logical(myexpr[[1]]) || is.numeric(myexpr[[1]]) || is.name(myexpr[[1]])) {
       return(myexpr);
+    }
+    #parse namespaced objects foo::bar
+    if(is.call(myexpr[[1]]) && identical(myexpr[[1]][[1]], quote(`::`))){
+      return(myexpr)
     }
   }
   
