@@ -47,7 +47,7 @@ parse_arg <- function(x){
   #inject code if enabled
   if(isTRUE(config("enable.post.code"))){
     #wrap in block if more than one call
-    if(length(myexpr) > 1 || is.call(myexpr[[1]]) && identical(myexpr[[1]][[1]], quote(`=`))){
+    if(length(myexpr) > 1 || (is.call(myexpr[[1]]) && identical(myexpr[[1]][[1]], quote(`=`)))){
       myexpr <- parse(text = paste("{", x, "}"), keep.source=FALSE);
     }
     load_session_namespaces(myexpr)
