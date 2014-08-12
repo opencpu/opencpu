@@ -19,8 +19,6 @@ unload_session_namespaces <- function(){
 
 env2ns <- function(name, env, lib){
   env <- force(env)
-  #NOTE: there is also an exported copy of makeNamespace in the 'namespace' package
-  makeNamespace <- getFromNamespace("makeNamespace", "devtools")
   ns <- makeNamespace(name, lib = lib)
   exports <- getNamespaceInfo(ns, "exports")
   object_names <- ls(env, all.names=TRUE)
