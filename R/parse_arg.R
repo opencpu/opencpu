@@ -67,6 +67,7 @@ parse_arg <- function(x){
     }
     #parse namespaced objects foo::bar
     if(is.call(myexpr[[1]]) && identical(myexpr[[1]][[1]], quote(`::`))){
+      load_session_namespaces(myexpr)
       return(myexpr)
     }
   }
