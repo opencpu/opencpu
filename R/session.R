@@ -83,7 +83,7 @@ session <- local({
 
     #run evaluation
     #note: perhaps we should move some of the above inside eval.secure    
-    if(use_apparmor()){
+    if(!no_rapparmor() && use_apparmor()){
       outputlist <- RAppArmor::eval.secure({
         output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, new_device=FALSE, output_handler=myhandler);
         list(output=output, sessionenv=sessionenv);
