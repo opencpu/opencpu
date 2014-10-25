@@ -1,15 +1,17 @@
 #create the regex to identify session keys
+
 session_regex <- function(){
   paste0("^x[0-9a-f]{", config("key.length") + 1, "}$")
 }
 
+#' @importFrom openssl rand_bytes
 session <- local({
 
   #generates a random session hash
   generate <- function(){
     characters <- c(0:9, letters[1:6]);
     while(file.exists(sessiondir(
-      hash <- paste(c("x0", sample(characters, config("key.length"), replace=TRUE)), collapse="")
+      hash <- substring(paste(rand_bytes(config("key.length")), collapse=""), 1, config("key.length"))
     ))){}
     hash;
   }
