@@ -42,17 +42,24 @@ httpget_webhook <- function(){
   if(!grepl("^https://github.com", giturl)){
     stop("Currently only Github CI is supported.");
   }
+
+  #trigger install and email
+  do.call(webhook_install, c(gitrepo = gitrepo, gituser = gituser, gitmaster = gitmaster, req$get()))
+}
+
+
+webhook_install <- function(sendmail = TRUE, ...){
   
   #install the package
-  result <- github_install(gitrepo, gituser, gitmaster);
+  result <- github_install(...);
   
   #Send email results
-  if(is.null(req$get()$sendmail) || isTRUE(req$get()$sendmail)) {
+  if(isTRUE(sendmail)) {
     tryCatch(mail_CI(result$success, result$output, payload), error = function(e){
       stop("Build successful but error when sending email (check SMTP server): ", e$message);
     });
   }
   
   #success
-  res$sendtext(paste("CI Done. Build", ifelse(result$success, "successful", "failed")));
+  res$sendtext(paste("CI Done. Build", ifelse(result$success, "successful", "failed")));  
 }
