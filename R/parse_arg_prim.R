@@ -2,15 +2,11 @@
 parse_arg_prim <- function(x){
   
   #in case of null we keep null
-  if(is.null(x)){
-    return(NULL);
-  }
-  
-  #empty string
-  if(nchar(x) == 0){
+  if(!length(x) || !nchar(x)){
     return(x);
   }
-  
+
+  #for json compatibility
   if(x == "true" || x == "TRUE"){
     return(TRUE);
   }
@@ -19,15 +15,11 @@ parse_arg_prim <- function(x){
     return(FALSE);
   }
   
-  #check if it is a boolean, number or string 
+  #check for boolean, number, string 
   myexpr <- parse(text=x);
-  if(identical(1L, length(myexpr))) {
-    obj <- myexpr[[1]];
-    if(is.character(obj) || is.logical(obj) || is.numeric(obj)) {
-      return(obj);
-    }
+  if(identical(1L, length(myexpr)) && is.atomic(myexpr[[1]])) {
+    return(myexpr[[1]])
+  } else {
+    return(x)
   }
-  
-  #default to no changes
-  return(x);
 }
