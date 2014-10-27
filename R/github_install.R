@@ -1,8 +1,7 @@
 github_install <- function(repo, username, ref = "master", args = NULL, ...){
   #get args
   all_args <- list(...)
-  all_args$repo <- repo;
-  all_args$username <- username;
+  all_args$repo <- paste(username, repo, sep="/");
   all_args$ref <- ref;
 
   #github libraries
