@@ -44,11 +44,11 @@ httpget_webhook <- function(){
   }
 
   #trigger install and email
-  do.call(webhook_install, c(repo = gitrepo, username = gituser, ref = gitmaster, req$get()))
+  do.call(webhook_install, c(payload = payload, repo = gitrepo, username = gituser, ref = gitmaster, req$get()))
 }
 
 
-webhook_install <- function(sendmail = TRUE, ...){
+webhook_install <- function(payload = NULL, sendmail = TRUE, ...){
 
   #install the package
   result <- github_install(...);
