@@ -1,4 +1,8 @@
-github_install <- function(repo, username, ref = "master"){
+github_install <- function(ref = "master", args = NULL, ...){
+  #get args
+  all_args <- list(...)
+  all_args$ref = ref;
+
   #github libraries
   githublib <- file.path(gettmpdir(), "github_library");
   gitpath <- file.path(githublib, paste("ocpu_github", username, repo, sep="_"));
@@ -6,18 +10,17 @@ github_install <- function(repo, username, ref = "master"){
   #install from github
   gittmpdir <- tempfile("githubdir");
   stopifnot(dir.create(gittmpdir));
+  all_args$args <- paste0("'--library=", deparse(gittmpdir), "'")
 
-  #For private repos
+  #Override auth_token if set in key
   mysecret <- gitsecret();
   if(length(mysecret) && length(mysecret$auth_token) && nchar(mysecret$auth_token)){
-    auth = paste0(", auth_token=", deparse(mysecret$auth_token))
-  } else {
-    auth = "";
+    all_args$auth_token = mysecret$auth_token;
   }
 
   #Dependencies = TRUE would also install currently loaded packages.
   inlib(gittmpdir, {
-    output <- try_rscript(paste0("library(methods);suppressPackageStartupMessages(library(devtools));install_github(", deparse(repo), ",", deparse(username), ",", deparse(ref), auth, ", args='--library=", deparse(gittmpdir), "')"));
+    output <- try_rscript(paste0("library(methods); library(devtools); do.call(install_github,", deparse(all_args), ");"));
   });
 
   #We require package name with identical repo name
