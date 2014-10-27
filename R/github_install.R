@@ -11,7 +11,7 @@ github_install <- function(repo, username, ref = "master", args = NULL, ...){
   #install from github
   gittmpdir <- tempfile("githubdir");
   stopifnot(dir.create(gittmpdir));
-  all_args$args <- paste0("'--library=", deparse(gittmpdir), "'")
+  #all_args$args <- paste0("'--library=", gittmpdir, "'")
 
   #Override auth_token if set in key
   mysecret <- gitsecret();
