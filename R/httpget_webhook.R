@@ -44,7 +44,7 @@ httpget_webhook <- function(){
   }
 
   #trigger install and email
-  do.call(webhook_install, c(payload = payload, repo = gitrepo, username = gituser, ref = gitmaster, req$get()))
+  do.call(webhook_install, c(list(payload = payload), repo = gitrepo, username = gituser, ref = gitmaster, req$get()))
 }
 
 
