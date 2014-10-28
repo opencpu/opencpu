@@ -28,6 +28,9 @@ github_install <- function(repo, username, ref = "master", args = NULL, ...){
   #We require package name with identical repo name
   success <- isTRUE(file.exists(file.path(gittmpdir, repo)));
 
+  #The index.html for vignettes is useless due to hardcoded hyperlinks
+  unlink(file.path(gittmpdir, repo, "doc", "index.html"));
+
   #move everything to new location
   if(success){
     unlink(gitpath, recursive=TRUE);
