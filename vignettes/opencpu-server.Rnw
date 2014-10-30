@@ -306,7 +306,7 @@ To modify configurations, the administrator can edit this file or alternatively 
 sudo service opencpu restart
 \end{codeblock}
 
-Make sure that all configuration files are formatted using valid \JSON at all times. Finally there is an additional optional configuration file that is only used for github authentication information at \texttt{/etc/opencpu/secret.conf}. This file is readable by the \OpenCPU system, but not by \OpenCPU users. It has three fields: \texttt{auth\_token}, \texttt{client\_id} and \texttt{client\_secret}. Setting a valid \Github ``application access token" makes it possible to use continuous integration for private \Github repositories. It also raises the hourly github \API limits from 100 to 5000 hits per hour. Currently this is only relevant for listing repositories through the \texttt{/ocpu/gist} and \texttt{/ocpu/github} \API.
+Make sure that all configuration files are formatted using valid \JSON at all times. Finally there is an additional optional configuration file that is only used for github and bitbucket authentication information at \texttt{/etc/opencpu/secret.conf}. This file is readable by the \OpenCPU system, but not by \OpenCPU users. It has five fields: \texttt{auth\_token}, \texttt{client\_id}, \texttt{client\_secret}, \texttt{bitbucket\_username} and \texttt{bitbucket\_password}. Setting a valid \Github ``application access token" makes it possible to use continuous integration for private \Github repositories. It also raises the hourly github \API limits from 100 to 5000 hits per hour. Currently this is only relevant for listing repositories through the \texttt{/ocpu/gist} and \texttt{/ocpu/github} \API.
 
 \subsection{Setting up SSL certificates for HTTPS}
 
