@@ -15,6 +15,5 @@ bitbucket_list <- function(username){
   res$setcache("gitapi");
 
   #repo names
-  print(response$name)
-  return(response$name);
+  return(response$values$name);
 }
