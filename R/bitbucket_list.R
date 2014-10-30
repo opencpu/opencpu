@@ -9,7 +9,7 @@ bitbucket_list <- function(username){
   if(grepl("darwin", R.Version()$platform)){
     out <- eval_psock(httr::GET(myurl, httr::config(httr::autheticate(username, password, "basic"), httr::add_headers("User-Agent" = "OpenCPU")), list(myurl=myurl)));
   } else {
-    out <- GET(myurl, add_headers("User-Agent" = "OpenCPU"), config=authenticate(username, password, "basic"));
+    out <- GET(myurl, add_headers("User-Agent" = "OpenCPU"), config=httr::authenticate(username, password, "basic"));
   }
 
   stop_for_status(out)
