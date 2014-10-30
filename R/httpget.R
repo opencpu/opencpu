@@ -26,6 +26,7 @@ httpget <- function(){
     "user" = httpget_user(reqtail),
     "gist" = httpget_gist(reqtail),
     "github" = httpget_github(reqtail),     
+    "bitbucket" = httpget_bitbucket(reqtail),     
     "cran" = httpget_cran(reqtail),
     "bioc" = httpget_bioc(reqtail), 
     "webhook" = httpget_webhook(),
