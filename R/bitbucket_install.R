@@ -16,7 +16,8 @@ bitbucket_install <- function(repo, username, ref = "master", args = NULL, ...){
   #override bitbucket_auth_token if set in key
   mysecret <- gitsecret();
   if(length(mysecret) && length(mysecret$bitbucket_auth_token) && nchar(mysecret$bitbucket_auth_token)){
-    all_args$bitbucket_auth_token = mysecret$bitbucket_auth_token;
+    all_args$auth_user = mysecret$bitbucket_user;
+    all_args$password = mysecret$bitbucket_password;
   }
 
   #Dependencies = TRUE would also install currently loaded packages.
