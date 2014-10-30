@@ -2,8 +2,8 @@ bitbucket_list <- function(username){
   myurl <- paste("https://bitbucket.org/api/2.0/repositories", username, sep="/");
   mysecret <- gitsecret();
   if(length(mysecret) && length(mysecret$bitbucket_username) && nchar(mysecret$bitbucket_password)){
-    username = mysecret$username
-    password = mysecret$password
+    username = mysecret$bitbucket_username
+    password = mysecret$bitbucket_password
   }
 
   if(grepl("darwin", R.Version()$platform)){
