@@ -1,7 +1,7 @@
 bitbucket_load <- function(gituser, gitrepo){
   bitbucketlib <- file.path(gettmpdir(), "bitbucket_library");
   if(!file.exists(bitbucketlib)){
-    stopifnot(dir.create(githublib, recursive=TRUE));
+    stopifnot(dir.create(bitbucketlib, recursive=TRUE));
   }
 
   gitpath <- file.path(bitbucketlib, paste("ocpu_bitbucket", gituser, gitrepo, sep="_"));
