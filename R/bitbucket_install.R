@@ -42,6 +42,6 @@ bitbucket_install <- function(repo, username, ref = "master", args = NULL, ...){
   list(
        success = success,
        output = output,
-       gitpath = gitpath,
+       gitpath = gitpath
      );
 }
