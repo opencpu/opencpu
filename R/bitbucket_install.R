@@ -6,7 +6,7 @@ bitbucket_install <- function(repo, username, ref = "master", args = NULL, ...){
 
   #bitbucket libraries
   bitbucketlib <- file.path(gettmpdir(), "bitbucket_library");
-  gitpath <- file.path(bitbucketlib, paste("ocpu_github", username, repo, sep="_"));
+  gitpath <- file.path(bitbucketlib, paste("ocpu_bitbucket", username, repo, sep="_"));
 
   #install from bitbucket
   gittmpdir <- tempfile("bitbucketdir");
@@ -15,9 +15,11 @@ bitbucket_install <- function(repo, username, ref = "master", args = NULL, ...){
 
   #override bitbucket_auth_token if set in key
   mysecret <- gitsecret();
-  if(length(mysecret) && length(mysecret$bitbucket_auth_token) && nchar(mysecret$bitbucket_auth_token)){
-    all_args$auth_user = mysecret$bitbucket_user;
+  if(length(mysecret) && length(mysecret$bitbucket_password) && nchar(mysecret$bitbucket_password)){
     all_args$password = mysecret$bitbucket_password;
+  }
+  if(length(mysecret) && length(mysecret$bitbucket_username) && nchar(mysecret$bitbucket_username)){
+    all_args$auth_user = mysecret$bitbucket_username;
   }
 
   #Dependencies = TRUE would also install currently loaded packages.
