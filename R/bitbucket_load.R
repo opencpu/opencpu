@@ -40,7 +40,7 @@ bitbucket_load <- function(gituser, gitrepo){
   file.remove(blockpath);
 
   #check if package has been installed
-  if(!isTRUE(results$success)){
+  if(!isTRUE(result$success)){
     #note that stop() might not work because error message is too large (install log)
     header <- paste("Package'", gitrepo, "' did not successfully install.\nEither installation failed or bitbucket repository name does not match package name.\n\n");
     msg <- paste(result$output, collapse="\n");
