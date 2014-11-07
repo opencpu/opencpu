@@ -1,5 +1,5 @@
 %\VignetteEngine{knitr::knitr}
-%\VignetteIndexEntry{OpenCPU Server Manual}
+%\VignetteIndexEntry{The OpenCPU Server PDF Manual}
 
 \documentclass{scrartcl}
 
@@ -82,7 +82,9 @@ From there it is up to the client on how to process or present the output. \Open
 
 \subsection{Security model}
 
-Rather than traditional user-role based access control, \OpenCPU uses mandatory access control (\texttt{MAC}) based security. This is implemented using \AppArmor: a security module in the \Linux kernel. Thereby we can define and enforce security policies on a by-process level. This protects against system abuse or excessive use of hardware resources without limiting the \R functionality that clients can use. The security policies are completely customizable, and section \ref{security} talks a bit more on security and \AppArmor. 
+Rather than traditional user-role based access control, \OpenCPU uses mandatory access control (\texttt{MAC}) based security. On Debian/Ubuntu systems, this is implemented using \AppArmor: a security module in the \Linux kernel. Thereby we can define and enforce security policies on a by-process level. This protects against system abuse or excessive use of hardware resources without limiting the \R functionality that clients can use. The security policies are completely customizable, and section \ref{security} talks a bit more on security and \AppArmor. 
+
+Because Redhat systems do not support \AppArmor, \OpenCPU runs without the advanced security policies on these platforms. Instead, it runs in the standard SElinux \texttt{httpd\_modules\_t} context. This is fine for internal use, but it is not recommended to expose your Fedora/EL OpenCPU server to the web without further configuring SELinux for your application.
 
 The \texttt{MAC} based security profiles make it possible to open up an \OpenCPU server directly to the web. However it is also perfectly fine to employ \OpenCPU solely as a computational back-end inside some larger system or application, similar to e.g. your database server. In such a design, users do not interact directly with the \OpenCPU server, and can only use functionality exposed in your application layer.
 
@@ -130,7 +132,7 @@ opencpu$browse("library/gitstats/www")
 The \OpenCPU cloud server version 1.4 runs on \textbf{Ubuntu 14.04 (trusty) or higher}. The \OpenCPU system consists of a number of standard Ubuntu installation packages. These are:
 
 \begin{itemize}
- \item \texttt{opencpu} -- Meta package which installs both \texttt{opencpu-server} and \texttt{opencpu-cache}.
+ \item \texttt{opencpu} -- Alias for \texttt{opencpu-server}.
  \item \texttt{opencpu-server} -- The main \OpenCPU \API server. Depends on \texttt{R} and \texttt{apache2}.
  \item \texttt{opencpu-cache} --  \OpenCPU caching server. Depends on \texttt{nginx}.
  \item \texttt{opencpu-full} -- Installs \texttt{opencpu}, \texttt{texlive}, \texttt{git}, \texttt{rstudio-server} and more.
@@ -138,13 +140,11 @@ The \OpenCPU cloud server version 1.4 runs on \textbf{Ubuntu 14.04 (trusty) or h
 
 \subsection{Getting an Ubuntu server}
 
-\OpenCPU 1.4 requires Ubuntu version 14.04 or higher. Any version of Ubuntu will do, e.g. Ubuntu Desktop, Ubuntu Server, Kubuntu, Edubuntu, etc. The preferred way of running \OpenCPU is on a clean Ubuntu Server edition. A copy of the Ubuntu Server installation disc ISO can be obtained from the Ubuntu download pages at \url{http://www.ubuntu.com/download/server}.
+The recommended installation of \OpenCPU 1.4 requires Ubuntu version 14.04. Any flavour of Ubuntu will do, e.g. Ubuntu Desktop, Ubuntu Server, Kubuntu, Edubuntu, etc. The preferred way of running \OpenCPU is on a clean Ubuntu Server edition. A copy of the Ubuntu Server installation disc ISO can be obtained from the Ubuntu download pages at \url{http://www.ubuntu.com/download/server}.
 
 Another way to get started is by spinning up a pay-by-hour server instance on Amazon EC2. When using \OpenCPU on EC2, it is highly recommended to pick one of the \textbf{C3 compute optimized} instance types, for example \texttt{c3.large}. The C3 instance types run on an Ivy Bridge Processor and Solid State Disk, both of which will make \OpenCPU very happy. The Ubuntu team provides very nice ready-to-go daily updated preinstalled Ubuntu-Server images for EC2 at \url{http://cloud-images.ubuntu.com/trusty/current/}.
 
-Yet another possibility is to install Ubuntu Server on a virtual machine within another OS. For example, the free VMware Player or Oracle Virtualbox are available for Windows, and on OSX we can use Virtualbox or Parallels to run virtual machines. This way Ubuntu and \OpenCPU can safely be installed on top of a Windows or Mac system. 
-
-To run the \OpenCPU cloud server on Redhat Enterprise Linux or CentOS we recommend KVM. Isolating the \OpenCPU server within a virtual machine is nice from a security point of view and prevents \OpenCPU or \R from interfering with other software on your server. Furthermore KVM provides nice control over hardware resources for guest machines. The \OpenCPU public demo servers run as virtual machines on a KVM hypervisor which has resulted in excellent performance, smooth upgrades and no major incidents for several years.
+Yet another possibility is to install Ubuntu Server on a virtual machine within another OS. On Linux we can use KVM, for Windows the free VMware Player or Oracle Virtualbox are available, and on OSX we can use Virtualbox or Parallels to run virtual machines. Regardless of the platform, it is good practice to run the \OpenCPU cloud server on a separate virtual machine rather than installing it directly in your application server. Isolating the \OpenCPU server within a virtual machine is nice from a security point of view and prevents \OpenCPU or \R from interfering with other software on your server. Furthermore hypervisors such as KVM provide nice control over hardware resources for guest machines. The \OpenCPU public demo servers run as virtual machines on a KVM hypervisor which has resulted in excellent performance, smooth upgrades and no major incidents for several years.
 
 \subsection{Basic OpenCPU installation}
 
@@ -169,23 +169,17 @@ sudo apt-get install opencpu
 
 Installation on a clean server might take a while because \R and Latex both have many dependencies. After installation is done, we should be able to open a browser and point it to the \texttt{/ocpu} path at server address e.g: \href{http://your.server.com/ocpu}{http(s)://your.server.com/ocpu}. If the welcome page shows up, the installation has succeeded. 
 
-\subsection{Custom OpenCPU installation}
+\subsection{OpenCPU cache server}
 
-The \texttt{opencpu} package described above installs both the \OpenCPU \API server (\texttt{opencpu-server}) as well as the \OpenCPU cache server (\texttt{opencpu-cache}). However we can also install just one or the other. For example to install only the \API server we could do:
-
-\begin{codeblock}
-sudo apt-get install opencpu-server
-\end{codeblock}
-
-Alternatively, to install only the cache server:
+The \OpenCPU system also includes an optional cache server, which is a reverse proxy based on nginx. When we install \texttt{opencpu-cache} on the same host as \texttt{opencpu-server}, it automatically reroutes incoming traffic through the caching server.
 
 \begin{codeblock}
 sudo apt-get install opencpu-cache
 \end{codeblock}
 
-Note that installing just \texttt{opencpu-cache} is only useful in combination with another server running \texttt{opencpu-server}. This is how you would set up a load-balancer. Some additional configuration if needed to make the cache server proxy to \OpenCPU servers other than localhost.
+The \texttt{opencpu-cache} can also be installed on another host than \texttt{opencpu-server}. This is one way to setup a load-balancer. To make the cache server proxy to \OpenCPU servers other than localhost, configure the ocpu backend address in \texttt{/etc/nginx/opencpu.d/ocpu.conf}.
 
- Finally, to get install \OpenCPU together with a lot of other potentially useful things:
+Finally, to get install \OpenCPU together with a lot of other potentially useful things:
 
 \begin{codeblock}
 sudo apt-get install opencpu-full
@@ -250,11 +244,11 @@ Section \ref{security} has more information on customizing \OpenCPU security pol
 
 \subsection{Installing R packages on the server}
 
-In order for packages to be accessible through the \texttt{/ocpu/library} \API, they need to be installed in the global library. Note that \R needs to be started as root to install packages in the global library. To install a single source package:
+In order for packages to be accessible through \texttt{/ocpu/library/}, they need to be installed in the global library. Note that \R needs to be started as root to install packages in the global library. To install a single source package:
 
 \begin{codeblock}
 wget http://cran.r-project.org/src/contrib/glmnet_1.9-5.tar.gz
-sudo R CMD INSTALL glmnet_1.9-5.tar.gz
+sudo R CMD INSTALL glmnet_1.9-5.tar.gz --library=/usr/local/lib/R/site-library
 \end{codeblock}
 
 Alternatively we can use an interactive session to install packages from \CRAN or \Github:
