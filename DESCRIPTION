@@ -26,7 +26,7 @@ Imports:
 Suggests:
     RAppArmor,
     sendmailR,
-    RProtoBuf (>= 0.4),
+    RProtoBuf (>= 0.4.2),
     pander
 SystemRequirements: latex, pandoc, apparmor
 VignetteBuilder: knitr
