@@ -22,12 +22,12 @@ Imports:
     devtools (>= 1.6.1),
     httr (>= 0.3),
     brew,
-    pander,
     openssl
 Suggests:
     RAppArmor,
     sendmailR,
-    RProtoBuf (>= 0.4)
+    RProtoBuf (>= 0.4),
+    pander
 SystemRequirements: latex, pandoc, apparmor
 VignetteBuilder: knitr
 Description: The OpenCPU system exposes an HTTP API for embedded scientific

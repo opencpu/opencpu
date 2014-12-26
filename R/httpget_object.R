@@ -7,7 +7,7 @@ httpget_object <- local({
       }
       res$redirectpath(defaultformat);
     }
-    
+
     #render object
     switch(reqformat,
       "print" = httpget_object_print(object),
@@ -26,9 +26,9 @@ httpget_object <- local({
       "pdf" = httpget_object_pdf(object, objectname),
       "svg" = httpget_object_svg(object, objectname),
       res$notfound(message=paste("Invalid output format for objects:", reqformat))
-    )    
+    )
   }
-  
+
   httpget_object_bin <- function(object, objectname){
     mytmp <- tempfile();
     do.call("writeBin", c(req$get(), list(object=object, con=mytmp)));
@@ -37,11 +37,11 @@ httpget_object <- local({
     res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".bin", sep=""));
     res$finish();
   }
-  
+
   httpget_object_csv <- function(object, objectname){
     mytmp <- tempfile();
-    
-    #RFC4180 mandates CRLF, see ?write.table 
+
+    #RFC4180 mandates CRLF, see ?write.table
     csv_eol <- ifelse(grepl("mingw", R.Version()$platform), "\n", "\r\n")
     do.call(function(row.names=FALSE, eol=csv_eol, na="", ...){
       write.csv(x=object, file=mytmp, row.names=as.logical(row.names), eol=eol, na=na, ...);
@@ -50,13 +50,13 @@ httpget_object <- local({
     res$setheader("Content-Type", "text/csv");
     res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".csv", sep=""));
     res$finish();
-  } 
-  
+  }
+
   httpget_object_tab <- function(object, objectname){
     mytmp <- tempfile();
-    
+
     #To be consistent with csv output
-    csv_eol <- ifelse(grepl("mingw", R.Version()$platform), "\n", "\r\n")    
+    csv_eol <- ifelse(grepl("mingw", R.Version()$platform), "\n", "\r\n")
     do.call(function(row.names=FALSE, eol=csv_eol, na="", ...){
       write.table(x=object, file=mytmp, row.names=as.logical(row.names), eol=eol, na=na, ...);
     }, req$get());
@@ -64,18 +64,18 @@ httpget_object <- local({
     res$setheader("Content-Type", 'text/plain; charset=utf-8');
     res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".tab", sep=""));
     res$finish();
-  }  
-  
+  }
+
   httpget_object_file <- function(object){
     #this assumes "object" is actually a path to a file
     res$sendfile(object);
   }
-  
+
   #note: switch to our own json encoder later.
   #this encoder has padding argument.
   #it also replaces /encode
   #and also converts arguments to numeric where needed.
-  
+
   httpget_object_json <- function(object){
     jsonstring <- do.call(function(pretty=TRUE, ...){
       toJSON(x=object, pretty=pretty, ...);
@@ -84,40 +84,40 @@ httpget_object <- local({
     res$setheader("Content-Type", "application/json");
     res$finish();
   }
-  
+
   httpget_object_print <- function(object){
     outtext <- capture.output(do.call(printwithmax, c(req$get(), list(x=object))));
     res$sendtext(outtext);
   }
-  
+
   httpget_object_pander <- function(object){
-    outtext <- capture.output(do.call("pander", c(req$get(), list(x=object))));
+    outtext <- capture.output(do.call(pander::pander, c(req$get(), list(x=object))));
     res$sendtext(outtext);
   }
-    
+
   httpget_object_text <- function(object){
     object <- paste(unlist(object), collapse="\n")
     mytmp <- tempfile(fileext=".txt")
     do.call("cat", c(req$get(), list(x=object, file=mytmp)));
     res$sendfile(mytmp);
-  }  
-  
+  }
+
   httpget_object_ascii <- function(object){
     outtext <- deparse(object);
     res$sendtext(outtext);
-  }    
-  
+  }
+
   httpget_object_rda <- function(object, objectname){
     mytmp <- tempfile();
     myenv <- new.env();
-    assign(objectname, object, myenv);  
+    assign(objectname, object, myenv);
     do.call("save", c(req$get(), list(object=objectname, file=mytmp, envir=myenv)));
     res$setbody(file=mytmp);
     res$setheader("Content-Type", "application/octet-stream");
     res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".RData", sep=""));
     res$finish();
   }
-  
+
   httpget_object_rds <- function(object, objectname){
     mytmp <- tempfile();
     do.call("saveRDS", c(req$get(), list(object=object, file=mytmp)));
@@ -126,7 +126,7 @@ httpget_object <- local({
     res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".rds", sep=""));
     res$finish();
   }
-  
+
   httpget_object_pb <- function(object, objectname){
     mytmp <- tempfile();
     do.call(RProtoBuf::serialize_pb, list(object=object, connection=mytmp));
@@ -134,26 +134,26 @@ httpget_object <- local({
     res$setheader("Content-Type", "application/x-protobuf");
     res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".pb", sep=""));
     res$finish();
-  }  
-  
+  }
+
   httpget_object_png <- function(object){
     if(is(object, "recordedplot")){
       object <- fixplot(object);
     }
     mytmp <- tempfile();
     do.call(function(width=800, height=600, pointsize=12, ...){
-      png(type="cairo", file=mytmp, width=as.numeric(width), height=as.numeric(height), pointsize=as.numeric(pointsize), ...);  
-    }, req$get()); 
+      png(type="cairo", file=mytmp, width=as.numeric(width), height=as.numeric(height), pointsize=as.numeric(pointsize), ...);
+    }, req$get());
     print(object);
     dev.off();
     if(!file.exists(mytmp)){
-      stop("This call did not generate any plot. Make sure the function/object produces a graph.");	
-    }    
+      stop("This call did not generate any plot. Make sure the function/object produces a graph.");
+    }
     res$setbody(file=mytmp);
     res$setheader("Content-Type", "image/png");
-    res$finish();    
+    res$finish();
   }
-  
+
   httpget_object_pdf <- function(object, objectname){
     if(is(object, "recordedplot")){
       object <- fixplot(object);
@@ -165,14 +165,14 @@ httpget_object <- local({
     print(object);
     dev.off();
     if(!file.exists(mytmp)){
-      stop("This call did not generate any plot. Make sure the function/object produces a graph.");  
-    }       
+      stop("This call did not generate any plot. Make sure the function/object produces a graph.");
+    }
     res$setbody(file=mytmp);
     res$setheader("Content-Type", "application/pdf");
-    res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".pdf", sep=""));    
-    res$finish();    
-  }  
-  
+    res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".pdf", sep=""));
+    res$finish();
+  }
+
   httpget_object_svg <- function(object, objectname){
     if(is(object, "recordedplot")){
       object <- fixplot(object);
@@ -184,14 +184,14 @@ httpget_object <- local({
     print(object);
     dev.off();
     if(!file.exists(mytmp)){
-      stop("This call did not generate any plot. Make sure the function/object produces a graph.");  
-    }        
+      stop("This call did not generate any plot. Make sure the function/object produces a graph.");
+    }
     res$setbody(file=mytmp);
     res$setheader("Content-Type", "image/svg+xml");
-    #res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".svg", sep=""));      
-    res$finish();    
-  }    
-  
+    #res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".svg", sep=""));
+    res$finish();
+  }
+
   #export only main
   main
 });
