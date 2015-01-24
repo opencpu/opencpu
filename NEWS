@@ -1,3 +1,7 @@
+1.4.6
+ - Add a CITATION file
+ - Fix for new rhttpd system in R 3.2.0
+
 1.4.4
  - Add support for "Accept" request header
  - Update /man/html stylesheet
@@ -47,7 +51,7 @@
  - Start using HTTP 405 instead of 400 for invalid methods
 
 1.2.1
- - Use latest version of jsonlite 
+ - Use latest version of jsonlite
  - Better support for lazy load data API
  - Moved CRON scripts to update cran, bioc, github libraries inside the package
  - Use rstudio proxy when single-user server is loaded in rstudio-server.
@@ -90,7 +94,7 @@
  - Capture output for install.packages, install_github and biocInstaller
  - Remove rapache library change in onAttach
 
-1.0.1 
+1.0.1
  - Fix bugs for uploading files
  - Fix bugs for storing files from a session
  - Set default bitmap type to Cairo (to prevent problems with forks on MAC)

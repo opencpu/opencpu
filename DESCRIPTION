@@ -1,14 +1,13 @@
 Package: opencpu
 Type: Package
-Title: The OpenCPU system for embedded scientific computing and reproducible
-    research.
+Title: A System for Embedded Scientific Computing and Reproducible Research with R.
 Version: 1.4.6
 Date: 2015-01-24
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
 License: Apache License 2.0
-URL: http://www.opencpu.org, http://arxiv.org/abs/1406.4806
-BugReports: http://github.com/jeroenooms/opencpu/issues
+URL: https://www.opencpu.org, http://arxiv.org/abs/1406.4806
+BugReports: https://github.com/jeroenooms/opencpu/issues
 Depends:
     R (>= 3.0.0)
 Imports:
