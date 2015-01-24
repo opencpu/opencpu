@@ -34,8 +34,8 @@ rhttpd <- local({
       warning("DyanmicHelp server has some serious issues on windows. Better use httpuv. See ?opencpu for more details.", call.=FALSE)
     }
 
-    # Start rhttpd
-    port <- try(startDynamicHelp(TRUE), silent=TRUE);
+    # Start rhttpd, NA suppresses error and returns port
+    port <- try(startDynamicHelp(NA), silent=TRUE);
 
     # In old versions of R we need to get the port from this variable
     if(R.version[["svn rev"]] < 67550) {
