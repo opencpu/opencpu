@@ -11,7 +11,7 @@
 #' Another disadvantage is that Rhttpd runs in the currrent process and will block the session during http requests.
 #'
 #' When hosted using the Rhttpd, OpenCPU is API is mounted under the \url{/custom/ocpu/} url.
-#' For example: \url{http://localhost:8787/custom/ocpu/library/stats}.
+#' For example: \code{http://localhost:8787/custom/ocpu/library/stats}.
 #'
 #' @format Control object
 #' @family opencpu

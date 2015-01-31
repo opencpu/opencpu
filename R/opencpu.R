@@ -11,7 +11,7 @@
 #'
 #' The OpenCPU server will automatically be started when the OpenCPU packge is attached.
 #' By default, the server starts at a random port and the API will be available under the /ocpu path.
-#' For example: \url{http://localhost:12345/ocpu/library/stats}.
+#' For example: \code{http://localhost:12345/ocpu/library/stats}.
 #'
 #' Once apps are working on the local OpenCPU server, they can easily be published using the OpenCPU cloud server.
 #' The cloud server does have support for concurrent requests, security policies and caching mechanisms to boost performance.
