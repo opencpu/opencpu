@@ -15,7 +15,7 @@ httpget_user <- function(uri){
   }
   
   #Check that user exists
-  if(!(username %in% listallusers(FALSE))){
+  if(!checkuser(username)){
     res$error(paste("User", username, "not found."), 404);
   }
   

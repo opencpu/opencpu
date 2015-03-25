@@ -16,3 +16,24 @@ listallusers <- function(user.only=TRUE){
   } 
   return(vector());
 }
+
+checkuser = function(username, user.only = TRUE){
+  if(username %in% opencpu:::listallusers(FALSE)){
+    return(TRUE)
+  } else {
+    out <- try(read.table("/etc/sysconfig/authconfig", sep="=", as.is=TRUE))
+    if((is.null(attr(out, "status")) || attr(out, "status") == 0)
+       && !is.null(out$V2[out$V1 == "USESSSD"]) &&
+       out$V2[out$V1 == "USESSSD"] == "yes"){
+      out <- system2("id", username, stdout=TRUE)
+      if(is.null(attr(out, "status")) || attr(out, "status") == 0){
+        if(isTRUE(user.only)){
+          uid = as.numeric(regmatches(out, regexpr("(?<=uid=)[0-9]*", out, perl=TRUE)))
+          return(uid > 999 && uid < 65534)
+        }
+        return(TRUE)
+      }
+      return(FALSE)
+    }
+  }
+}

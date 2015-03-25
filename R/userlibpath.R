@@ -30,5 +30,11 @@ homedir <- function(username){
     }
   }
   
+  #third method
+  home <- path.expand(paste0("/home/", username))
+  if(file.exists(home)){
+    return(home)
+  }
+  
   stop("Could not find or access home directory of user ", username);
 }
