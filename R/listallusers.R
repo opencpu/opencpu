@@ -22,9 +22,8 @@ checkuser = function(username, user.only = TRUE){
     return(TRUE)
   } else {
     out <- try(read.table("/etc/sysconfig/authconfig", sep="=", as.is=TRUE))
-    if((is.null(attr(out, "status")) || attr(out, "status") == 0)
-       && !is.null(out$V2[out$V1 == "USESSSD"]) &&
-       out$V2[out$V1 == "USESSSD"] == "yes"){
+    if(!is(out, "try-error") && length(out) && nrow(out) &&
+         out$V2[out$V1 == "USESSSD"] == "yes"){
       out <- system2("id", username, stdout=TRUE)
       if(is.null(attr(out, "status")) || attr(out, "status") == 0){
         if(isTRUE(user.only)){
@@ -35,5 +34,6 @@ checkuser = function(username, user.only = TRUE){
       }
       return(FALSE)
     }
+    return(FALSE)
   }
 }
