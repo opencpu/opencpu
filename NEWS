@@ -1,3 +1,6 @@
+1.4.7
+ - Support Auth over CORS
+
 1.4.6
  - Add a CITATION file
  - Fix for new rhttpd system in R 3.2.0
