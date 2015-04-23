@@ -52,7 +52,12 @@ rookhandler <- function(rootpath){
     
     #call method
   	response <- serve(REQDATA);
-  
+
+    #hack for cors support
+    if(identical(response$headers[["Access-Control-Allow-Origin"]], "*") && length(env[["HTTP_ORIGIN"]])){
+      response$headers[["Access-Control-Allow-Origin"]] <- env[["HTTP_ORIGIN"]]
+    }
+    
     #we always assume a file
     response$body = utils$asfile(response$body);
     

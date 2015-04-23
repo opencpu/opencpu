@@ -57,6 +57,11 @@ rapachehandler <- function(){
   #set server header  
   response$headers["X-ocpu-server"] <- "rApache";      
 
+  #hack for cors support
+  if(identical(response$headers[["Access-Control-Allow-Origin"]], "*") && length(reqheaders[["origin"]])){
+    response$headers[["Access-Control-Allow-Origin"]] <- reqheaders[["origin"]]
+  }
+  
   #set status code
   getrapache("setStatus")(response$status);
 
