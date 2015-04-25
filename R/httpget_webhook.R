@@ -31,7 +31,7 @@ httpget_webhook <- function(){
   giturl <- payload$repository$url;
   gitrepo <- payload$repository$name;
   gitmaster <- payload$repository$master_branch;
-  gituser <- payload$repository$owner$name;
+  gituser <- tolower(payload$repository$owner$name);
 
   #Ignore all but master
   if(is.null(gitref) || is.na(gitref) || !length(gitref) || gitref != paste0("refs/heads/", gitmaster)){
