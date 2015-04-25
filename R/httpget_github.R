@@ -3,7 +3,7 @@ httpget_github <- function(uri){
   check.enabled("api.github");  
 
   #GET /ocpu/github/jeroen/mypackage
-  gituser <- uri[1];
+  gituser <- tolower(uri[1]);
   if(is.na(gituser)){
     res$checkmethod();    
     stop("Please specify a github username, e.g. /ocpu/github/hadley/")
