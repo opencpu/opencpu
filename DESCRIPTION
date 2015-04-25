@@ -1,7 +1,7 @@
 Package: opencpu
 Type: Package
 Title: A System for Embedded Scientific Computing and Reproducible Research with R
-Version: 1.4.7
+Version: 1.4.7.9000
 Date: 2015-04-23
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
