@@ -1,3 +1,6 @@
+1.4.8
+ - Fix for case sensitive Github usernames
+
 1.4.7
  - Support Auth over CORS
 
