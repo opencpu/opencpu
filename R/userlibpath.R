@@ -21,6 +21,11 @@ homedir <- function(username){
   }
   
   #second method
+  if(requireNamespace("unixtools", quietly = TRUE)){
+    return(user.info(username)$home)
+  }
+  
+  #third method
   if(file.exists("/etc/passwd")){
     out <- try(read.table("/etc/passwd", sep=":", row.names=1, as.is=TRUE));
     if(!is(out, "try-error") && length(out) && nrow(out)){
