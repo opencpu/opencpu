@@ -40,7 +40,7 @@ homedir <- function(username){
 }
 
 check_mode <- function(path){
-  mode <- file.info(dir)$mode
+  mode <- file.info(path)$mode
   if(is.na(mode)){
     stop("Failed to read mode for ", path)
   }
