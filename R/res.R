@@ -28,7 +28,7 @@ res <- local({
   };
   
   setheader <- function(name, value){
-    MAXLENGTH = 100 #truncate long headers
+    MAXLENGTH = 1000 #truncate long headers
     if(is.character(value) && length(value) > 0){
       value <- substring(paste(value, collapse=". ", sep=". "), 0, MAXLENGTH);
       headers <<- c(headers, structure(list(value), names=name));
