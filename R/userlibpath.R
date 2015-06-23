@@ -44,8 +44,8 @@ check_mode <- function(path){
   if(is.na(mode)){
     stop("Failed to read mode for ", path)
   }
-  pubmode <- as.integer(mode) %% 10
-  if(!(pubmode %in% c(5,7))){
+  # Check for r-x permission
+  if((mode & "005") < 5){
     stop("Directory ", path, " is not readble. Try running: chmod +rx ", path)
   }
 }
