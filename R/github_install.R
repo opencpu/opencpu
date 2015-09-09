@@ -1,6 +1,7 @@
-github_install <- function(repo, username, ref = "master", args = NULL, ...){
+github_install <- function(repo, username, ref = "master", args = NULL, upgrade_dependencies = FALSE, ...){
   #get args
   all_args <- list(...)
+  all_args$upgrade_dependencies <- upgrade_dependencies;
   all_args$repo <- paste(username, repo, sep="/");
   all_args$ref <- ref;
 
