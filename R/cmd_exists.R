@@ -5,5 +5,5 @@ cmd_exists <- function(command){
   } else {
     test <- suppressWarnings(try(system(command, intern=TRUE, ignore.stdout=TRUE, ignore.stderr=TRUE), silent=TRUE));    
   }
-  !is(test, "try-error")
+  !inherits(test, "try-error")
 }

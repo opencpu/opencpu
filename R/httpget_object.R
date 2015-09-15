@@ -137,7 +137,7 @@ httpget_object <- local({
   }
 
   httpget_object_png <- function(object){
-    if(is(object, "recordedplot")){
+    if(inherits(object, "recordedplot")){
       object <- fixplot(object);
     }
     mytmp <- tempfile();
@@ -155,7 +155,7 @@ httpget_object <- local({
   }
 
   httpget_object_pdf <- function(object, objectname){
-    if(is(object, "recordedplot")){
+    if(inherits(object, "recordedplot")){
       object <- fixplot(object);
     }
     mytmp <- tempfile();
@@ -174,7 +174,7 @@ httpget_object <- local({
   }
 
   httpget_object_svg <- function(object, objectname){
-    if(is(object, "recordedplot")){
+    if(inherits(object, "recordedplot")){
       object <- fixplot(object);
     }
     mytmp <- tempfile();

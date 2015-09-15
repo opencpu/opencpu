@@ -13,7 +13,7 @@ fixplot <- function(plot, loadpackages=FALSE){
     for(i in 1:length(plot[[1]])) {
       # get the symbol then test if it's a native symbol
       symbol <- plot[[1]][[i]][[2]][[1]]
-      if(is(symbol, "NativeSymbolInfo")) {
+      if(inherits(symbol, "NativeSymbolInfo")) {
         # determine the dll that the symbol lives in
         name <- ifelse(is.null(symbol$package), symbol$dll[["name"]], symbol$package[["name"]]);
         pkgDLL <- getLoadedDLLs()[[name]];
@@ -28,7 +28,7 @@ fixplot <- function(plot, loadpackages=FALSE){
     try({
       for(i in 1:length(plot[[1]])) {
         symbol <- plot[[1]][[i]][[2]][[1]];
-        if(is(symbol, "NativeSymbolInfo")) {
+        if(inherits(symbol, "NativeSymbolInfo")) {
           plot[[1]][[i]][[2]][[1]] <- getNativeSymbolInfo(plot[[1]][[i]][[2]][[1]]$name); 
         }
       }

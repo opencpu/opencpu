@@ -12,7 +12,7 @@ main <- function(REQDATA){
   #Parse request body if needed
   if(is.list(REQDATA$RAW)){
     RAWPOST <- parse_post(REQDATA$RAW$body, REQDATA$RAW$ctype);
-    fileindex <- vapply(RAWPOST, function(x){isTRUE(is.list(x) && !is(x, "AsIs"));}, logical(1));
+    fileindex <- vapply(RAWPOST, function(x){isTRUE(is.list(x) && !inherits(x, "AsIs"));}, logical(1));
     REQDATA$FILES <- RAWPOST[fileindex];
     REQDATA$POST <- RAWPOST[!fileindex];     
   }

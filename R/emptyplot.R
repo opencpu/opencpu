@@ -30,7 +30,7 @@ emptyplot <- local({
     }
   }
   function(myplot){
-    if(!is(myplot, "recordedplot")) return(FALSE);
+    if(!inherits(myplot, "recordedplot")) return(FALSE);
     identical(FALSE, try(nonempty_plot(myplot), silent=TRUE));
   }
 });

@@ -16,7 +16,7 @@ gettmpdir <- local({
 
 roottmpdir <- function() {
   mydir <- try(config("tempdir"), silent=TRUE);
-  if(!is(mydir, "try-error")) {
+  if(!inherits(mydir, "try-error")) {
     return(mydir);
   }
   if(is_rapache()){

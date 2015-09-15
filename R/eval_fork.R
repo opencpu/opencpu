@@ -31,7 +31,7 @@ eval_fork <- function(..., timeout=60){
   setTimeLimit();	  
   
   #forks don't throw errors themselves
-  if(is(myresult,"try-error")){
+  if(inherits(myresult,"try-error")){
     #stop(myresult, call.=FALSE);
     stop(attr(myresult, "condition"));
   }

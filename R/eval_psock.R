@@ -31,7 +31,7 @@ eval_psock <- function(expr, envir=parent.frame(), timeout=60, opts){
   setTimeLimit(cpu=Inf, elapsed=Inf, transient=TRUE);
   
   #forks don't throw errors themselves
-  if(is(myresult,"try-error")){
+  if(inherits(myresult,"try-error")){
     #snow only returns the message, not an error object
     stop(myresult, call.=FALSE);
   }

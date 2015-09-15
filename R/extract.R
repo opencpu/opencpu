@@ -39,17 +39,17 @@ extract <- local({
   
   extract_console <- function(evaluation){
     messages <- lapply(evaluation, function(x){
-      if(is(x, "warning")) {
+      if(inherits(x, "warning")) {
         return(paste("Warning message:", clean(x$message), sep="\n"));
-      } else if(is(x, "message")) {
+      } else if(inherits(x, "message")) {
         return(paste("Message:", clean(x$message), sep="\n"));
-      } else if(is(x, "error")){ 
+      } else if(inherits(x, "error")){ 
         return(paste("Error:", x$message, sep="\n"));
-      } else if(is(x, "character")){
+      } else if(inherits(x, "character")){
         return(sub("\n$", "", x));
-      } else if(is(x, "source")){
+      } else if(inherits(x, "source")){
         return(gsub("\n", "\n+ ", sub("\n$", "", paste(">",x$src))));
-      } else if(is(x, "recordedplot")){
+      } else if(inherits(x, "recordedplot")){
         return("[[ plot ]]");
       } else {
         return();
@@ -63,7 +63,7 @@ extract <- local({
   }
   
   extract <- function(evaluation, what=c("source", "text", "graphics", "message", "warning", "error", "value", "console")){
-    #stopifnot(is(evaluation, "evaluation"))
+    #stopifnot(inherits(evaluation, "evaluation"))
     stopifnot(length(what) == 1)
     
     what <- match.arg(what);

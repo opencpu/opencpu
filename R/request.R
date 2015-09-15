@@ -41,7 +41,7 @@ reshandler <- function(e){
   setTimeLimit();   
   
   #process response
-  if(is(e, "ocpu_response")){    
+  if(inherits(e, "ocpu_response")){    
     response <- list(
       status = attr(e, "status"),
       body = attr(e, "body"),

@@ -29,7 +29,7 @@ httpuv_fork <- local({
     # we test if the server is running
     # 0.5s should be enough to start the server
     output <- mccollect(myfork, timeout = 0.5, wait = FALSE)[[1]];
-    if(is(output, "try-error")){
+    if(inherits(output, "try-error")){
       message(attr(output, "condition")$message);
       tools::pskill(myfork$pid, SIGTERM)
       mccollect(wait = FALSE);
