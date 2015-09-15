@@ -22,7 +22,7 @@ homedir <- function(username){
   
   #second method
   if(requireNamespace("unixtools", quietly = TRUE)){
-    return(unixtools::user.info(username)$home)
+    return(getExportedValue("unixtools", "user.info")(username)$home)
   }
   
   #third method
