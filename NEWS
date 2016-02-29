@@ -1,3 +1,6 @@
+1.5.4
+ - Bump version to sync with cloud server
+ 
 1.4.8
  - Fix for case sensitive Github usernames
 
