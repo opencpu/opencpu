@@ -22,7 +22,7 @@ eval_fork <- function(..., timeout=60){
     Sys.sleep(.1)
     enddtime <- Sys.time();
     totaltime <- as.numeric(enddtime - starttime, units="secs")
-    myresult <- mccollect(myfork, wait = FALSE, timeout = timeout);
+    myresult <- parallel::mccollect(myfork, wait = FALSE, timeout = timeout);
   }
   
   #kill fork after collect has returned
