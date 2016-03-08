@@ -10,7 +10,20 @@ eval_fork <- function(..., timeout=60){
   }, silent=FALSE);
   
   #wait max n seconds for a result.
-  myresult <- parallel::mccollect(myfork, wait=FALSE, timeout=timeout);
+  starttime <- Sys.time()
+  myresult <- parallel::mccollect(myfork, wait = FALSE, timeout = timeout)
+  enddtime <- Sys.time()
+  totaltime <- as.numeric(enddtime - starttime, units="secs")
+  
+  #try to avoid bug/race condition where mccollect returns null without waiting full timeout.
+  #see https://github.com/jeroenooms/opencpu/issues/131
+  #waits for max another 2 seconds if proc looks dead
+  while(is.null(myresult) && totaltime < timeout && totaltime < 2) {
+    Sys.sleep(.1)
+    enddtime <- Sys.time();
+    totaltime <- as.numeric(enddtime - starttime, units="secs")
+    myresult <- mccollect(myfork, wait = FALSE, timeout = timeout);
+  }
   
   #kill fork after collect has returned
   tools::pskill(myfork$pid, tools::SIGKILL);	
