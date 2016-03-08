@@ -27,7 +27,7 @@ Suggests:
     RProtoBuf (>= 0.4.2),
     pander
 SystemRequirements: latex, pandoc, apparmor
-VignetteBuilder: knitr
+VignetteBuilder: knitr, R.rsp
 Description: The OpenCPU system exposes an HTTP API for embedded scientific
     computing with R. This provides scalable foundations for integrating R
     based analysis and visualization modules into pipelines, web applications
