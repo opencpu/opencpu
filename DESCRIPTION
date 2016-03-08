@@ -25,7 +25,8 @@ Suggests:
     RAppArmor,
     sendmailR,
     RProtoBuf (>= 0.4.2),
-    pander
+    pander,
+    R.rsp
 SystemRequirements: latex, pandoc, apparmor
 VignetteBuilder: knitr, R.rsp
 Description: The OpenCPU system exposes an HTTP API for embedded scientific
