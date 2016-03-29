@@ -16,6 +16,7 @@ httpget_object <- local({
       "ascii" = httpget_object_ascii(object),
       "bin" = httpget_object_bin(object, objectname),
       "csv" = httpget_object_csv(object, objectname),
+      "feather" = httpget_object_feather(object, objectname),
       "file" = httpget_object_file(object),
       "json" = httpget_object_json(object),
       "rda" = httpget_object_rda(object, objectname),
@@ -49,6 +50,15 @@ httpget_object <- local({
     res$setbody(file=mytmp);
     res$setheader("Content-Type", "text/csv");
     res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".csv", sep=""));
+    res$finish();
+  }
+  
+  httpget_object_feather <- function(object, objectname){
+    mytmp <- tempfile();
+    do.call(feather::write_feather, c(list(x = object, path = mytmp), req$get()));
+    res$setbody(file = mytmp)
+    res$setheader("Content-Type", "application/feather")
+    res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".feather", sep=""));
     res$finish();
   }
 

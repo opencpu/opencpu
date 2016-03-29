@@ -1,7 +1,7 @@
 Package: opencpu
 Type: Package
 Title: A System for Embedded Scientific Computing and Reproducible Research with R
-Version: 1.5.4
+Version: 1.5.4.9000
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
 License: Apache License 2.0
@@ -26,6 +26,7 @@ Suggests:
     sendmailR,
     RProtoBuf (>= 0.4.2),
     pander,
+    feather,
     R.rsp
 SystemRequirements: latex, pandoc, apparmor
 VignetteBuilder: knitr, R.rsp
