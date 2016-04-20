@@ -4,6 +4,9 @@ language: R
 sudo: false
 cache: packages
 
+env:
+  - _R_CHECK_FORCE_SUGGESTS_=false
+
 addons:
   apt:
     packages:
