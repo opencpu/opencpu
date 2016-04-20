@@ -23,12 +23,31 @@
 ## Documentation
 
  - OpenCPU [API documentation](https://www.opencpu.org/api.html)
- - Paper: [The OpenCPU System: Towards a Universal Interface for Scientific Computing through Separation of Concerns](http://arxiv.org/abs/1406.4806) 
+ - Paper: [Towards a Universal Interface for Scientific Computing through Separation of Concerns](http://arxiv.org/abs/1406.4806) 
  - Example [apps](https://www.opencpu.org/apps.html)
  - JavaScript client: [opencpu.js](https://github.com/jeroenooms/opencpu.js)
  - [Server manual PDF](http://jeroenooms.github.com/opencpu-manual/opencpu-server.pdf)
 
-## Quick Start
+## Cloud Server
+
+To install the cloud server in Ubuntu 14.04
+
+```
+#requires ubuntu 14.04 (Trusty)
+sudo add-apt-repository -y ppa:opencpu/opencpu-1.5
+sudo apt-get update 
+sudo apt-get upgrade
+
+#install opencpu server
+sudo apt-get install -y opencpu
+
+#optional
+sudo apt-get install -y rstudio-server 
+```
+
+See the opencpu [website](https://www.opencpu.org/download.html) for details how to install on other platforms.
+
+## Local Development server
 
 The single-user development server will automatically start when the package is loaded in R:
 
