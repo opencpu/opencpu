@@ -22,11 +22,11 @@
 
 ## Documentation
 
- - OpenCPU [API documentation](https://www.opencpu.org/api.html)
+ - Official [API documentation](https://www.opencpu.org/api.html)
  - Paper: [Towards a Universal Interface for Scientific Computing through Separation of Concerns](http://arxiv.org/abs/1406.4806) 
  - Example [apps](https://www.opencpu.org/apps.html)
  - JavaScript client: [opencpu.js](https://github.com/jeroenooms/opencpu.js)
- - [Server manual PDF](http://jeroenooms.github.com/opencpu-manual/opencpu-server.pdf)
+ - Server manual: [PDF](http://jeroenooms.github.com/opencpu-manual/opencpu-server.pdf)
 
 ## Cloud Server
 
