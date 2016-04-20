@@ -1,24 +1,19 @@
-# Sample .travis.yml for R projects.
-#
-# See README.md for instructions, or for more configuration options,
-# see the wiki:
-#   https://github.com/craigcitro/r-travis/wiki
+# R for travis: see documentation at https://docs.travis-ci.com/user/languages/r
 
-language: c
+language: R
+sudo: false
+cache: packages
 
-before_install:
-  - sudo apt-get install libapparmor-dev libprotobuf-dev libprotoc-dev protobuf-compiler
-  - curl -OL http://raw.github.com/craigcitro/r-travis/master/scripts/travis-tool.sh
-  - chmod 755 ./travis-tool.sh
-  - ./travis-tool.sh bootstrap
-install:
-  - ./travis-tool.sh install_deps
-script: ./travis-tool.sh run_tests
+r_github_packages:
+  - jimhester/covr
 
-after_failure:
-  - ./travis-tool.sh dump_logs
+warnings_are_errors: true
+#r_check_revdep: true
 
 notifications:
   email:
     on_success: change
     on_failure: change
+
+after_success:
+  - Rscript -e 'covr::codecov(type = "all")'

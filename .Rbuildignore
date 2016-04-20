@@ -5,3 +5,4 @@ Makefile
 .travis.yml
 ^teststuff$
 LICENSE
+^appveyor\.yml$
