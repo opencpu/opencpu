@@ -16,6 +16,7 @@ addons:
 
 r_github_packages:
   - jimhester/covr
+  - wesm/feather/R
 
 warnings_are_errors: true
 #r_check_revdep: true
