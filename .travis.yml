@@ -4,6 +4,13 @@ language: R
 sudo: false
 cache: packages
 
+addons:
+  apt:
+    packages:
+      - libprotobuf-dev
+      - libprotoc-dev
+      - libapparmor-dev 
+
 r_github_packages:
   - jimhester/covr
 
