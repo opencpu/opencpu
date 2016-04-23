@@ -139,7 +139,7 @@ httpget_object <- local({
 
   httpget_object_pb <- function(object, objectname){
     mytmp <- tempfile();
-    do.call(RProtoBuf::serialize_pb, list(object=object, connection=mytmp));
+    do.call(protolite::serialize_pb, list(object=object, connection=mytmp));
     res$setbody(file=mytmp);
     res$setheader("Content-Type", "application/x-protobuf");
     res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".pb", sep=""));

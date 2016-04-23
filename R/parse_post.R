@@ -36,7 +36,7 @@ parse_post <- function(reqbody, contenttype){
   # test for protobuf
   } else if(grepl("protobuf", contenttype, fixed=TRUE)){
     if(is.raw(reqbody)){
-      obj <- RProtoBuf::unserialize_pb(reqbody);
+      obj <- protolite::unserialize_pb(reqbody);
     } else {
       stop("ProtoBuf payload was posted as text ??")
     }    

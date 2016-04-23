@@ -23,7 +23,7 @@ getfromURL <- function(url){
   }
   
   if(grepl("protobuf", ctype, fixed=TRUE)){
-    return(RProtoBuf::unserialize_pb(content));
+    return(protolite::unserialize_pb(content));
   }
   
   if(ctype == "application/r-rds"){
