@@ -32,7 +32,7 @@
 
 To install the cloud server in Ubuntu 14.04
 
-```
+```sh
 #requires ubuntu 14.04 (Trusty)
 sudo add-apt-repository -y ppa:opencpu/opencpu-1.5
 sudo apt-get update 
