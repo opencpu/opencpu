@@ -1,3 +1,6 @@
+1.5.5
+ - Replace 'RProtoBuf' dependency with 'protolite'
+
 1.5.4
  - Bump version to sync with cloud server
  - Workaround in eval_fork for mccollect race condition bug
