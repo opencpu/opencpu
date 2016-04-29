@@ -1,3 +1,6 @@
+1.5.6
+ - Lazy load import packages using pkg::name instead of importFrom()
+
 1.5.5
  - Replace 'RProtoBuf' dependency with 'protolite'
 
