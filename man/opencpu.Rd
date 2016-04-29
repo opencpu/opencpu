@@ -19,7 +19,7 @@ Because R is single-threaded, the single-user server has no support for concurre
 (but httpuv does a nice job queueing them).
 Also there are no security restrictions being enforced, as is the case for the OpenCPU cloud server.
 
-The OpenCPU server will automatically be started when the OpenCPU packge is attached.
+The OpenCPU server will automatically be started when the OpenCPU package is attached.
 By default, the server starts at a random port and the API will be available under the /ocpu path.
 For example: \code{http://localhost:12345/ocpu/library/stats}.
 

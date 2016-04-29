@@ -16,7 +16,6 @@
 #' Once apps are working on the local OpenCPU server, they can easily be published using the OpenCPU cloud server.
 #' The cloud server does have support for concurrent requests, security policies and caching mechanisms to boost performance.
 #'
-#' @import parallel tools utils stats
 #' @importFrom evaluate evaluate
 #' @importFrom jsonlite toJSON fromJSON validate
 #' @format Control object

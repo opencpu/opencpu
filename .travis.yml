@@ -10,9 +10,10 @@ env:
 addons:
   apt:
     packages:
+      - libapparmor-dev   
       - libprotobuf-dev
-      - libprotoc-dev
-      - libapparmor-dev 
+      - protobuf-compiler
+      - libicu-dev
 
 r_github_packages:
   - jimhester/covr
