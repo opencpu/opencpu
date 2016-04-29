@@ -32,7 +32,7 @@ multipart <- local({
     }
     
     parts <- list();
-    for(i in seq_along(head(indexes, -1))){
+    for(i in seq_along(utils::head(indexes, -1))){
       from <- indexes[i] + blength;
       to <- indexes[i+1] -1;
       parts[[i]] <- body[from:to];
@@ -97,7 +97,7 @@ multipart <- local({
     #filedata  
     splitval  <- grepRaw("\\r\\n\\r\\n|\\n\\n|\\r\\r", bodydata, value=TRUE); 
     start <- splitchar + length(splitval);
-    if(identical(tail(bodydata,2), charToRaw("\r\n"))){
+    if(identical(utils::tail(bodydata,2), charToRaw("\r\n"))){
       end <- length(bodydata)-2;      
     } else {
       end <- length(bodydata)-1;      

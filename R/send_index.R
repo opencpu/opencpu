@@ -45,7 +45,7 @@ maketable(data),
 }
 
 maketitle <- function(){
-  paste0("<title>Index of ", req$mount(), URLdecode(req$path_info()), "</title>")
+  paste0("<title>Index of ", req$mount(), utils::URLdecode(req$path_info()), "</title>")
 }
 
 maketable <- function(data){
@@ -100,7 +100,7 @@ makebreadcrumb <- function(){
   template1 <- '<li><a href="{{path}}"><span class="glyphicon glyphicon-home"></span></a></li>'
   template2 <- '<li><a href="{{path}}">{{name}}</a></li>'
   
-  fullpath <- strsplit(URLdecode(req$path_info()), "/")[[1]]
+  fullpath <- strsplit(utils::URLdecode(req$path_info()), "/")[[1]]
   output <- character(length(fullpath));
   output[1] <- paste0('<li><a href="', req$mount() ,'/"><span class="glyphicon glyphicon-home"></span></a></li>')
   if(length(fullpath) >= 1){

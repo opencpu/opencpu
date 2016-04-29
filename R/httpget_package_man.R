@@ -22,12 +22,12 @@ httpget_package_man <- local({
     
     #redirect aliases to the topic page
     if(!is.na(topic) && topic != reqobject){
-      current_url <- URLdecode(paste0(req$uri(), req$path_info()))
+      current_url <- utils::URLdecode(paste0(req$uri(), req$path_info()))
       new_url <- sub(paste0("/man/", reqobject, "($|/)"), paste0("/man/", topic, "/"), current_url)
       if(current_url == new_url){
         stop("Redirect failed: ", current_url)
       }
-      res$redirect(URLencode(new_url))
+      res$redirect(utils::URLencode(new_url))
     }
       
     #Convert the topic back to one of the aliases when needed
@@ -61,7 +61,7 @@ httpget_package_man <- local({
     #convert page name back to one of the aliases
     helppath <- eval(call('help', alias, package=package, lib.loc=lib.loc, help_type="text"));
     if(!length(helppath)){
-      res$notfound(message=capture.output(print(helppath)));
+      res$notfound(message=utils::capture.output(print(helppath)));
     }
     from("utils", ".getHelpFile")(helppath);
   }

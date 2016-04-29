@@ -28,7 +28,7 @@ homedir <- function(username){
   
   #third method
   if(file.exists("/etc/passwd")){
-    out <- try(read.table("/etc/passwd", sep=":", row.names=1, as.is=TRUE));
+    out <- try(utils::read.table("/etc/passwd", sep=":", row.names=1, as.is=TRUE));
     if(!inherits(out, "try-error") && length(out) && nrow(out)){
       homelib <- out[username, "V6"];
       if(!is.na(homelib) && file.exists(homelib)){

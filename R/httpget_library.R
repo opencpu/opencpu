@@ -6,7 +6,7 @@ httpget_library <- function(lib.loc, requri){
   res$setcache("lib");    
   
   #extract the package name
-  pkgname <- head(requri, 1);
+  pkgname <- utils::head(requri, 1);
   if(!length(pkgname)){
     res$checkmethod();
     res$sendlist(list.files(lib.loc))
@@ -17,5 +17,5 @@ httpget_library <- function(lib.loc, requri){
 
   #find the package is the specified library.
   pkgpath <- find.package(pkgname, lib.loc=lib.loc)
-  httpget_package(pkgpath, tail(requri, -1));
+  httpget_package(pkgpath, utils::tail(requri, -1));
 }

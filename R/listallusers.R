@@ -6,7 +6,7 @@ listallusers <- function(user.only=TRUE){
     }
   }
   if(file.exists("/etc/passwd")){
-    out <- try(read.table("/etc/passwd", sep=":", as.is=TRUE));
+    out <- try(utils::read.table("/etc/passwd", sep=":", as.is=TRUE));
     if(!inherits(out, "try-error") && length(out) && nrow(out)){
       if(isTRUE(user.only)){
         out <- out[out$V3 > 999 & out$V3 < 65534, ]

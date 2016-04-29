@@ -4,8 +4,8 @@ httpget_package <- function(pkgpath, requri){
   stopifnot(file.exists(pkgpath))
   
   #reqhead is package api
-  reqhead <- head(requri, 1);
-  reqtail <- tail(requri, -1);  
+  reqhead <- utils::head(requri, 1);
+  reqtail <- utils::tail(requri, -1);  
     
   #list contents
   if(!length(reqhead)){

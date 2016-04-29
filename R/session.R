@@ -108,7 +108,7 @@ session <- local({
     #store output
     save(file=".RData", envir=sessionenv, list=ls(sessionenv, all.names=TRUE), compress=FALSE);
     saveRDS(output, file=".REval", compress=FALSE);
-    saveRDS(sessionInfo(), file=".RInfo", compress=FALSE);
+    saveRDS(utils::sessionInfo(), file=".RInfo", compress=FALSE);
     saveRDS(.libPaths(), file=".Rlibs", compress=FALSE);
     saveDESCRIPTION(hash)
 

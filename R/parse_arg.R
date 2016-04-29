@@ -2,7 +2,7 @@ parse_arg <- function(x){
 
   #special for json obj
   if(inherits(x, "AsIs")){
-    class(x) <- tail(class(x), -1);
+    class(x) <- utils::tail(class(x), -1);
     return(x);
   }
   

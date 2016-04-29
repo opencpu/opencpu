@@ -68,7 +68,7 @@ reshandler <- function(e){
   response$headers[["X-ocpu-r"]] = R.version.string;
   response$headers[["X-ocpu-locale"]] = Sys.getlocale("LC_CTYPE");
   response$headers[["X-ocpu-time"]] = format(Sys.time(), usetz=TRUE); 
-  response$headers[["X-ocpu-version"]] = as.character(packageVersion(packagename));  
+  response$headers[["X-ocpu-version"]] = as.character(utils::packageVersion(packagename));  
 
   #reset req/res state
   res$reset();

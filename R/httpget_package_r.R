@@ -9,7 +9,7 @@ httpget_package_r <- function(pkgpath, requri){
     loadPackageFrom(reqpackage, reqlib);
     
     #reqhead is function/object name
-    reqobject <- head(requri, 1);
+    reqobject <- utils::head(requri, 1);
     reqformat <- requri[2];    
     
     if(!length(reqobject)){
@@ -37,7 +37,7 @@ httpget_package_r <- function(pkgpath, requri){
     #return object
     switch(req$method(),
       "GET" = httpget_object(myobject, reqformat, reqobject),
-      "POST" = execute_function(myobject, tail(requri, -1), reqobject),
+      "POST" = execute_function(myobject, utils::tail(requri, -1), reqobject),
       stop("invalid method")
     );
   });

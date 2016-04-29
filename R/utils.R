@@ -12,7 +12,7 @@ utils <- local({
   
   mimetype <- function(filepath){
     alltypes <- mimelist;
-    filename <- tail(strsplit(filepath, "/", fixed=T)[[1]], 1);
+    filename <- utils::tail(strsplit(filepath, "/", fixed=T)[[1]], 1);
     
     #files without a dot are special
     if(!grepl(".", filename, fixed=TRUE)){
@@ -24,7 +24,7 @@ utils <- local({
     }
    
     #otherwise lookup in mimelist
-    input <- tolower(tail(strsplit(filename, ".", fixed=T)[[1]], 1));
+    input <- tolower(utils::tail(strsplit(filename, ".", fixed=T)[[1]], 1));
     contenttype <- alltypes[[input]];
     if(is.null(contenttype)){
       contenttype <- "application/octet-stream";

@@ -96,12 +96,12 @@ httpget_object <- local({
   }
 
   httpget_object_print <- function(object){
-    outtext <- capture.output(do.call(printwithmax, c(req$get(), list(x=object))));
+    outtext <- utils::capture.output(do.call(printwithmax, c(req$get(), list(x=object))));
     res$sendtext(outtext);
   }
 
   httpget_object_pander <- function(object){
-    outtext <- capture.output(do.call(pander::pander, c(req$get(), list(x=object))));
+    outtext <- utils::capture.output(do.call(pander::pander, c(req$get(), list(x=object))));
     res$sendtext(outtext);
   }
 

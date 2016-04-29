@@ -1,7 +1,7 @@
 httpget_session_tar <- function(sessionpath, requri){
   setwd(sessionpath);
   tmptar <- tempfile(fileext=".tar.gz");
-  tar(tmptar, files=".", compression="gzip");
+  utils::tar(tmptar, files=".", compression="gzip");
 
   #continue
   res$setbody(file=tmptar);

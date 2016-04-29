@@ -20,7 +20,7 @@ httpget_gist <- function(uri){
   gist_path <- gist_load(gistuser, gistid);
   
   #remaining of the api
-  reqtail <- tail(uri, -2)  
+  reqtail <- utils::tail(uri, -2)  
   
   #calc full path
   fullpath <- do.call("file.path", as.list(c(gist_path, reqtail)));

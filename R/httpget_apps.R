@@ -14,7 +14,7 @@ httpget_apps <- function(lib.loc, requri){
   #change .libPaths to ONLY contain app library
   fullpath <- file.path(lib.loc, appname); 
   if(!file.exists(fullpath)){
-    newappname <- tail(list.files(lib.loc, pattern=paste("^", appname, "_", sep="")),1);
+    newappname <- utils::tail(list.files(lib.loc, pattern=paste("^", appname, "_", sep="")),1);
     if(!length(newappname)) {
       stop("App not found: ", appname);
     }
@@ -26,5 +26,5 @@ httpget_apps <- function(lib.loc, requri){
   #continue as regular library
   pkgname <- strsplit(appname, "_")[[1]][1];
   pkgpath <- find.package(pkgname)
-  httpget_package(pkgpath, tail(requri, -1));
+  httpget_package(pkgpath, utils::tail(requri, -1));
 }

@@ -9,12 +9,12 @@ httpget_package_data <- function(pkgpath, requri){
     loadPackageFrom(reqpackage, reqlib);
     
     #reqhead is function/object name
-    reqobject <- head(requri, 1);
+    reqobject <- utils::head(requri, 1);
     reqformat <- requri[2];    
     
     if(!length(reqobject)){
       res$checkmethod();
-      res$sendlist(data(package=reqpackage)$results[,"Item"]);
+      res$sendlist(utils::data(package=reqpackage)$results[,"Item"]);
     }
     
     #if lazy load is enabled, then use it
@@ -26,7 +26,7 @@ httpget_package_data <- function(pkgpath, requri){
       myenv <- new.env(parent=emptyenv());  
       withCallingHandlers({
         #Get object using data(). Throws error if object does not exist.        
-        data(list=reqobject, package=reqpackage, envir=myenv)
+        utils::data(list=reqobject, package=reqpackage, envir=myenv)
       }, warning = function(e) {stop(e$message, call.= FALSE)});
       myobject <- get(reqobject, myenv, inherits=FALSE);
     }

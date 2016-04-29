@@ -24,7 +24,7 @@ updatebioc <- function(){
   
   #Update bioc packages
   RAppArmor::eval.secure({
-    update.packages(lib.loc=biocpath, repos=eval(call("biocinstallRepos")), ask = FALSE, checkBuilt=TRUE);
+    utils::update.packages(lib.loc=biocpath, repos=eval(call("biocinstallRepos")), ask = FALSE, checkBuilt=TRUE);
     if(length(list.files(biocpath))){
       system2("touch", paste0(biocpath, "/*"));
     }  

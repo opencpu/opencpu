@@ -1,7 +1,7 @@
 httpget_session_r <- function(filepath, requri){
   
   #reqhead is function/object name
-  reqobject <- head(requri, 1);
+  reqobject <- utils::head(requri, 1);
   reqformat <- requri[2];   
   
   #try to use old libraries
@@ -46,7 +46,7 @@ httpget_session_r <- function(filepath, requri){
   #return object
   switch(req$method(),
      "GET" = httpget_object(myobject, reqformat, reqobject),
-     "POST" = execute_function(myobject, tail(requri, -1), reqobject),
+     "POST" = execute_function(myobject, utils::tail(requri, -1), reqobject),
      stop("invalid method")
   );  
 }

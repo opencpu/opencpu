@@ -39,7 +39,7 @@ mail_CI <- function(success, output, payload) {
   commitinfo <- paste("NEW COMMITS:", paste(ids, timestamps, authors, messages, urls, "", collapse="\n", sep="\n  "), sep="\n")
   
   #create sessionInfo
-  mysession <- paste("SESSION INFO", paste0(capture.output(sessionInfo()), collapse="\n"), sep="\n")
+  mysession <- paste("SESSION INFO", paste0(utils::capture.output(utils::sessionInfo()), collapse="\n"), sep="\n")
   
   #format first line
   if(success){

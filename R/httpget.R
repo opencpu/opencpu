@@ -8,15 +8,15 @@ httpget <- function(){
   }
     
   #extract path
-  reqpath <- strsplit(substring(URLdecode(req$path_info()), 2),"/")[[1]];
+  reqpath <- strsplit(substring(utils::URLdecode(req$path_info()), 2),"/")[[1]];
   
   if(!length(reqpath)){
     res$checkmethod();
     res$redirectpath("/test");    
   }
   
-  reqhead <- head(reqpath, 1);
-  reqtail <- tail(reqpath, -1);
+  reqhead <- utils::head(reqpath, 1);
+  reqtail <- utils::tail(reqpath, -1);
 
   switch(reqhead,
     "library" = httpget_library(.libPaths(), reqtail),

@@ -9,7 +9,7 @@ httpget_cran <- function(uri){
   cranpkg <- uri[1];
   if(is.na(cranpkg)){
     res$checkmethod();    
-    pkglist <- available.packages();
+    pkglist <- utils::available.packages();
     res$sendlist(row.names(pkglist));
   }
   
@@ -17,7 +17,7 @@ httpget_cran <- function(uri){
   pkgpath <- cran_load(cranpkg);
   
   #remaining of the api
-  reqtail <- tail(uri, -1)  
+  reqtail <- utils::tail(uri, -1)  
   
   #serve basic files
   httpget_package(pkgpath, reqtail);

@@ -1,6 +1,6 @@
 httpget_info <- function(requri){
   #get sessioninfo
-  myobject <- sessionInfo();
+  myobject <- utils::sessionInfo();
   
   #only GET allowed
   res$checkmethod("GET");

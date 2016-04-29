@@ -21,7 +21,7 @@ updatecran <- function(){
   
   #CRAN packages
   RAppArmor::eval.secure({
-    update.packages(lib.loc = cranpath, repos = "http://cran.r-project.org", ask = FALSE, checkBuilt=TRUE);
+    utils::update.packages(lib.loc = cranpath, repos = "http://cran.r-project.org", ask = FALSE, checkBuilt=TRUE);
     if(length(list.files(cranpath))){
       system2("touch", paste0(cranpath, "/*"));
     }

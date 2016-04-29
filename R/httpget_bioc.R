@@ -16,7 +16,7 @@ httpget_bioc <- function(uri){
     biocpkg <- uri[1];
     if(is.na(biocpkg)){
       res$checkmethod();    
-      pkglist <- available.packages(contrib.url(getExportedValue("BiocInstaller", "biocinstallRepos")("http://bioconductor.org")));
+      pkglist <- utils::available.packages(utils::contrib.url(getExportedValue("BiocInstaller", "biocinstallRepos")("http://bioconductor.org")));
       res$sendlist(row.names(pkglist));
     }
     
@@ -25,7 +25,7 @@ httpget_bioc <- function(uri){
   });    
     
   #remaining of the api
-  reqtail <- tail(uri, -1)  
+  reqtail <- utils::tail(uri, -1)  
   
   #serve basic files
   httpget_package(pkgpath, reqtail);

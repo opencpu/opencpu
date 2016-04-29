@@ -1,7 +1,7 @@
 execute_file <- local({
   main <- function(filepath){
     res$checkfile(filepath);
-    ext <- tolower(tail(strsplit(filepath, ".", fixed=TRUE)[[1]], 1));
+    ext <- tolower(utils::tail(strsplit(filepath, ".", fixed=TRUE)[[1]], 1));
     
     switch(ext,
       "r" = httppost_rscript(filepath),

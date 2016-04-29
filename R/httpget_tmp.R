@@ -6,8 +6,8 @@ httpget_tmp <- function(requri){
   prefix <- "x0";
 
   #reqhead is pub subapi
-  reqhead <- head(requri, 1);
-  reqtail <- tail(requri, -1);
+  reqhead <- utils::head(requri, 1);
+  reqtail <- utils::tail(requri, -1);
   
   if(!length(reqhead)){
     res$checkmethod();

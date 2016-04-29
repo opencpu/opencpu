@@ -20,7 +20,7 @@ httpget_github <- function(uri){
   pkgpath <- github_load(gituser, gitrepo);
   
   #remaining of the api
-  reqtail <- tail(uri, -2)  
+  reqtail <- utils::tail(uri, -2)  
 
   #set cache value
   res$setcache("git");      
