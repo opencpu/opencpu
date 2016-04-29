@@ -9,16 +9,13 @@
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/opencpu)](http://cran.r-project.org/web/packages/opencpu/index.html)
 [![Github Stars](https://img.shields.io/github/stars/jeroenooms/opencpu.svg?style=social&label=Github)](https://github.com/jeroenooms/opencpu)
 
-> The OpenCPU system exposes an HTTP API for embedded scientific
-  computing with R. This provides scalable foundations for integrating R
-  based analysis and visualization modules into pipelines, web applications
-  or big data infrastructures. The OpenCPU server can run either as a
-  single-user development server within the interactive R session, or as a
-  high performance multi-user cloud server that builds on Linux, Nginx and
-  rApache. The current R package forms the core of the system. When loaded
-  in R, it automatically initiates the single-user server and displays the
-  web address in the console. Visit the OpenCPU website for detailed
-  information and documentation on the API.
+> The OpenCPU system exposes an http API for embedded scientific
+  computing with R. The server can run either as a single-user development
+  server within the interactive R session, or as a multi-user linux stack
+  based on rApache and NGINX. The current R package implements the core of
+  the system. When loaded in R, it automatically initiates the single-user
+  server and displays the web address in the console. The OpenCPU website 
+  has more detailed API documentation.
 
 ## Documentation
 
@@ -30,10 +27,10 @@
 
 ## Cloud Server
 
-To install the cloud server in Ubuntu 14.04
+To install the cloud server in Ubuntu 14.04 or Ubuntu 16.04
 
 ```sh
-#requires ubuntu 14.04 (Trusty)
+#requires ubuntu 14.04 (Trusty) or 16.04 (Xenial)
 sudo add-apt-repository -y ppa:opencpu/opencpu-1.5
 sudo apt-get update 
 sudo apt-get upgrade
