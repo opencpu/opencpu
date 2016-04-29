@@ -9,7 +9,7 @@
 #' (but httpuv does a nice job queueing them).
 #' Also there are no security restrictions being enforced, as is the case for the OpenCPU cloud server.
 #'
-#' The OpenCPU server will automatically be started when the OpenCPU packge is attached.
+#' The OpenCPU server will automatically be started when the OpenCPU package is attached.
 #' By default, the server starts at a random port and the API will be available under the /ocpu path.
 #' For example: \code{http://localhost:12345/ocpu/library/stats}.
 #'
@@ -17,13 +17,8 @@
 #' The cloud server does have support for concurrent requests, security policies and caching mechanisms to boost performance.
 #'
 #' @import parallel tools utils stats
-#' @importFrom brew brew
 #' @importFrom evaluate evaluate
-#' @importFrom knitr knit pandoc
-#' @importFrom devtools install_github
 #' @importFrom jsonlite toJSON fromJSON validate
-#' @importFrom httr GET stop_for_status add_headers
-#' @importFrom httpuv runServer
 #' @format Control object
 #' @family opencpu
 #' @export
@@ -124,7 +119,7 @@ opencpu <- local({
     #total time is (GET-timeout + 0.5) * 10
     for(i in 1:10){
       tryCatch({
-        stop_for_status(GET(paste0(uvurl, "/test/")));
+        httr::stop_for_status(httr::GET(paste0(uvurl, "/test/")));
         return("OK");
       }, error = function(e){
         if(i == 3){

@@ -34,8 +34,8 @@ gist_load <- function(gistuser, gistid){
 
   #init the gist
   gisturl <- paste("https://gist.github.com", gistuser, gistid, "download", sep="/");
-  out <- GET(gisturl, add_headers("User-Agent" = "OpenCPU"));
-  stop_for_status(out);
+  out <- httr::GET(gisturl, httr::add_headers("User-Agent" = "OpenCPU"));
+  httr::stop_for_status(out);
   gisttmpfile <- tempfile("gistfile", fileext=".tar.gz");
   writeBin(out$content, gisttmpfile);
   

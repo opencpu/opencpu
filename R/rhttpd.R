@@ -82,7 +82,7 @@ rhttpd <- local({
 #' @export
 print.rhttpd <- function(x, ...){
   cat("Control the rhttpd (r-help or r-studio) based OpenCPU server.\n")
-  cat("Note that rhttpd runs in the currrent process and will block the session during http requests.\n")
+  cat("Note that rhttpd runs in the current process and will block the session during http requests.\n")
   cat("The httpuv based OpenCPU server (see ?opencpu) is usually preferred.\n")
   cat("Example Usage:\n")
   cat("  rhttpd$init()                           - Start rhttpd and register OpenCPU.\n")

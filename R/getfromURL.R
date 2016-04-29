@@ -5,7 +5,7 @@ getfromURL <- function(url){
     ctype <- tmpres$headers[["Content-Type"]]
     content <- readBin(tmpres$body, raw(), file.info(tmpres$body)$size)
   } else {
-    req <- GET(url, httr::config(
+    req <- httr::GET(url, httr::config(
       httpheader = c(`User-Agent` = "RCurl/OpenCPU", Accept="application/r-rds, application/json, */*")
     ))    
     ctype <- req$headers[["content-type"]];

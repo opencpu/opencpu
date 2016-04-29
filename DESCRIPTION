@@ -1,7 +1,7 @@
 Package: opencpu
 Type: Package
-Title: A System for Embedded Scientific Computing and Reproducible Research with R
-Version: 1.5.5
+Title: Embedded Scientific Computing and Reproducible Research with R
+Version: 1.5.5.9000
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
 License: Apache License 2.0
@@ -28,15 +28,13 @@ Suggests:
     pander,
     feather,
     R.rsp
-SystemRequirements: latex, pandoc, apparmor
+SystemRequirements: pandoc, apparmor (optional)
 VignetteBuilder: knitr, R.rsp
-Description: The OpenCPU system exposes an HTTP API for embedded scientific
-    computing with R. This provides scalable foundations for integrating R
-    based analysis and visualization modules into pipelines, web applications
-    or big data infrastructures. The OpenCPU server can run either as a
-    single-user development server within the interactive R session, or as a
-    high performance multi-user cloud server that builds on Linux, Nginx and
-    rApache. The current R package forms the core of the system. When loaded
-    in R, it automatically initiates the single-user server and displays the
-    web address in the console. Visit the OpenCPU website for detailed
-    information and documentation on the API.
+Description: The OpenCPU system exposes an http API for embedded scientific
+    computing with R. The server can run either as a single-user development
+    server within the interactive R session, or as a multi-user linux stack
+    based on rApache and NGINX. The current R package implements the core of
+    the system. When loaded in R, it automatically initiates the single-user
+    server and displays the web address in the console. The OpenCPU website 
+    has more detailed API documentation.
+RoxygenNote: 5.0.1

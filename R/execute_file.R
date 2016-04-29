@@ -74,7 +74,7 @@ execute_file <- local({
     knitcalls <- c(
       "stopifnot(require(knitr))",
       paste("mdfile <- knit(", deparse(filepath), ")", sep=""), 
-      paste("mapply(pandoc, input=mdfile, format =", deparse(args$format), ")"),
+      paste("mapply(knitr::pandoc, input=mdfile, format =", deparse(args$format), ")"),
       "rm(mdfile)"
     );
 
@@ -91,6 +91,7 @@ execute_file <- local({
     if(is.null(output)){
       output <- quote(stdout())
     }
+
     brewcall <- as.call(list(quote(brew::brew), file=filepath, output=output));
     session$eval(brewcall);    
   }
@@ -132,4 +133,4 @@ execute_file <- local({
   }  
   
   main
-});
+})
