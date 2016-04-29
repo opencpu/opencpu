@@ -5,7 +5,8 @@ Version: 1.5.5.9000
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
 License: Apache License 2.0
-URL: https://www.opencpu.org, https://github.com/jeroenooms/opencpu#readme
+URL: https://www.opencpu.org
+    https://github.com/jeroenooms/opencpu#readme
 BugReports: https://github.com/jeroenooms/opencpu/issues
 Depends:
     R (>= 3.0.0)
