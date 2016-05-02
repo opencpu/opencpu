@@ -24,7 +24,6 @@ Suggests:
     RAppArmor,
     sendmailR,
     pander,
-    feather,
     R.rsp
 SystemRequirements: pandoc, apparmor (optional)
 VignetteBuilder: knitr, R.rsp
