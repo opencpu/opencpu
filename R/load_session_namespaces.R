@@ -13,7 +13,7 @@ load_session_namespaces <- function(expr){
 unload_session_namespaces <- function(){
   all_sessions <- unique(grep(session_regex(), loadedNamespaces(), value = TRUE))
   lapply(all_sessions, function(key){
-    unloadNamespace(.getNamespace(key))
+    unloadNamespace(key)
   })
 }
 
