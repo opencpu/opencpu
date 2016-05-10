@@ -1,3 +1,6 @@
+1.6.0
+ - Workaround for unloadNamespace bug in R 3.3.0 
+ 
 1.5.6
  - Lazy load import packages using pkg::name instead of importFrom()
 
