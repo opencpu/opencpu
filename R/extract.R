@@ -31,7 +31,7 @@ extract <- local({
   }
   
   extract_graphics <- function(evaluation){
-    index <- vapply(evaluation, is, logical(1), "recordedplot")
+    index <- vapply(evaluation, inherits, logical(1), "recordedplot")
     output <- evaluation[index]
     output <- lapply(output, fixplot)
     return(output)  
