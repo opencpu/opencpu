@@ -1,3 +1,6 @@
+1.6.1
+ - Fix bug to support non interactive: Rscript -e 'opencpu::opencpu$debug(4000)'
+
 1.6.0
  - Workaround for unloadNamespace bug in R 3.3.0 
  

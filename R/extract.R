@@ -1,31 +1,31 @@
 extract <- local({  
   extract_source <- function(evaluation){
-    index <- vapply(evaluation, is, logical(1), "source")
+    index <- vapply(evaluation, inherits, logical(1), "source")
     evaluation <- evaluation[index]
     output <- lapply(evaluation, "[[", "src")
     return(output)
   }
   
   extract_text <- function(evaluation){
-    index <- vapply(evaluation, is, logical(1), "character")
+    index <- vapply(evaluation, inherits, logical(1), "character")
     output <- evaluation[index]
     return(output)
   }
   
   extract_message <- function(evaluation){
-    index <- vapply(evaluation, is, logical(1), "message")
+    index <- vapply(evaluation, inherits, logical(1), "message")
     output <- evaluation[index]
     return(output)  
   }
   
   extract_warning <- function(evaluation){
-    index <- vapply(evaluation, is, logical(1), "warning")
+    index <- vapply(evaluation, inherits, logical(1), "warning")
     output <- evaluation[index]
     return(output)  
   }
   
   extract_error <- function(evaluation){
-    index <- vapply(evaluation, is, logical(1), "error")
+    index <- vapply(evaluation, inherits, logical(1), "error")
     output <- evaluation[index]
     return(output)  
   }
