@@ -1,7 +1,7 @@
 Package: opencpu
 Type: Package
 Title: Embedded Scientific Computing and Reproducible Research with R
-Version: 1.6.0.9000
+Version: 1.6.1
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen.ooms@stat.ucla.edu>
 License: Apache License 2.0
@@ -22,6 +22,7 @@ Imports:
     openssl
 Suggests:
     RAppArmor,
+    feather,
     sendmailR,
     pander,
     R.rsp
