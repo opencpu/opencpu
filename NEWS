@@ -1,3 +1,6 @@
+1.6.2
+ - Fix for /man/html (use tools::Rd2HTML)
+ 
 1.6.1
  - Fix bug to support non interactive: Rscript -e 'opencpu::opencpu$debug(4000)'
  - Suggest: feather
