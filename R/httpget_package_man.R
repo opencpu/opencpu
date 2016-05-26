@@ -73,7 +73,7 @@ httpget_package_man <- local({
     #mylinks <- sub(".html$", "/html", mylinks);
     #tools::Rd2HTML(rdfile, out=mytmp, package=package, Links=mylinks, stylesheet="R.css");
     mytmp <- tempfile(fileext=".html");
-    Rd2HTML(rdfile, out=mytmp, package=package);
+    tools::Rd2HTML(rdfile, out=mytmp, package=package);
     res$sendfile(mytmp); 
   }
   
