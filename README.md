@@ -31,7 +31,7 @@ To install the cloud server in Ubuntu 14.04 or Ubuntu 16.04
 
 ```sh
 #requires ubuntu 14.04 (Trusty) or 16.04 (Xenial)
-sudo add-apt-repository -y ppa:opencpu/opencpu-1.5
+sudo add-apt-repository -y ppa:opencpu/opencpu-1.6
 sudo apt-get update 
 sudo apt-get upgrade
 
