@@ -53,7 +53,7 @@
 
 \maketitle
 
- The latest version of this document is available at \href{https://github.com/jeroenooms/opencpu-manual}{https://github.com/jeroenooms/opencpu-manual}. Typos, comments, suggestions about this manual go in the \href{https://github.com/jeroenooms/opencpu-manual/issues}{issues page} for the repo. 
+ The latest version of this document is available at \href{https://github.com/jeroen/opencpu-manual}{https://github.com/jeroen/opencpu-manual}. Typos, comments, suggestions about this manual go in the \href{https://github.com/jeroen/opencpu-manual/issues}{issues page} for the repo. 
 
 \tableofcontents
 
@@ -101,7 +101,7 @@ install_github("gitstats", "opencpu")
 
 If the application was installed on an \OpenCPU cloud server, the app is directly available. Point your browser to \href{http://your.server.com/ocpu/library/gitstats/www}{http://your.server.com/ocpu/library/gitstats/www}.
 
- To make development of \OpenCPU apps easier, a \texttt{JavaScript} client library is available called \href{https://github.com/jeroenooms/opencpu.js}{opencpu.js}. This library depends on \texttt{jQuery} and uses \texttt{\$.ajax} to provide \texttt{JavaScript} wrappers to the \OpenCPU \API. It is not required to use this \texttt{JavaScript} library but it provides a convenient basis for building \R web applications.
+ To make development of \OpenCPU apps easier, a \texttt{JavaScript} client library is available called \href{https://github.com/jeroen/opencpu.js}{opencpu.js}. This library depends on \texttt{jQuery} and uses \texttt{\$.ajax} to provide \texttt{JavaScript} wrappers to the \OpenCPU \API. It is not required to use this \texttt{JavaScript} library but it provides a convenient basis for building \R web applications.
 
 \subsection{The OpenCPU single-user server}
 
@@ -311,7 +311,7 @@ Installation of \OpenCPU will automatically enable \HTTPS in your web server. He
 \subsection{Customizing the security profile}
 \label{security}
 
-The \OpenCPU cloud server uses \AppArmor profiles and the \texttt{RAppArmor} package to enforce security policies. The profiles used by \OpenCPU are stored in \texttt{/etc/apparmor.d/opencpu.d/}. For an introduction on the topic see the \href{https://github.com/jeroenooms/RAppArmor#readme}{RAppArmor Github page} and \href{http://arxiv.org/abs/1303.4808}{RAppArmor article in JSS}.
+The \OpenCPU cloud server uses \AppArmor profiles and the \texttt{RAppArmor} package to enforce security policies. The profiles used by \OpenCPU are stored in \texttt{/etc/apparmor.d/opencpu.d/}. For an introduction on the topic see the \href{https://github.com/jeroen/RAppArmor#readme}{RAppArmor Github page} and \href{http://arxiv.org/abs/1303.4808}{RAppArmor article in JSS}.
 
 The default profiles included with \OpenCPU are quite liberal but prevent most types of malicious behavior. However, if you plan to use \OpenCPU in production, it is recommended to review these policies and revise them according to your needs. To keep your custom rules separated from the general profiles, add them to the \texttt{/etc/apparmor.d/opencpu.d/custom} file. After modifying a security profile restart \AppArmor:
 

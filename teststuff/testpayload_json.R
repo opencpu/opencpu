@@ -8,14 +8,14 @@ payload <- '{
 "created": false,
 "deleted": false,
 "forced": false,
-"compare": "https://github.com/jeroenooms/jsonlite/compare/035269431ef2...fafc4c046ab6",
+"compare": "https://github.com/jeroen/jsonlite/compare/035269431ef2...fafc4c046ab6",
 "commits": [
 {
 "id": "fafc4c046ab6973dafbbfad51c46a095f53d0129",
 "distinct": true,
 "message": "Trigger build",
 "timestamp": "2014-06-17T16:13:29-07:00",
-"url": "https://github.com/jeroenooms/jsonlite/commit/fafc4c046ab6973dafbbfad51c46a095f53d0129",
+"url": "https://github.com/jeroen/jsonlite/commit/fafc4c046ab6973dafbbfad51c46a095f53d0129",
 "author": {
 "name": "Jeroen",
 "email": "jeroenooms@gmail.com",
@@ -42,7 +42,7 @@ payload <- '{
 "distinct": true,
 "message": "Trigger build",
 "timestamp": "2014-06-17T16:13:29-07:00",
-"url": "https://github.com/jeroenooms/jsonlite/commit/fafc4c046ab6973dafbbfad51c46a095f53d0129",
+"url": "https://github.com/jeroen/jsonlite/commit/fafc4c046ab6973dafbbfad51c46a095f53d0129",
 "author": {
 "name": "Jeroen",
 "email": "jeroenooms@gmail.com",
@@ -66,7 +66,7 @@ payload <- '{
 "repository": {
 "id": 13305534,
 "name": "jsonlite",
-"url": "https://github.com/jeroenooms/jsonlite",
+"url": "https://github.com/jeroen/jsonlite",
 "description": "A smarter JSON encoder/decoder for R",
 "homepage": "http://arxiv.org/abs/1403.2805",
 "watchers": 40,

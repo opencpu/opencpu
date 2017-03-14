@@ -2,12 +2,12 @@
 
 ##### *A System for Embedded Scientific Computing and Reproducible Research with R*
 
-[![Build Status](https://travis-ci.org/jeroenooms/opencpu.svg?branch=master)](https://travis-ci.org/jeroenooms/opencpu)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/jeroenooms/opencpu?branch=master&svg=true)](https://ci.appveyor.com/project/jeroenooms/opencpu)
-[![Coverage Status](https://codecov.io/github/jeroenooms/opencpu/coverage.svg?branch=master)](https://codecov.io/github/jeroenooms/opencpu?branch=master)
+[![Build Status](https://travis-ci.org/jeroen/opencpu.svg?branch=master)](https://travis-ci.org/jeroen/opencpu)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/jeroen/opencpu?branch=master&svg=true)](https://ci.appveyor.com/project/jeroen/opencpu)
+[![Coverage Status](https://codecov.io/github/jeroen/opencpu/coverage.svg?branch=master)](https://codecov.io/github/jeroen/opencpu?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/opencpu)](http://cran.r-project.org/package=opencpu)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/opencpu)](http://cran.r-project.org/web/packages/opencpu/index.html)
-[![Github Stars](https://img.shields.io/github/stars/jeroenooms/opencpu.svg?style=social&label=Github)](https://github.com/jeroenooms/opencpu)
+[![Github Stars](https://img.shields.io/github/stars/jeroen/opencpu.svg?style=social&label=Github)](https://github.com/jeroen/opencpu)
 
 > The OpenCPU system exposes an http API for embedded scientific
   computing with R. The server can run either as a single-user development
@@ -22,7 +22,7 @@
  - Official [API documentation](https://www.opencpu.org/api.html)
  - Paper: [Towards a Universal Interface for Scientific Computing through Separation of Concerns](http://arxiv.org/abs/1406.4806) 
  - Example [apps](https://www.opencpu.org/apps.html)
- - JavaScript client: [opencpu.js](https://github.com/jeroenooms/opencpu.js)
+ - JavaScript client: [opencpu.js](https://github.com/jeroen/opencpu.js)
  - Server manual: [PDF](http://jeroenooms.github.com/opencpu-manual/opencpu-server.pdf)
 
 ## Cloud Server
