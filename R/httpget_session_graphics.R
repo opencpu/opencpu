@@ -54,7 +54,7 @@ httpget_session_graphics <- function(filepath, requri){
   
   #check out of bounds
   if(index == 0 || index > length(myplots)){
-    res$notfound(message = "Graphic not found (out of bounds)")  
+    res$notfound(message = sprintf("Graphic not found (trying to select %d of %d graphics)", index, length(myplots)))  
   }
   
   myobject <- myplots[[index]];
