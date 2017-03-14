@@ -53,7 +53,7 @@ httpget_session_graphics <- function(filepath, requri){
   }
   
   #check out of bounds
-  if(index > length(myplots)){
+  if(index == 0 || index > length(myplots)){
     res$notfound(message = "Graphic not found (out of bounds)")  
   }
   
