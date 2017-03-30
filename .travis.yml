@@ -18,6 +18,7 @@ addons:
 
 r_github_packages:
   - jimhester/covr
+  - jeroen/sys
 
 warnings_are_errors: true
 #r_check_revdep: true
