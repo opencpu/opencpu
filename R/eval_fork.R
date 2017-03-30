@@ -1,4 +1,8 @@
-eval_fork <- function(..., timeout=60){
+## DEPRECATED
+# This function has been replaced by sys::eval_safe()
+
+
+eval_fork_old <- function(..., timeout=60){
   
   #this limit must always be higher than the timeout on the fork!
   setTimeLimit(timeout+5);		

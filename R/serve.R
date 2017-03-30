@@ -28,8 +28,7 @@ serve <- function(REQDATA){
     }
   }
   
-  #Note: forks now disabled on OSX cause of problems with rJava and RCurl
-  if(is_windows() || is_mac()){
+  if(is_windows()){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
       return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
     } else {
@@ -39,10 +38,10 @@ serve <- function(REQDATA){
     }
   }
   
-  #Linux, BSD, etc
+  #Linux, OSX, BSD, etc
   if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
-    return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
+    return(request(sys::eval_safe(main(REQDATA), timeout = config("timelimit.get"))));
   } else {
-    return(request(eval_fork(main(REQDATA), timeout=config("timelimit.post"))));
+    return(request(sys::eval_safe(main(REQDATA), timeout = config("timelimit.post"))));
   }
 }
