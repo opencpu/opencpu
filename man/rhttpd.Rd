@@ -38,4 +38,3 @@ rhttpd$browse('test')
 Other opencpu: \code{\link{opencpu}}
 }
 \keyword{datasets}
-

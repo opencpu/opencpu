@@ -17,9 +17,10 @@ Imports:
     jsonlite (>= 0.9.14),
     devtools (>= 1.9.1),
     httr (>= 0.3),
-    protolite,    
+    protolite,
     brew,
-    openssl
+    openssl,
+    sys
 Suggests:
     RAppArmor,
     feather,
@@ -35,5 +36,5 @@ Description: The OpenCPU system exposes an http API for embedded scientific
     the system. When loaded in R, it automatically initiates the single-user
     server and displays the web address in the console. The OpenCPU website 
     has more detailed API documentation.
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1
 Remotes: jeroen/sys

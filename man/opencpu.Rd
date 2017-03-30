@@ -43,4 +43,3 @@ opencpu$stop()
 Other opencpu: \code{\link{rhttpd}}
 }
 \keyword{datasets}
-
