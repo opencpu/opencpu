@@ -13,7 +13,7 @@ serve <- function(REQDATA){
     
     # Run without RAppArmor on legacy systems.
     if(no_rapparmor()){
-      return(request(eval_fork(main(REQDATA), timeout=totaltimelimit)))
+      return(request(sys::eval_safe(main(REQDATA), timeout=totaltimelimit)))
     }
     
     # On RApache, the RAppArmor package must always be installed. But we use the profile only if available.

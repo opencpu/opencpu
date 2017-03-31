@@ -1,7 +1,6 @@
 Package: opencpu
-Type: Package
 Title: Embedded Scientific Computing and Reproducible Research with R
-Version: 1.6.7
+Version: 1.6.7.9000
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 License: Apache License 2.0

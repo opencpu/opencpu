@@ -74,9 +74,10 @@ session <- local({
     hash <- generate();
 
     #setup some prelim
-    pdf(tempfile(), width=11.69, height=8.27, paper="A4r")
-    dev.control(displaylist="enable");
-    par("bg" = "white");
+    mydev <- function(file, width, height, paper, ...){
+      grDevices::pdf(NULL, width = 11.69, height = 8.27, paper = "A4r", ...)
+      par("bg" = "white")
+    }
 
     #Prevent assignments to .globalEnv
     #Maybe enable this in a later version
@@ -86,15 +87,14 @@ session <- local({
     #note: perhaps we should move some of the above inside eval.secure
     if(!no_rapparmor() && use_apparmor()){
       outputlist <- RAppArmor::eval.secure({
-        output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, new_device=FALSE, output_handler=myhandler);
+        output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, output_handler=myhandler);
         list(output=output, sessionenv=sessionenv);
-      }, profile = "opencpu-exec", closeAllConnections = FALSE, timeout=-1); #actual timeout set in serve()
+      }, profile = "opencpu-exec", timeout = 0, dev = mydev); #actual timeout set in serve()
       output <- outputlist$output;
       sessionenv <- outputlist$sessionenv;
     } else {
-      output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, new_device=FALSE, output_handler=myhandler);
+      output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, output_handler=myhandler);
     }
-    dev.off()
 
     #in case code changed dir
     setwd(execdir)
