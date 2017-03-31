@@ -73,12 +73,6 @@ session <- local({
     #need to do this before evaluate, in case evaluate uses set.seed
     hash <- generate();
 
-    #setup some prelim
-    mydev <- function(file, width, height, paper, ...){
-      grDevices::pdf(NULL, width = 11.69, height = 8.27, paper = "A4r", ...)
-      par("bg" = "white")
-    }
-
     #Prevent assignments to .globalEnv
     #Maybe enable this in a later version
     #lockEnvironment(globalenv())
@@ -86,6 +80,10 @@ session <- local({
     #run evaluation
     #note: perhaps we should move some of the above inside eval.secure
     if(!no_rapparmor() && use_apparmor()){
+      mydev <- function(file, width, height, paper, ...){
+        grDevices::pdf(NULL, width = 11.69, height = 8.27, paper = "A4r", ...)
+        par("bg" = "white")
+      }
       outputlist <- RAppArmor::eval.secure({
         output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, output_handler=myhandler);
         list(output=output, sessionenv=sessionenv);
