@@ -16,7 +16,7 @@ Imports:
     jsonlite (>= 0.9.14),
     devtools (>= 1.9.1),
     httr (>= 0.3),
-    sys (> 1.1),    
+    unix (>= 1.1),    
     protolite,
     brew,
     openssl,

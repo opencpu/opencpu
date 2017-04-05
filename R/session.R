@@ -86,7 +86,7 @@ session <- local({
     #run evaluation
     #note: perhaps we should move some of the above inside eval.secure
     if(!no_rapparmor() && use_apparmor()){
-      outputlist <- RAppArmor::eval.secure({
+      outputlist <- unix::eval_safe({
         output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, output_handler=myhandler);
         list(output=output, sessionenv=sessionenv);
       }, profile = "opencpu-exec", timeout = 0, device = NULL); #actual timeout set in serve()

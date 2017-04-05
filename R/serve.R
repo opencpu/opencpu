@@ -1,33 +1,6 @@
 serve <- function(REQDATA){
   
-  #Cloud server
-  if(is_rapache()){
-    #Determine time limits
-    totaltimelimit <- if(isTRUE(grepl("^/webhook", REQDATA$PATH_INFO))) {
-      config("timelimit.webhook");
-    } else if(isTRUE(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS"))){
-      config("timelimit.get");
-    } else {
-      config("timelimit.post");
-    };
-    
-    # Run without RAppArmor on legacy systems.
-    if(no_rapparmor()){
-      return(request(sys::eval_safe(main(REQDATA), timeout=totaltimelimit)))
-    }
-    
-    # On RApache, the RAppArmor package must always be installed. But we use the profile only if available.
-    if(use_apparmor()){
-      return(request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5, 
-        RLIMIT_AS=config("rlimit.as"), RLIMIT_FSIZE=config("rlimit.fsize"), RLIMIT_NPROC=config("rlimit.nproc"),
-        closeAllConnections = TRUE, profile="opencpu-main")));
-    } else { 
-      return(request(RAppArmor::eval.secure(main(REQDATA), timeout=totaltimelimit, RLIMIT_CPU=totaltimelimit+5, 
-        RLIMIT_AS=config("rlimit.as"), RLIMIT_FSIZE=config("rlimit.fsize"), RLIMIT_NPROC=config("rlimit.nproc"),
-        closeAllConnections = TRUE)));  
-    }
-  }
-  
+  # Windows doesn't have fork / rapache
   if(is_windows()){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
       return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
@@ -38,10 +11,25 @@ serve <- function(REQDATA){
     }
   }
   
-  #Linux, OSX, BSD, etc
-  if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
-    return(request(sys::eval_safe(main(REQDATA), timeout = config("timelimit.get"))));
+  # Everything else (rapache, linux, macos)
+  totaltimelimit <- if(isTRUE(grepl("^/webhook", REQDATA$PATH_INFO))) {
+    config("timelimit.webhook");
+  } else if(isTRUE(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS"))){
+    config("timelimit.get");
   } else {
-    return(request(sys::eval_safe(main(REQDATA), timeout = config("timelimit.post"))));
+    config("timelimit.post");
   }
+    
+  # On RApache, the RAppArmor package must always be installed. But we use the profile only if available.
+  profile <- if(use_apparmor() && !no_rapparmor()){
+    "opencpu-main"
+  }
+  
+  # Don't enforce proc limit when running single user server (regular user)
+  nproc <- if(is_rapache()){
+    config("rlimit.nproc")
+  }
+
+  return(request(unix::eval_safe(main(REQDATA), timeout = totaltimelimit, profile = profile, rlimits = list(
+    cpu = totaltimelimit + 5, as = config("rlimit.as"), fsize = config("rlimit.fsize"), nproc = nproc))))
 }
