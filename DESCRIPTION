@@ -36,4 +36,4 @@ Description: The OpenCPU system exposes an http API for embedded scientific
     server and displays the web address in the console. The OpenCPU website 
     has more detailed API documentation.
 RoxygenNote: 6.0.1
-Remotes: jeroen/sys
+Remotes: jeroen/unix
