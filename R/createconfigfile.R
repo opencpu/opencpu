@@ -12,6 +12,6 @@ createconfigfile <- function(){
       message("Creating new config file: ", configfile);
     } else {
       warning("Failed to create new config file: ", configfile, ". Using default config.")      
-    };
+    }
   }
 }

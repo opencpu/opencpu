@@ -147,9 +147,6 @@ httpget_object <- local({
   }
 
   httpget_object_png <- function(object){
-    if(inherits(object, "recordedplot")){
-      object <- fixplot(object);
-    }
     mytmp <- tempfile();
     do.call(function(width=800, height=600, pointsize=12, ...){
       png(type="cairo", file=mytmp, width=as.numeric(width), height=as.numeric(height), pointsize=as.numeric(pointsize), ...);
@@ -165,9 +162,6 @@ httpget_object <- local({
   }
 
   httpget_object_pdf <- function(object, objectname){
-    if(inherits(object, "recordedplot")){
-      object <- fixplot(object);
-    }
     mytmp <- tempfile();
     do.call(function(width=11.69, height=8.27, pointsize=12, paper="A4r", ...){
       pdf(file=mytmp, width=as.numeric(width), height=as.numeric(height), pointsize=as.numeric(pointsize), paper=paper, ...);
@@ -184,9 +178,6 @@ httpget_object <- local({
   }
 
   httpget_object_svg <- function(object, objectname){
-    if(inherits(object, "recordedplot")){
-      object <- fixplot(object);
-    }
     mytmp <- tempfile();
     do.call(function(width=11.69, height=8.27, pointsize=12, ...){
       svg(file=mytmp, width=as.numeric(width), height=as.numeric(height), pointsize=as.numeric(pointsize), ...);

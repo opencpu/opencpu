@@ -48,4 +48,9 @@ utils <- local({
    
   #export from local
   environment();
-});
+})
+
+from <- function (pkg, name) {
+  utils::getFromNamespace(name, pkg)
+}
+

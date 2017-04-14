@@ -37,7 +37,7 @@ rhttpd <- local({
     # Start rhttpd and get port
     port <- if(R.version[["svn rev"]] < 67550) {
       try(startDynamicHelp(TRUE), silent=TRUE);
-      getFromNamespace("httpdPort", "tools");
+      utils::getFromNamespace("httpdPort", "tools");
     } else {
       startDynamicHelp(NA);
     }

@@ -79,31 +79,14 @@ session <- local({
       par("bg" = "white")
     })
 
-    #Prevent assignments to .globalEnv
-    #Maybe enable this in a later version
-    #lockEnvironment(globalenv())
-
-    #run evaluation
-    #note: perhaps we should move some of the above inside eval.secure
-    if(!no_rapparmor() && use_apparmor()){
-      outputlist <- unix::eval_safe({
-        output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, output_handler=myhandler);
-        list(output=output, sessionenv=sessionenv);
-      }, profile = "opencpu-exec", timeout = 0, device = NULL); #actual timeout set in serve()
-      output <- outputlist$output;
-      sessionenv <- outputlist$sessionenv;
-    } else {
-      output <- evaluate::evaluate(input=input, envir=sessionenv, stop_on_error=2, output_handler=myhandler);
-    }
+    # In OpenCPU 1.x this was executed inside another fork with a stricter apparmor profile
+    output <- evaluate::evaluate(input = input, envir = sessionenv, stop_on_error = 2, output_handler = myhandler);
 
     #in case code changed dir
     setwd(execdir)
 
     #unload session namespaces, otherwise sessionInfo() crashes
     unload_session_namespaces()
-
-    #temp fix for evaluate bug
-    #output <- Filter(function(x){!emptyplot(x)}, output);
 
     #store output
     save(file=".RData", envir=sessionenv, list=ls(sessionenv, all.names=TRUE), compress=FALSE);

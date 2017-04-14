@@ -14,30 +14,11 @@ userlibpath <- function(username, postfix=""){
 }
 
 homedir <- function(username){
-  #easiest method
-  home <- path.expand(paste0("~", username));
-  if(file.exists(home)){
-    return(home);
-  }
-  
-  #second method
-  unixtools = "unixtools";
-  if(requireNamespace(unixtools, quietly = TRUE)){
-    return(getExportedValue(unixtools, "user.info")(username)$home)
-  }
-  
-  #third method
-  if(file.exists("/etc/passwd")){
-    out <- try(utils::read.table("/etc/passwd", sep=":", row.names=1, as.is=TRUE));
-    if(!inherits(out, "try-error") && length(out) && nrow(out)){
-      homelib <- out[username, "V6"];
-      if(!is.na(homelib) && file.exists(homelib)){
-        return(homelib)
-      }
-    }
-  }
-  
-  stop("Could not find or access home directory of user ", username);
+  tryCatch({
+    unix::user_info(username)$dir
+  }, error = function(e){
+    stop("Could not find or access home directory of user ", username);
+  })
 }
 
 check_mode <- function(path){

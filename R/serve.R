@@ -12,17 +12,17 @@ serve <- function(REQDATA){
   }
   
   # Everything else (rapache, linux, macos)
-  totaltimelimit <- if(isTRUE(grepl("^/webhook", REQDATA$PATH_INFO))) {
-    config("timelimit.webhook");
+  timeout <- if(isTRUE(grepl("^/webhook", REQDATA$PATH_INFO))) {
+    config("timelimit.webhook")
   } else if(isTRUE(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS"))){
-    config("timelimit.get");
+    config("timelimit.get")
   } else {
-    config("timelimit.post");
+    config("timelimit.post")
   }
     
   # On RApache, the RAppArmor package must always be installed. But we use the profile only if available.
   profile <- if(use_apparmor() && !no_rapparmor()){
-    "opencpu-main"
+    ifelse(isTRUE(grepl("^/webhook", REQDATA$PATH_INFO)), "opencpu-main", "opencpu-exec")
   }
   
   # Don't enforce proc limit when running single user server (regular user)
@@ -30,6 +30,11 @@ serve <- function(REQDATA){
     config("rlimit.nproc")
   }
 
-  return(request(unix::eval_safe(main(REQDATA), timeout = totaltimelimit, profile = profile, rlimits = list(
-    cpu = totaltimelimit + 5, as = config("rlimit.as"), fsize = config("rlimit.fsize"), nproc = nproc))))
+  limits <- c(
+    cpu = timeout + 3, 
+    as = config("rlimit.as"), 
+    fsize = config("rlimit.fsize"), 
+    nproc = nproc
+  )
+  return(request(sys::eval_safe(main(REQDATA), timeout = timeout, profile = profile, rlimits = limits)))
 }

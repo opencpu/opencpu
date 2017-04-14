@@ -4,7 +4,7 @@ inittempdir <- function(){
   
   #override temp directory
   dir.create(mynewtempdir, showWarnings = FALSE, recursive = TRUE, mode = "0777");
-  getExportedValue("unixtools", "set.tempdir")(mynewtempdir);
+  sys:::set_tempdir(mynewtempdir);
   
   #These are needed for install packages
   Sys.setenv(TMPDIR = tempdir());

@@ -18,7 +18,7 @@
 #'
 #' @importFrom evaluate evaluate
 #' @importFrom jsonlite toJSON fromJSON validate
-#' @importFrom unix eval_safe
+#' @importFrom sys eval_safe
 #' @format Control object
 #' @family opencpu
 #' @export

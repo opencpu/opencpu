@@ -15,3 +15,13 @@ cleanup <- function(what = c("tmp", "gist", "github", "cran", "bioc"), maxage=10
   ages <- difftime(Sys.time(), infos$ctime, units="secs");
   unlink(allfiles[ages > maxage], recursive=TRUE);
 }
+
+
+#On windows, orphaned procs never time out
+#This function kills all Rscript procs.
+#Use with care
+cleanwin <- function(){
+  if(identical(.Platform$OS.type, "windows")){
+    suppressWarnings(try(system("taskkill /IM Rscript.exe /f", ignore.stdout=TRUE, ignore.stderr=TRUE, show.output.on.console=FALSE), silent=TRUE))
+  }
+}
