@@ -10,28 +10,6 @@ utils <- local({
     !is.binary(...)
   }
   
-  mimetype <- function(filepath){
-    alltypes <- mimelist;
-    filename <- utils::tail(strsplit(filepath, "/", fixed=T)[[1]], 1);
-    
-    #files without a dot are special
-    if(!grepl(".", filename, fixed=TRUE)){
-      if(is.ascii(filepath)){
-        return('text/plain; charset=utf-8');
-      } else {
-        return("application/octet-stream");
-      }
-    }
-   
-    #otherwise lookup in mimelist
-    input <- tolower(utils::tail(strsplit(filename, ".", fixed=T)[[1]], 1));
-    contenttype <- alltypes[[input]];
-    if(is.null(contenttype)){
-      contenttype <- "application/octet-stream";
-    }
-    return(contenttype)
-  }   
-  
   #rook needs this
   asfile <- function(x){
     stopifnot(file.exists(x));

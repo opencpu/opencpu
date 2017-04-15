@@ -1,4 +1,4 @@
-#simple closure store for response data
+#' @importFrom mime guess_type
 res <- local({
   bodyfile <- NULL;
   headers <- list();  
@@ -157,7 +157,7 @@ res <- local({
     }
     bodyfile <<- filepath;
     if(missing(mimetype)){
-      mimetype <- utils$mimetype(filepath);
+      mimetype <- mime::guess_type(filepath)
     }
     setheader("Content-Type", mimetype);
     finish(200);
