@@ -1,4 +1,4 @@
-#rookhandler can either be used by Rook or by httpuv
+#' @importFrom webutils parse_query
 rookhandler <- function(rootpath){
   #load opencpu configuration
   loadconfigs(preload=TRUE);
@@ -17,7 +17,7 @@ rookhandler <- function(rootpath){
     }
       
     #do some Rook processing
-    GET <- parse_query(env[["QUERY_STRING"]]);   
+    GET <- webutils::parse_query(env[["QUERY_STRING"]]);   
     RAWPOST <- list();
     
     #parse POST request body

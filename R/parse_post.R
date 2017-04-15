@@ -18,7 +18,7 @@ parse_post <- function(reqbody, contenttype){
   # test for url-encoded
   } else if(grepl("x-www-form-urlencoded", contenttype, fixed=TRUE)){
     if(is.raw(reqbody)){
-      return(parse_query(reqbody));
+      return(webutils::parse_query(reqbody));
     } else {
       return(as.list(reqbody));
     }
@@ -39,7 +39,7 @@ parse_post <- function(reqbody, contenttype){
       obj <- protolite::unserialize_pb(reqbody);
     } else {
       stop("ProtoBuf payload was posted as text ??")
-    }    
+    }
   } else {
     stop("POST body with unknown conntent type: ", contenttype);
   }

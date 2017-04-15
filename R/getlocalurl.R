@@ -7,7 +7,7 @@ getlocalurl <- function(url){
     MOUNT = req$mount(),
     PATH_INFO = split[1],
     FULLMOUNT = req$fullmount(),
-    GET = if(is.na(split[2])) list() else parse_query(split[2]),
+    GET = if(is.na(split[2])) list() else webutils::parse_query(split[2]),
     ACCEPT = "*/*" 
   )
   
