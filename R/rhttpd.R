@@ -36,10 +36,10 @@ rhttpd <- local({
 
     # Start rhttpd and get port
     port <- if(R.version[["svn rev"]] < 67550) {
-      try(startDynamicHelp(TRUE), silent=TRUE);
+      try(tools::startDynamicHelp(TRUE), silent=TRUE);
       utils::getFromNamespace("httpdPort", "tools");
     } else {
-      startDynamicHelp(NA);
+      tools::startDynamicHelp(NA);
     }
 
     assign(substring(rootpath, 2), rhttpdhandler(fullpath), from("tools", ".httpd.handlers.env"));
