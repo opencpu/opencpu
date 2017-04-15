@@ -5,10 +5,14 @@ getfromURL <- function(url){
     ctype <- tmpres$headers[["Content-Type"]]
     content <- readBin(tmpres$body, raw(), file.info(tmpres$body)$size)
   } else {
-    req <- httr::GET(url, httr::config(
-      httpheader = c(`User-Agent` = "RCurl/OpenCPU", Accept="application/r-rds, application/json, */*")
-    ))    
-    ctype <- req$headers[["content-type"]];
+    h <- curl::new_handle("useragent" = "OpenCPU")
+    curl::handle_setheaders(h, Accept="application/r-rds, application/json, */*")
+    req <- curl::curl_fetch_memory(url)
+    if(req$status_code >= 400)
+      stop(sprintf("Failed to download %s: HTTP %d", url, req$status_code))
+    headers <- curl::parse_headers(req$headers)
+    ptrn <- "^content-type: "
+    ctype <- sub(ptrn, "", grep(ptrn, headers, ignore.case = TRUE, value = TRUE), ignore.case = TRUE)
     content <- req$content
   }
 

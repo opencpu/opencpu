@@ -119,7 +119,7 @@ opencpu <- local({
     #total time is (GET-timeout + 0.5) * 10
     for(i in 1:3){
       tryCatch({
-        httr::stop_for_status(httr::GET(paste0(uvurl, "/test/")));
+        curl::curl_fetch_memory(paste0(uvurl, "/test/"))
         return("OK");
       }, error = function(e){
         if(i == 3){

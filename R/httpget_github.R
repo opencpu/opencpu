@@ -5,26 +5,27 @@ httpget_github <- function(uri){
   #GET /ocpu/github/jeroen/mypackage
   gituser <- tolower(uri[1]);
   if(is.na(gituser)){
-    res$checkmethod();    
-    stop("Please specify a github username, e.g. /ocpu/github/hadley/")
+    res$checkmethod()
+    pkglist <- sub(sprintf("^%s_", github_prefix), "", list.files(github_rootpath()))
+    usernames <- vapply(strsplit(pkglist, "_", fixed = TRUE), utils::head, character(1), n = 1L)
+    res$sendlist(usernames)
   }
 
   gitrepo <- uri[2];
   if(is.na(gitrepo)){
-    res$checktrail();
-    repos <- github_list(gituser);
-    res$sendlist(repos);
+    res$checkmethod()
+    pattern <- sprintf("^ocpu_github_%s_", gituser)
+    pkglist <- list.files(github_rootpath(), pattern = pattern)
+    res$sendlist(sub(pattern, "", pkglist))
   }
   
-  #init the gist
-  pkgpath <- github_load(gituser, gitrepo);
-  
-  #remaining of the api
-  reqtail <- utils::tail(uri, -2)  
+  libpath <- github_userlib(gituser, gitrepo)
+  pkgpath <- file.path(libpath, gitrepo)
+  if(!file.exists(pkgpath))
+    res$error(sprintf("Github package %s/%s not installed on this server", gituser, gitrepo), 404)
+  reqtail <- utils::tail(uri, -2)
 
   #set cache value
-  res$setcache("git");      
-  
-  #serve basic files
-  httpget_package(pkgpath, reqtail);
+  res$setcache("git")
+  httpget_package(pkgpath, reqtail)
 }
