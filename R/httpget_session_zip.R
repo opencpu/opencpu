@@ -13,3 +13,9 @@ httpget_session_zip <- function(sessionpath, requri){
   res$setheader("Content-Disposition", paste('attachment; filename="', basename(sessionpath), '.zip"', sep=""));
   res$finish();
 }
+
+stoponwarn <- function(...){
+  tryCatch(eval(...), warning=function(w){
+    stop("warning! ", w$message)
+  })
+}

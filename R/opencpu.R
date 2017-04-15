@@ -117,7 +117,7 @@ opencpu <- local({
     iswaiting = FALSE;
     #try 10 times max
     #total time is (GET-timeout + 0.5) * 10
-    for(i in 1:10){
+    for(i in 1:3){
       tryCatch({
         httr::stop_for_status(httr::GET(paste0(uvurl, "/test/")));
         return("OK");

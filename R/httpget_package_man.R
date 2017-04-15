@@ -12,8 +12,6 @@ httpget_package_man <- local({
     #show a list of objects
     if(is.na(reqobject)){
       res$sendlist(readRDS(file.path(pkgpath, "help", "aliases.rds")))
-      #HTML:
-      #send_index(find_aliases(pkgpath, reqpackage))      
     }
     
     #read the package alias list

@@ -16,10 +16,6 @@ httpget_package_r <- function(pkgpath, requri){
       res$checkmethod();
       ns <- paste("package", reqpackage, sep=":")
       res$sendlist(ls(ns))
-      #HTML:
-      #indexdata <- data.frame(name = ls(ns), stringsAsFactors=FALSE)
-      #indexdata$size <- unname(vapply(indexdata$name, function(x){object.size(get(x, ns))}, numeric(1)))
-      #send_index(indexdata)
     }
     
     #Get object. Try package namespace first (won't work for lazy data)

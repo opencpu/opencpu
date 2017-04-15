@@ -4,7 +4,7 @@
 request <- function(expr){
 	tryCatch({
 		eval(expr);
-		respond(503L, utils$write_to_file("function returned without calling respond"));
+		respond(503L, write_to_file("function returned without calling respond"));
 	}, error=reshandler);
 }
 

@@ -23,7 +23,7 @@ res <- local({
       bodyfile <<- file;     
       return(invisible());
     } 
-    bodyfile <<- utils$write_to_file(text);
+    bodyfile <<- write_to_file(text);
     invisible();
   };
   

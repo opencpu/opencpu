@@ -14,6 +14,7 @@ userlibpath <- function(username, postfix=""){
 }
 
 homedir <- function(username){
+  getNamespace('unix')
   tryCatch({
     unix::user_info(username)$dir
   }, error = function(e){

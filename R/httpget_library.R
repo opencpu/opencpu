@@ -10,9 +10,6 @@ httpget_library <- function(lib.loc, requri){
   if(!length(pkgname)){
     res$checkmethod();
     res$sendlist(list.files(lib.loc))
-    #HTML:
-    #indexdata <- installed.packages(lib.loc=lib.loc)[, c("Package", "Version", "Built")]
-    #send_index(indexdata)
   }
 
   #find the package is the specified library.
