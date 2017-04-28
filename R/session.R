@@ -50,16 +50,10 @@ session <- local({
 
     #need to do this before evaluate, in case evaluate uses set.seed
     hash <- basename(tempdir())
-    
-    # This is used by 'evaluate'
-    options(device = function(file, width, height, paper, ...){
-      grDevices::pdf(NULL, width = 11.69, height = 8.27, paper = "A4r", ...)
-      par("bg" = "white")
-    })
 
     # In OpenCPU 1.x this was executed inside another fork with a stricter apparmor profile
     output <- evaluate::evaluate(input = input, envir = sessionenv, stop_on_error = 2, output_handler = myhandler);
-
+    
     #in case code changed dir
     setwd(execdir)
 

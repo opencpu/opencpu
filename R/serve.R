@@ -37,20 +37,29 @@ serve <- function(REQDATA){
     nproc = nproc
   )
   
+  ocpu_grdev <- function(file, width, height, paper, ...){
+    grDevices::pdf(NULL, width = 11.69, height = 8.27, paper = "A4r", ...)
+    par("bg" = "white")
+  }
+  
   # TODO: if(HTTP_POST)
   # Generate session key 'x'
   # Set tempdir 'mytmp' (define in parent proc)
   # Now run:
-  hash <- generate_hash()
   request({
     mytmp <- if(REQDATA$METHOD == "POST"){
+      hash <- generate_hash()
       tmp <- file.path(tempdir(), hash)      
       dir.create(tmp)
-      on.exit(stopifnot(file.rename(file.path(mytmp, "ocpu_session"), sessiondir(hash))))
+      on.exit({
+        if(!file.rename(file.path(mytmp, "ocpu_session"), sessiondir(hash)))
+          stop(sprintf("Failed to move %s to %s\n", file.path(mytmp, "ocpu_session"), sessiondir(hash)))
+      })
       normalizePath(tmp)
     } else {
       normalizePath(tempdir())
     }
-    sys::eval_safe(main(REQDATA), tmp = mytmp, timeout = as.numeric(timeout), profile = profile, rlimits = limits)
+    sys::eval_safe(main(REQDATA), tmp = mytmp, timeout = as.numeric(timeout), profile = profile, 
+                   rlimits = limits, device = ocpu_grdev)
   })
 }

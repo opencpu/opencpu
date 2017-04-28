@@ -38,7 +38,7 @@ loadconfigs <- local({
     
     #set some global options
     options(max.print=1000);
-    options(device=grDevices::pdf);
+    #options(device=grDevices::pdf); # now set before eval_safe()
     options(menu.graphics=FALSE);
     options(repos=config('repos'));
     options(keep.source = FALSE);
