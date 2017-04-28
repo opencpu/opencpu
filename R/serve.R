@@ -5,6 +5,9 @@ serve <- function(REQDATA){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
       return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
     } else {
+      
+      
+      # TO DO: set tmp = tempdir()/session/workspace like below
       return(tryCatch({
         eval_psock(get("request", envir=asNamespace("opencpu"))(get("main", envir=asNamespace("opencpu"))(REQDATA)), timeout=config("timelimit.post"));
       }, error = reshandler));
