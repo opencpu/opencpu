@@ -11,7 +11,7 @@ session <- local({
   eval <- function(input, args, storeval=FALSE, format="list"){
 
     #create a temporary dir
-    execdir <- file.path(tempdir(), "ocpu_session");
+    execdir <- file.path(tempdir(), "workspace");
     stopifnot(dir.create(execdir));
     setwd(execdir);
 

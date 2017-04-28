@@ -51,7 +51,7 @@ serve <- function(REQDATA){
       hash <- generate_hash()
       tmp <- file.path(tempdir(), hash)      
       dir.create(tmp)
-      on.exit(stopifnot(file.rename(file.path(mytmp, "ocpu_session"), sessiondir(hash))))
+      on.exit(stopifnot(file.rename(file.path(mytmp, "workspace"), sessiondir(hash))))
       normalizePath(tmp)
     } else {
       normalizePath(tempdir())
