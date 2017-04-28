@@ -2,9 +2,8 @@ main <- function(REQDATA){
   #load config (in case of eval_psock)
   loadconfigs();
   
-  #for some reason this creates RNG collisions on rapache
-  #myseed <- (unclass(Sys.time())*1e9 + Sys.getpid()) %% 1e9;
-  #set.seed(myseed);
+  #randomize state within the forks
+  set.seed(sum(256 ^ (0:2) * as.numeric(openssl::rand_bytes(3))))
 
   #To be sure. Note that POST requests will eventually switch to a session dir.
   setwd(tempdir()); 

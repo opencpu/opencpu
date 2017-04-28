@@ -51,10 +51,7 @@ serve <- function(REQDATA){
       hash <- generate_hash()
       tmp <- file.path(tempdir(), hash)      
       dir.create(tmp)
-      on.exit({
-        if(!file.rename(file.path(mytmp, "ocpu_session"), sessiondir(hash)))
-          stop(sprintf("Failed to move %s to %s\n", file.path(mytmp, "ocpu_session"), sessiondir(hash)))
-      })
+      on.exit(stopifnot(file.rename(file.path(mytmp, "ocpu_session"), sessiondir(hash))))
       normalizePath(tmp)
     } else {
       normalizePath(tempdir())
