@@ -1,7 +1,7 @@
 load_session_namespaces <- function(expr){
   all_sessions <- unique(grep(session_regex(), findnamespaces(expr), value = TRUE))
   lapply(all_sessions, function(key){
-    filepath <- file.path(session$sessiondir(key), ".RData");
+    filepath <- file.path(sessiondir(key), ".RData");
     errorifnot(file.exists(filepath), paste("Session not found:", key));
     myenv <- new.env();
     load(filepath, envir=myenv);

@@ -7,33 +7,11 @@ session_regex <- function(){
 #' @importFrom openssl rand_bytes
 session <- local({
 
-  #generates a random session hash
-  generate <- function(){
-    while(file.exists(sessiondir(
-      hash <- paste0("x0", substring(paste(rand_bytes(config("key.length")), collapse=""), 1, config("key.length")))
-    ))){}
-    hash
-  }
-
-  #copies a session dir
-  fork <- function(oldhash){
-    olddir <- sessiondir(oldhash);
-    forkdir <- tempfile("fork_dir");
-    stopifnot(dir.create(forkdir));
-    file.copy(olddir, forkdir, recursive=TRUE);
-    stopifnot(identical(list.files(forkdir), basename(olddir)));
-
-    newhash <- generate();
-    newdir <- sessiondir(newhash);
-    stopifnot(file.rename(list.files(forkdir, full.names=TRUE), newdir));
-    newhash
-  }
-
   #evaluates something inside a session
   eval <- function(input, args, storeval=FALSE, format="list"){
 
     #create a temporary dir
-    execdir <- tempfile("ocpu_session_");
+    execdir <- file.path(tempdir(), "ocpu_session");
     stopifnot(dir.create(execdir));
     setwd(execdir);
 
@@ -71,7 +49,7 @@ session <- local({
     sessionenv <- new.env(parent=args);
 
     #need to do this before evaluate, in case evaluate uses set.seed
-    hash <- generate();
+    hash <- basename(tempdir())
     
     # This is used by 'evaluate'
     options(device = function(file, width, height, paper, ...){
@@ -95,22 +73,6 @@ session <- local({
     saveRDS(.libPaths(), file=".Rlibs", compress=FALSE);
     saveDESCRIPTION(hash)
 
-    #does not work on windows
-    #stopifnot(file.rename(execdir, sessiondir(hash)));
-
-    #store results permanently
-    outputdir <- sessiondir(hash);
-
-    #First try renaming to destionation directory
-    if(!isTRUE(file.rename(execdir, outputdir))){
-      #When rename fails, try copying instead
-      suppressWarnings(dir.create(dirname(outputdir)));
-      stopifnot(file.copy(execdir, dirname(outputdir), recursive=TRUE));
-      setwd(dirname(outputdir));
-      stopifnot(file.rename(basename(execdir), basename(outputdir)));
-      unlink(execdir, recursive=TRUE);
-    }
-
     #Shortcuts to get object immediately
     if(format %in% c("json", "print", "pb")){
       sendobject(hash, get(".val", sessionenv), format);
@@ -118,7 +80,7 @@ session <- local({
       sendobject(hash, extract(output, format), "text");
     } else {
       #default: send 201 with output list.
-      sendlist(hash)
+      sendlist(execdir)
     }
   }
 
@@ -131,11 +93,12 @@ session <- local({
   }
 
   #redirects the client to the session location
-  sendlist <- function(hash){
+  sendlist <- function(execdir){
+    hash <- basename(tempdir())
     tmppath <- sessionpath(hash);
     path_absolute <- paste0(req$uri(), tmppath, "/");
     path_relative <- paste0(req$mount(), tmppath, "/");
-    outlist <- index(sessiondir(hash));
+    outlist <- index(execdir);
     text <- paste(path_relative, outlist, sep="", collapse="\n");
     res$setheader("Content-Type", 'text/plain; charset=utf-8');
     res$setheader("X-ocpu-session", hash)
@@ -198,21 +161,6 @@ session <- local({
     }
 
     return(outlist);
-  }
-
-  #actual directory
-  sessiondir <- function(hash){
-    file.path(gettmpdir(), "tmp_library", hash);
-  }
-
-  #http path for a session (not actual file path!)
-  sessionpath <- function(hash){
-    paste("/tmp/", hash, sep="");
-  }
-
-  #test if a dir is a session
-  issession <- function(mydir){
-    any(file.exists(file.path(mydir, c(".RData", ".REval"))));
   }
 
   environment();

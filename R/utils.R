@@ -101,3 +101,25 @@ islazydata <- function(x, ns){
   exists(x, ns, inherits=FALSE) && 
     identical("lazyLoadDBfetch", deparse(eval(call("substitute", as.name(x), ns))[[1]]))
 }
+
+generate_hash <- function(){
+  while(file.exists(sessiondir(
+    hash <- paste0("x0", substring(paste(rand_bytes(config("key.length")), collapse=""), 1, config("key.length")))
+  ))){}
+  hash
+}
+
+#actual directory
+sessiondir <- function(hash){
+  file.path(gettmpdir(), "tmp_library", hash);
+}
+
+#http path for a session (not actual file path!)
+sessionpath <- function(hash){
+  paste("/tmp/", hash, sep="");
+}
+
+#test if a dir is a session
+issession <- function(mydir){
+  any(file.exists(file.path(mydir, c(".RData", ".REval"))));
+}

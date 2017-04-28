@@ -46,14 +46,14 @@ reshandler <- function(e){
       status = attr(e, "status"),
       body = attr(e, "body"),
       headers = attr(e, "headers")
-    );
+    )
   } else {
     #error response
     response <- list(
       status = 400L,
       body = error2file(e),
       headers = list("Content-Type" = 'text/plain; charset=utf-8')
-    );
+    )
   }
   
   #add CORS header

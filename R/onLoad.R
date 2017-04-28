@@ -3,6 +3,8 @@ packagename = "";
 .onLoad <- function(lib, pkg){
   packagename <<- pkg;
   
+  dir.create(file.path(gettmpdir(), "tmp_library"), showWarnings = FALSE)
+  
   if(isTRUE(getOption("rapache"))){
     is_rapache(TRUE)
   }

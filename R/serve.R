@@ -31,10 +31,26 @@ serve <- function(REQDATA){
   }
 
   limits <- c(
-    cpu = timeout + 3, 
-    as = config("rlimit.as"), 
-    fsize = config("rlimit.fsize"), 
+    cpu = timeout + 3,
+    as = config("rlimit.as"),
+    fsize = config("rlimit.fsize"),
     nproc = nproc
   )
-  return(request(sys::eval_safe(main(REQDATA), timeout = timeout, profile = profile, rlimits = limits)))
+  
+  # TODO: if(HTTP_POST)
+  # Generate session key 'x'
+  # Set tempdir 'mytmp' (define in parent proc)
+  # Now run:
+  hash <- generate_hash()
+  request({
+    mytmp <- if(REQDATA$METHOD == "POST"){
+      tmp <- file.path(tempdir(), hash)      
+      dir.create(tmp)
+      on.exit(stopifnot(file.rename(file.path(mytmp, "ocpu_session"), sessiondir(hash))))
+      normalizePath(tmp)
+    } else {
+      normalizePath(tempdir())
+    }
+    sys::eval_safe(main(REQDATA), tmp = mytmp, timeout = as.numeric(timeout), profile = profile, rlimits = limits)
+  })
 }
