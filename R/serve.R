@@ -54,7 +54,11 @@ serve <- function(REQDATA){
       hash <- generate_hash()
       tmp <- file.path(tempdir(), hash)      
       dir.create(tmp)
-      on.exit(stopifnot(file.rename(file.path(mytmp, "workspace"), sessiondir(hash))))
+      # Note: some POST requests such as webhook do not have a workspace
+      on.exit({
+        if(file.exists(file.path(mytmp, "workspace")))
+          stopifnot(file.rename(file.path(mytmp, "workspace"), sessiondir(hash)))
+      })
       normalizePath(tmp)
     } else {
       normalizePath(tempdir())
