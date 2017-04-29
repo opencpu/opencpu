@@ -6,8 +6,7 @@ github_install <- function(repo, username, ref = "master", args = NULL, upgrade_
   all_args$ref <- ref;
 
   #github libraries
-  githublib <- file.path(gettmpdir(), "github_library");
-  gitpath <- file.path(githublib, paste("ocpu_github", username, repo, sep="_"));
+  gitpath <- github_userlib(username, repo)
 
   #install from github
   gittmpdir <- tempfile("githubdir");
