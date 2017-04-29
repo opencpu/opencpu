@@ -30,8 +30,8 @@ respond <- function(status = 503L, body=NULL, headers=list()){
 
 	e <- structure(
     list(
-      message="ocpu success",
-      call=NULL
+      message = "ocpu success",
+      call = NULL
     ),
     class=c("error", "condition", "ocpu_response"),
     status = status,
