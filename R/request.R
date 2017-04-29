@@ -21,8 +21,9 @@ respond <- function(status = 503L, body=NULL, headers=list()){
     stop("respond was called with invalid headers argument.");
   }
 
-  # Move response file into main tempdir (session tempdir() will be wiped)
-  if(grepl("x0[a-f0-9]{6,}", basename(dirname(body)))) {
+  # Move temporary response file into main tempdir (session tmpdir will be wiped)
+  if(grepl("x0[a-f0-9]{6,}", basename(dirname(body))) &&
+     normalizePath(dirname(body)) == normalizePath(tempdir())) {
     tmp <- tempfile(tmpdir = dirname(tempdir()))
     stopifnot(file.copy(body, tmp))
     body <- tmp
