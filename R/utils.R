@@ -19,7 +19,7 @@ printwithmax <- function(..., max.print = getOption("max.print")){
 setLibPaths <- function(newlibs, baselib = TRUE){
   checkfordir <- function(path){
     return(isTRUE(file.info(path)$isdir));
-  }  
+  }
   if(baselib){
     baselibpath <- file.path(Sys.getenv("R_HOME"), "library");
     newlibs <- unique(c(newlibs, baselibpath));
@@ -65,14 +65,12 @@ address <- function(name, mail){
   paste0('"', name, '"<', mail, '>');
 }
 
-error2file <- function(e){
-  mytempfile <- tempfile();
+errbuf <- function(e){
   errmsg <- e$message;
   if(isTRUE(config("error.showcall")) && !is.null(e$call)){
     errmsg <- c(errmsg, "", "In call:", deparse(e$call));
   }
-  write(errmsg, mytempfile);
-  return(mytempfile)  
+  charToRaw(paste(errmsg, collapse = "\n"))
 }
 
 errorif <- function(condition, msg){
@@ -98,7 +96,7 @@ is_mac <- function(){
 }
 
 islazydata <- function(x, ns){
-  exists(x, ns, inherits=FALSE) && 
+  exists(x, ns, inherits=FALSE) &&
     identical("lazyLoadDBfetch", deparse(eval(call("substitute", as.name(x), ns))[[1]]))
 }
 

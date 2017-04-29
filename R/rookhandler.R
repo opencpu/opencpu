@@ -2,24 +2,24 @@
 rookhandler <- function(rootpath){
   #load opencpu configuration
   loadconfigs(preload=TRUE)
-  
+
   #handler
   function(env){
     #preprocess
     if(!grepl(paste0("^", rootpath), env[["PATH_INFO"]])){
       return(list(
-        status = 404, 
-        headers = list("X-ocpu-server"="rook/httpuv"), 
+        status = 404,
+        headers = list("X-ocpu-server"="rook/httpuv"),
         body = paste("Invalid URL:", env[["PATH_INFO"]], "\nTry:", rootpath, "\n")
       ))
     } else {
       env[["PATH_INFO"]] <- sub(paste0("^", rootpath), "", env[["PATH_INFO"]])
     }
-      
+
     #do some Rook processing
-    GET <- webutils::parse_query(env[["QUERY_STRING"]]);  
+    GET <- webutils::parse_query(env[["QUERY_STRING"]]);
     RAWPOST <- list()
-    
+
     #parse POST request body
     if((env[["REQUEST_METHOD"]] %in% c("POST", "PUT")) && (env$CONTENT_LENGTH > 0)){
       input <- env[["rook.input"]]
@@ -31,13 +31,13 @@ rookhandler <- function(rootpath){
     } else {
       MYRAW <- NULL
     }
-    
+
     #reconstruct the full URL
     scheme <- env[["rook.url_scheme"]]
     hostport <- env[["HTTP_HOST"]]
     mount <- paste0(env[["SCRIPT_NAME"]], rootpath)
     fullmount <- paste0(scheme, "://", hostport, mount)
-    
+
     #collect data from Rook
     REQDATA <- list(
       METHOD = env[["REQUEST_METHOD"]],
@@ -48,8 +48,8 @@ rookhandler <- function(rootpath){
       RAW = MYRAW,
       CTYPE = env[["CONTENT_TYPE"]],
       ACCEPT = env[["HTTP_ACCEPT"]]
-    );  
-    
+    );
+
     #call method
   	response <- serve(REQDATA);
 
@@ -57,14 +57,13 @@ rookhandler <- function(rootpath){
     if(identical(response$headers[["Access-Control-Allow-Origin"]], "*") && length(env[["HTTP_ORIGIN"]])){
       response$headers[["Access-Control-Allow-Origin"]] <- env[["HTTP_ORIGIN"]]
     }
-    
-    #we always assume a file
-    stopifnot(file.exists(response$body))
-    response$body = list(file = response$body)
-    
+
+    # response must be file path or raw
+    stopifnot(is.raw(response$body))
+
     #set server header
     response$headers["X-ocpu-server"] <- "rook/httpuv"
-    
+
   	#return output
   	return(response)
   }

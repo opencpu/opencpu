@@ -21,14 +21,6 @@ respond <- function(status = 503L, body=NULL, headers=list()){
     stop("respond was called with invalid headers argument.");
   }
 
-  # Move temporary response file into main tempdir (session tmpdir will be wiped)
-  if(grepl("x0[a-f0-9]{6,}", basename(dirname(body))) &&
-     normalizePath(dirname(body)) == normalizePath(tempdir())) {
-    tmp <- tempfile(tmpdir = dirname(tempdir()))
-    stopifnot(file.copy(body, tmp))
-    body <- tmp
-  }
-
 	e <- structure(
     list(
       message = "ocpu success",
@@ -45,21 +37,19 @@ respond <- function(status = 503L, body=NULL, headers=list()){
 
 reshandler <- function(e){
 
-  #reset timer in case of error
-  setTimeLimit();
-
   #process response
   response <- if(inherits(e, "ocpu_response")){
+    # success resopnse
     list(
+      body = readBin(attr(e, "body"), raw(), file.info(attr(e, "body"))$size),
       status = attr(e, "status"),
-      body = attr(e, "body"),
       headers = attr(e, "headers")
     )
   } else {
     #error response
     list(
       status = 400L,
-      body = error2file(e),
+      body = errbuf(e),
       headers = list("Content-Type" = 'text/plain; charset=utf-8')
     )
   }

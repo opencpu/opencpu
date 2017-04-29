@@ -1,13 +1,13 @@
 rapachehandler <- function(){
-  
+
   #Fix for case insensitive headers
   reqheaders <- getrapache("SERVER")$headers_in;
   names(reqheaders) <- tolower(names(reqheaders));
-  
+
   #Note getrapache("POST") before internals("postParsed") to evaluate the promise.
   if(isTRUE(
-    getrapache("SERVER")$method %in% c("POST", "PUT") && 
-    !length(getrapache("POST")) && 
+    getrapache("SERVER")$method %in% c("POST", "PUT") &&
+    !length(getrapache("POST")) &&
     !isTRUE(getrapache("SERVER")$internals("postParsed"))
   )){
     #Post has not been parsed by apreq
@@ -26,7 +26,7 @@ rapachehandler <- function(){
     NEWFILES <- getrapache("FILES");
     NEWPOST[names(NEWFILES)] <- NULL;
   }
-  
+
   #reconstruct the full URL
   scheme <- ifelse(isTRUE(getrapache("SERVER")$HTTPS), "https", "http");
   host <- reqheaders[["host"]];
@@ -46,22 +46,22 @@ rapachehandler <- function(){
     CTYPE = reqheaders[["content-type"]],
     ACCEPT = reqheaders[["accept"]]
   );
-    
-  #select method to parse request in a trycatch 
+
+  #select method to parse request in a trycatch
   tmpnull <- tempfile();
   sink(tmpnull);
   response <- serve(REQDATA);
   sink();
   unlink(tmpnull);
-  
-  #set server header  
-  response$headers["X-ocpu-server"] <- "rApache";      
+
+  #set server header
+  response$headers["X-ocpu-server"] <- "rApache";
 
   #hack for cors support
   if(identical(response$headers[["Access-Control-Allow-Origin"]], "*") && length(reqheaders[["origin"]])){
     response$headers[["Access-Control-Allow-Origin"]] <- reqheaders[["origin"]]
   }
-  
+
   #set status code
   getrapache("setStatus")(response$status);
 
@@ -71,13 +71,14 @@ rapachehandler <- function(){
     if(identical(names(headerlist[i]), "Content-Type")){
       getrapache("setContentType")(headerlist[[i]]);
     } else {
-      getrapache("setHeader")(names(headerlist[i]), headerlist[[i]]);          
+      getrapache("setHeader")(names(headerlist[i]), headerlist[[i]]);
     }
   }
-    
-  #send buffered body
-  getrapache("sendBin")(readBin(response$body,'raw',n=file.info(response$body)$size));
+
+  # response must be raw vector
+  stopifnot(is.raw(response$body))
+  getrapache("sendBin")(response$body)
 
   #return
-  return(getrapache("OK"));
+  return(getrapache("OK"))
 }
