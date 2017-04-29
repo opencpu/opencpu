@@ -5,6 +5,9 @@ github_install <- function(repo, username, ref = "master", args = NULL, upgrade_
   all_args$repo <- paste(username, repo, sep="/");
   all_args$ref <- ref;
 
+  #updates even if same version is installed already (in another lib)
+  all_args$force <- TRUE
+
   #github libraries
   gitpath <- github_userlib(username, repo)
 
