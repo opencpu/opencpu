@@ -3,9 +3,6 @@
 # - currently multipart POST is not supported
 # - there is a bug in rhttpd when doing POST/PUT with body content-length:0
 rhttpdhandler <- function(rootpath){
-  #load opencpu configuration
-  loadconfigs(preload=TRUE);
-
   #handler
   function(reqpath, reqquery, reqbody, reqheaders){
 

@@ -1,8 +1,5 @@
 #' @importFrom webutils parse_query
 rookhandler <- function(rootpath){
-  #load opencpu configuration
-  loadconfigs(preload=TRUE)
-
   #handler
   function(env){
     #preprocess
