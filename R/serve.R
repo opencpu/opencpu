@@ -42,7 +42,7 @@ serve <- function(REQDATA){
 
   ocpu_grdev <- function(file, width, height, paper, ...){
     grDevices::pdf(NULL, width = 11.69, height = 8.27, paper = "A4r", ...)
-    par("bg" = "white")
+    graphics::par("bg" = "white")
   }
 
   # RApache (cloud server) runs request in a fork, saves workding dir and wipes tmpdir afterwards
