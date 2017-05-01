@@ -71,7 +71,7 @@ opencpu <- local({
     }
 
     #check that a config file is available
-    createconfigfile();
+    create_home_config();
 
     #start cluster
     cluster <- parallel::makePSOCKcluster(1);
