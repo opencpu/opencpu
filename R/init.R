@@ -20,14 +20,6 @@ ocpu_store <-function(){
 }
 
 ocpu_init <- function(){
-  # Find configuration file
-  loadconfigs(preload = TRUE)
-
-  # Set the initial root dir
-  TMPROOTDIR <<- tryCatch(config("tempdir"), error = function(e){
-    ifelse(is_rapache(), "/tmp", tempdir())
-  })
-
   # Check for cloud server options
   if(isTRUE(getOption("rapache"))){
     is_rapache(TRUE)
@@ -40,6 +32,14 @@ ocpu_init <- function(){
   if(isTRUE(getOption("no_rapparmor"))){
     no_rapparmor(TRUE)
   }
+
+  # Find configurations
+  loadconfigs(preload = TRUE)
+
+  # Set the initial root dir
+  TMPROOTDIR <<- tryCatch(config("tempdir"), error = function(e){
+    ifelse(is_rapache(), "/tmp", tempdir())
+  })
 
   # Create temporary directories
   dir.create(ocpu_temp(), showWarnings = FALSE, recursive = TRUE, mode = "0777")
