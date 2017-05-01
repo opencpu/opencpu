@@ -102,10 +102,6 @@ islazydata <- function(x, ns){
     identical("lazyLoadDBfetch", deparse(eval(call("substitute", as.name(x), ns))[[1]]))
 }
 
-generate_hash <- function(){
-  paste0("x0", substring(paste(rand_bytes(config("key.length")), collapse=""), 1, config("key.length")))
-}
-
 #actual directory
 sessiondir <- function(hash){
   file.path(ocpu_store(), hash);

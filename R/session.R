@@ -1,14 +1,36 @@
-#create the regex to identify session keys
+#' @importFrom openssl rand_bytes
+generate_hash <- function(){
+  paste0("x0", substring(paste(rand_bytes(config("key.length")), collapse=""), 1, config("key.length")))
+}
 
 session_regex <- function(){
   paste0("^x[0-9a-f]{", config("key.length") + 1, "}$")
 }
 
-#' @importFrom openssl rand_bytes
-session <- local({
+session_eval <- local({
+  sendobject <- function(hash, obj, format){
+    tmppath <- sessionpath(hash);
+    outputpath <- paste0(req$uri(), tmppath, "/");
+    res$setheader("Location", outputpath);
+    res$setheader("X-ocpu-session", hash)
+    httpget_object(obj, format, "object");
+  }
+
+  #redirects the client to the session location
+  sendlist <- function(execdir){
+    hash <- basename(tempdir())
+    tmppath <- sessionpath(hash);
+    path_absolute <- paste0(req$uri(), tmppath, "/");
+    path_relative <- paste0(req$mount(), tmppath, "/");
+    outlist <- session_index(execdir);
+    text <- paste(path_relative, outlist, sep="", collapse="\n");
+    res$setheader("Content-Type", 'text/plain; charset=utf-8');
+    res$setheader("X-ocpu-session", hash)
+    res$redirect(path_absolute, 201, text)
+  }
 
   #evaluates something inside a session
-  eval <- function(input, args, storeval=FALSE, format="list"){
+  function(input, args, storeval=FALSE, format="list"){
 
     #create a temporary dir
     execdir <- file.path(tempdir(), "workspace");
@@ -53,7 +75,7 @@ session <- local({
 
     # In OpenCPU 1.x this was executed inside another fork with a stricter apparmor profile
     output <- evaluate::evaluate(input = input, envir = sessionenv, stop_on_error = 2, output_handler = myhandler);
-    
+
     #in case code changed dir
     setwd(execdir)
 
@@ -77,85 +99,62 @@ session <- local({
       sendlist(execdir)
     }
   }
+})
 
-  sendobject <- function(hash, obj, format){
-    tmppath <- sessionpath(hash);
-    outputpath <- paste0(req$uri(), tmppath, "/");
-    res$setheader("Location", outputpath);
-    res$setheader("X-ocpu-session", hash)
-    httpget_object(obj, format, "object");
+#get a list of the contents of the current session
+session_index <- function(filepath){
+
+  #verify session exists
+  stopifnot(issession(filepath))
+
+  #set the dir
+  setwd(filepath)
+
+  #outputs
+  outlist <- vector();
+
+  #list data files
+  if(file.exists(".RData")){
+    myenv <- new.env();
+    load(".RData", myenv);
+    if(length(ls(myenv, all.names=TRUE))){
+      outlist <- c(outlist, paste("R", ls(myenv, all.names=TRUE), sep="/"));
+    }
   }
 
-  #redirects the client to the session location
-  sendlist <- function(execdir){
-    hash <- basename(tempdir())
-    tmppath <- sessionpath(hash);
-    path_absolute <- paste0(req$uri(), tmppath, "/");
-    path_relative <- paste0(req$mount(), tmppath, "/");
-    outlist <- index(execdir);
-    text <- paste(path_relative, outlist, sep="", collapse="\n");
-    res$setheader("Content-Type", 'text/plain; charset=utf-8');
-    res$setheader("X-ocpu-session", hash)
-    res$redirect(path_absolute, 201, text)
+  #list eval files
+  if(file.exists(".REval")){
+    myeval <- readRDS(".REval");
+    if(length(extract(myeval, "graphics"))){
+      outlist <- c(outlist, paste("graphics", seq_along(extract(myeval, "graphics")), sep="/"));
+    }
+    if(length(extract(myeval, "message"))){
+      outlist <- c(outlist, "messages");
+    }
+    if(length(extract(myeval, "text"))){
+      outlist <- c(outlist, "stdout");
+    }
+    if(length(extract(myeval, "warning"))){
+      outlist <- c(outlist, "warnings");
+    }
+    if(length(extract(myeval, "source"))){
+      outlist <- c(outlist, "source");
+    }
+    if(length(extract(myeval, "console"))){
+      outlist <- c(outlist, "console");
+    }
   }
 
-  #get a list of the contents of the current session
-  index <- function(filepath){
-
-    #verify session exists
-    stopifnot(issession(filepath))
-
-    #set the dir
-    setwd(filepath)
-
-    #outputs
-    outlist <- vector();
-
-    #list data files
-    if(file.exists(".RData")){
-      myenv <- new.env();
-      load(".RData", myenv);
-      if(length(ls(myenv, all.names=TRUE))){
-        outlist <- c(outlist, paste("R", ls(myenv, all.names=TRUE), sep="/"));
-      }
-    }
-
-    #list eval files
-    if(file.exists(".REval")){
-      myeval <- readRDS(".REval");
-      if(length(extract(myeval, "graphics"))){
-        outlist <- c(outlist, paste("graphics", seq_along(extract(myeval, "graphics")), sep="/"));
-      }
-      if(length(extract(myeval, "message"))){
-        outlist <- c(outlist, "messages");
-      }
-      if(length(extract(myeval, "text"))){
-        outlist <- c(outlist, "stdout");
-      }
-      if(length(extract(myeval, "warning"))){
-        outlist <- c(outlist, "warnings");
-      }
-      if(length(extract(myeval, "source"))){
-        outlist <- c(outlist, "source");
-      }
-      if(length(extract(myeval, "console"))){
-        outlist <- c(outlist, "console");
-      }
-    }
-
-    #list eval files
-    if(file.exists(".RInfo")){
-      outlist <- c(outlist, "info");
-    }
-
-    #other files
-    sessionfiles <- file.path("files", list.files(recursive=TRUE))
-    if(length(sessionfiles)){
-      outlist <- c(outlist, sessionfiles)
-    }
-
-    return(outlist);
+  #list eval files
+  if(file.exists(".RInfo")){
+    outlist <- c(outlist, "info");
   }
 
-  environment();
-});
+  #other files
+  sessionfiles <- file.path("files", list.files(recursive=TRUE))
+  if(length(sessionfiles)){
+    outlist <- c(outlist, sessionfiles)
+  }
+
+  return(outlist);
+}
