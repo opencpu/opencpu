@@ -34,7 +34,7 @@ ocpu_init <- function(){
   }
 
   # Find configurations
-  loadconfigs(preload = TRUE)
+  load_config_and_settings(preload = TRUE)
 
   # Set the initial root dir
   TMPROOTDIR <<- tryCatch(config("tempdir"), error = function(e){

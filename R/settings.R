@@ -1,4 +1,4 @@
-loadconfigs <- local({
+load_config_and_settings <- local({
   #only do this once per package load
   opencpu_is_initiated = FALSE;
 
