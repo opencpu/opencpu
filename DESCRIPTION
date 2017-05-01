@@ -17,16 +17,16 @@ Imports:
     devtools (>= 1.9.1),
     sys (>= 1.3),
     webutils (>= 0.5),
-    curl,
+    curl (>= 2.4),
     mime,
     protolite,
     brew,
     openssl,
+    pander
 Suggests:
     unix (>= 1.3),
     feather,
     sendmailR,
-    pander,
     R.rsp
 SystemRequirements: pandoc, apparmor (optional)
 VignetteBuilder: knitr, R.rsp
