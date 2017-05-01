@@ -2,7 +2,6 @@
 
 S3method(print,opencpu)
 S3method(print,rhttpd)
-export(cleanup)
 export(opencpu)
 export(rhttpd)
 importFrom(evaluate,evaluate)

@@ -1,3 +1,5 @@
+packagename = "opencpu"
+
 write_to_file <- function(...){
   mytempfile <- tempfile();
   mytext <- eval(...)
@@ -101,15 +103,12 @@ islazydata <- function(x, ns){
 }
 
 generate_hash <- function(){
-  while(file.exists(sessiondir(
-    hash <- paste0("x0", substring(paste(rand_bytes(config("key.length")), collapse=""), 1, config("key.length")))
-  ))){}
-  hash
+  paste0("x0", substring(paste(rand_bytes(config("key.length")), collapse=""), 1, config("key.length")))
 }
 
 #actual directory
 sessiondir <- function(hash){
-  file.path(gettmpdir(), "tmp_library", hash);
+  file.path(ocpu_store(), hash);
 }
 
 #http path for a session (not actual file path!)

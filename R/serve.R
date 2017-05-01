@@ -48,7 +48,7 @@ serve <- function(REQDATA){
   # RApache (cloud server) runs request in a fork, saves workding dir and wipes tmpdir afterwards
   request({
     hash <- generate_hash()
-    tmp <- file.path(tempdir(), hash)
+    tmp <- file.path(ocpu_temp(), hash)
     dir.create(tmp)
     mytmp <- normalizePath(tmp)
     if(REQDATA$METHOD == "POST"){
