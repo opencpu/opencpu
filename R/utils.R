@@ -132,6 +132,8 @@ stop <- function(..., call. = FALSE, domain = NULL){
 # This function is never called
 # It only suprresses the "Namespaces in Imports field not imported from:" check
 stub <- function(){
+  curl::curl_fetch_memory()
+  pander::pander()
   devtools::install_github()
   brew::brew()
   httpuv::runServer()

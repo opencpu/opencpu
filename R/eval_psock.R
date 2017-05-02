@@ -1,8 +1,8 @@
 # This is very similar to parallel::clusterEvalQ() with a single node
 eval_psock <- function(expr, envir = parent.frame(), timeout = 60){
   # imports
-  sendCall <- getFromNamespace('sendCall', 'parallel')
-  recvResult <- getFromNamespace('recvResult', 'parallel')
+  sendCall <- utils::getFromNamespace('sendCall', 'parallel')
+  recvResult <- utils::getFromNamespace('recvResult', 'parallel')
 
   #create a child process
   cluster <- parallel::makePSOCKcluster(1)
@@ -32,5 +32,5 @@ eval_psock <- function(expr, envir = parent.frame(), timeout = 60){
 # should take more than 5 sec
 test_eval_psock <- function(len = 10000){
   n <- len^2
-  eval_psock(svd(matrix(rnorm(n), len)), timeout = 5);
+  eval_psock(svd(matrix(stats::rnorm(n), len)), timeout = 5);
 }

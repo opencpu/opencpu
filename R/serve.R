@@ -17,7 +17,7 @@ serve <- function(REQDATA){
       }, add = TRUE)
       on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
       return(tryCatch({
-        eval_psock(opencpu:::request(opencpu:::main(data)), list(data = REQDATA), timeout = config("timelimit.post"))
+        eval_psock(opencpu:::request(opencpu:::main(REQDATA)), list(REQDATA = REQDATA), timeout = config("timelimit.post"))
       }, error = reshandler)) #extra error catching shouldn't be needed but just in case
     }
   }
