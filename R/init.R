@@ -38,7 +38,10 @@ ocpu_init <- function(){
 
   # Set the initial root dir
   TMPROOTDIR <<- tryCatch(config("tempdir"), error = function(e){
-    ifelse(is_rapache(), "/tmp", tempdir())
+    if(is_rapache())
+      return("/tmp")
+    worker_home <- Sys.getenv("OCPU_WORKER_HOME", NA)
+    ifelse(is.na(worker_home), tempdir(), dirname(dirname(worker_home)))
   })
 
   # Create temporary directories
