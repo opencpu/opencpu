@@ -40,6 +40,8 @@ ocpu_init <- function(){
   TMPROOTDIR <<- tryCatch(config("tempdir"), error = function(e){
     if(is_rapache())
       return("/tmp")
+
+    # This variable gets set by the parent process when using eval_psock()
     worker_home <- Sys.getenv("OCPU_WORKER_HOME", NA)
     ifelse(is.na(worker_home), tempdir(), dirname(dirname(worker_home)))
   })
