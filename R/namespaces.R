@@ -1,13 +1,20 @@
-load_session_namespaces <- function(expr){
-  all_sessions <- unique(grep(session_regex(), findnamespaces(expr), value = TRUE))
-  lapply(all_sessions, function(key){
+attach_sessions <- function(){
+  lapply(req$session_keys(), function(key){
     filepath <- file.path(sessiondir(key), ".RData");
     errorifnot(file.exists(filepath), paste("Session not found:", key));
     myenv <- new.env();
     load(filepath, envir=myenv);
     env2ns(key, myenv, lib=dirname(dirname(filepath)))
   })
-  all_sessions
+}
+
+collect_session_keys <- function(expr){
+  all_sessions <- unique(grep(session_regex(), findnamespaces(expr), value = TRUE))
+  lapply(all_sessions, function(key){
+    filepath <- file.path(sessiondir(key), ".RData");
+    errorifnot(file.exists(filepath), paste("Session not found:", key))
+  })
+  req$add_session_keys(all_sessions)
 }
 
 unload_session_namespaces <- function(){
@@ -37,7 +44,7 @@ findnamespaces <- function(expr){
   }
   if(!is.name(expr) && !is.atomic(expr)){
     for(i in seq_along(expr)){
-      namespaces <- c(namespaces, findnamespaces(expr[[i]]))     
+      namespaces <- c(namespaces, findnamespaces(expr[[i]]))
     }
   }
   return(unique(namespaces))
@@ -45,7 +52,7 @@ findnamespaces <- function(expr){
 
 # This function is contained within from base::loadNamespace.
 # It is also available in devtools and namespace. Initially we
-# were importing it from the namespace package to avoid 
+# were importing it from the namespace package to avoid
 # warnings, but that seems a bit silly. Lets try this.
 makeNamespace <- function(name, version = NULL, lib = NULL) {
   impenv <- new.env(parent = .BaseNamespaceEnv, hash = TRUE)

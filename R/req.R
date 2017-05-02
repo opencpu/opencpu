@@ -1,58 +1,66 @@
 #simple closure store for request data
 req <- local({
   state = NULL;
-  
+
   init <- function(reqdata){
     state <<- reqdata;
   };
-  
+
   reset <- function(){
     init(NULL);
   }
-  
+
   getvalue <- function(name){
     if(is.null(state)){
       stop("req not initiated.")
     }
     return(state[[name]]);
   };
-  
+
   method <- function(){
     getvalue("METHOD");
   };
-  
+
   uri <- function(){
     #this will result in relative url redirects
     #return(mount())
-    
+
     #this will result in absolute url redirects
     return(fullmount())
   };
-  
+
   mount <- function(){
     getvalue("MOUNT");
   };
-  
+
   ctype <- function(){
     getvalue("CTYPE");
   };
-  
+
   accept <- function(){
     getvalue("ACCEPT")
   }
-  
+
   rawbody <- function(){
     getvalue("RAW")$body
   }
-  
+
   fullmount <- function(){
-    getvalue("FULLMOUNT");    
+    getvalue("FULLMOUNT");
   }
-  
+
   path_info <- function(){
     getvalue("PATH_INFO");
-  };  
-  
+  };
+
+  session_keys <- function(){
+    getvalue("SESSION_KEYS")
+  }
+
+  add_session_keys <- function(x){
+    state[["SESSION_KEYS"]] <<- c(state[["SESSION_KEYS"]], x)
+  }
+
   post <- function(){
     postvar = getvalue("POST");
     if(is.null(postvar)) {
@@ -60,7 +68,7 @@ req <- local({
     }
     return(postvar)
   };
-  
+
   get <- function(){
     getvar = getvalue("GET");
     if(is.null(getvar)) {
@@ -68,7 +76,7 @@ req <- local({
     }
     return(lapply(getvar, parse_arg_prim))
   };
-  
+
   args <- function(){
     if(method() %in% c("PUT", "POST")){
       return(post());
@@ -76,14 +84,14 @@ req <- local({
       return(get());
     }
   };
-  
+
   files <- function(){
     filevar = getvalue("FILES");
     if(is.null(filevar)) {
       filevar = list();
     }
-    return(filevar)      
+    return(filevar)
   };
-  
+
   environment();
 });

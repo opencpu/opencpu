@@ -42,6 +42,9 @@ session_eval <- local({
       stopifnot(file.copy(x$tmp_name, basename(x$name)))
     })
 
+    #load sessions namespaces
+    attach_sessions()
+
     # In OpenCPU 1.x this was executed inside another fork with a stricter apparmor profile
     output <- evaluate_input(input, args, storeval)
     sessionenv <- output$sessionenv

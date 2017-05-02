@@ -45,7 +45,7 @@ parse_arg <- function(x){
     if(length(myexpr) > 1 || (is.call(myexpr[[1]]) && identical(myexpr[[1]][[1]], quote(`=`)))){
       myexpr <- parse(text = paste("{", x, "}"), keep.source=FALSE);
     }
-    load_session_namespaces(myexpr)
+    collect_session_keys(myexpr)
     return(myexpr)
   }
 
@@ -62,7 +62,7 @@ parse_arg <- function(x){
     }
     #parse namespaced objects foo::bar
     if(is.call(myexpr[[1]]) && identical(myexpr[[1]][[1]], quote(`::`))){
-      load_session_namespaces(myexpr)
+      collect_session_keys(myexpr)
       return(myexpr)
     }
   }
