@@ -40,41 +40,11 @@ session_eval <- local({
     #copy files to execdir
     lapply(req$files(), function(x){
       stopifnot(file.copy(x$tmp_name, basename(x$name)))
-    });
-
-    #setup handler
-    myhandler <- evaluate::new_output_handler(value=function(myval, visible=TRUE){
-      if(isTRUE(storeval)){
-        assign(".val", myval, sessionenv);
-      }
-      if(isTRUE(visible)){
-        #note: print can be really, really slow
-        if(identical(class(myval), "list")){
-          cat("List of length ", length(myval), "\n");
-          cat(paste("[", names(myval), "]", sep="", collapse="\n"));
-        } else {
-          from("evaluate", "render")(myval);
-        }
-      }
-      invisible();
-    });
-
-    #create session for output objects
-    if(missing(args)){
-      args <- new.env(parent=globalenv())
-    } else {
-      args <- as.environment(args);
-      parent.env(args) <- globalenv();
-    }
-
-    #initiate environment
-    sessionenv <- new.env(parent=args);
-
-    #need to do this before evaluate, in case evaluate uses set.seed
-    hash <- basename(tempdir())
+    })
 
     # In OpenCPU 1.x this was executed inside another fork with a stricter apparmor profile
-    output <- evaluate::evaluate(input = input, envir = sessionenv, stop_on_error = 2, output_handler = myhandler);
+    output <- evaluate_input(input, args, storeval)
+    sessionenv <- output$sessionenv
 
     #in case code changed dir
     setwd(execdir)
@@ -83,8 +53,9 @@ session_eval <- local({
     unload_session_namespaces()
 
     #store output
+    hash <- basename(tempdir())
     save(file=".RData", envir=sessionenv, list=ls(sessionenv, all.names=TRUE), compress=FALSE);
-    saveRDS(output, file=".REval", compress=FALSE);
+    saveRDS(output$res, file=".REval", compress=FALSE);
     saveRDS(utils::sessionInfo(), file=".RInfo", compress=FALSE);
     saveRDS(.libPaths(), file=".Rlibs", compress=FALSE);
     saveDESCRIPTION(hash)
@@ -93,7 +64,7 @@ session_eval <- local({
     if(format %in% c("json", "print", "pb")){
       sendobject(hash, get(".val", sessionenv), format);
     } else if(format %in% c("console")) {
-      sendobject(hash, extract(output, format), "text");
+      sendobject(hash, extract(output$res, format), "text");
     } else {
       #default: send 201 with output list.
       sendlist(execdir)
