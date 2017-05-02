@@ -14,7 +14,7 @@ eval_psock <- function(expr, envir = parent.frame(), timeout = 60){
   on.exit({
     setTimeLimit(cpu = Inf, elapsed = Inf, transient = FALSE)
     parallel::stopCluster(cluster)
-    tools::pskill(pid) # Just in case
+    #tools::pskill(pid) # Just in case
   })
 
   #send the actual call. Make sure that packages get loaded.

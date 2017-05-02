@@ -8,7 +8,7 @@ session_regex <- function(){
 }
 
 session_eval <- local({
-  sendobject <- function(hash, obj, format){
+  preview_object <- function(hash, obj, format){
     tmppath <- sessionpath(hash);
     outputpath <- paste0(req$uri(), tmppath, "/");
     res$setheader("Location", outputpath);
@@ -17,8 +17,7 @@ session_eval <- local({
   }
 
   #redirects the client to the session location
-  sendlist <- function(execdir){
-    hash <- basename(tempdir())
+  preview_index <- function(hash, execdir){
     tmppath <- sessionpath(hash);
     path_absolute <- paste0(req$uri(), tmppath, "/");
     path_relative <- paste0(req$mount(), tmppath, "/");
@@ -32,10 +31,11 @@ session_eval <- local({
   #evaluates something inside a session
   function(input, args, storeval=FALSE, format="list"){
 
-    #create a temporary dir
-    execdir <- file.path(tempdir(), "workspace");
-    stopifnot(dir.create(execdir));
-    setwd(execdir);
+    #create workding directory
+    worker_home <- ifelse(is_rapache(), tempdir(), Sys.getenv('OCPU_WORKER_HOME'))
+    execdir <- file.path(worker_home, "workspace")
+    stopifnot(dir.create(execdir))
+    setwd(execdir)
 
     #copy files to execdir
     lapply(req$files(), function(x){
@@ -56,7 +56,7 @@ session_eval <- local({
     unload_session_namespaces()
 
     #store output
-    hash <- basename(tempdir())
+    hash <- basename(worker_home)
     save(file=".RData", envir=sessionenv, list=ls(sessionenv, all.names=TRUE), compress=FALSE);
     saveRDS(output$res, file=".REval", compress=FALSE);
     saveRDS(utils::sessionInfo(), file=".RInfo", compress=FALSE);
@@ -65,12 +65,12 @@ session_eval <- local({
 
     #Shortcuts to get object immediately
     if(format %in% c("json", "print", "pb")){
-      sendobject(hash, get(".val", sessionenv), format);
+      preview_object(hash, get(".val", sessionenv), format);
     } else if(format %in% c("console")) {
-      sendobject(hash, extract(output$res, format), "text");
+      preview_object(hash, extract(output$res, format), "text");
     } else {
       #default: send 201 with output list.
-      sendlist(execdir)
+      preview_index(hash, execdir)
     }
   }
 })

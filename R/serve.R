@@ -1,16 +1,24 @@
 serve <- function(REQDATA){
 
-  # Windows doesn't have fork / rapache
-  if(is_windows()){
+  # Windows / Mac don't support eval_fork() (OSX can segfault)
+  if(is_windows() || is_mac()){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
-      return(request(eval_current(main(REQDATA), timeout=config("timelimit.get"))));
+      return(request(eval_current(main(REQDATA), timeout = config("timelimit.get"))));
     } else {
-
-
-      # TO DO: set tmp = tempdir()/session/workspace like below
+      hash <- generate_hash()
+      tmp <- file.path(ocpu_temp(), hash)
+      stopifnot(dir.create(tmp))
+      mytmp <- normalizePath(tmp)
+      Sys.setenv("OCPU_WORKER_HOME" = mytmp)
+      on.exit(Sys.unsetenv("OCPU_WORKER_HOME"))
+      on.exit({
+        if(file.exists(file.path(mytmp, "workspace")))
+          stopifnot(file.rename(file.path(mytmp, "workspace"), sessiondir(hash)))
+      }, add = TRUE)
+      on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
       return(tryCatch({
-        eval_psock(get("request", envir=asNamespace("opencpu"))(get("main", envir=asNamespace("opencpu"))(REQDATA)), timeout=config("timelimit.post"));
-      }, error = reshandler));
+        eval_psock(opencpu:::request(opencpu:::main(REQDATA)), timeout = config("timelimit.post"))
+      }, error = reshandler)) #extra error catching shouldn't be needed but just in case
     }
   }
 
