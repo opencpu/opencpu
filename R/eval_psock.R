@@ -1,3 +1,4 @@
+# This is very similar to parallel::clusterEvalQ() with a single node
 eval_psock <- function(expr, envir = parent.frame(), timeout = 60){
   # imports
   sendCall <- getFromNamespace('sendCall', 'parallel')
