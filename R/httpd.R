@@ -30,10 +30,6 @@ ocpu_start <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL) 
   # worker pool
   pool <- list()
 
-  # On Linux we use forks instead of workers
-  if(!win_or_mac())
-    workers <- 0
-
   # add new workers if needed
   add_workers <- function(n = 1){
     if(length(pool) < workers){
@@ -81,7 +77,14 @@ ocpu_start <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL) 
 
   # Initiate worker pool
   log("OpenCPU single-user server, version %s", as.character(utils::packageVersion('opencpu')))
-  add_workers(workers)
+
+  # On Linux we use forks instead of workers
+  if(win_or_mac()){
+    add_workers(workers)
+    on.exit(kill_workers(structure(pool, class = c("SOCKcluster", "cluster"))), add = TRUE)
+  } else {
+    workers <- 0
+  }
 
   # Start the server
   server_id <- httpuv::startServer("0.0.0.0", port, app = rookhandler(root, run_worker))
@@ -93,7 +96,7 @@ ocpu_start <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL) 
     log("Stopping OpenCPU single-user server")
     httpuv::stopServer(server_id)
   }, add = TRUE)
-  on.exit(kill_workers(structure(pool, class = c("SOCKcluster", "cluster"))), add = TRUE)
+
 
   # Main loop
   repeat {
