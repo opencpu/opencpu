@@ -6,7 +6,8 @@
 \alias{ocpu}
 \title{OpenCPU Single-User Server}
 \usage{
-ocpu_start(port = 9999, root = "/ocpu", workers = 2, preload = NULL)
+ocpu_start(port = 9999, root = "/ocpu", workers = 2, preload = NULL,
+  on_startup = NULL)
 }
 \arguments{
 \item{port}{port number}
@@ -17,6 +18,8 @@ ocpu_start(port = 9999, root = "/ocpu", workers = 2, preload = NULL)
 
 \item{preload}{character vector of packages to preload in the workers. This speeds
 up requests to those packages.}
+
+\item{on_startup}{function to call once server has started (e.g. \code{browseURL})}
 }
 \description{
 Starts the OpenCPU single-user server for developing and testing apps locally.

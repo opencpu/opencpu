@@ -14,7 +14,8 @@
 #' @param workers number of worker processes
 #' @param preload character vector of packages to preload in the workers. This speeds
 #' up requests to those packages.
-ocpu_start <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL) {
+#' @param on_startup function to call once server has started (e.g. \code{browseURL})
+ocpu_start <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL, on_startup = NULL) {
   # normalize root path
   root <- sub("/$", "", sub("^//", "/", paste0("/", root)))
 
@@ -88,7 +89,8 @@ ocpu_start <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL) 
 
   # Start the server
   server_id <- httpuv::startServer("0.0.0.0", port, app = rookhandler(root, run_worker))
-  log("READY to serve at: %s%s", get_localhost(port), root)
+  server_address <- paste0(get_localhost(port), root)
+  log("READY to serve at: %s", server_address)
   log("Press ESC or CTRL+C to quit!")
 
   # Cleanup server when terminated
@@ -97,6 +99,9 @@ ocpu_start <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL) 
     httpuv::stopServer(server_id)
   }, add = TRUE)
 
+  # Run a hook
+  if(is.function(on_startup))
+    on_startup(server_address)
 
   # Main loop
   repeat {
