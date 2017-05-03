@@ -7,6 +7,7 @@
 #' address (passed to \code{install_github})
 #' @param ... passed to \code{ocpu_start}
 load_app <- function(repo,  ...){
+  repo <- repo[1]
   if(grepl("/", repo))
     devtools::install_github(repo)
   pkg <- basename(repo)
