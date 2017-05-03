@@ -141,7 +141,7 @@ stub <- function(){
 }
 
 eval_current <- function(expr, envir=parent.frame(), timeout=60){
-  setTimeLimit(elapsed=timeout, transient=TRUE);
-  on.exit(setTimeLimit(cpu=Inf, elapsed=Inf, transient=FALSE))
+  setTimeLimit(elapsed = timeout);
+  on.exit(setTimeLimit(cpu = Inf, elapsed = Inf))
   eval(expr, envir)
 }

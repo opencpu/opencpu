@@ -41,7 +41,7 @@ rhttpdhandler <- function(rootpath){
     );
 
     #call method
-    response <- serve(REQDATA);
+    response <- serve(REQDATA, call_psock);
 
     #build DynamicHelp output
     contenttype <- response$headers[["Content-Type"]];

@@ -34,7 +34,4 @@ rhttpd$browse('test')
 \references{
 \url{http://www.opencpu.org}
 }
-\seealso{
-Other opencpu: \code{\link{opencpu}}
-}
 \keyword{datasets}

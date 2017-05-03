@@ -32,7 +32,8 @@ session_eval <- local({
   function(input, args, storeval=FALSE, format="list"){
 
     #create workding directory
-    worker_home <- ifelse(is_rapache(), tempdir(), Sys.getenv('OCPU_WORKER_HOME'))
+    worker_home <- ifelse(is_rapache(), tempdir(), Sys.getenv('OCPU_SESSION_DIR'))
+    Sys.unsetenv('OCPU_SESSION_DIR')
     execdir <- file.path(worker_home, "workspace")
     stopifnot(dir.create(execdir))
     setwd(execdir)

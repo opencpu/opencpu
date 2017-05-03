@@ -1,7 +1,9 @@
 #' @importFrom webutils parse_query
-rookhandler <- function(rootpath){
-  #handler
+rookhandler <- function(rootpath, worker_cb){
   function(env){
+    #for single user server
+    log("%s %s%s", toupper(env[["REQUEST_METHOD"]]), env[["PATH_INFO"]], env[["QUERY_STRING"]])
+
     #preprocess
     if(!grepl(paste0("^", rootpath), env[["PATH_INFO"]])){
       return(list(
@@ -48,7 +50,7 @@ rookhandler <- function(rootpath){
     );
 
     #call method
-  	response <- serve(REQDATA);
+  	response <- serve(REQDATA, worker_cb)
 
     #hack for cors support
     if(identical(response$headers[["Access-Control-Allow-Origin"]], "*") && length(env[["HTTP_ORIGIN"]])){

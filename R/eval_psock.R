@@ -1,5 +1,4 @@
-# This is very similar to parallel::clusterEvalQ() with a single node
-eval_psock <- function(expr, envir = parent.frame(), timeout = 60){
+call_psock <- function(fun, ..., timeout = Inf){
   # imports
   sendCall <- utils::getFromNamespace('sendCall', 'parallel')
   recvResult <- utils::getFromNamespace('recvResult', 'parallel')
@@ -7,19 +6,16 @@ eval_psock <- function(expr, envir = parent.frame(), timeout = 60){
   #create a child process
   cluster <- parallel::makePSOCKcluster(1)
   child <- cluster[[1]]
-  sendCall(child, eval, list(quote(Sys.getpid())))
-  pid <- recvResult(child)
 
   #set the timeout
-  setTimeLimit(elapsed = timeout, transient = TRUE)
+  setTimeLimit(elapsed = timeout)
   on.exit({
-    setTimeLimit(cpu = Inf, elapsed = Inf, transient = FALSE)
+    setTimeLimit(cpu = Inf, elapsed = Inf)
     parallel::stopCluster(cluster)
-    #tools::pskill(pid) # Just in case
   })
 
   #send the actual call. Make sure that packages get loaded.
-  sendCall(child, eval, list(expr=substitute(expr), envir=as.list(envir)))
+  sendCall(child, fun, list(...))
   myresult <- recvResult(child)
 
   #raise error. Should not happen when call has been wrapped in request()
@@ -27,6 +23,11 @@ eval_psock <- function(expr, envir = parent.frame(), timeout = 60){
     stop(myresult)
   }
   return(myresult)
+}
+
+# This is very similar to parallel::clusterEvalQ() with a single node
+eval_psock <- function(expr, envir = parent.frame(), timeout = 60){
+  call_psock(eval, expr=substitute(expr), envir=as.list(envir))
 }
 
 # should take more than 5 sec

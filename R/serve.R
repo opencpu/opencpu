@@ -1,23 +1,27 @@
-serve <- function(REQDATA){
+serve <- function(REQDATA, run_worker = NULL){
 
   # Windows / Mac don't support eval_fork() (OSX can segfault)
   if(is_windows() || is_mac()){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
+      pwd <- getwd()
+      on.exit(setwd(pwd))
       return(request(eval_current(main(REQDATA), timeout = config("timelimit.get"))));
     } else {
       hash <- generate_hash()
       tmp <- file.path(ocpu_temp(), hash)
       stopifnot(dir.create(tmp))
       mytmp <- normalizePath(tmp)
-      Sys.setenv("OCPU_WORKER_HOME" = mytmp)
-      on.exit(Sys.unsetenv("OCPU_WORKER_HOME"))
       on.exit({
         if(file.exists(file.path(mytmp, "workspace")))
           stopifnot(file.rename(file.path(mytmp, "workspace"), sessiondir(hash)))
       }, add = TRUE)
       on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
+      expr <- substitute({
+        Sys.setenv("OCPU_SESSION_DIR" = mytmp)
+        opencpu:::request(opencpu:::main(REQDATA))
+      })
       return(tryCatch({
-        eval_psock(opencpu:::request(opencpu:::main(REQDATA)), list(REQDATA = REQDATA), timeout = config("timelimit.post"))
+        run_worker(eval, expr = expr, envir = list(REQDATA = REQDATA, mytmp = mytmp), timeout = config("timelimit.post"))
       }, error = reshandler)) #extra error catching shouldn't be needed but just in case
     }
   }
