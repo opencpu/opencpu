@@ -97,6 +97,10 @@ is_mac <- function(){
   grepl("darwin", R.Version()$platform)
 }
 
+win_or_mac <- function(){
+  grepl("mingw|darwin", R.Version()$platform)
+}
+
 islazydata <- function(x, ns){
   exists(x, ns, inherits=FALSE) &&
     identical("lazyLoadDBfetch", deparse(eval(call("substitute", as.name(x), ns))[[1]]))

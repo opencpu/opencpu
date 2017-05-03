@@ -1,7 +1,7 @@
 serve <- function(REQDATA, run_worker = NULL){
 
-  # Windows / Mac don't support eval_fork() (OSX can segfault)
-  if(is_windows() || is_mac()){
+  # Windows / Mac don't support eval_fork() (OSX segfault for CoreFoundation)
+  if(win_or_mac()){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
       pwd <- getwd()
       on.exit(setwd(pwd))
