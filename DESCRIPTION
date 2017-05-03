@@ -33,8 +33,6 @@ VignetteBuilder: knitr, R.rsp
 Description: The OpenCPU system exposes an http API for embedded scientific
     computing with R. The server can run either as a single-user development
     server within the interactive R session, or as a multi-user linux stack
-    based on rApache and NGINX. The current R package implements the core of
-    the system. When loaded in R, it automatically initiates the single-user
-    server and displays the web address in the console. The OpenCPU website 
-    has more detailed API documentation.
+    based on rApache. The R package implements the core of the system. The 
+    OpenCPU website has more detailed API documentation.
 RoxygenNote: 6.0.1
