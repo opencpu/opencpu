@@ -12,8 +12,9 @@ serve <- function(REQDATA, run_worker = NULL){
       stopifnot(dir.create(tmp))
       mytmp <- normalizePath(tmp)
       on.exit({
+        gc() #GC on windows closes open file descriptors before moving dir!
         if(file.exists(file.path(mytmp, "workspace")))
-          stopifnot(file.rename(file.path(mytmp, "workspace"), sessiondir(hash)))
+          file_move(file.path(mytmp, "workspace"), sessiondir(hash))
       }, add = TRUE)
       on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
       expr <- substitute({
@@ -66,7 +67,7 @@ serve <- function(REQDATA, run_worker = NULL){
     if(REQDATA$METHOD == "POST"){
       on.exit({
         if(file.exists(file.path(mytmp, "workspace")))
-          stopifnot(file.rename(file.path(mytmp, "workspace"), sessiondir(hash)))
+          file_move(file.path(mytmp, "workspace"), sessiondir(hash))
       })
     }
     on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)

@@ -145,3 +145,9 @@ eval_current <- function(expr, envir=parent.frame(), timeout=60){
   on.exit(setTimeLimit(cpu = Inf, elapsed = Inf))
   eval(expr, envir)
 }
+
+# Note:
+file_move <- function(from, to){
+  if(!file.rename(from, to))
+    stop(sprintf("Failed to move %s to %s", from, to))
+}
