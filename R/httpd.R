@@ -15,7 +15,7 @@
 #' @param preload character vector of packages to preload in the workers. This speeds
 #' up requests to those packages.
 #' @param on_startup function to call once server has started (e.g. \code{browseURL})
-ocpu_start <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL, on_startup = NULL) {
+start_server <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL, on_startup = NULL) {
   # normalize root path
   root <- sub("/$", "", sub("^//", "/", paste0("/", root)))
 
