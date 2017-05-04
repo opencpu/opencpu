@@ -36,3 +36,18 @@ up requests to those packages.}
 \description{
 Starts the OpenCPU single-user server for developing and testing apps locally.
 }
+\examples{
+\dontrun{
+# Try a demo application:
+start_github_app("opencpu/stocks")
+
+# Or another one
+start_github_app("opencpu/markdownapp")
+
+# Or another one
+start_github_app("opencpu/appdemo")
+
+# Show currently installed apps
+installed_apps()
+}
+}

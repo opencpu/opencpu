@@ -16,6 +16,19 @@
 #' @param preload character vector of packages to preload in the workers. This speeds
 #' up requests to those packages.
 #' @param on_startup function to call once server has started (e.g. \code{browseURL})
+#' @examples \dontrun{
+#' # Try a demo application:
+#' start_github_app("opencpu/stocks")
+#'
+#' # Or another one
+#' start_github_app("opencpu/markdownapp")
+#'
+#' # Or another one
+#' start_github_app("opencpu/appdemo")
+#'
+#' # Show currently installed apps
+#' installed_apps()
+#' }
 start_server <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL, on_startup = NULL) {
   # normalize root path
   root <- sub("/$", "", sub("^//", "/", paste0("/", root)))
