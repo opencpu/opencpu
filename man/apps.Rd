@@ -30,3 +30,6 @@ When running this functions as \code{root} user, they can be used to manage glob
 installed apps on an OpenCPU cloud server. However to install apps on cloud servers and
 \code{ocpu.io} it is easier to the Github webhook.
 }
+\seealso{
+Other ocpu: \code{\link{start_server}}
+}

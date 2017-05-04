@@ -1,6 +1,8 @@
 #' OpenCPU Single-User Server
 #'
-#' Starts the OpenCPU single-user server for developing and testing apps locally.
+#' Starts the OpenCPU single-user server for developing and running apps locally.
+#' To deploy your apps on a cloud server or \href{https://ocpu.io}{ocpu.io}, simply
+#' push them to github and install the opencpu webhook.
 #'
 #' @importFrom utils getFromNamespace
 #' @importFrom parallel makeCluster stopCluster
@@ -8,6 +10,7 @@
 #' @importFrom jsonlite toJSON fromJSON validate
 #' @importFrom sys eval_safe
 #' @aliases opencpu ocpu
+#' @family ocpu
 #' @export
 #' @rdname server
 #' @param port port number

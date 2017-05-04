@@ -12,6 +12,7 @@
 #' @param ... additional options for \code{install_github}
 #' @rdname apps
 #' @aliases apps
+#' @family ocpu
 #' @export
 download_apps <- function(repo, ...){
   info <- info_apps(repo)

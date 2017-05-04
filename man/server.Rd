@@ -34,7 +34,9 @@ up requests to those packages.}
 \item{package}{name of locally installed package}
 }
 \description{
-Starts the OpenCPU single-user server for developing and testing apps locally.
+Starts the OpenCPU single-user server for developing and running apps locally.
+To deploy your apps on a cloud server or \href{https://ocpu.io}{ocpu.io}, simply
+push them to github and install the opencpu webhook.
 }
 \examples{
 \dontrun{
@@ -50,4 +52,7 @@ start_github_app("opencpu/appdemo")
 # Show currently installed apps
 installed_apps()
 }
+}
+\seealso{
+Other ocpu: \code{\link{download_apps}}
 }
