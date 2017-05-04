@@ -1,7 +1,7 @@
 github_prefix <- "ocpu_github"
 
 getlocaldir <- function(){
-  if(is_rapache){
+  if(is_rapache()){
     return("/usr/local/lib/opencpu")
   }
   file.path(rappdirs::user_data_dir(), "opencpu")
