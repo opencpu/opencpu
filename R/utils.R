@@ -101,7 +101,7 @@ win_or_mac <- function(){
   grepl("mingw|darwin", R.Version()$platform)
 }
 
-is_rstudio_server(){
+is_rstudio_server <- function(){
   as.logical(nchar(Sys.getenv("RSTUDIO_HTTP_REFERER")))
 }
 
