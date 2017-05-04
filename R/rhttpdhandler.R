@@ -1,9 +1,13 @@
-#We can use this when Rook is not available
-#Some notes:
-# - currently multipart POST is not supported
-# - there is a bug in rhttpd when doing POST/PUT with body content-length:0
+# This is deprecated!
+# Host via R's built-in httpd
+rhttpd_init <- function(root = "/ocpu"){
+  fullpath <- paste0("/custom", paste0("/", gsub("/", "", root)))
+  port <- tools::startDynamicHelp(NA)
+  assign(substring(root, 2), rhttpdhandler(fullpath), from("tools", ".httpd.handlers.env"))
+  paste0(get_localhost(port), fullpath)
+}
+
 rhttpdhandler <- function(rootpath){
-  #handler
   function(reqpath, reqquery, reqbody, reqheaders){
 
     #get headers
@@ -12,13 +16,11 @@ rhttpdhandler <- function(rootpath){
     accept <- sub("^accept: ?", "", accept, ignore.case=TRUE)
 
     #process POST request body
-    if(!is.null(reqbody)){
-      MYRAW <- list(
+    MYRAW <- if(length(reqbody)){
+      list(
         body = reqbody,
         ctype = contenttype
-      );
-    } else {
-      MYRAW <- NULL;
+      )
     }
 
     #fix for missing method in old versions of R
