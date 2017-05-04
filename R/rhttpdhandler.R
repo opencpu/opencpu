@@ -1,4 +1,6 @@
-# Host via R's built-in httpd. Doesn't work well and freezes the UI.
+# Host via R's built-in httpd.
+# This only works well in rstudio-server (which runs it's own httpd).
+# In base R rhttpd it can freezes the UI.
 rhttpd_init <- function(root = "/ocpu"){
   fullpath <- paste0("/custom", paste0("/", gsub("/", "", root)))
   port <- tools::startDynamicHelp(NA)
