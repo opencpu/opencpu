@@ -8,7 +8,7 @@ httpget <- function(){
   }
 
   #extract path
-  reqpath <- strsplit(substring(utils::URLdecode(req$path_info()), 2),"/")[[1]];
+  reqpath <- strsplit(substring(curl::curl_unescape(req$path_info()), 2),"/")[[1]];
 
   if(!length(reqpath)){
     res$checkmethod();

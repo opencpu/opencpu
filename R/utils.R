@@ -167,3 +167,7 @@ file_move <- function(from, to){
   if(!file.rename(from, to))
     stop(sprintf("Failed to move %s to %s", from, to))
 }
+
+deparse_query <- function(x){
+  paste(names(x), curl::curl_escape(unlist(x)), sep = "=", collapse = "&")
+}
