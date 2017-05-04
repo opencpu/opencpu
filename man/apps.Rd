@@ -4,7 +4,7 @@
 \alias{download_apps}
 \alias{apps}
 \alias{remove_apps}
-\alias{app_info}
+\alias{info_apps}
 \alias{installed_apps}
 \title{OpenCPU Application}
 \usage{
@@ -12,7 +12,7 @@ download_apps(repo, ...)
 
 remove_apps(repo)
 
-app_info(repo)
+info_apps(repo)
 
 installed_apps()
 }
@@ -22,10 +22,11 @@ installed_apps()
 \item{...}{additional options for \code{install_github}}
 }
 \description{
-Manage locally installed OpenCPU applications. These applications can be
-started via \link{start_github_app}.
+Manage installed OpenCPU applications. These applications can be started locally
+using \link{start_github_app}.
 }
 \details{
-These functions are used only for hosting locally using the single-user server.
-To install apps on cloud servers and \code{ocpu.io} we use Github webhooks.
+When running this functions as \code{root} user, they can be used to manage globally
+installed apps on an OpenCPU cloud server. However to install apps on cloud servers and
+\code{ocpu.io} it is easier to the Github webhook.
 }

@@ -97,6 +97,14 @@ is_mac <- function(){
   grepl("darwin", R.Version()$platform)
 }
 
+is_linux <- function(){
+  grepl("linux", R.Version()$platform)
+}
+
+is_root <- function(){
+  grepl("root", Sys.info()[["user"]])
+}
+
 win_or_mac <- function(){
   grepl("mingw|darwin", R.Version()$platform)
 }

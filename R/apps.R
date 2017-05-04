@@ -1,10 +1,11 @@
 #' OpenCPU Application
 #'
-#' Manage locally installed OpenCPU applications. These applications can be
-#' started via \link{start_github_app}.
+#' Manage installed OpenCPU applications. These applications can be started locally
+#' using \link{start_github_app}.
 #'
-#' These functions are used only for hosting locally using the single-user server.
-#' To install apps on cloud servers and \code{ocpu.io} we use Github webhooks.
+#' When running this functions as \code{root} user, they can be used to manage globally
+#' installed apps on an OpenCPU cloud server. However to install apps on cloud servers and
+#' \code{ocpu.io} it is easier to the Github webhook.
 #'
 #' @export
 #' @param repo a github repository such as \code{user/repo}, see \link{install_github}.
@@ -13,7 +14,7 @@
 #' @aliases apps
 #' @export
 download_apps <- function(repo, ...){
-  info <- app_info(repo)
+  info <- info_apps(repo)
   lib <- info$path
   if(!file.exists(lib)){
     dir.create(lib)
@@ -33,12 +34,12 @@ download_apps <- function(repo, ...){
 #' @rdname apps
 #' @export
 remove_apps <- function(repo){
-  unlink(app_info(repo)$path, recursive = TRUE)
+  unlink(info_apps(repo)$path, recursive = TRUE)
 }
 
 #' @rdname apps
 #' @export
-app_info <- function(repo){
+info_apps <- function(repo){
   parts <- strsplit(repo[1], "[/@#]")[[1]]
   user <- parts[1]
   pkg <- parts[2]

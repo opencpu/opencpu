@@ -118,7 +118,7 @@ start_server <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL
 #' @inheritParams download_apps
 #' @export
 start_github_app <- function(repo, ...){
-  info <- app_info(repo)
+  info <- info_apps(repo)
   gitpath <- info$path
   Sys.setenv(R_LIBS = gitpath)
   on.exit(Sys.unsetenv("R_LIBS"), add = TRUE)
