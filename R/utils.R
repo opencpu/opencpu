@@ -168,6 +168,11 @@ file_move <- function(from, to){
     stop(sprintf("Failed to move %s to %s", from, to))
 }
 
+guess_content_type <- function(file){
+  type <- mime::guess_type(file)
+  ifelse(grepl("^text/", type), paste0(type, "; charset=utf-8"), type)
+}
+
 deparse_query <- function(x){
   paste(names(x), curl::curl_escape(unlist(x)), sep = "=", collapse = "&")
 }

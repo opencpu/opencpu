@@ -1,14 +1,14 @@
 #' @importFrom mime guess_type
 res <- local({
   bodyfile <- NULL;
-  headers <- list();  
-  
+  headers <- list();
+
   reset <- function(){
     bodyfile <<- NULL;
     headers <<- list();
     invisible();
   };
-  
+
   finish <- function(status=200){
     if(is.null(bodyfile)){
       stop("No body set.")
@@ -16,17 +16,17 @@ res <- local({
     resvalue <- list(status=status, headers=headers, body=bodyfile);
     do.call(respond, resvalue);
   };
-  
+
   setbody <- function(text, file){
     if(!missing(file)){
       stopifnot(file.exists(file));
-      bodyfile <<- file;     
+      bodyfile <<- file;
       return(invisible());
-    } 
+    }
     bodyfile <<- write_to_file(text);
     invisible();
   };
-  
+
   setheader <- function(name, value){
     MAXLENGTH = 1000 #truncate long headers
     if(is.character(value) && length(value) > 0){
@@ -40,18 +40,18 @@ res <- local({
     cookiestring = paste(name, "=", value, "; ",sep="")
     setheader("Set-Cookie", cookiestring);
     invisible();
-  }  
-  
+  }
+
   redirect <- function(target, status=302, txt){
     if(missing(txt)){
       setbody(paste("Redirect to", target));
     } else {
       setbody(txt);
-    }    
+    }
     setheader("Location", target);
     finish(status);
   };
-    
+
   redirectpath <- function(subpath, status = 302){
     baseuri <- paste0(req$uri(), req$path_info());
     baseuri <- sub("/$", "", baseuri);
@@ -59,11 +59,11 @@ res <- local({
     fullpath <- paste0(baseuri, "/", subpath);
     redirect(fullpath, status=status);
   }
-  
+
   notfound <- function(filepath, message){
     if(missing(message)){
       if(missing(filepath)){
-        message <- paste("Invalid API call:", req$path_info()) 
+        message <- paste("Invalid API call:", req$path_info())
       } else {
         message <- paste("File not found:", filepath);
       }
@@ -72,7 +72,7 @@ res <- local({
     setheader("Content-Type", "text/plain")
     finish(404);
   };
-  
+
   error <- function(msg, status=400){
     setbody(msg);
     finish(status);
@@ -83,19 +83,19 @@ res <- local({
       redirectpath("/")
     }
   };
-  
+
   checkfile <- function(filepath){
     if(!file.exists(filepath)){
       notfound(filepath);
-    }      
+    }
   };
-  
+
   checkmethod <- function(methods = "GET"){
     if(!(req$method() %in% methods)){
       error(paste("Method:", req$method(), "invalid on", req$path_info()), 405);
     }
   }
-  
+
   setcache <- function(what){
     method <- req$method();
     if(method == "POST"){
@@ -103,46 +103,46 @@ res <- local({
     } else if(method == "GET"){
       cachevalue <- switch(what,
         git = config("httpcache.git"),
-        gitapi = config("httpcache.gitapi"),                           
+        gitapi = config("httpcache.gitapi"),
         lib = config("httpcache.lib"),
         tmp = config("httpcache.tmp"),
         cran = config("httpcache.cran"),
-        bioc = config("httpcache.bioc"),                           
-        static = config("httpcache.static"),  
+        bioc = config("httpcache.bioc"),
+        static = config("httpcache.static"),
         stop("Setcache called for unknown type: ", what)
       );
     } else {
-      stop("Setcache called for unknown method: ", method);         
+      stop("Setcache called for unknown method: ", method);
     }
-    setheader("Cache-Control", paste("max-age=", cachevalue, ", public", sep=""));    
+    setheader("Cache-Control", paste("max-age=", cachevalue, ", public", sep=""));
   }
-  
+
   listdir <- function(dirpath){
     checkfile(dirpath);
     sendtext(list.files(dirpath));
     finish(200);
   };
-  
+
   sendlist <- function(vector){
     checktrail();
     vector <- sort(unique(vector));
     sendtext(paste(vector, sep="\n", collapse="\n"));
   }
-        
+
   sendtext <- function(text){
     text <- paste(text, collapse="\n");
     setbody(text);
     setheader("Content-Type", 'text/plain; charset=utf-8')
     finish(200);
   };
-  
+
   sendhtml <- function(text){
     text <- paste(text, collapse="\n");
     setbody(text);
     setheader("Content-Type", 'text/html; charset=utf-8')
     finish(200);
-  };  
-  
+  };
+
   sendfile <- function(filepath, mimetype){
     #windows doesn't like trailing slash
     filepath <- sub("/$", "", filepath);
@@ -157,11 +157,11 @@ res <- local({
     }
     bodyfile <<- filepath;
     if(missing(mimetype)){
-      mimetype <- mime::guess_type(filepath)
+      mimetype <- guess_content_type(filepath)
     }
     setheader("Content-Type", mimetype);
     finish(200);
   };
-  
+
   environment();
 });
