@@ -4,12 +4,12 @@
 rhttpd_init <- function(root = "/ocpu"){
   fullpath <- paste0("/custom", paste0("/", gsub("/", "", root)))
   port <- tools::startDynamicHelp(NA)
-  assign(substring(root, 2), rhttpdhandler(fullpath), from("tools", ".httpd.handlers.env"))
+  assign(substring(root, 2), rhttpd_handler(fullpath), from("tools", ".httpd.handlers.env"))
   host <- Sys.getenv("RSTUDIO_HTTP_REFERER", paste0("http://localhost:", port))
   paste0(sub("/$", "", host), fullpath)
 }
 
-rhttpdhandler <- function(rootpath){
+rhttpd_handler <- function(rootpath){
   function(reqpath, reqquery, reqbody, reqheaders){
 
     #get headers
