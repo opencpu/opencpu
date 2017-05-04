@@ -48,11 +48,11 @@ httpget_object <- local({
       write.csv(x=object, file=mytmp, row.names=as.logical(row.names), eol=eol, na=na, ...);
     }, req$get());
     res$setbody(file=mytmp);
-    res$setheader("Content-Type", "text/csv");
+    res$setheader("Content-Type", "text/csv; charset=utf-8");
     res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".csv", sep=""));
     res$finish();
   }
-  
+
   httpget_object_feather <- function(object, objectname){
     mytmp <- tempfile();
     do.call(feather::write_feather, c(list(x = object, path = mytmp), req$get()));

@@ -69,7 +69,7 @@ res <- local({
       }
     };
     setbody(message);
-    setheader("Content-Type", "text/plain")
+    setheader("Content-Type", "text/plain; charset=utf-8")
     finish(404);
   };
 
