@@ -1,11 +1,14 @@
 github_prefix <- "ocpu_github"
 
 getlocaldir <- function(){
-  return("/usr/local/lib/opencpu")
+  if(is_rapache){
+    return("/usr/local/lib/opencpu")
+  }
+  file.path(rappdirs::user_data_dir(), "opencpu")
 }
 
 github_rootpath <- function(){
-  githublib <- file.path(getlocaldir(), "github_library")
+  githublib <- file.path(getlocaldir(), "apps")
   if(!file.exists(githublib))
     stopifnot(dir.create(githublib, recursive = TRUE))
   return(githublib)
