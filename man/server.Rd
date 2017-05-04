@@ -4,10 +4,16 @@
 \alias{start_server}
 \alias{opencpu}
 \alias{ocpu}
+\alias{start_github_app}
+\alias{start_local_app}
 \title{OpenCPU Single-User Server}
 \usage{
 start_server(port = 9999, root = "/ocpu", workers = 2, preload = NULL,
   on_startup = NULL)
+
+start_github_app(repo, ...)
+
+start_local_app(package, ...)
 }
 \arguments{
 \item{port}{port number}
@@ -20,6 +26,12 @@ start_server(port = 9999, root = "/ocpu", workers = 2, preload = NULL,
 up requests to those packages.}
 
 \item{on_startup}{function to call once server has started (e.g. \code{browseURL})}
+
+\item{repo}{a github repository such as \code{user/repo}, see \link{install_github}.}
+
+\item{...}{additional options for \code{install_github}}
+
+\item{package}{name of locally installed package}
 }
 \description{
 Starts the OpenCPU single-user server for developing and testing apps locally.

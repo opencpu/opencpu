@@ -9,6 +9,7 @@
 #' @importFrom sys eval_safe
 #' @aliases opencpu ocpu
 #' @export
+#' @rdname server
 #' @param port port number
 #' @param root base of the URL where to host the OpenCPU API
 #' @param workers number of worker processes
@@ -110,4 +111,37 @@ start_server <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL
     add_workers()
     Sys.sleep(0.001)
   }
+}
+
+
+#' @rdname server
+#' @inheritParams download_apps
+#' @export
+start_github_app <- function(repo, ...){
+  info <- app_info(repo)
+  gitpath <- info$path
+  Sys.setenv(R_LIBS = gitpath)
+  on.exit(Sys.unsetenv("R_LIBS"), add = TRUE)
+  # Install on the fly
+  if(!info$installed)
+    download_apps(repo)
+  inlib(gitpath, {
+    start_server_app(info$pkg, file.path("apps", info$user), ...)
+  })
+}
+
+#' @export
+#' @param package name of locally installed package
+#' @rdname server
+start_local_app <- function(package, ...){
+  start_server_app(package, "library", ...)
+}
+
+start_server_app <- function(package, path, ...){
+  getNamespace(package)
+  start_server(..., preload = package, on_startup = function(server_address){
+    app_url <- file.path(server_address, path, package, "www")
+    log("Opening %s", app_url)
+    utils::browseURL(app_url)
+  })
 }
