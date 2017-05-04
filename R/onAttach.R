@@ -13,8 +13,8 @@
     packageStartupMessage("Welcome to OpenCPU!")
 
     #start rhttpd only in rstudio server
-    if(nchar(Sys.getenv("RSTUDIO_HTTP_REFERER"))){
-      rhttpd$init()
+    if(is_rstudio_server()){
+      rhttpd_init()
     }
   }
 }

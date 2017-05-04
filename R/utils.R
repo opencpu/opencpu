@@ -101,6 +101,10 @@ win_or_mac <- function(){
   grepl("mingw|darwin", R.Version()$platform)
 }
 
+is_rstudio_server(){
+  as.logical(nchar(Sys.getenv("RSTUDIO_HTTP_REFERER")))
+}
+
 islazydata <- function(x, ns){
   exists(x, ns, inherits=FALSE) &&
     identical("lazyLoadDBfetch", deparse(eval(call("substitute", as.name(x), ns))[[1]]))
