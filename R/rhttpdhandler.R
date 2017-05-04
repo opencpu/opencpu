@@ -1,10 +1,10 @@
 # Host via R's built-in httpd. Doesn't work well and freezes the UI.
 rhttpd_init <- function(root = "/ocpu"){
-  fullpath <- paste0("custom", paste0("/", gsub("/", "", root)))
+  fullpath <- paste0("/custom", paste0("/", gsub("/", "", root)))
   port <- tools::startDynamicHelp(NA)
   assign(substring(root, 2), rhttpdhandler(fullpath), from("tools", ".httpd.handlers.env"))
-  host <- Sys.getenv("RSTUDIO_HTTP_REFERER", paste0("http://localhost:", port, "/"))
-  paste0(host, fullpath)
+  host <- Sys.getenv("RSTUDIO_HTTP_REFERER", paste0("http://localhost:", port))
+  paste0(sub("/$", "", host), fullpath)
 }
 
 rhttpdhandler <- function(rootpath){
