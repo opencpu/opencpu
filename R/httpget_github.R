@@ -16,9 +16,7 @@ httpget_github <- function(uri){
   gituser <- tolower(uri[1]);
   if(is.na(gituser)){
     res$checkmethod()
-    pkglist <- sub(sprintf("^%s_", github_prefix), "", list.files(github_rootpath()))
-    usernames <- vapply(strsplit(pkglist, "_", fixed = TRUE), utils::head, character(1), n = 1L)
-    res$sendlist(usernames)
+    res$sendlist(installed_apps())
   }
 
   gitrepo <- uri[2];
