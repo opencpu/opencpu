@@ -1,6 +1,6 @@
 httpget_github <- function(uri){
   #check if API has been enabled
-  check.enabled("api.github");
+  check.enabled("api.apps");
 
   #legacy redirect
   if(identical(req$method(), "GET") && grepl("^/github", req$path_info())){
@@ -36,6 +36,6 @@ httpget_github <- function(uri){
   reqtail <- utils::tail(uri, -2)
 
   #set cache value
-  res$setcache("git")
+  res$setcache("apps")
   httpget_package(pkgpath, reqtail)
 }

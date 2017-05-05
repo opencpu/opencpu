@@ -102,12 +102,9 @@ res <- local({
       cachevalue <- config("httpcache.post");
     } else if(method == "GET"){
       cachevalue <- switch(what,
-        git = config("httpcache.git"),
-        gitapi = config("httpcache.gitapi"),
+        apps = config("httpcache.apps"),
         lib = config("httpcache.lib"),
         tmp = config("httpcache.tmp"),
-        cran = config("httpcache.cran"),
-        bioc = config("httpcache.bioc"),
         static = config("httpcache.static"),
         stop("Setcache called for unknown type: ", what)
       );
