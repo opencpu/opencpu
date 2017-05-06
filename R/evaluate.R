@@ -3,16 +3,16 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
   #setup handler
   error_object <- NULL
   myhandler <- evaluate::new_output_handler(value = function(myval, visible = TRUE){
-    if(isTRUE(storeval)){
+    if(isTRUE(storeval) && is.null(error_object)){
       assign(".val", myval, sessionenv);
     }
     if(isTRUE(visible)){
       #note: print can be really, really slow
       if(identical(class(myval), "list")){
-        cat("List of length ", length(myval), "\n");
-        cat(paste("[", names(myval), "]", sep="", collapse="\n"));
+        cat("List of length ", length(myval), "\n")
+        cat(paste("[", names(myval), "]", sep="", collapse="\n"))
       } else {
-        getFromNamespace("render", "evaluate")(myval);
+        getFromNamespace("render", "evaluate")(myval)
       }
     }
     invisible()

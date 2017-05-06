@@ -59,10 +59,10 @@ session_eval <- local({
     res$setheader("X-ocpu-session", hash)
 
     #store output
-    save(file=".RData", envir=sessionenv, list=ls(sessionenv, all.names=TRUE), compress=FALSE);
-    saveRDS(output$res, file=".REval", compress=FALSE);
-    saveRDS(utils::sessionInfo(), file=".RInfo", compress=FALSE);
-    saveRDS(.libPaths(), file=".Rlibs", compress=FALSE);
+    save(file=".RData", envir = sessionenv, list=ls(sessionenv, all.names = TRUE), compress = FALSE)
+    saveRDS(output$res, file=".REval", compress = FALSE)
+    saveRDS(utils::sessionInfo(), file=".RInfo", compress = FALSE)
+    saveRDS(.libPaths(), file=".Rlibs", compress = FALSE)
     saveDESCRIPTION(hash)
 
     # OpenCPU 2.0 now uses stop_on_error = 1 so we need to raise the error manually
