@@ -2,6 +2,7 @@
 res <- local({
   bodyfile <- NULL;
   headers <- list();
+  status_ok <- 200L
 
   reset <- function(){
     bodyfile <<- NULL;
@@ -9,7 +10,7 @@ res <- local({
     invisible();
   };
 
-  finish <- function(status = 200){
+  finish <- function(status = status_ok){
     if(is.null(bodyfile)){
       stop("No body set.")
     }
@@ -26,6 +27,10 @@ res <- local({
     bodyfile <<- write_to_file(text);
     invisible();
   };
+
+  setstatus <- function(new_status){
+    status_ok <<- new_status
+  }
 
   setheader <- function(name, value){
     MAXLENGTH = 1000 #truncate long headers

@@ -13,10 +13,8 @@ session_eval <- local({
     tmppath <- sessionpath(hash)
     path_relative <- paste0(req$mount(), tmppath, "/")
     outlist <- session_index(execdir)
-    text <- paste(path_relative, outlist, sep="", collapse="\n")
-    res$setheader("Content-Type", 'text/plain; charset=utf-8')
-    res$setbody(text)
-    res$finish(201)
+    text <- paste0(path_relative, outlist)
+    res$sendtext(text)
   }
 
   #evaluates something inside a session
@@ -63,6 +61,9 @@ session_eval <- local({
     if(length(output$error)){
       res$error(format_user_error(output$error), 400)
     }
+
+    # Use 201 instead of 200 in case of success
+    res$setstatus(201)
 
     #Shortcuts to get object immediately
     if(format %in% c("json", "print", "pb")){
