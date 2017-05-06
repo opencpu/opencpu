@@ -4,7 +4,7 @@ getlocaldir <- function(){
   if(is_rapache() || (is_linux() && is_root())){
     return("/usr/local/lib/opencpu")
   }
-  file.path(rappdirs::user_data_dir(), "opencpu")
+  rappdirs::user_data_dir("opencpu")
 }
 
 github_rootpath <- function(){
