@@ -9,7 +9,7 @@ res <- local({
     invisible();
   };
 
-  finish <- function(status=200){
+  finish <- function(status = 200){
     if(is.null(bodyfile)){
       stop("No body set.")
     }
@@ -117,7 +117,7 @@ res <- local({
   listdir <- function(dirpath){
     checkfile(dirpath);
     sendtext(list.files(dirpath));
-    finish(200);
+    finish();
   };
 
   sendlist <- function(vector){
@@ -130,14 +130,14 @@ res <- local({
     text <- paste(text, collapse="\n");
     setbody(text);
     setheader("Content-Type", 'text/plain; charset=utf-8')
-    finish(200);
+    finish();
   };
 
   sendhtml <- function(text){
     text <- paste(text, collapse="\n");
     setbody(text);
     setheader("Content-Type", 'text/html; charset=utf-8')
-    finish(200);
+    finish();
   };
 
   sendfile <- function(filepath, mimetype){
@@ -157,7 +157,7 @@ res <- local({
       mimetype <- guess_content_type(filepath)
     }
     setheader("Content-Type", mimetype);
-    finish(200);
+    finish();
   };
 
   environment();
