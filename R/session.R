@@ -10,9 +10,8 @@ session_regex <- function(){
 session_eval <- local({
   preview_object <- function(hash, obj, format){
     tmppath <- sessionpath(hash);
-    outputpath <- paste0(req$uri(), tmppath, "/");
-    res$setheader("Location", outputpath);
-    res$setheader("X-ocpu-session", hash)
+    path_absolute <- paste0(req$uri(), tmppath, "/");
+    res$setheader("Location", path_absolute);
     httpget_object(obj, format, "object");
   }
 
@@ -24,7 +23,6 @@ session_eval <- local({
     outlist <- session_index(execdir);
     text <- paste(path_relative, outlist, sep="", collapse="\n");
     res$setheader("Content-Type", 'text/plain; charset=utf-8');
-    res$setheader("X-ocpu-session", hash)
     res$redirect(path_absolute, 201, text)
   }
 
@@ -56,13 +54,21 @@ session_eval <- local({
     #unload session namespaces, otherwise sessionInfo() crashes
     unload_session_namespaces()
 
-    #store output
+    #set the hash (even if evaluate() returns an error)
     hash <- basename(worker_home)
+    res$setheader("X-ocpu-session", hash)
+
+    #store output
     save(file=".RData", envir=sessionenv, list=ls(sessionenv, all.names=TRUE), compress=FALSE);
     saveRDS(output$res, file=".REval", compress=FALSE);
     saveRDS(utils::sessionInfo(), file=".RInfo", compress=FALSE);
     saveRDS(.libPaths(), file=".Rlibs", compress=FALSE);
     saveDESCRIPTION(hash)
+
+    # OpenCPU 2.0 now uses stop_on_error = 1 so we need to raise the error manually
+    if(length(output$error)){
+      res$error(format_user_error(output$error), 400)
+    }
 
     #Shortcuts to get object immediately
     if(format %in% c("json", "print", "pb")){

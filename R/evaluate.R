@@ -1,6 +1,7 @@
 evaluate_input <- function(input, args = NULL, storeval = FALSE) {
 
   #setup handler
+  error_object <- NULL
   myhandler <- evaluate::new_output_handler(value = function(myval, visible = TRUE){
     if(isTRUE(storeval)){
       assign(".val", myval, sessionenv);
@@ -11,11 +12,13 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
         cat("List of length ", length(myval), "\n");
         cat(paste("[", names(myval), "]", sep="", collapse="\n"));
       } else {
-        from("evaluate", "render")(myval);
+        getFromNamespace("render", "evaluate")(myval);
       }
     }
     invisible()
-  });
+  }, error = function(e){
+    error_object <<- e
+  })
 
   #create session for output objects
   if(!length(args)){
@@ -27,11 +30,12 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
 
   #initiate environment
   sessionenv <- new.env(parent = args)
-  res <- evaluate::evaluate(input = input, envir = sessionenv, stop_on_error = 2, output_handler = myhandler)
+  res <- evaluate::evaluate(input = input, envir = sessionenv, stop_on_error = 1, output_handler = myhandler)
 
   # return both
   list (
     res = res,
-    sessionenv = sessionenv
+    sessionenv = sessionenv,
+    error = error_object
   )
 }

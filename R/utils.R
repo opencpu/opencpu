@@ -176,3 +176,11 @@ guess_content_type <- function(file){
 deparse_query <- function(x){
   paste(names(x), curl::curl_escape(unlist(x)), sep = "=", collapse = "&")
 }
+
+format_user_error <- function(e){
+  errmsg <- e$message;
+  if(length(e$call)){
+    errmsg <- c(errmsg, "", "In call:", deparse(e$call));
+  }
+  return(errmsg)
+}
