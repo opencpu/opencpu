@@ -8,22 +8,15 @@ session_regex <- function(){
 }
 
 session_eval <- local({
-  preview_object <- function(hash, obj, format){
-    tmppath <- sessionpath(hash);
-    path_absolute <- paste0(req$uri(), tmppath, "/");
-    res$setheader("Location", path_absolute);
-    httpget_object(obj, format, "object");
-  }
-
   #redirects the client to the session location
   preview_index <- function(hash, execdir){
-    tmppath <- sessionpath(hash);
-    path_absolute <- paste0(req$uri(), tmppath, "/");
-    path_relative <- paste0(req$mount(), tmppath, "/");
-    outlist <- session_index(execdir);
-    text <- paste(path_relative, outlist, sep="", collapse="\n");
-    res$setheader("Content-Type", 'text/plain; charset=utf-8');
-    res$redirect(path_absolute, 201, text)
+    tmppath <- sessionpath(hash)
+    path_relative <- paste0(req$mount(), tmppath, "/")
+    outlist <- session_index(execdir)
+    text <- paste(path_relative, outlist, sep="", collapse="\n")
+    res$setheader("Content-Type", 'text/plain; charset=utf-8')
+    res$setbody(text)
+    res$finish(201)
   }
 
   #evaluates something inside a session
@@ -57,6 +50,7 @@ session_eval <- local({
     #set the hash (even if evaluate() returns an error)
     hash <- basename(worker_home)
     res$setheader("X-ocpu-session", hash)
+    res$setheader("Location", paste0(req$uri(), sessionpath(hash), "/"))
 
     #store output
     save(file=".RData", envir = sessionenv, list=ls(sessionenv, all.names = TRUE), compress = FALSE)
@@ -72,9 +66,9 @@ session_eval <- local({
 
     #Shortcuts to get object immediately
     if(format %in% c("json", "print", "pb")){
-      preview_object(hash, get(".val", sessionenv), format);
+      httpget_object(get(".val", sessionenv), format, "object")
     } else if(format %in% c("console")) {
-      preview_object(hash, extract(output$res, format), "text");
+      httpget_object(extract(output$res, format), "text")
     } else {
       #default: send 201 with output list.
       preview_index(hash, execdir)
