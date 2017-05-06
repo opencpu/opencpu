@@ -4,7 +4,7 @@ httpget <- function(){
   #should implement this per resource and send some text
   if(isTRUE(req$method() == "OPTIONS")){
     res$setheader("Allow", "GET,HEAD,POST,OPTIONS");
-    res$sendtext("Nothing here yet...");
+    res$sendtext("OPTIONS OK");
   }
 
   #extract path
