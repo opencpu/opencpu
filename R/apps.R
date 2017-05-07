@@ -1,7 +1,7 @@
 #' OpenCPU Application
 #'
 #' Manage installed OpenCPU applications. These applications can be started locally
-#' using \link{start_github_app}.
+#' using \link{ocpu_start_app}.
 #'
 #' When running this functions as \code{root} user, they can be used to manage globally
 #' installed apps on an OpenCPU cloud server. However to install apps on cloud servers and
@@ -11,11 +11,12 @@
 #' @param repo a github repository such as \code{user/repo}, see \link{install_github}.
 #' @param ... additional options for \code{install_github}
 #' @rdname apps
+#' @name apps
 #' @aliases apps
 #' @family ocpu
 #' @export
-download_apps <- function(repo, ...){
-  info <- info_apps(repo)
+ocpu_install_apps <- function(repo, ...){
+  info <- ocpu_info_apps(repo)
   lib <- info$path
   if(!file.exists(lib)){
     dir.create(lib)
@@ -34,28 +35,29 @@ download_apps <- function(repo, ...){
 
 #' @rdname apps
 #' @export
-remove_apps <- function(repo){
-  unlink(info_apps(repo)$path, recursive = TRUE)
+ocpu_remove_apps <- function(repo){
+  unlink(ocpu_info_apps(repo)$path, recursive = TRUE)
 }
 
 #' @rdname apps
 #' @export
-info_apps <- function(repo){
+ocpu_info_apps <- function(repo){
   parts <- strsplit(repo[1], "[/@#]")[[1]]
   user <- parts[1]
   pkg <- parts[2]
   path <- github_userlib(user, pkg)
-  list (
+  data.frame (
     user = user,
     pkg = pkg,
     path = path,
-    installed = file.exists(path)
+    installed = file.exists(path),
+    stringsAsFactors = FALSE
   )
 }
 
 #' @rdname apps
 #' @export
-installed_apps <- function(){
+ocpu_installed_apps <- function(){
   pattern <- paste0("^", github_prefix, "_")
   apps <- list.files(github_rootpath(), pattern = pattern)
   apps <- sub(pattern, "", apps)

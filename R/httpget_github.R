@@ -16,7 +16,7 @@ httpget_github <- function(uri){
   gituser <- tolower(uri[1]);
   if(is.na(gituser)){
     res$checkmethod()
-    res$sendlist(installed_apps())
+    res$sendlist(ocpu_installed_apps())
   }
 
   gitrepo <- uri[2];

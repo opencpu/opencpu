@@ -13,6 +13,7 @@
 #' @family ocpu
 #' @export
 #' @rdname server
+#' @name ocpu-server
 #' @param port port number
 #' @param root base of the URL where to host the OpenCPU API
 #' @param workers number of worker processes
@@ -21,18 +22,18 @@
 #' @param on_startup function to call once server has started (e.g. \code{browseURL})
 #' @examples \dontrun{
 #' # Try a demo application:
-#' start_github_app("opencpu/stocks")
+#' ocpu_start_app("opencpu/stocks")
 #'
 #' # Or another one
-#' start_github_app("opencpu/markdownapp")
+#' ocpu_start_app("opencpu/markdownapp")
 #'
 #' # Or another one
-#' start_github_app("opencpu/appdemo")
+#' ocpu_start_app("opencpu/appdemo")
 #'
 #' # Show currently installed apps
-#' installed_apps()
+#' ocpu_install_apps()
 #' }
-start_server <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL, on_startup = NULL) {
+ocpu_start_server <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL, on_startup = NULL) {
   # normalize root path
   root <- sub("/$", "", sub("^//", "/", paste0("/", root)))
 
@@ -129,35 +130,43 @@ start_server <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL
   }
 }
 
-
-#' @rdname server
-#' @inheritParams download_apps
-#' @export
-start_github_app <- function(repo, ...){
-  info <- info_apps(repo)
+ocpu_start_app_github <- function(repo, ...){
+  info <- ocpu_info_apps(repo)
   gitpath <- info$path
   Sys.setenv(R_LIBS = gitpath)
   on.exit(Sys.unsetenv("R_LIBS"), add = TRUE)
   # Install on the fly
   if(!info$installed)
-    download_apps(repo)
+    ocpu_install_apps(repo)
   inlib(gitpath, {
-    start_server_app(info$pkg, file.path("apps", info$user), ...)
+    start_server_with_app(info$pkg, file.path("apps", info$user), ...)
   })
 }
 
-#' @export
-#' @param package name of locally installed package
-#' @rdname server
-start_local_app <- function(package, ...){
-  start_server_app(package, "library", ...)
+start_local_app_local <- function(package, ...){
+  start_server_with_app(package, "library", ...)
 }
 
-start_server_app <- function(package, path, ...){
+start_server_with_app <- function(package, path, ...){
   getNamespace(package)
-  start_server(..., preload = package, on_startup = function(server_address){
+  ocpu_start_server(..., preload = package, on_startup = function(server_address){
     app_url <- file.path(server_address, path, package, "www")
     log("Opening %s", app_url)
     utils::browseURL(app_url)
   })
+}
+
+#' @rdname server
+#' @param app either the name of a locally installed package, or a github remote
+#' (see \link{install_github})
+#' @param ... extra parameters passed to \link{ocpu_start_server}
+#' @export
+ocpu_start_app <- function(app, ...){
+  if(!is.character(app) || length(app) != 1)
+    stop("Parameter 'app' must be a package name or a github remote")
+  if(grepl("/", app)){
+    ocpu_start_app_github(app, ...)
+  } else {
+    start_local_app_local(app, ...)
+  }
 }
