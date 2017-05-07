@@ -17,12 +17,12 @@ serve <- function(REQDATA, run_worker = NULL){
           file_move(file.path(mytmp, "workspace"), sessiondir(hash))
       }, add = TRUE)
       on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
-      expr <- substitute({
-        Sys.setenv("OCPU_SESSION_DIR" = mytmp)
-        opencpu:::request(opencpu:::main(REQDATA))
-      })
+      expr <- c(
+        call("Sys.setenv", OCPU_SESSION_DIR = mytmp),
+        parse(text = "opencpu:::request(opencpu:::main(REQDATA))")
+      )
       return(tryCatch({
-        run_worker(eval, expr = expr, envir = list(REQDATA = REQDATA, mytmp = mytmp), timeout = config("timelimit.post"))
+        run_worker(eval, expr = expr, envir = list(REQDATA = REQDATA), timeout = config("timelimit.post"))
       }, error = reshandler)) #extra error catching shouldn't be needed but just in case
     }
   }
