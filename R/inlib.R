@@ -1,6 +1,6 @@
 inlib <- function(lib, expr, add = TRUE){
   oldlib <- .libPaths();
-  on.exit(setlib(oldlib))
+  on.exit(setlib(oldlib), add = TRUE)
   if(isTRUE(add)){
     lib <- c(lib, .libPaths())
   }

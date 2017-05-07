@@ -4,8 +4,8 @@ serve <- function(REQDATA, run_worker = NULL){
   if(win_or_mac()){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
       pwd <- getwd()
-      on.exit(setwd(pwd))
-      return(request(eval_current(main(REQDATA), timeout = config("timelimit.get"))));
+      on.exit(setwd(pwd), add = TRUE)
+      return(request(main(REQDATA)));
     } else {
       hash <- generate_hash()
       tmp <- file.path(ocpu_temp(), hash)
@@ -68,7 +68,7 @@ serve <- function(REQDATA, run_worker = NULL){
       on.exit({
         if(file.exists(file.path(mytmp, "workspace")))
           file_move(file.path(mytmp, "workspace"), sessiondir(hash))
-      })
+      }, add = TRUE)
     }
     on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
     sys::eval_safe(main(REQDATA), tmp = mytmp, timeout = as.numeric(timeout), profile = profile,

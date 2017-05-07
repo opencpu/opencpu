@@ -12,7 +12,7 @@ call_psock <- function(fun, ..., timeout = Inf){
   on.exit({
     setTimeLimit(cpu = Inf, elapsed = Inf)
     parallel::stopCluster(cluster)
-  })
+  }, add = TRUE)
 
   #send the actual call. Make sure that packages get loaded.
   sendCall(child, fun, list(...))

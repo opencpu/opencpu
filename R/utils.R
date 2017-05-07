@@ -156,9 +156,9 @@ stub <- function(){
   knitr::knit()
 }
 
-eval_current <- function(expr, envir=parent.frame(), timeout=60){
+eval_current <- function(expr, envir=parent.frame(), timeout = 60){
   setTimeLimit(elapsed = timeout);
-  on.exit(setTimeLimit(cpu = Inf, elapsed = Inf))
+  on.exit(setTimeLimit(cpu = Inf, elapsed = Inf), add = TRUE)
   eval(expr, envir)
 }
 

@@ -77,10 +77,10 @@ ocpu_start_server <- function(port = 9999, root ="/ocpu", workers = 2, preload =
   run_worker <- function(fun, ..., timeout = NULL){
     if(length(timeout)){
       setTimeLimit(elapsed = timeout)
-      on.exit(setTimeLimit(cpu = Inf, elapsed = Inf))
+      on.exit(setTimeLimit(cpu = Inf, elapsed = Inf), add = TRUE)
     }
     cl <- get_worker()
-    on.exit(kill_workers(cl))
+    on.exit(kill_workers(cl), add = TRUE)
     node <- cl[[1]]
     sendCall(node, fun, list(...))
     res <- recvResult(node)
@@ -150,7 +150,7 @@ start_local_app_local <- function(package, ...){
 start_server_with_app <- function(package, path, ...){
   getNamespace(package)
   ocpu_start_server(..., preload = package, on_startup = function(server_address){
-    app_url <- file.path(server_address, path, package, "www")
+    app_url <- file.path(server_address, path, package)
     log("Opening %s", app_url)
     utils::browseURL(app_url)
   })
