@@ -33,7 +33,7 @@
 #' # Show currently installed apps
 #' ocpu_install_apps()
 #' }
-ocpu_start_server <- function(port = 9999, root ="/ocpu", workers = 2, preload = NULL, on_startup = NULL) {
+ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload = NULL, on_startup = NULL) {
   # normalize root path
   root <- sub("/$", "", sub("^//", "/", paste0("/", root)))
 

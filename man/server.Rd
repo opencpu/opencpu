@@ -8,7 +8,7 @@
 \alias{ocpu_start_app}
 \title{OpenCPU Single-User Server}
 \usage{
-ocpu_start_server(port = 9999, root = "/ocpu", workers = 2,
+ocpu_start_server(port = 5656, root = "/ocpu", workers = 2,
   preload = NULL, on_startup = NULL)
 
 ocpu_start_app(app, ...)
