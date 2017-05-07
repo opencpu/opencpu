@@ -24,15 +24,15 @@ load_config_and_settings <- local({
 
       #override with custom system config files
       if(isTRUE(file.info("/etc/opencpu/server.conf.d")$isdir)){
-        conffiles <- list.files("/etc/opencpu/server.conf.d", full.names=TRUE, pattern=".conf$");
-        lapply(as.list(conffiles), environment(config)$load);
+        conffiles <- list.files("/etc/opencpu/server.conf.d", full.names=TRUE, pattern=".conf$")
+        lapply(as.list(conffiles), environment(config)$load)
       }
     } else {
       #single user server
-      configfile <- path.expand("~/.opencpu.conf");
-      message("Loading config from ", configfile)
+      configfile <- get_home_conf()
       if(file.exists(configfile)){
-        environment(config)$load(configfile);
+        message("Loading config from ", configfile)
+        environment(config)$load(configfile)
       }
     }
 

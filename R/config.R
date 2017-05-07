@@ -21,16 +21,14 @@ config <- local({
 
 # Used by single-user server only
 create_home_config <- function(){
-  configfile <- path.expand("~/.opencpu.conf");
+  configfile <- get_home_conf()
   if(file.exists(configfile)){
-    if(validate(readLines(configfile))){
-      message("Using config: ", configfile)
-    } else {
+    if(!validate(readLines(configfile))){
       stop("Config contains invalid JSON: ", configfile)
     }
   } else {
     defaultconf <- system.file("config/defaults.conf", package=packagename);
-    if(file.copy(defaultconf, "~/.opencpu.conf")){
+    if(file.copy(defaultconf, get_home_conf())){
       message("Creating new config file: ", configfile);
     } else {
       warning("Failed to create new config file: ", configfile, ". Using default config.")
@@ -38,3 +36,6 @@ create_home_config <- function(){
   }
 }
 
+get_home_conf <- function(){
+  rappdirs::user_config_dir("opencpu.conf")
+}
