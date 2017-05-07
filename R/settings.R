@@ -33,6 +33,9 @@ load_config_and_settings <- local({
       if(file.exists(configfile)){
         environment(config)$load(configfile)
       }
+
+      #remenants from opencpu 1.0
+      unlink(path.expand("~/.opencpu.conf"))
     }
 
     #set some global options
