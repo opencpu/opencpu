@@ -22,21 +22,23 @@ config <- local({
 
 # Used by single-user server only
 create_home_config <- function(){
-  configfile <- get_home_conf()
+  configfile <- get_user_conf()
   if(file.exists(configfile)){
     if(!validate(readLines(configfile))){
       stop("Config contains invalid JSON: ", configfile)
     }
   } else {
-    defaultconf <- system.file("config/defaults.conf", package=packagename);
-    if(file.copy(defaultconf, get_home_conf())){
-      message("Creating new config file: ", configfile);
+    defaultconf <- system.file("config/defaults.conf", package = packagename);
+    userconf <- get_user_conf()
+    dir.create(dirname(userconf), showWarnings = FALSE, recursive = TRUE)
+    if(file.copy(defaultconf, userconf)){
+      message("Creating new user config file: ", configfile);
     } else {
       warning("Failed to create new config file: ", configfile, ". Using default config.")
     }
   }
 }
 
-get_home_conf <- function(){
-  rappdirs::user_config_dir("opencpu.conf")
+get_user_conf <- function(){
+  file.path(getlocaldir(), "user.conf")
 }

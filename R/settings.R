@@ -29,7 +29,7 @@ load_config_and_settings <- local({
       }
     } else {
       #single user server
-      configfile <- get_home_conf()
+      configfile <- get_user_conf()
       if(file.exists(configfile)){
         environment(config)$load(configfile)
       }

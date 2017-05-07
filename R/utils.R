@@ -101,8 +101,8 @@ is_linux <- function(){
   grepl("linux", R.Version()$platform)
 }
 
-is_root <- function(){
-  grepl("root", Sys.info()[["user"]])
+is_admin <- function(){
+  isTRUE(Sys.info()[["user"]] %in% c("root", "opencpu"))
 }
 
 win_or_mac <- function(){
