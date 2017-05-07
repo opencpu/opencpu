@@ -11,30 +11,25 @@ load_config_and_settings <- local({
     }
 
     #load default package config file
-    defaultconf <- system.file("config/defaults.conf", package=packagename);
-    stopifnot(file.exists(defaultconf));
-    environment(config)$load(defaultconf);
+    defaultconf <- system.file("config/defaults.conf", package = packagename)
+    stopifnot(file.exists(defaultconf))
+    environment(config)$load(defaultconf)
 
     #override with system config file
-    if(is_rapache()){
-      #for cloud server
-      if(file.exists("/etc/opencpu/server.conf")){
-        environment(config)$load("/etc/opencpu/server.conf");
-      }
+    sysconf <- get_user_conf()
+    if(file.exists(sysconf)){
+      environment(config)$load(sysconf)
+    }
 
+    #override with system config file
+    if(is_rapache() || is_admin()){
       #override with custom system config files
       if(isTRUE(file.info("/etc/opencpu/server.conf.d")$isdir)){
         conffiles <- list.files("/etc/opencpu/server.conf.d", full.names=TRUE, pattern=".conf$")
         lapply(as.list(conffiles), environment(config)$load)
       }
     } else {
-      #single user server
-      configfile <- get_user_conf()
-      if(file.exists(configfile)){
-        environment(config)$load(configfile)
-      }
-
-      #remenants from opencpu 1.0
+      # clean remenants from opencpu 1.0
       unlink(path.expand("~/.opencpu.conf"))
     }
 

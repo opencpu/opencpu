@@ -102,7 +102,7 @@ is_linux <- function(){
 }
 
 is_admin <- function(){
-  isTRUE(Sys.info()[["user"]] %in% c("root", "opencpu"))
+  is_linux() && isTRUE(Sys.info()[["user"]] %in% c("root", "opencpu"))
 }
 
 win_or_mac <- function(){

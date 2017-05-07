@@ -21,7 +21,7 @@ config <- local({
 })
 
 # Used by single-user server only
-create_home_config <- function(){
+create_user_config <- function(){
   configfile <- get_user_conf()
   if(file.exists(configfile)){
     if(!validate(readLines(configfile))){
@@ -40,5 +40,9 @@ create_home_config <- function(){
 }
 
 get_user_conf <- function(){
-  file.path(getlocaldir(), "user.conf")
+  if(is_rapache() || is_admin()){
+    return("/etc/opencpu/server.conf")
+  } else {
+    file.path(getlocaldir(), "user.conf")
+  }
 }

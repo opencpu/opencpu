@@ -33,8 +33,8 @@ ocpu_init <- function(){
     no_rapparmor(TRUE)
   }
 
-  if(!is_rapache())
-    create_home_config()
+  # Copies default config file if not exists
+  create_user_config()
 
   # Find configurations
   load_config_and_settings(preload = TRUE)
