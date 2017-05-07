@@ -3,6 +3,7 @@ config <- local({
   conflist <- list()
 
   load <- function(filepath){
+    message("Loading config from ", filepath)
     newconf <- as.list(fromJSON(filepath));
     for(i in seq_along(newconf)){
       name <- names(newconf[i]);

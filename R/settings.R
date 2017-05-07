@@ -31,7 +31,6 @@ load_config_and_settings <- local({
       #single user server
       configfile <- get_home_conf()
       if(file.exists(configfile)){
-        message("Loading config from ", configfile)
         environment(config)$load(configfile)
       }
     }
