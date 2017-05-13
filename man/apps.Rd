@@ -4,17 +4,17 @@
 \alias{apps}
 \alias{ocpu_install_apps}
 \alias{ocpu_remove_apps}
-\alias{ocpu_info_apps}
 \alias{ocpu_installed_apps}
+\alias{ocpu_available_apps}
 \title{OpenCPU Application}
 \usage{
 ocpu_install_apps(repo, ...)
 
 ocpu_remove_apps(repo)
 
-ocpu_info_apps(repo)
-
 ocpu_installed_apps()
+
+ocpu_available_apps()
 }
 \arguments{
 \item{repo}{a github repository such as \code{user/repo}, see \link{install_github}.}

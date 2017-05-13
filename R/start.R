@@ -132,7 +132,7 @@ ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload =
 }
 
 ocpu_start_app_github <- function(repo, ...){
-  info <- ocpu_info_apps(repo)
+  info <- ocpu_app_info(repo)
   gitpath <- info$path
   Sys.setenv(R_LIBS = gitpath)
   on.exit(Sys.unsetenv("R_LIBS"), add = TRUE)
