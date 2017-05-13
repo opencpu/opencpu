@@ -35,8 +35,6 @@ github_install <- function(repo, username, ref = "master", args = NULL, upgrade_
   gittmpdir <- tempfile("githubdir")
   stopifnot(dir.create(gittmpdir))
 
-  # Sets 'chmod g+xs', i.e. makes writable for other users in the group
-  Sys.chmod(gittmpdir, "2755")
   #all_args$args <- paste0("'--library=", gittmpdir, "'")
 
   #Override auth_token if set in key
@@ -59,8 +57,11 @@ github_install <- function(repo, username, ref = "master", args = NULL, upgrade_
 
   #move everything to new location
   if(success){
-    unlink(gitpath, recursive=TRUE);
-    stopifnot(dir.move(gittmpdir, gitpath));
+    unlink(gitpath, recursive=TRUE)
+    stopifnot(dir.move(gittmpdir, gitpath))
+
+    # Sets 'chmod g+xs', i.e. makes writable for other users in the group
+    Sys.chmod(gittmpdir, "2755")
   }
 
   #return success and output
