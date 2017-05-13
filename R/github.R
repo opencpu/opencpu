@@ -34,7 +34,9 @@ github_install <- function(repo, username, ref = "master", args = NULL, upgrade_
   #install from github
   gittmpdir <- tempfile("githubdir")
   stopifnot(dir.create(gittmpdir))
-  Sys.chmod(gittmpdir, "0775")
+
+  # Sets 'chmod g+xs', i.e. makes writable for other users in the group
+  Sys.chmod(gittmpdir, "2755")
   #all_args$args <- paste0("'--library=", gittmpdir, "'")
 
   #Override auth_token if set in key
