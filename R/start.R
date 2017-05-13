@@ -121,14 +121,15 @@ ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload =
 
 ocpu_start_app_github <- function(repo, ...){
   info <- ocpu_app_info(repo)
+  if(!info$installed){
+    install_apps(repo)
+    info <- ocpu_app_info(repo)
+  }
   gitpath <- info$path
   Sys.setenv(R_LIBS = gitpath)
   on.exit(Sys.unsetenv("R_LIBS"), add = TRUE)
-  # Install on the fly
-  if(!info$installed)
-    install_apps(repo)
   inlib(gitpath, {
-    start_server_with_app(info$pkg, file.path("apps", info$user), ...)
+    start_server_with_app(info$package, url_path("apps", info$user, info$repo), ...)
   })
 }
 
@@ -139,7 +140,7 @@ start_local_app_local <- function(package, ...){
 start_server_with_app <- function(package, path, ...){
   getNamespace(package)
   ocpu_start_server(..., preload = package, on_startup = function(server_address){
-    app_url <- file.path(server_address, path, package)
+    app_url <- url_path(server_address, path)
     log("Opening %s", app_url)
     utils::browseURL(app_url)
   })

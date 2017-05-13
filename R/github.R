@@ -18,6 +18,18 @@ github_userlib <- function(gituser, gitrepo){
   file.path(github_rootpath(), paste(github_prefix, gituser, gitrepo, sep="_"))
 }
 
+github_package_info <- function(repo){
+  tryCatch({
+  url <- sprintf("https://raw.githubusercontent.com/%s/master/DESCRIPTION", repo)
+  con <- curl::curl(url, open = "r")
+  on.exit(close(con))
+  out <- as.list(as.data.frame(read.dcf(con), stringsAsFactors = FALSE))
+  }, error = function(e){
+    stop(sprintf("Failed to read %s. Repsitory does not contain a proper R package.", url))
+  })
+  setNames(out, tolower(names(out)))
+}
+
 github_install <- function(repo, username, ref = "master", args = NULL, upgrade_dependencies = FALSE, ...){
   #get args
   all_args <- list(...)
@@ -38,6 +50,11 @@ github_install <- function(repo, username, ref = "master", args = NULL, upgrade_
   gittmpdir <- tempfile("githubdir")
   stopifnot(dir.create(gittmpdir))
 
+  # Download metadata before actually installing. Errors if no DESCRIPTION exists.
+  app_info <- github_package_info(all_args$repo)
+  package <- app_info$package
+  writeLines(package, file.path(gittmpdir, "_APP_"))
+
   #all_args$args <- paste0("'--library=", gittmpdir, "'")
 
   #Override auth_token if set in key
@@ -53,14 +70,14 @@ github_install <- function(repo, username, ref = "master", args = NULL, upgrade_
   });
 
   #We require package name with identical repo name
-  success <- isTRUE(file.exists(file.path(gittmpdir, repo)));
+  success <- isTRUE(file.exists(file.path(gittmpdir, package)))
 
   #The index.html for vignettes is useless due to hardcoded hyperlinks
-  unlink(file.path(gittmpdir, repo, "doc", "index.html"));
+  unlink(file.path(gittmpdir, package, "doc", "index.html"))
 
-  #move everything to new location
+  #move to permanent location
   if(success){
-    unlink(gitpath, recursive=TRUE)
+    unlink(gitpath, recursive = TRUE)
     stopifnot(dir.move(gittmpdir, gitpath))
   }
 
@@ -68,6 +85,7 @@ github_install <- function(repo, username, ref = "master", args = NULL, upgrade_
   list(
     success = success,
     output = output,
-    gitpath = gitpath
-  );
+    gitpath = gitpath,
+    package = package
+  )
 }

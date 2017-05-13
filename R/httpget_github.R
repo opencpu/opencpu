@@ -27,10 +27,19 @@ httpget_github <- function(uri){
     res$sendlist(sub(pattern, "", pkglist))
   }
 
-  libpath <- github_userlib(gituser, gitrepo)
-  pkgpath <- file.path(libpath, gitrepo)
+  #check if app is installed
+  app_info <- ocpu_app_info(url_path(gituser, gitrepo))
+  if(!isTRUE(app_info$installed))
+    res$error(sprintf("Github App %s/%s not installed on this server", gituser, gitrepo), 404)
+
+  # For packages with different pkg name than repo name
+  libpath <- app_info$path
+  package <- app_info$package
+
+  # Name of package inside library
+  pkgpath <- file.path(libpath, package)
   if(!file.exists(pkgpath))
-    res$error(sprintf("Github package %s/%s not installed on this server", gituser, gitrepo), 404)
+    res$error(sprintf("Github package %s not foud in app library %s/%s.", package, gituser, gitrepo), 404)
   reqtail <- utils::tail(uri, -2)
 
   #set cache value

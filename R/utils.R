@@ -184,3 +184,7 @@ format_user_error <- function(e){
   }
   return(errmsg)
 }
+
+url_path <- function(...){
+  file.path(..., fsep = "/")
+}
