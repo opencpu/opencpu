@@ -5,8 +5,8 @@ Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 License: Apache License 2.0
 URL: https://www.opencpu.org (website) 
-    https://github.com/jeroen/opencpu#readme (devel)
-BugReports: https://github.com/jeroen/opencpu/issues
+    https://github.com/opencpu/opencpu#readme (devel)
+BugReports: https://github.com/opencpu/opencpu/issues
 Depends:
     R (>= 3.0.0)
 Imports:
