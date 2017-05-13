@@ -23,6 +23,12 @@
 #' @param on_startup function to call once server has started (e.g. \code{browseURL})
 #' @example examples/apps.R
 ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload = NULL, on_startup = NULL) {
+  if(is_rapache()){
+    # some packages do ocpu_start_server() inside onAttach()
+    warning("Not starting single-user server inside rapache")
+    return(NULL)
+  }
+
   # normalize root path
   root <- sub("/$", "", sub("^//", "/", paste0("/", root)))
 
