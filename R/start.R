@@ -126,7 +126,7 @@ ocpu_start_app_github <- function(repo, ...){
   on.exit(Sys.unsetenv("R_LIBS"), add = TRUE)
   # Install on the fly
   if(!info$installed)
-    ocpu_install_apps(repo)
+    install_apps(repo)
   inlib(gitpath, {
     start_server_with_app(info$pkg, file.path("apps", info$user), ...)
   })

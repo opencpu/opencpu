@@ -2,19 +2,19 @@
 % Please edit documentation in R/apps.R
 \name{apps}
 \alias{apps}
-\alias{ocpu_install_apps}
-\alias{ocpu_remove_apps}
-\alias{ocpu_installed_apps}
-\alias{ocpu_available_apps}
+\alias{install_apps}
+\alias{remove_apps}
+\alias{installed_apps}
+\alias{available_apps}
 \title{OpenCPU Application}
 \usage{
-ocpu_install_apps(repo, ...)
+install_apps(repo, ...)
 
-ocpu_remove_apps(repo)
+remove_apps(repo)
 
-ocpu_installed_apps()
+installed_apps()
 
-ocpu_available_apps()
+available_apps()
 }
 \arguments{
 \item{repo}{a github repository such as \code{user/repo}, see \link{install_github}.}
@@ -33,7 +33,7 @@ installed apps on an OpenCPU cloud server. However to install apps on cloud serv
 \examples{
 \dontrun{
 # List available demo apps
-ocpu_available_apps()
+available_apps()
 
 # Run application from: https://github.com/rwebapps/stocks
 ocpu_start_app("rwebapps/stocks")
@@ -45,7 +45,7 @@ ocpu_start_app("rwebapps/markdownapp")
 ocpu_start_app("rwebapps/appdemo")
 
 # Show currently installed apps
-ocpu_installed_apps()
+installed_apps()
 }
 }
 \seealso{

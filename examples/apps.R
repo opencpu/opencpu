@@ -1,6 +1,6 @@
 \dontrun{
 # List available demo apps
-ocpu_available_apps()
+available_apps()
 
 # Run application from: https://github.com/rwebapps/stocks
 ocpu_start_app("rwebapps/stocks")
@@ -12,5 +12,5 @@ ocpu_start_app("rwebapps/markdownapp")
 ocpu_start_app("rwebapps/appdemo")
 
 # Show currently installed apps
-ocpu_installed_apps()
+installed_apps()
 }

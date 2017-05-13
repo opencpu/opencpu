@@ -16,12 +16,12 @@
 #' @family ocpu
 #' @example examples/apps.R
 #' @export
-ocpu_install_apps <- function(repo, ...){
-  lapply(repo, ocpu_install_apps_one, ...)
-  repo[repo %in% ocpu_installed_apps()]
+install_apps <- function(repo, ...){
+  lapply(repo, install_apps_one, ...)
+  repo[repo %in% installed_apps()]
 }
 
-ocpu_install_apps_one <- function(repo, ...){
+install_apps_one <- function(repo, ...){
   info <- ocpu_app_info(repo)
   lib <- info$path
   if(!file.exists(lib)){
@@ -41,7 +41,7 @@ ocpu_install_apps_one <- function(repo, ...){
 
 #' @rdname apps
 #' @export
-ocpu_remove_apps <- function(repo){
+remove_apps <- function(repo){
   lapply(repo, function(full_name){
     info <- ocpu_app_info(full_name)
     # cannot remove loaded packages
@@ -66,7 +66,7 @@ ocpu_app_info <- function(repo){
 
 #' @rdname apps
 #' @export
-ocpu_installed_apps <- function(){
+installed_apps <- function(){
   pattern <- paste0("^", github_prefix, "_")
   apps <- list.files(github_rootpath(), pattern = pattern)
   apps <- sub(pattern, "", apps)
@@ -75,7 +75,7 @@ ocpu_installed_apps <- function(){
 
 #' @rdname apps
 #' @export
-ocpu_available_apps <- function(){
+available_apps <- function(){
   data <- jsonlite::fromJSON('https://api.github.com/users/rwebapps/repos')
   data$full_name
 }
