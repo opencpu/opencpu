@@ -31,6 +31,9 @@ github_install <- function(repo, username, ref = "master", args = NULL, upgrade_
   #github libraries
   gitpath <- github_userlib(username, repo)
 
+  # Sets 'chmod g+xs', i.e. makes writable for other users in the group
+  Sys.chmod(tempdir(), "2755")
+
   #install from github
   gittmpdir <- tempfile("githubdir")
   stopifnot(dir.create(gittmpdir))
@@ -59,9 +62,6 @@ github_install <- function(repo, username, ref = "master", args = NULL, upgrade_
   if(success){
     unlink(gitpath, recursive=TRUE)
     stopifnot(dir.move(gittmpdir, gitpath))
-
-    # Sets 'chmod g+xs', i.e. makes writable for other users in the group
-    Sys.chmod(gittmpdir, "2755")
   }
 
   #return success and output
