@@ -1,11 +1,15 @@
 #' OpenCPU Application
 #'
 #' Manage installed OpenCPU applications. These applications can be started locally
-#' using \link{ocpu_start_app}.
+#' using \link{ocpu_start_app} or deployed online on \href{https://ocpu.io}{ocpu.io}.
 #'
-#' When running this functions as \code{root} user, they can be used to manage globally
-#' installed apps on an OpenCPU cloud server. However to install apps on cloud servers and
-#' \code{ocpu.io} it is easier to the Github webhook.
+#' OpenCPU apps are simply R packages. For regular users, apps get installed in a
+#' user-specific app library which is persistent between R sessions. This is used
+#' for locally running or developing web applications.
+#'
+#' When running these functions as \code{opencpu} user on an OpenCPU cloud server, apps
+#' will be installed in the global opencpu server app library; the same library as used
+#' by the OpenCPU Github webhook.
 #'
 #' @export
 #' @param repo a github repository such as \code{user/repo}, see \link{install_github}.
