@@ -2,12 +2,12 @@
 
 ##### *A System for Embedded Scientific Computing and Reproducible Research with R*
 
-[![Build Status](https://travis-ci.org/jeroen/opencpu.svg?branch=master)](https://travis-ci.org/jeroen/opencpu)
+[![Build Status](https://travis-ci.org/opencpu/opencpu.svg?branch=master)](https://travis-ci.org/opencpu/opencpu)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/jeroen/opencpu?branch=master&svg=true)](https://ci.appveyor.com/project/jeroen/opencpu)
-[![Coverage Status](https://codecov.io/github/jeroen/opencpu/coverage.svg?branch=master)](https://codecov.io/github/jeroen/opencpu?branch=master)
+[![Coverage Status](https://codecov.io/github/opencpu/opencpu/coverage.svg?branch=master)](https://codecov.io/github/opencpu/opencpu?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/opencpu)](http://cran.r-project.org/package=opencpu)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/opencpu)](http://cran.r-project.org/web/packages/opencpu/index.html)
-[![Github Stars](https://img.shields.io/github/stars/jeroen/opencpu.svg?style=social&label=Github)](https://github.com/jeroen/opencpu)
+[![Github Stars](https://img.shields.io/github/stars/opencpu/opencpu.svg?style=social&label=Github)](https://github.com/opencpu/opencpu)
 
 > The OpenCPU system exposes an http API for embedded scientific
   computing with R. The server can run either as a single-user development
