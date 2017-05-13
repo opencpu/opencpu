@@ -48,7 +48,7 @@ ocpu_start_app("rwebapps/markdownapp")
 ocpu_start_app("rwebapps/appdemo")
 
 # Show currently installed apps
-ocpu_install_apps()
+ocpu_installed_apps()
 }
 }
 \seealso{
