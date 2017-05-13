@@ -21,7 +21,7 @@ github_userlib <- function(gituser, gitrepo){
 github_package_info <- function(repo){
   tryCatch({
   url <- sprintf("https://raw.githubusercontent.com/%s/master/DESCRIPTION", repo)
-  con <- curl::curl(url, open = "r")
+  con <- curl::curl(url)
   on.exit(close(con))
   out <- as.list(as.data.frame(read.dcf(con), stringsAsFactors = FALSE))
   }, error = function(e){

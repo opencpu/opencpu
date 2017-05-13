@@ -144,7 +144,10 @@ start_local_app_local <- function(package, ...){
 }
 
 start_server_with_app <- function(package, path, ...){
-  getNamespace(package)
+  if(!isNamespaceLoaded(package)){
+    ns <- getNamespace(package)
+    on.exit(unloadNamespace(ns), add = TRUE)
+  }
   ocpu_start_server(..., preload = package, on_startup = function(server_address){
     app_url <- url_path(server_address, path)
     log("Opening %s", app_url)
