@@ -49,12 +49,12 @@ install_apps_one <- function(repo, ...){
 #' @rdname apps
 #' @export
 remove_apps <- function(repo){
-  lapply(repo, function(full_name){
+  vapply(repo, function(full_name){
     info <- ocpu_app_info(full_name)
     # cannot remove loaded packages
     try(unloadNamespace(info$package))
-    unlink(info$path, recursive = TRUE)
-  })
+    !unlink(info$path, recursive = TRUE)
+  }, logical(1))
 }
 
 ocpu_app_info <- function(repo){
