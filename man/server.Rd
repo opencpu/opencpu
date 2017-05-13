@@ -33,18 +33,19 @@ up requests to those packages.}
 \description{
 Starts the OpenCPU single-user server for developing and running apps locally.
 To deploy your apps on a cloud server or \href{https://ocpu.io}{ocpu.io}, simply
-push them to github and install the opencpu webhook.
+push them to github and install the opencpu webhook. Some example apps are available
+from \url{https://github.com/rwebapps}.
 }
 \examples{
 \dontrun{
-# Try a demo application:
-ocpu_start_app("opencpu/stocks")
+# Demo application from: https://github.com/rwebapps/stocks
+ocpu_start_app("rwebapps/stocks")
 
-# Or another one
-ocpu_start_app("opencpu/markdownapp")
+# Demo application from: https://github.com/rwebapps/markdownapp
+ocpu_start_app("rwebapps/markdownapp")
 
-# Or another one
-ocpu_start_app("opencpu/appdemo")
+# Demo application from: https://github.com/rwebapps/appdemo
+ocpu_start_app("rwebapps/appdemo")
 
 # Show currently installed apps
 ocpu_install_apps()
