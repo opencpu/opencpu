@@ -6,3 +6,4 @@ Makefile
 ^teststuff$
 LICENSE
 ^appveyor\.yml$
+^examples$

@@ -21,19 +21,7 @@
 #' @param preload character vector of packages to preload in the workers. This speeds
 #' up requests to those packages.
 #' @param on_startup function to call once server has started (e.g. \code{browseURL})
-#' @examples \dontrun{
-#' # Demo application from: https://github.com/rwebapps/stocks
-#' ocpu_start_app("rwebapps/stocks")
-#'
-#' # Demo application from: https://github.com/rwebapps/markdownapp
-#' ocpu_start_app("rwebapps/markdownapp")
-#'
-#' # Demo application from: https://github.com/rwebapps/appdemo
-#' ocpu_start_app("rwebapps/appdemo")
-#'
-#' # Show currently installed apps
-#' ocpu_installed_apps()
-#' }
+#' @example examples/apps.R
 ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload = NULL, on_startup = NULL) {
   # normalize root path
   root <- sub("/$", "", sub("^//", "/", paste0("/", root)))

@@ -30,6 +30,24 @@ When running this functions as \code{root} user, they can be used to manage glob
 installed apps on an OpenCPU cloud server. However to install apps on cloud servers and
 \code{ocpu.io} it is easier to the Github webhook.
 }
+\examples{
+\dontrun{
+# List available demo apps
+ocpu_available_apps()
+
+# Run application from: https://github.com/rwebapps/stocks
+ocpu_start_app("rwebapps/stocks")
+
+# Run application from: https://github.com/rwebapps/markdownapp
+ocpu_start_app("rwebapps/markdownapp")
+
+# Run application from: https://github.com/rwebapps/appdemo
+ocpu_start_app("rwebapps/appdemo")
+
+# Show currently installed apps
+ocpu_installed_apps()
+}
+}
 \seealso{
 Other ocpu: \code{\link{ocpu-server}}
 }

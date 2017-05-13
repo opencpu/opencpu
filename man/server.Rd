@@ -38,13 +38,16 @@ from \url{https://github.com/rwebapps}.
 }
 \examples{
 \dontrun{
-# Demo application from: https://github.com/rwebapps/stocks
+# List available demo apps
+ocpu_available_apps()
+
+# Run application from: https://github.com/rwebapps/stocks
 ocpu_start_app("rwebapps/stocks")
 
-# Demo application from: https://github.com/rwebapps/markdownapp
+# Run application from: https://github.com/rwebapps/markdownapp
 ocpu_start_app("rwebapps/markdownapp")
 
-# Demo application from: https://github.com/rwebapps/appdemo
+# Run application from: https://github.com/rwebapps/appdemo
 ocpu_start_app("rwebapps/appdemo")
 
 # Show currently installed apps

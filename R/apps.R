@@ -14,6 +14,7 @@
 #' @name apps
 #' @aliases apps
 #' @family ocpu
+#' @example examples/apps.R
 #' @export
 ocpu_install_apps <- function(repo, ...){
   lapply(repo, ocpu_install_apps_one, ...)
