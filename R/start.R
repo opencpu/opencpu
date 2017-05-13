@@ -134,7 +134,7 @@ ocpu_start_app_github <- function(repo, ...){
 }
 
 start_local_app_local <- function(package, ...){
-  start_server_with_app(package, "library", ...)
+  start_server_with_app(package, url_path("library", package), ...)
 }
 
 start_server_with_app <- function(package, path, ...){
