@@ -24,8 +24,8 @@ httpget <- function(){
     "tmp" = httpget_tmp(reqtail),
     "doc" = httpget_doc(reqtail),
     "user" = httpget_user(reqtail),
-    "github" = httpget_github(reqtail),
-    "apps" = httpget_github(reqtail), # new alias for /github
+    "github" = httpget_apps(reqtail),
+    "apps" = httpget_apps(reqtail), # new alias for /github
     "webhook" = httpget_webhook(),
     "test" = httpget_static(),
     "info" = httpget_info(),

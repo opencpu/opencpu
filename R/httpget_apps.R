@@ -1,4 +1,4 @@
-httpget_github <- function(uri){
+httpget_apps <- function(uri){
   #check if API has been enabled
   check.enabled("api.apps");
 
