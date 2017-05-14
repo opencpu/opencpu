@@ -8,7 +8,7 @@ citEntry(entry = "Article",
   url          = "http://arxiv.org/abs/1406.4806",
 
   textVersion  =
-  paste("Jeroen Ooms (2013).",
+  paste("Jeroen Ooms (2014).",
         "The OpenCPU System: Towards a Universal Interface for Scientific Computing through Separation of Concerns",
         "arXiv:1406.4806 [stat.CO]",
         "URL http://arxiv.org/abs/1406.4806.")
