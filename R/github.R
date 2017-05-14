@@ -27,7 +27,7 @@ github_package_info <- function(repo){
   }, error = function(e){
     stop(sprintf("Failed to read %s. Repsitory does not contain a proper R package.", url))
   })
-  setNames(out, tolower(names(out)))
+  stats::setNames(out, tolower(names(out)))
 }
 
 github_install <- function(repo, username, ref = "master", args = NULL, upgrade_dependencies = FALSE, ...){

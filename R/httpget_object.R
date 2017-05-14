@@ -1,9 +1,9 @@
 httpget_object <- local({
-  main <- function(object, reqformat, objectname, defaultformat){
+  main <- function(object, reqformat, objectname = "output", defaultformat = NULL){
     #Default format
     if(is.na(reqformat)){
-      if(missing(defaultformat)){
-        defaultformat <- "print";
+      if(!length(defaultformat)){
+        defaultformat <- "print"
       }
       res$redirectpath(defaultformat);
     }
