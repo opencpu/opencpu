@@ -19,6 +19,7 @@ httpget_object <- local({
       "feather" = httpget_object_feather(object, objectname),
       "file" = httpget_object_file(object),
       "json" = httpget_object_json(object),
+      "ndjson" = httpget_object_ndjson(object),
       "rda" = httpget_object_rda(object, objectname),
       "rds" = httpget_object_rds(object, objectname),
       "pb" = httpget_object_pb(object, objectname),
@@ -93,6 +94,17 @@ httpget_object <- local({
     res$setbody(jsonstring);
     res$setheader("Content-Type", "application/json");
     res$finish();
+  }
+
+  httpget_object_ndjson <- function(object){
+    buf <- rawConnection(raw(0), "r+")
+    on.exit(close(buf))
+    do.call(function(verbose = NULL, con = NULL, ...){
+      jsonlite::stream_out(x = object, con = buf, verbose = FALSE, ...)
+    }, req$get());
+    res$setbody(rawToChar(rawConnectionValue(buf)))
+    res$setheader("Content-Type", "application/x-ndjson; charset=utf-8")
+    res$finish()
   }
 
   httpget_object_print <- function(object){
