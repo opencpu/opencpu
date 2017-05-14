@@ -65,8 +65,14 @@ session_eval <- local({
     # Use 201 instead of 200 in case of success
     res$setstatus(201)
 
-    #Shortcuts to get object immediately
-    if(format %in% c("json", "print", "pb")){
+    # Shortcuts to get output immediately
+    if(format %in% c("png", "svg", "pdf")){
+      myplots <- extract(output$res, "graphics")
+      if(length(myplots) < 1)
+        res$error("Function call did not generate any graphics", 400)
+      object <- myplots[[length(myplots)]] # last generated plot
+      httpget_object(object, format)
+    } else if(format %in% c("print", "md", "bin", "csv", "feather", "json", "rda", "rds", "pb", "tab", "ndjson")){
       httpget_object(get(".val", sessionenv), format, "object")
     } else if(format %in% c("console")) {
       httpget_object(extract(output$res, format), "text")
