@@ -62,7 +62,8 @@ serve <- function(REQDATA, run_worker = NULL){
   request({
     hash <- generate_hash()
     tmp <- file.path(ocpu_temp(), hash)
-    dir.create(tmp)
+    if(!dir.create(tmp))
+      stop(sprintf("Failed to create tempdir %s. Check directory permissions.", tmp))
     mytmp <- normalizePath(tmp)
     if(REQDATA$METHOD == "POST"){
       on.exit({
