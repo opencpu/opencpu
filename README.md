@@ -23,7 +23,7 @@
  - Paper: [Towards a Universal Interface for Scientific Computing through Separation of Concerns](http://arxiv.org/abs/1406.4806) 
  - Example [apps](https://www.opencpu.org/apps.html)
  - JavaScript client: [opencpu.js](https://github.com/opencpu/opencpu.js)
- - Server manual: [PDF](http://opencpu.github.com/server-manual/opencpu-server.pdf)
+ - Server manual: [PDF](http://opencpu.github.io/server-manual/opencpu-server.pdf)
 
 ## Cloud Server
 
