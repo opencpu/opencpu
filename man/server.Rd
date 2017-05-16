@@ -28,7 +28,7 @@ up requests to those packages.}
 \item{no_cache}{sets \code{Cache-Control: no-cache} for all responses to disable
 browser caching. Useful for development when files change frequently. Note that you
 might still need to manually flush the browser cache for resources cached previously.
-Try hitting \code{CTRL+R} in the browser if you're seeing old content.}
+Try hitting \code{CTRL+R} or go incognito if your browser is showing old content.}
 
 \item{app}{either the name of a locally installed package, or a github remote
 (see \link{install_github})}

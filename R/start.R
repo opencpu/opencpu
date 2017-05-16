@@ -24,7 +24,7 @@
 #' @param no_cache sets \code{Cache-Control: no-cache} for all responses to disable
 #' browser caching. Useful for development when files change frequently. Note that you
 #' might still need to manually flush the browser cache for resources cached previously.
-#' Try hitting \code{CTRL+R} in the browser if you're seeing old content.
+#' Try hitting \code{CTRL+R} or go incognito if your browser is showing old content.
 #' @example examples/apps.R
 ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload = NULL,
                               on_startup = NULL, no_cache = FALSE) {
