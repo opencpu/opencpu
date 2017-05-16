@@ -1,19 +1,15 @@
 # Note: In some cases replayPlot() raises an error, but the error message is printed in the figure!
+# Currently this case is detected via the error message 'invalid graphics state'
 try_print_plot <- function(object, figure){
   out <- try(print(object), silent = TRUE)
-  plot_failure <- isTRUE(inherits(out, "try-error"))
+  if(inherits(out, "try-error") && !grepl("invalid graphics state", attr(out, "condition")$message)){
+    stop(sprintf("Failed to print plot: %s", attr(out, "condition")$message))
+  }
   if(!file.exists(figure)){
-    if(plot_failure){
-      stop(e$message)
-    }
     stop("This call did not generate any plot. Make sure the function/object produces a graph.");
   }
   res$setbody(file = figure);
-  if(plot_failure){
-    res$finish(400)
-  } else {
-    res$finish()
-  }
+  res$finish()
 }
 
 httpget_object <- local({
