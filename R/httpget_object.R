@@ -1,3 +1,21 @@
+# Note: In some cases replayPlot() raises an error, but the error message is printed in the figure!
+try_print_plot <- function(object, figure){
+  out <- try(print(object), silent = TRUE)
+  plot_failure <- isTRUE(inherits(out, "try-error"))
+  if(!file.exists(figure)){
+    if(plot_failure){
+      stop(e$message)
+    }
+    stop("This call did not generate any plot. Make sure the function/object produces a graph.");
+  }
+  res$setbody(file = figure);
+  if(plot_failure){
+    res$finish(400)
+  } else {
+    res$finish()
+  }
+}
+
 httpget_object <- local({
   main <- function(object, reqformat, objectname = "output", defaultformat = NULL){
     #Default format
@@ -163,14 +181,9 @@ httpget_object <- local({
     do.call(function(width=800, height=600, pointsize=12, ...){
       png(type="cairo", file=mytmp, width=as.numeric(width), height=as.numeric(height), pointsize=as.numeric(pointsize), ...);
     }, req$get());
-    print(object);
-    dev.off();
-    if(!file.exists(mytmp)){
-      stop("This call did not generate any plot. Make sure the function/object produces a graph.");
-    }
-    res$setbody(file=mytmp);
+    on.exit(dev.off())
     res$setheader("Content-Type", "image/png");
-    res$finish();
+    try_print_plot(object, mytmp)
   }
 
   httpget_object_pdf <- function(object, objectname){
@@ -178,15 +191,10 @@ httpget_object <- local({
     do.call(function(width=11.69, height=8.27, pointsize=12, paper="A4r", ...){
       pdf(file=mytmp, width=as.numeric(width), height=as.numeric(height), pointsize=as.numeric(pointsize), paper=paper, ...);
     }, req$get());
-    print(object);
-    dev.off();
-    if(!file.exists(mytmp)){
-      stop("This call did not generate any plot. Make sure the function/object produces a graph.");
-    }
-    res$setbody(file=mytmp);
+    on.exit(dev.off())
     res$setheader("Content-Type", "application/pdf");
     res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".pdf", sep=""));
-    res$finish();
+    try_print_plot(object, mytmp)
   }
 
   httpget_object_svg <- function(object, objectname){
@@ -194,15 +202,9 @@ httpget_object <- local({
     do.call(function(width=11.69, height=8.27, pointsize=12, ...){
       svg(file=mytmp, width=as.numeric(width), height=as.numeric(height), pointsize=as.numeric(pointsize), ...);
     }, req$get());
-    print(object);
-    dev.off();
-    if(!file.exists(mytmp)){
-      stop("This call did not generate any plot. Make sure the function/object produces a graph.");
-    }
-    res$setbody(file=mytmp);
+    on.exit(dev.off())
     res$setheader("Content-Type", "image/svg+xml");
-    #res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".svg", sep=""));
-    res$finish();
+    try_print_plot(object, mytmp)
   }
 
   #export only main
