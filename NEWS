@@ -1,5 +1,6 @@
 2.0.1
  - Fix for posting scripts bug (empty args)
+ - Support figures with error messages (for invalid graphic parameters)
  - linux: better error message when tmp cannot be created
  - opencpu-cache: require at least version 1.12 of nginx, fixes HTTP/2 bug
  - fix year of paper in citation file
