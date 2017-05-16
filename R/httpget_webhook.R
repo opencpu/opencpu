@@ -55,9 +55,16 @@ webhook_install <- function(payload = NULL, sendmail = TRUE, ...){
 
   #Send email results
   if(isTRUE(sendmail)) {
-    tryCatch(mail_CI(result$success, result$output, payload), error = function(e){
-      stop("Build successful but error when sending email (check SMTP server): ", e$message);
-    });
+
+    #formulate email message
+    email_args <- create_email(result$success, result$output, payload)
+    email_args$control = list(smtpServer = config("smtp.server"))
+
+    # try to send it
+    tryCatch(do.call(sendmailR::sendmail, email_args), error = function(e){
+      stop(sprintf("Build successful but error when sending email to %s (bcc: %s) (check SMTP server): %s",
+                   email_args$to, email_args$bcc, e$message))
+    })
   }
 
   #success

@@ -56,15 +56,19 @@ dir.move <- function(from, to){
   stop("Failed to move ", from, " to ", to);
 }
 
-email <- function(to, ...){
+send_email <- function(to, ...){
   sendmail <- from("sendmailR", "sendmail");
   lapply(to, function(rcpt){
     sendmail(to = rcpt, ...);
   })
 }
 
-address <- function(name, mail){
-  paste0('"', name, '"<', mail, '>');
+address <- function(name, address){
+  if(!length(address))
+    return(NULL)
+  if(!length(name))
+    return(address)
+  sprintf('"%s"<%s>', name, address)
 }
 
 errbuf <- function(e){
@@ -187,4 +191,8 @@ format_user_error <- function(e){
 
 url_path <- function(...){
   file.path(..., fsep = "/")
+}
+
+is_ocpu_server <- function(){
+  identical("dev.opencpu.org", Sys.info()[["nodename"]])
 }

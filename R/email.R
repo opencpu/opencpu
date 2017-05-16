@@ -1,4 +1,4 @@
-mail_CI <- function(success, output, payload) {
+create_email <- function(success, output, payload) {
   #get some fields from the payload
   gituser <- payload$repository$owner$name;
   gitrepo <- payload$repository$name;
@@ -9,23 +9,13 @@ mail_CI <- function(success, output, payload) {
   success <- isTRUE(success);
   output <- paste(c("BUILD LOG:", output), sep="\n", collapse="\n");
   what <- paste(gituser, gitrepo, sep="/");
-  from <- "\"OpenCPU CI\"<noreply@opencpu.org>";
+  sender <- "\"OpenCPU CI\"<noreply@opencpu.org>";
 
   #who to send the mail to
-  ownermail <- address(payload$repository$owner$name, payload$repository$owner$email);
-  pushermail <- address(payload$pusher$name, payload$pusher$email);
-
-  #send email to pusher and owner (but not twice if the same)
-  to <- if(is.null(payload$pusher$email)){
-    ownermail;
-  } else if(identical(payload$repository$owner$email, payload$pusher$email)) {
-    pushermail;
-  } else {
-    c(pushermail, ownermail);
-  }
-
-  #also mail to mailing list
-  to <- c(to, address("OpenCPU CI Mailing List", "opencpu-ci@googlegroups.com"))
+  recipients <- unique(c(
+    address(payload$repository$owner$name, payload$repository$owner$email),
+    address(payload$pusher$name, payload$pusher$email)
+  ))
 
   #compose subject
   subject <- paste0("Build ", ifelse(success, "successful", "failed"), ": ", what);
@@ -44,7 +34,7 @@ mail_CI <- function(success, output, payload) {
 
   #format first line
   msg <- if(success){
-    if(identical("dev.opencpu.org", try(system("hostname", intern=TRUE)))){
+    if(is_ocpu_server()){
       paste0("Build ", commitname, " successful: https://", gituser, ".ocpu.io/", gitrepo, "/");
     } else {
       paste0("Build ", commitname, " successful: ", config("public.url"), "/github/", what, "/");
@@ -57,5 +47,17 @@ mail_CI <- function(success, output, payload) {
   msg <- paste(msg, commitinfo, output, mysession, sep="\n\n")
 
   #try to send email
-  email(to = to, from = from, subject = subject, msg = msg, control = list(smtpServer=config("smtp.server")))
+  data <- list(
+    from = sender,
+    to = recipients,
+    subject = subject,
+    msg = msg
+  )
+
+  #also mail to mailing list
+  if(is_ocpu_server()){
+    data$bcc <- address("OpenCPU CI Mailing List", "opencpu-ci@googlegroups.com")
+  }
+
+  return(data)
 }
