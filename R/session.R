@@ -18,7 +18,7 @@ session_eval <- local({
   }
 
   #evaluates something inside a session
-  function(input, args, storeval=FALSE, format="list"){
+  function(input, args = NULL, storeval=FALSE, format="list"){
 
     #create workding directory
     worker_home <- Sys.getenv('OCPU_SESSION_DIR', tempdir())
