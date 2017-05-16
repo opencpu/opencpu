@@ -1,5 +1,5 @@
 #' @importFrom webutils parse_query
-rookhandler <- function(rootpath, worker_cb){
+rookhandler <- function(rootpath, worker_cb, no_cache = FALSE){
   function(env){
     #for single user server
     log("%s %s%s", toupper(env[["REQUEST_METHOD"]]), env[["PATH_INFO"]], env[["QUERY_STRING"]])
@@ -59,6 +59,11 @@ rookhandler <- function(rootpath, worker_cb){
 
     # response must be file path or raw
     stopifnot(is.raw(response$body))
+
+    # disable caching for development
+    if(isTRUE(no_cache)){
+      response$headers[["Cache-Control"]] <- "no-cache, no-store, must-revalidate"
+    }
 
     #set server header
     response$headers["X-ocpu-server"] <- "rook/httpuv"

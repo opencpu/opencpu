@@ -21,8 +21,13 @@
 #' @param preload character vector of packages to preload in the workers. This speeds
 #' up requests to those packages.
 #' @param on_startup function to call once server has started (e.g. \code{browseURL})
+#' @param no_cache sets \code{Cache-Control: no-cache} for all responses to disable
+#' browser caching. Useful for development when files change frequently. Note that you
+#' might still need to manually flush the browser cache for resources cached previously.
+#' Try hitting \code{CTRL+R} in the browser if you're seeing old content.
 #' @example examples/apps.R
-ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload = NULL, on_startup = NULL) {
+ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload = NULL,
+                              on_startup = NULL, no_cache = FALSE) {
   if(is_rapache()){
     # some packages do ocpu_start_server() inside onAttach()
     warning("Not starting single-user server inside rapache")
@@ -101,7 +106,7 @@ ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload =
   }
 
   # Start the server
-  server_id <- httpuv::startServer("0.0.0.0", port, app = rookhandler(root, run_worker))
+  server_id <- httpuv::startServer("0.0.0.0", port, app = rookhandler(root, run_worker, no_cache))
   server_address <- paste0(get_localhost(port), root)
   log("READY to serve at: %s", server_address)
   log("Press ESC or CTRL+C to quit!")

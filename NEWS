@@ -5,6 +5,7 @@
  - opencpu-cache: require at least version 1.12 of nginx (fixes HTTP/2 bug)
  - fix year of paper in citation file
  - fix link to pdf manual in test page
+ - Add parameter 'no_cache' to single user server for development
 
 2.0
  - Major rewrite :)

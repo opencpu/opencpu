@@ -9,7 +9,7 @@
 \title{OpenCPU Single-User Server}
 \usage{
 ocpu_start_server(port = 5656, root = "/ocpu", workers = 2,
-  preload = NULL, on_startup = NULL)
+  preload = NULL, on_startup = NULL, no_cache = FALSE)
 
 ocpu_start_app(app, ...)
 }
@@ -24,6 +24,11 @@ ocpu_start_app(app, ...)
 up requests to those packages.}
 
 \item{on_startup}{function to call once server has started (e.g. \code{browseURL})}
+
+\item{no_cache}{sets \code{Cache-Control: no-cache} for all responses to disable
+browser caching. Useful for development when files change frequently. Note that you
+might still need to manually flush the browser cache for resources cached previously.
+Try hitting \code{CTRL+R} in the browser if you're seeing old content.}
 
 \item{app}{either the name of a locally installed package, or a github remote
 (see \link{install_github})}
