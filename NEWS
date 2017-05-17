@@ -6,6 +6,8 @@
  - fix year of paper in citation file
  - fix link to pdf manual in test page
  - Add parameter 'no_cache' to single user server for development
+ - HTTP OPTIONS now returns 'Access-Control-Allow-Methods' header for CORS preflight
+ - Better email notification: to=pusher, cc=owner, bcc=archive
 
 2.0
  - Major rewrite :)
