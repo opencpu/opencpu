@@ -3,7 +3,7 @@ httpget <- function(){
   #temporary fix for OPTIONS method support
   #should implement this per resource and send some text
   if(isTRUE(req$method() == "OPTIONS")){
-    res$setheader("Allow", "GET,HEAD,POST,OPTIONS");
+    res$setheader("Access-Control-Allow-Methods", "POST, GET, HEAD, OPTIONS, DELETE");
     res$sendtext("OPTIONS OK");
   }
 
