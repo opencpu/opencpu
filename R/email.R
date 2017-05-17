@@ -9,16 +9,6 @@ create_email <- function(success, output, payload) {
   success <- isTRUE(success);
   output <- paste(c("BUILD LOG:", output), sep="\n", collapse="\n");
   what <- paste(gituser, gitrepo, sep="/");
-  sender <- "\"OpenCPU CI\"<noreply@opencpu.org>";
-
-  #who to send the mail to
-  recipients <- unique(c(
-    address(payload$repository$owner$name, payload$repository$owner$email),
-    address(payload$pusher$name, payload$pusher$email)
-  ))
-
-  #compose subject
-  subject <- paste0("Build ", ifelse(success, "successful", "failed"), ": ", what);
 
   #create commit(s) info
   ids <- paste0("[", substring(payload$commits$id, 1, 10), "]")
@@ -43,16 +33,26 @@ create_email <- function(success, output, payload) {
     paste("Build", commitname, "failed. Either an error occured during package installation, or the package name does not match the name of the Github repository.");
   }
 
-  #creat the body
+  # Create recipient formats
+  pusher <- address(payload$pusher$name, payload$pusher$email)
+  owner <- address(payload$repository$owner$name, payload$repository$owner$email)
+
+  # Compose email message
+  sender <- "\"OpenCPU CI\"<noreply@opencpu.org>"
+  subject <- paste0("Build ", ifelse(success, "successful", "failed"), ": ", what)
   msg <- paste(msg, commitinfo, output, mysession, sep="\n\n")
 
   #try to send email
   data <- list(
     from = sender,
-    to = recipients,
     subject = subject,
     msg = msg
   )
+
+  # add recipients
+  data$to <- pusher
+  if(!identical(owner, pusher))
+    data$cc <- owner
 
   #also mail to mailing list
   if(is_ocpu_server()){
