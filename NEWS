@@ -11,6 +11,7 @@
  - Webhook: use sys pkg instead of system2 for running rscript
  - Webhook: make email sending more robust
  - Internal function trigger_webhook() to test webhook (should move to client pkg)
+ - Remove 'public.url' from default server.conf
 
 2.0
  - Major rewrite :)

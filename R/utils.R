@@ -200,3 +200,11 @@ is_ocpu_server <- function(){
 collapse <- function(x){
   paste(x, collapse = ", ")
 }
+
+public_url <- function(){
+  tryCatch({
+    url_path(config("public.url"), req$mount())
+  }, error = function(e){
+    req$fullmount()
+  })
+}

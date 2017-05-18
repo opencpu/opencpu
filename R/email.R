@@ -29,9 +29,9 @@ create_email <- function(success, output, payload) {
   #format first line
   msg <- if(success){
     if(is_ocpu_server()){
-      paste0("Build ", commitname, " successful: https://", gituser, ".ocpu.io/", gitrepo, "/");
+      paste0("Build ", commitname, " successful: https://", gituser, ".ocpu.io/", gitrepo, "/")
     } else {
-      paste0("Build ", commitname, " successful: ", config("public.url"), "/github/", what, "/");
+      paste0("Build ", commitname, " successful: ", url_path(public_url(), "apps", what))
     }
   } else {
     paste("Build", commitname, "failed. Either an error occured during package installation, or the package name does not match the name of the Github repository.");

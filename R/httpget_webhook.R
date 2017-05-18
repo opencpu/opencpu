@@ -2,7 +2,7 @@ httpget_webhook <- function(){
   if(req$method() == "GET"){
     res$sendtext(paste0(
       "To enable CI, add the following URL as a 'WebHook' in your Github repository:\n\n  ",
-      config("public.url"), "/webhook?sendmail=true\n\nSee also https://help.github.com/articles/post-receive-hooks."));
+      public_url(), "/webhook?sendmail=true\n\nSee also https://help.github.com/articles/post-receive-hooks."));
   }
 
   #make sure it's POST
