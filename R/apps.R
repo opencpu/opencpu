@@ -93,3 +93,14 @@ available_apps <- function(){
   data <- jsonlite::fromJSON('https://api.github.com/users/rwebapps/repos')
   data$full_name
 }
+
+#' @rdname apps
+#' @export
+update_apps <- function(){
+  vapply(installed_apps(), function(x){
+    tryCatch({
+      install_apps(x)
+      TRUE
+    }, error = function(e) FALSE)
+  }, logical(1))
+}

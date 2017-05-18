@@ -6,6 +6,7 @@
 \alias{remove_apps}
 \alias{installed_apps}
 \alias{available_apps}
+\alias{update_apps}
 \title{OpenCPU Application}
 \usage{
 install_apps(repo, ...)
@@ -15,6 +16,8 @@ remove_apps(repo)
 installed_apps()
 
 available_apps()
+
+update_apps()
 }
 \arguments{
 \item{repo}{a github repository such as \code{user/repo}, see \link{install_github}.}
