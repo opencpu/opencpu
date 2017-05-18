@@ -17,7 +17,7 @@ installed_apps()
 
 available_apps()
 
-update_apps()
+update_apps(...)
 }
 \arguments{
 \item{repo}{a github repository such as \code{user/repo}, see \link{install_github}.}

@@ -96,10 +96,10 @@ available_apps <- function(){
 
 #' @rdname apps
 #' @export
-update_apps <- function(){
+update_apps <- function(...){
   vapply(installed_apps(), function(x){
     tryCatch({
-      install_apps(x)
+      install_apps(x, ...)
       TRUE
     }, error = function(e) FALSE)
   }, logical(1))
