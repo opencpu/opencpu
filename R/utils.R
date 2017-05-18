@@ -196,3 +196,7 @@ url_path <- function(...){
 is_ocpu_server <- function(){
   identical("dev.opencpu.org", Sys.info()[["nodename"]])
 }
+
+collapse <- function(x){
+  paste(x, collapse = ", ")
+}

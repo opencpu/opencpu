@@ -66,8 +66,8 @@ github_install <- function(repo, username, ref = "master", args = NULL, upgrade_
   #Dependencies = TRUE would also install currently loaded packages.
   inlib(gittmpdir, {
     arg_list <- paste(deparse(all_args), collapse="\n")
-    output <- try_rscript(paste0("library(methods); library(devtools); do.call(install_github,", arg_list, ");"));
-  });
+    output <- run_rscript(sprintf("do.call(devtools::install_github, %s)", arg_list))
+  })
 
   #We require package name with identical repo name
   success <- isTRUE(file.exists(file.path(gittmpdir, package)))

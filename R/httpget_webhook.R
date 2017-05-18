@@ -51,7 +51,7 @@ httpget_webhook <- function(){
 webhook_install <- function(payload = NULL, sendmail = TRUE, ...){
 
   #install the package
-  result <- github_install(...);
+  result <- github_install(...)
 
   #Send email results
   if(isTRUE(sendmail)) {
@@ -62,11 +62,41 @@ webhook_install <- function(payload = NULL, sendmail = TRUE, ...){
 
     # try to send it
     tryCatch(do.call(sendmailR::sendmail, email_args), error = function(e){
-      stop(sprintf("Build successful but error when sending email to %s (bcc: %s) (check SMTP server): %s",
-                   email_args$to, email_args$bcc, e$message))
+      errmsg <- sprintf("Build successful but error when sending email to %s (bcc: %s) (check SMTP server): %s",
+                        collapse(email_args$to), collapse(email_args$bcc), collapse(e$message))
+      res$setbody(errmsg)
+      res$finish(503)
     })
   }
 
   #success
-  res$sendtext(paste("CI Done. Build", ifelse(result$success, "successful", "failed")));
+  res$sendtext(paste("CI Done. Build", ifelse(result$success, "successful", "failed")))
+}
+
+trigger_webhook <- function(url = 'http://localhost:5656/ocpu/webhook', repo = 'rwebapps/appdemo', email = 'jeroen@opencpu.org'){
+  payload <- list(
+    ref = "refs/heads/master",
+    repository = list(
+      after = "0000000000",
+      url = url_path("https://github.com", repo),
+      name = basename(repo),
+      master_branch = "master",
+      owner = list(
+        name = dirname(repo)
+      )
+    ),
+    pusher = list(
+      name = "test pusher",
+      email = email
+    ),
+    commits = data.frame()
+  )
+  postdata <- jsonlite::toJSON(payload, auto_unbox = TRUE)
+  handle <- curl::new_handle(copypostfields = postdata)
+  curl::handle_setheaders(handle, "Content-Type" = "application/json")
+  req <- curl::curl_fetch_memory(url, handle = handle)
+  list(
+    status = req$status,
+    body = rawToChar(req$content)
+  )
 }

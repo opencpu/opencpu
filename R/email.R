@@ -11,12 +11,16 @@ create_email <- function(success, output, payload) {
   what <- paste(gituser, gitrepo, sep="/");
 
   #create commit(s) info
-  ids <- paste0("[", substring(payload$commits$id, 1, 10), "]")
-  authors <- paste("Author:", payload$commits$author$name)
-  timestamps <- paste("Time:", strptime(payload$commits$timestamp, format="%Y-%m-%dT%H:%M:%S"));
-  messages <- paste0("Message: \"", payload$commits$message, "\"");
-  urls <- paste("URL:", payload$commits$url);
-  commitinfo <- paste("NEW COMMITS:", paste(ids, timestamps, authors, messages, urls, "", collapse="\n", sep="\n  "), sep="\n")
+  if(length(payload$commits$id)){
+    ids <- paste0("[", substring(payload$commits$id, 1, 10), "]")
+    authors <- paste("Author:", payload$commits$author$name)
+    timestamps <- paste("Time:", strptime(payload$commits$timestamp, format="%Y-%m-%dT%H:%M:%S"));
+    messages <- paste0("Message: \"", payload$commits$message, "\"");
+    urls <- paste("URL:", payload$commits$url);
+    commitinfo <- paste("NEW COMMITS:", paste(ids, timestamps, authors, messages, urls, "", collapse="\n", sep="\n  "), sep="\n")
+  } else {
+    commitinfo <- "No new commits\n"
+  }
 
   #create sessionInfo
   mysession <- paste("SESSION INFO", paste0(utils::capture.output(utils::sessionInfo()), collapse="\n"), sep="\n")
