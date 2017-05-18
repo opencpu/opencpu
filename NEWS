@@ -8,6 +8,9 @@
  - Add parameter 'no_cache' to single user server for development
  - HTTP OPTIONS now returns 'Access-Control-Allow-Methods' header for CORS preflight
  - Better email notification: to=pusher, cc=owner, bcc=archive
+ - Webhook: use sys pkg instead of system2 for running rscript
+ - Webhook: make email sending more robust
+ - Internal function trigger_webhook() to test webhook (should move to client pkg)
 
 2.0
  - Major rewrite :)
