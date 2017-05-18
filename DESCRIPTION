@@ -19,6 +19,7 @@ Imports:
     sys (>= 1.3),
     webutils (>= 0.5),
     curl (>= 2.5),
+    sendmailR,
     rappdirs,
     zip,
     mime,
@@ -29,7 +30,6 @@ Imports:
 Suggests:
     unix (>= 1.3),
     feather,
-    sendmailR,
     R.rsp
 SystemRequirements: pandoc, apparmor (optional)
 VignetteBuilder: knitr, R.rsp
