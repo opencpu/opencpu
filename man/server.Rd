@@ -31,7 +31,7 @@ might still need to manually flush the browser cache for resources cached previo
 Try hitting \code{CTRL+R} or go incognito if your browser is showing old content.}
 
 \item{app}{either the name of a locally installed package, or a github remote
-(see \link{install_github})}
+(see \link{install_apps})}
 
 \item{update}{checks if the app is up-to-date (if possible) before running}
 

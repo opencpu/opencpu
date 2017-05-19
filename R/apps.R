@@ -29,8 +29,6 @@ install_apps_one <- function(repo, force = NULL, ...){
   info <- ocpu_app_info(repo)
   github_info <- github_package_info(url_path(info$user, info$repo))
   package <- github_info$package
-  if(!length(force))
-    force <- need_force_update(package)
   lib <- info$path
   if(!file.exists(lib)){
     dir.create(lib)
@@ -41,6 +39,16 @@ install_apps_one <- function(repo, force = NULL, ...){
         stop(sprintf("Installation of %s failed", repo))
       }
     }, add = TRUE)
+  } else if(!length(force)) {
+    # Check if existing package needs update.
+    local_sha <- utils::packageDescription(package, lib)$GithubSHA1
+    if(length(local_sha) && !is.na(local_sha)){
+      if(identical(local_sha, app_remote_sha(repo))){
+        message(sprintf("Application '%s' is up to date (%s).", repo, substr(local_sha, 1, 7)))
+        return(invisible())
+      }
+    force <- TRUE
+    }
   }
   inlib(lib, {
     devtools::install_github(repo, force = force, ...)
@@ -108,11 +116,8 @@ update_apps <- function(...){
 }
 
 # This is a workaround for https://github.com/hadley/devtools/issues/1509
-# It checks if a github version of pkg is available from the global lib,
-# which could trigger a false positive SHA1 match. This can be removed once
-# devtools 1.13.2 is on CRAN and can be required in DESCRIPTION.
-need_force_update <- function(pkg){
-  (utils::packageVersion('devtools') < "1.13.1.9000") &&
-  length(find.package(pkg, quiet = TRUE)) &&
-  length(utils::packageDescription(pkg)$GithubSHA1)
+# It manually checks if a package has to be updated. This could be removed
+# once devtools 1.13.2 is on CRAN.
+app_remote_sha <- function(repo){
+  eval(parse(text = "devtools:::remote_sha(devtools:::github_remote(repo))"))
 }
