@@ -39,6 +39,7 @@ install_apps_one <- function(repo, force = NULL, ...){
         stop(sprintf("Installation of %s failed", repo))
       }
     }, add = TRUE)
+    force <- TRUE # temp workaround for devtools bug 1509
   } else if(!length(force)) {
     # Check if existing package needs update.
     local_sha <- utils::packageDescription(package, lib)$GithubSHA1
@@ -47,7 +48,7 @@ install_apps_one <- function(repo, force = NULL, ...){
         message(sprintf("Application '%s' is up to date (%s).", repo, substr(local_sha, 1, 7)))
         return(invisible())
       }
-    force <- TRUE
+    force <- TRUE # temp workaround for devtools bug 1509
     }
   }
   inlib(lib, {
