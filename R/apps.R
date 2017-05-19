@@ -25,10 +25,12 @@ install_apps <- function(repo, ...){
   repo[repo %in% installed_apps()]
 }
 
-install_apps_one <- function(repo, ...){
+install_apps_one <- function(repo, force = NULL, ...){
   info <- ocpu_app_info(repo)
   github_info <- github_package_info(url_path(info$user, info$repo))
   package <- github_info$package
+  if(!length(force))
+    force <- need_force_update(package)
   lib <- info$path
   if(!file.exists(lib)){
     dir.create(lib)
@@ -41,7 +43,7 @@ install_apps_one <- function(repo, ...){
     }, add = TRUE)
   }
   inlib(lib, {
-    devtools::install_github(repo, force = TRUE, ...)
+    devtools::install_github(repo, force = force, ...)
     writeLines(package, file.path(lib, "_APP_"))
   })
 }
@@ -103,4 +105,14 @@ update_apps <- function(...){
       TRUE
     }, error = function(e) FALSE)
   }, logical(1))
+}
+
+# This is a workaround for https://github.com/hadley/devtools/issues/1509
+# It checks if a github version of pkg is available from the global lib,
+# which could trigger a false positive SHA1 match. This can be removed once
+# devtools 1.13.2 is on CRAN and can be required in DESCRIPTION.
+need_force_update <- function(pkg){
+  (utils::packageVersion('devtools') < "1.13.1.9000") &&
+  length(find.package(pkg, quiet = TRUE)) &&
+  length(utils::packageDescription(pkg)$GithubSHA1)
 }

@@ -130,12 +130,13 @@ ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload =
   }
 }
 
-ocpu_start_app_github <- function(repo, ...){
-  info <- ocpu_app_info(repo)
-  if(!info$installed){
-    install_apps(repo)
-    info <- ocpu_app_info(repo)
+ocpu_start_app_github <- function(repo, force = NULL, update = TRUE, ...){
+  if(isTRUE(update) && curl::has_internet()){
+    install_apps(repo, force = force)
   }
+  info <- ocpu_app_info(repo)
+  if(!info$installed)
+    stop(sprintf("Application '%s' is not installed. Try: opencpu::install_apps('%s')", repo, repo))
   gitpath <- info$path
   Sys.setenv(R_LIBS = gitpath)
   on.exit(Sys.unsetenv("R_LIBS"), add = TRUE)
@@ -163,13 +164,14 @@ start_server_with_app <- function(package, path, ...){
 #' @rdname server
 #' @param app either the name of a locally installed package, or a github remote
 #' (see \link{install_github})
+#' @param update checks if the app is up-to-date (if possible) before running
 #' @param ... extra parameters passed to \link{ocpu_start_server}
 #' @export
-ocpu_start_app <- function(app, ...){
+ocpu_start_app <- function(app, update = TRUE, ...){
   if(!is.character(app) || length(app) != 1)
     stop("Parameter 'app' must be a package name or a github remote")
   if(grepl("/", app)){
-    ocpu_start_app_github(app, ...)
+    ocpu_start_app_github(app, update = update, ...)
   } else {
     start_local_app_local(app, ...)
   }

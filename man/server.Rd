@@ -11,7 +11,7 @@
 ocpu_start_server(port = 5656, root = "/ocpu", workers = 2,
   preload = NULL, on_startup = NULL, no_cache = FALSE)
 
-ocpu_start_app(app, ...)
+ocpu_start_app(app, update = TRUE, ...)
 }
 \arguments{
 \item{port}{port number}
@@ -32,6 +32,8 @@ Try hitting \code{CTRL+R} or go incognito if your browser is showing old content
 
 \item{app}{either the name of a locally installed package, or a github remote
 (see \link{install_github})}
+
+\item{update}{checks if the app is up-to-date (if possible) before running}
 
 \item{...}{extra parameters passed to \link{ocpu_start_server}}
 }

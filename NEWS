@@ -1,4 +1,5 @@
 2.0.1
+ - ocpu_start_app() now automatically checks for app updates if online
  - Fix for posting scripts (empty args)
  - Support figures with error messages (for invalid graphic parameters)
  - linux: show informative error message when tmp dir cannot be created
