@@ -35,7 +35,7 @@ httpget_webhook <- function(){
 
   #Ignore all but master
   if(is.null(gitref) || is.na(gitref) || !length(gitref) || gitref != paste0("refs/heads/", gitmaster)){
-    res$sendtext("Ignoring non-master branch.");
+    res$sendtext(sprintf("Ignoring non-master: %s (default/master branch is '%s')", gitref, gitmaster))
   }
 
   #Check for gihtub
