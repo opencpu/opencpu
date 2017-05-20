@@ -25,11 +25,12 @@ install_apps <- function(repo, ...){
   repo[repo %in% installed_apps()]
 }
 
-install_apps_one <- function(repo, force = NULL, ...){
+install_apps_one <- function(repo, force = NULL, lib = NULL, ...){
   info <- ocpu_app_info(repo)
   github_info <- github_package_info(url_path(info$user, info$repo))
   package <- github_info$package
-  lib <- info$path
+  if(!length(lib))
+    lib <- info$path
   if(!file.exists(lib)){
     dir.create(lib)
     pkgpath <- file.path(lib, package)

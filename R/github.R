@@ -30,50 +30,43 @@ github_package_info <- function(repo){
   stats::setNames(out, tolower(names(out)))
 }
 
-github_install <- function(repo, username, ref = "master", args = NULL, upgrade_dependencies = FALSE, ...){
+github_install <- function(repo, username, ref, args = NULL, upgrade_dependencies = FALSE, ...){
   #get args
   all_args <- list(...)
-  all_args$upgrade_dependencies <- upgrade_dependencies;
-  all_args$repo <- paste(username, repo, sep="/");
-  all_args$ref <- ref;
+  all_args$upgrade_dependencies <- upgrade_dependencies
+  all_args$repo <- url_path(username, repo)
+  all_args$ref <- ref
 
-  #updates even if same version is installed already (in another lib)
-  all_args$force <- TRUE
-
-  #github libraries
-  gitpath <- github_userlib(username, repo)
-
-  # Sets 'chmod g+xs', i.e. makes writable for other users in the group
-  Sys.chmod(tempdir(), "2755")
-
-  #install from github
+  # Sets 'chmod g+xs' to make writable for other users in the group
   gittmpdir <- tempfile("githubdir")
   stopifnot(dir.create(gittmpdir))
+  Sys.chmod(gittmpdir, "2755")
+  all_args$lib <- gittmpdir
+  all_args$force <- TRUE
 
   # Download metadata before actually installing. Errors if no DESCRIPTION exists.
+  # TODO: get this info from 'output' above
   app_info <- github_package_info(all_args$repo)
   package <- app_info$package
-  writeLines(package, file.path(gittmpdir, "_APP_"))
-
-  #all_args$args <- paste0("'--library=", gittmpdir, "'")
 
   #Override auth_token if set in key
-  mysecret <- gitsecret();
+  mysecret <- gitsecret()
   if(length(mysecret) && length(mysecret$auth_token) && nchar(mysecret$auth_token)){
-    all_args$auth_token = mysecret$auth_token;
+    all_args$auth_token = mysecret$auth_token
   }
 
-  #Dependencies = TRUE would also install currently loaded packages.
-  inlib(gittmpdir, {
-    arg_list <- paste(deparse(all_args), collapse="\n")
-    output <- run_rscript(sprintf("do.call(devtools::install_github, %s)", arg_list))
-  })
+  # Create the Rscript call
+  arg_list <- paste(deparse(all_args), collapse="\n")
+  output <- run_rscript(sprintf("do.call(opencpu:::install_apps_one, %s)", arg_list))
 
   #We require package name with identical repo name
   success <- isTRUE(file.exists(file.path(gittmpdir, package)))
 
   #The index.html for vignettes is useless due to hardcoded hyperlinks
   unlink(file.path(gittmpdir, package, "doc", "index.html"))
+
+  # final app location
+  gitpath <- github_userlib(username, repo)
 
   #move to permanent location
   if(success){
