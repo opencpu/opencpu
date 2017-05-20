@@ -73,7 +73,7 @@ webhook_install <- function(payload = NULL, sendmail = TRUE, ...){
   res$sendtext(paste("CI Done. Build", ifelse(result$success, "successful", "failed")))
 }
 
-trigger_webhook <- function(url = 'http://localhost:5656/ocpu/webhook', repo = 'rwebapps/appdemo', email = 'jeroen@opencpu.org'){
+trigger_webhook <- function(repo = 'rwebapps/appdemo', url = 'http://localhost:5656/ocpu/webhook', email = 'jeroen@opencpu.org'){
   payload <- list(
     ref = "refs/heads/master",
     repository = list(
