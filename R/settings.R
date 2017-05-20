@@ -1,13 +1,13 @@
 load_config_and_settings <- local({
   #only do this once per package load
-  opencpu_is_initiated = FALSE;
+  opencpu_is_initiated = FALSE
 
   #actual function
   function(preload = FALSE){
     if(isTRUE(opencpu_is_initiated)){
       return();
     } else {
-      opencpu_is_initiated <<- TRUE;
+      opencpu_is_initiated <<- TRUE
     }
 
     #load default package config file
@@ -33,19 +33,23 @@ load_config_and_settings <- local({
       unlink(path.expand("~/.opencpu.conf"))
     }
 
-    #set some global options
-    options(max.print=1000);
+    # global options. This should be moved into the fork/worker process
+    options(max.print = 1000)
+    options(menu.graphics = FALSE)
+    options(keep.source = FALSE)
+    options(useFancyQuotes = FALSE)
+    options(warning.length = 8000)
+    options(scipen = 3)
+
     #options(device=grDevices::pdf); # now set before eval_safe()
-    options(menu.graphics=FALSE);
-    options(repos=config('repos'));
-    options(keep.source = FALSE);
-    options(useFancyQuotes = FALSE);
-    options(warning.length=8000);
-    options(scipen=3);
+
+    # Set a default repository
+    if(!length(getOption('repos')))
+      options(repos=config('repos'))
 
     #use cairo if available
     if(!identical(getOption("bitmapType"), "cairo") && isTRUE(capabilities()[["cairo"]])){
-      options(bitmapType = "cairo");
+      options(bitmapType = "cairo")
     }
 
     if(isTRUE(preload)){
