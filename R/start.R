@@ -69,7 +69,7 @@ ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload =
     pool <<- pool[-1]
     res <- recvResult(node)
     if(inherits(res, "try-error"))
-      stop("Cluster failed init: ", res)
+      warning("Cluster failed init: ", res, call. = FALSE, immediate. = TRUE)
     structure(list(node), class = c("SOCKcluster", "cluster"))
   }
 
