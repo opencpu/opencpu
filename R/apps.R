@@ -121,5 +121,5 @@ update_apps <- function(...){
 # It manually checks if a package has to be updated. This could be removed
 # once devtools 1.13.2 is on CRAN.
 app_remote_sha <- function(repo){
-  eval(parse(text = "devtools:::remote_sha(devtools:::github_remote(repo))"))
+  remote_sha(github_remote(repo))
 }
