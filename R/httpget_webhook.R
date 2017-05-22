@@ -74,7 +74,7 @@ webhook_install <- function(payload = NULL, sendmail = TRUE, ...){
 }
 
 trigger_webhook <- function(repo = 'rwebapps/appdemo', url = 'http://localhost:5656/ocpu/webhook', email = 'jeroen@opencpu.org'){
-  info <- github_remote(repo)
+  info <- parse_git_repo(repo)
   payload <- list(
     ref = url_path("refs/heads", info$ref),
     repository = list(

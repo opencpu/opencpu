@@ -70,10 +70,9 @@ remove_apps <- function(repo){
 }
 
 ocpu_app_info <- function(repo){
-  parts <- github_remote(repo)
-  user <- parts$username
-  reponame <- parts$repo
-  ref <- parts$ref
+  parts <- strsplit(repo[1], "[/@#]")[[1]]
+  user <- parts[1]
+  reponame <- parts[2]
   path <- github_userlib(user, reponame)
   appfile <- file.path(path, "_APP_")
   package <- if(file.exists(appfile)){
@@ -84,7 +83,6 @@ ocpu_app_info <- function(repo){
   data.frame (
     user = user,
     repo = reponame,
-    ref = ref,
     package = package,
     path = path,
     installed = file.exists(path),
