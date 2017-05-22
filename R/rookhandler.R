@@ -20,7 +20,7 @@ rookhandler <- function(rootpath, worker_cb, no_cache = FALSE){
     RAWPOST <- list()
 
     #parse POST request body
-    if((env[["REQUEST_METHOD"]] %in% c("POST", "PUT")) && (env$CONTENT_LENGTH > 0)){
+    if((env[["REQUEST_METHOD"]] %in% c("POST", "PUT")) && length(env$CONTENT_LENGTH) && (env$CONTENT_LENGTH > 0)){
       input <- env[["rook.input"]]
       postdata <- input$read()
       MYRAW <- list(
