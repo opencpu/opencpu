@@ -1,3 +1,6 @@
+2.0.2
+ - Hotfix release for performance regression in cloud server (#239)
+
 2.0.1
  - ocpu_start_app() now automatically checks for app updates if online
  - Fix for posting scripts (empty args)
