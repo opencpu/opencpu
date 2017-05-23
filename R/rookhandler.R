@@ -15,20 +15,15 @@ rookhandler <- function(rootpath, worker_cb, no_cache = FALSE){
       env[["PATH_INFO"]] <- sub(paste0("^", rootpath), "", env[["PATH_INFO"]])
     }
 
-    #do some Rook processing
+    # Read GET and POST data
     GET <- webutils::parse_query(env[["QUERY_STRING"]]);
-    RAWPOST <- list()
-
-    #parse POST request body
-    if((env[["REQUEST_METHOD"]] %in% c("POST", "PUT")) && length(env$CONTENT_LENGTH) && (env$CONTENT_LENGTH > 0)){
+    MYRAW <- if((env[["REQUEST_METHOD"]] %in% c("POST", "PUT")) && length(env$CONTENT_LENGTH) && (env$CONTENT_LENGTH > 0)){
       input <- env[["rook.input"]]
       postdata <- input$read()
-      MYRAW <- list(
+      list(
         body = postdata,
         ctype = env[["CONTENT_TYPE"]]
       )
-    } else {
-      MYRAW <- NULL
     }
 
     #reconstruct the full URL

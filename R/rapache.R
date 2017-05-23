@@ -5,26 +5,20 @@ rapachehandler <- function(){
   names(reqheaders) <- tolower(names(reqheaders));
 
   #Note getrapache("POST") before internals("postParsed") to evaluate the promise.
-  if(isTRUE(
-    getrapache("SERVER")$method %in% c("POST", "PUT") &&
-    !length(getrapache("POST")) &&
-    !isTRUE(getrapache("SERVER")$internals("postParsed"))
-  )){
-    #Post has not been parsed by apreq
-    rawdata <- getrapache("receiveBin")();
-    ctype <- reqheaders[["content-type"]];
-    MYRAW <- list(
+  if(getrapache("SERVER")$internals("postParsed")){
+    getrapache("setStatus")(503L)
+    getrapache("sendBin")(charToRaw("request was already parsed"))
+    return(getrapache("OK"))
+  }
+
+  #Do not let apreq parse parse POST
+  MYRAW <- if(getrapache("SERVER")$method %in% c("POST", "PUT")){
+    rawdata <- getrapache("receiveBin")()
+    ctype <- reqheaders[["content-type"]]
+    list(
       body = rawdata,
       ctype = ctype
-    );
-    NEWPOST <- NULL
-    NEWFILES <- NULL;
-  } else {
-    #post was parsed by apreq (or not post at all)
-    MYRAW <- NULL;
-    NEWPOST <- getrapache("POST");
-    NEWFILES <- getrapache("FILES");
-    NEWPOST[names(NEWFILES)] <- NULL;
+    )
   }
 
   #reconstruct the full URL
@@ -39,9 +33,7 @@ rapachehandler <- function(){
     MOUNT = getrapache("SERVER")$cmd_path,
     FULLMOUNT = fullmount,
     PATH_INFO = getrapache("SERVER")$path_info,
-    POST = NEWPOST,
     GET = getrapache("GET"),
-    FILES = NEWFILES,
     RAW = MYRAW,
     CTYPE = reqheaders[["content-type"]],
     ACCEPT = reqheaders[["accept"]]

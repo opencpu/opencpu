@@ -1,6 +1,7 @@
 2.0.3
- - Ignore double slashes in URL
  - Single user server: fix for empty POST requests with no 'Content-Length' header
+ - RApache: use webutils instead of apreq to parse request body
+ - Ignore double slashes in URL
 
 2.0.2
  - Hotfix release for performance regression in cloud server (#239)
