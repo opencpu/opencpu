@@ -1,6 +1,7 @@
 2.0.3
  - Single user server: fix for empty POST requests with no 'Content-Length' header
  - RApache: use webutils instead of apreq to parse request body
+ - Add support for binary multipart pieces in 'appplication/rda' and 'application/rprotobuf'
  - Ignore double slashes in URL
 
 2.0.2
