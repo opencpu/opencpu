@@ -31,6 +31,9 @@ httpget_object <- local({
       "bin" = httpget_object_bin(object, objectname),
       "csv" = httpget_object_csv(object, objectname),
       "feather" = httpget_object_feather(object, objectname),
+      "spss" = httpget_object_spss(object, objectname),
+      "sas" = httpget_object_sas(object, objectname),
+      "stata" = httpget_object_stata(object, objectname),
       "file" = httpget_object_file(object),
       "json" = httpget_object_json(object),
       "ndjson" = httpget_object_ndjson(object),
@@ -75,6 +78,33 @@ httpget_object <- local({
     res$setheader("Content-Type", "application/feather")
     res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".feather", sep=""));
     res$finish();
+  }
+
+  httpget_object_spss <- function(object, objectname){
+    mytmp <- tempfile()
+    do.call(haven::write_sav, c(list(data = object, path = mytmp), req$get()))
+    res$setbody(file = mytmp)
+    res$setheader("Content-Type", "application/spss-sav")
+    res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".sav", sep=""))
+    res$finish()
+  }
+
+  httpget_object_sas <- function(object, objectname){
+    mytmp <- tempfile()
+    do.call(haven::write_sas, c(list(data = object, path = mytmp), req$get()))
+    res$setbody(file = mytmp)
+    res$setheader("Content-Type", "application/sas7bdat")
+    res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".sas7bdat", sep=""))
+    res$finish()
+  }
+
+  httpget_object_stata <- function(object, objectname){
+    mytmp <- tempfile()
+    do.call(haven::write_dta, c(list(data = object, path = mytmp), req$get()))
+    res$setbody(file = mytmp)
+    res$setheader("Content-Type", "application/stata-dta")
+    res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".dta", sep=""))
+    res$finish()
   }
 
   httpget_object_tab <- function(object, objectname){

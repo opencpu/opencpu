@@ -26,7 +26,8 @@ Imports:
     protolite,
     brew,
     openssl,
-    pander
+    pander,
+    haven
 Suggests:
     unix (>= 1.3),
     feather,
