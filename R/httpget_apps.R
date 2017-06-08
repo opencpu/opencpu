@@ -27,6 +27,13 @@ httpget_apps <- function(uri){
     res$sendlist(sub(pattern, "", pkglist))
   }
 
+  #shorthand for pkg::object notation
+  if(grepl("::", gitrepo, fixed = TRUE)){
+    parts <- strsplit(gitrepo, "::", fixed = TRUE)[[1]]
+    gitrepo <- parts[1]
+    uri <- c(gituser, parts[1], "R", parts[2], utils::tail(uri, -2))
+  }
+
   #check if app is installed
   app_info <- ocpu_app_info(url_path(gituser, gitrepo))
   if(!isTRUE(app_info$installed))
