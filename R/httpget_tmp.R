@@ -14,6 +14,13 @@ httpget_tmp <- function(requri){
     res$sendlist(allfiles);
   }
 
+  #shorthand for session::object notation
+  if(grepl("::", reqhead, fixed = TRUE)){
+    parts <- strsplit(reqhead, "::", fixed = TRUE)[[1]]
+    reqhead <- parts[1]
+    reqtail <- c("R", parts[2], reqtail)
+  }
+
   sessionpath <- file.path(ocpu_store(), reqhead);
 
   #set cache value
