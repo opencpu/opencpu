@@ -1,3 +1,10 @@
+local({
+  # Start background server
+r <- file.path(R.home("bin"), "R")
+on.exit(tools::pskill(pid, tools::SIGINT))
+pid <- sys::exec_background(r, c("-e", "opencpu::ocpu_start_server()"))
+Sys.sleep(3)
+
 # Generic client
 library(curl)
 ocpu <- function(path, handle = new_handle(), server = 'http://localhost:5656/ocpu'){
@@ -53,4 +60,6 @@ handle <- new_handle(readfunction = readfun, upload = TRUE, customrequest = 'POS
 handle_setheaders(handle, 'Content-Type' = 'application/rprotobuf')
 req <- ocpu('/library/stats/R/rnorm/json', handle)
 cat(rawToChar(req$content))
+
+})
 
