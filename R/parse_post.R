@@ -1,17 +1,17 @@
 parse_post <- function(reqbody, contenttype){
   #check for no data
   if(!length(reqbody)){
-    return(list())  
+    return(list())
   }
 
   #strip title form header
   contenttype <- sub("Content-Type: ?", "", contenttype, ignore.case=TRUE);
-  
+
   #invalid content type
   if(!length(contenttype) || !nchar(contenttype)){
-    stop("No Content-Type header found.")  
+    stop("No Content-Type header found.")
   }
-  
+
   # test for multipart
   if(grepl("multipart/form-data", contenttype, fixed=TRUE)){
     return(multipart(reqbody, contenttype));
@@ -27,7 +27,7 @@ parse_post <- function(reqbody, contenttype){
     if(is.raw(reqbody)){
       jsondata <- rawToChar(reqbody);
     } else {
-      jsondata <- reqbody;        
+      jsondata <- reqbody;
     }
     if(!(is_valid <- validate(jsondata))){
       stop("Invalid JSON was posted: ", attr(is_valid, "err"))
@@ -40,14 +40,20 @@ parse_post <- function(reqbody, contenttype){
     } else {
       stop("ProtoBuf payload was posted as text ??")
     }
+  } else if(grepl("^application/(.-)?rds$", contenttype)){
+    obj <- readRDS(gzcon(rawConnection(reqbody)))
   } else {
     stop("POST body with unknown conntent type: ", contenttype);
   }
-  
+
+  # Empty POST data
+  if(is.null(obj))
+    obj <- as.list(obj)
+
   if(!is.list(obj) || length(names(obj)) < length(obj)){
     stop("JSON or ProtoBuf input should be a named list.")
   }
-  
+
   return(lapply(obj, function(x){
     if(isTRUE(is.atomic(x) && length(x) == 1)){
       #primitives as expressions
@@ -55,5 +61,5 @@ parse_post <- function(reqbody, contenttype){
     } else {
       return(I(x))
     }
-  }));  
+  }));
 }
