@@ -72,6 +72,9 @@ reshandler <- function(e){
   res$reset();
   req$reset();
 
+  # close files and what not
+  gc()
+
   #return
   return(response);
 }
