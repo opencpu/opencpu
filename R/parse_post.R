@@ -23,7 +23,7 @@ parse_post <- function(reqbody, contenttype){
       return(as.list(reqbody));
     }
   # test for json
-  } else if(grepl("application/json", contenttype, fixed=TRUE)){
+  } else if(grepl("^application/json", contenttype)){
     if(is.raw(reqbody)){
       jsondata <- rawToChar(reqbody);
     } else {
@@ -34,13 +34,13 @@ parse_post <- function(reqbody, contenttype){
     }
     obj <- as.list(fromJSON(jsondata));
   # test for protobuf
-  } else if(grepl("protobuf", contenttype, fixed=TRUE)){
+  } else if(grepl("^application/r?protobuf", contenttype)){
     if(is.raw(reqbody)){
       obj <- protolite::unserialize_pb(reqbody);
     } else {
       stop("ProtoBuf payload was posted as text ??")
     }
-  } else if(grepl("^application/(.-)?rds$", contenttype)){
+  } else if(grepl("^application/rds", contenttype)){
     obj <- readRDS(gzcon(rawConnection(reqbody)))
   } else {
     stop("POST body with unknown conntent type: ", contenttype);
