@@ -4,6 +4,7 @@ Version: 2.0.2.9000
 Author: Jeroen Ooms
 Maintainer: Jeroen Ooms <jeroen@berkeley.edu>
 License: Apache License 2.0
+Encoding: UTF-8
 URL: https://www.opencpu.org (website)
     https://opencpu.github.io (documentation)
     https://github.com/opencpu/opencpu#readme (devel)
@@ -41,4 +42,6 @@ Description: A system for embedded scientific computing and reproducible researc
     server within the interactive R session, or as a multi-user Linux stack based on Apache2. 
     The entire system is fully open source and permissively licensed. The OpenCPU website
     has detailed documentation and example apps.
+LazyData: yes
 RoxygenNote: 6.0.1
+Roxygen: list(markdown = TRUE)
