@@ -1,16 +1,16 @@
 #' OpenCPU Single-User Server
 #'
 #' Starts the OpenCPU single-user server for developing and running apps locally.
-#' To deploy your apps on a cloud server or \href{https://ocpu.io}{ocpu.io}, simply
-#' push them to github and install the opencpu webhook. Some example apps are available
-#' from \url{https://github.com/rwebapps}.
+#' To deploy your apps on a cloud server or [ocpu.io](https://ocpu.io), simply push
+#' them to github and install the opencpu webhook. Some example apps are available
+#' from [github::rwebapps/](https://github.com/rwebapps).
 #'
 #' @importFrom utils getFromNamespace
 #' @importFrom parallel makeCluster stopCluster
 #' @importFrom evaluate evaluate
 #' @importFrom jsonlite toJSON fromJSON validate
 #' @importFrom sys eval_safe
-#' @aliases opencpu ocpu
+#' @aliases opencpu ocpu strings
 #' @family ocpu
 #' @export
 #' @rdname server
@@ -20,11 +20,11 @@
 #' @param workers number of worker processes
 #' @param preload character vector of packages to preload in the workers. This speeds
 #' up requests to those packages.
-#' @param on_startup function to call once server has started (e.g. \code{browseURL})
-#' @param no_cache sets \code{Cache-Control: no-cache} for all responses to disable
-#' browser caching. Useful for development when files change frequently. Note that you
-#' might still need to manually flush the browser cache for resources cached previously.
-#' Try hitting \code{CTRL+R} or go incognito if your browser is showing old content.
+#' @param on_startup function to call once server has started (e.g. [utils::browseURL])
+#' @param no_cache sets `Cache-Control: no-cache` for all responses to disable browser
+#' caching. Useful for development when files change frequently. You might still need
+#' to manually flush the browser cache for resources cached previously. Try pressing
+#' `CTRL+R` or go incognito if your browser is showing old content.
 #' @example examples/apps.R
 ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload = NULL,
                               on_startup = NULL, no_cache = FALSE) {

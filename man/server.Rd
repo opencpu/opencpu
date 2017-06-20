@@ -5,6 +5,7 @@
 \alias{ocpu_start_server}
 \alias{opencpu}
 \alias{ocpu}
+\alias{strings}
 \alias{ocpu_start_app}
 \title{OpenCPU Single-User Server}
 \usage{
@@ -23,12 +24,12 @@ ocpu_start_app(app, update = TRUE, ...)
 \item{preload}{character vector of packages to preload in the workers. This speeds
 up requests to those packages.}
 
-\item{on_startup}{function to call once server has started (e.g. \code{browseURL})}
+\item{on_startup}{function to call once server has started (e.g. \link[utils:browseURL]{utils::browseURL})}
 
-\item{no_cache}{sets \code{Cache-Control: no-cache} for all responses to disable
-browser caching. Useful for development when files change frequently. Note that you
-might still need to manually flush the browser cache for resources cached previously.
-Try hitting \code{CTRL+R} or go incognito if your browser is showing old content.}
+\item{no_cache}{sets \code{Cache-Control: no-cache} for all responses to disable browser
+caching. Useful for development when files change frequently. You might still need
+to manually flush the browser cache for resources cached previously. Try pressing
+\code{CTRL+R} or go incognito if your browser is showing old content.}
 
 \item{app}{either the name of a locally installed package, or a github remote
 (see \link{install_apps})}
@@ -39,9 +40,9 @@ Try hitting \code{CTRL+R} or go incognito if your browser is showing old content
 }
 \description{
 Starts the OpenCPU single-user server for developing and running apps locally.
-To deploy your apps on a cloud server or \href{https://ocpu.io}{ocpu.io}, simply
-push them to github and install the opencpu webhook. Some example apps are available
-from \url{https://github.com/rwebapps}.
+To deploy your apps on a cloud server or \href{https://ocpu.io}{ocpu.io}, simply push
+them to github and install the opencpu webhook. Some example apps are available
+from \href{https://github.com/rwebapps}{github::rwebapps/}.
 }
 \examples{
 \dontrun{
