@@ -57,9 +57,20 @@ parse_post <- function(reqbody, contenttype){
   return(lapply(obj, function(x){
     if(isTRUE(is.atomic(x) && length(x) == 1)){
       #primitives as expressions
-      return(deparse(x))
+      return(deparse_atomic(x))
     } else {
       return(I(x))
     }
   }));
+}
+
+# base::deparse() fucks up utf8 strings
+deparse_atomic <- function(x){
+  if(is.character(x)){
+    str <- jsonlite::toJSON(x)
+    str <- sub("^\\[", "c(", str)
+    sub("\\]$", ")", str)
+  } else {
+    paste(deparse(x), collapse = "\n")
+  }
 }
