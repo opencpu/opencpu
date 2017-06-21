@@ -208,3 +208,10 @@ public_url <- function(){
     req$fullmount()
   })
 }
+
+# Make rawToChar consistent on Unix and Windows
+rawToChar <- function(x){
+  out <- base::rawToChar(x)
+  Encoding(out) <- 'UTF-8'
+  out
+}
