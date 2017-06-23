@@ -35,9 +35,11 @@ parse_arg <- function(x){
 
   #try to parse code. R doesn't like CR+LF
   x <- gsub("\r\n", "\n", x);
-  myexpr <- tryCatch(parse(text=x, keep.source=FALSE), error = function(e){
+  con <- rawConnection(charToRaw(x))
+  on.exit(close(con))
+  myexpr <- tryCatch(parse(file = con, keep.source=FALSE, encoding = 'UTF-8'), error = function(e){
     stop("Unparsable argument: ", x);
-  });
+  })
 
   #inject code if enabled
   if(isTRUE(config("enable.post.code"))){
