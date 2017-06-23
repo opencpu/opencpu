@@ -29,7 +29,8 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
   }
 
   #initiate environment
-  sessionenv <- new.env(parent = args)
+  #sessionenv <- new.env(parent = args)
+  sessionenv <- args
   res <- evaluate::evaluate(input = input, envir = sessionenv, stop_on_error = 1, output_handler = myhandler)
 
   # return both
