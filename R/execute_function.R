@@ -22,6 +22,7 @@ execute_function <- function(object, requri, objectname="FUN"){
   exprargs <- sapply(fnargs, is.expression);
   if(length(exprargs) > 0){
     argn[names(fnargs[exprargs])] <-lapply(fnargs[exprargs], function(z){if(length(z)) z[[1]] else substitute()});
+    fnargs[exprargs] <- NULL
   }
 
   #add unnamed arguments
