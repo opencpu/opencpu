@@ -33,19 +33,14 @@ parse_arg <- function(x){
     x <- paste0(x, "::.val")
   }
 
-  #try to parse code. R doesn't like CR+LF
-  x <- gsub("\r\n", "\n", x);
-  con <- rawConnection(charToRaw(x))
-  on.exit(close(con))
-  myexpr <- tryCatch(parse(file = con, keep.source=FALSE, encoding = 'UTF-8'), error = function(e){
-    stop("Unparsable argument: ", x);
-  })
+  #try to parse code.
+  myexpr <- parse_utf8(x)
 
   #inject code if enabled
   if(isTRUE(config("enable.post.code"))){
     #wrap in block if more than one call
     if(length(myexpr) > 1 || (is.call(myexpr[[1]]) && identical(myexpr[[1]][[1]], quote(`=`)))){
-      myexpr <- parse(text = paste("{", x, "}"), keep.source=FALSE);
+      myexpr <- parse_utf8(paste("{", x, "}"))
     }
     collect_session_keys(myexpr)
     return(myexpr)

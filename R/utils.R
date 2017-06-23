@@ -219,3 +219,12 @@ rawToChar <- function(x){
   Encoding(out) <- 'UTF-8'
   out
 }
+
+parse_utf8 <- function(x){
+  x <- gsub("\r\n", "\n", x);
+  con <- rawConnection(charToRaw(x))
+  on.exit(close(con))
+  tryCatch(parse(file = con, keep.source=FALSE, encoding = 'UTF-8'), error = function(e){
+    stop("Unparsable argument: ", x)
+  })
+}

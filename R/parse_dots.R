@@ -3,7 +3,7 @@ parse_dots <- function(query){
   string <- paste0("c(", query, ")")
 
   # Next, parse it, and extract the function call
-  call <- parse(text = string)[[1]]
+  call <- parse_utf8(string)[[1]]
 
   # Finally, remove the first element (`c`) and convert to a list
   expressions <- as.list(call[-1])
