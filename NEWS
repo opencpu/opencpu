@@ -1,10 +1,14 @@
 2.0.3
+ - Much improved support for UTF-8 (requires updated 'webutils' and 'evaluate')
+ - Multipart requests now support binary form-data fields in 'appplication/rds',
+   'application/rprotobuf', or 'application/json' types. This makes it easier to
+   push objects from client-server or server-server.
+ - RApache: use webutils instead of apreq to parse request body.
  - Single user server: fix for empty POST requests with no 'Content-Length' header
- - RApache: use webutils instead of apreq to parse request body
- - Add support for binary multipart pieces in 'appplication/rda' and 'application/rprotobuf'
  - Ignore double slashes in URL
- - Support pkg::object as alias for pkg/R/object in package API
+ - Support pkg::object and session::object alias for ./R/object
  - Added a 'strings' data object for testing character encodings
+ - Add support for 'haven' output types
 
 2.0.2
  - Hotfix release for performance regression in cloud server (#239)
