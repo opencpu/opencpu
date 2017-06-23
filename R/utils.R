@@ -1,10 +1,14 @@
 packagename = "opencpu"
 
-write_to_file <- function(...){
-  mytempfile <- tempfile();
-  mytext <- eval(...)
-  write(mytext, mytempfile);
-  return(mytempfile)
+write_to_file <- function(text){
+  tmp <- tempfile()
+  if(is.raw(text)){
+    writeBin(text, tmp)
+  } else {
+    # useBytes prevents recoding to latin1 on Windows
+    writeLines(text, tmp, useBytes = TRUE)
+  }
+  return(tmp)
 }
 
 from <- function (pkg, name) {
