@@ -12,7 +12,7 @@ BugReports: https://github.com/opencpu/opencpu/issues
 Depends:
     R (>= 3.0.0)
 Imports:
-    evaluate (>= 0.10),
+    evaluate (>= 0.10.1),
     httpuv (>= 1.3),
     knitr (>= 1.6),
     jsonlite (>= 1.4),
@@ -45,4 +45,5 @@ Description: A system for embedded scientific computing and reproducible researc
 LazyData: yes
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)
-Remotes: jeroen/webutils
+Remotes: jeroen/webutils, hadley/evaluate
+
