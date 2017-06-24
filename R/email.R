@@ -64,7 +64,11 @@ create_email <- function(success, output, payload) {
 
   #also mail to mailing list
   if(is_ocpu_server()){
-    data$bcc <- address("OpenCPU CI Mailing List", "opencpu-ci@googlegroups.com")
+    if(is.null(data$to)){
+      data$to <- address("OpenCPU CI Mailing List", "opencpu-ci@googlegroups.com")
+    } else {
+      data$bcc <- address("OpenCPU CI Mailing List", "opencpu-ci@googlegroups.com")
+    }
   }
 
   return(data)
