@@ -105,6 +105,10 @@ ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload =
     workers <- 0
   }
 
+  # Useful for debugging
+  options(warn = 1)
+  on.exit(options(warn = 0), add = TRUE)
+
   # Start the server
   server_id <- httpuv::startServer("0.0.0.0", port, app = rookhandler(root, run_worker, no_cache))
   server_address <- paste0(get_localhost(port), root)
