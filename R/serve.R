@@ -36,8 +36,8 @@ serve <- function(REQDATA, run_worker = NULL){
     config("timelimit.post")
   }
 
-  # On RApache, the RAppArmor package must always be installed. But we use the profile only if available.
-  profile <- if(use_apparmor() && !no_rapparmor()){
+  # Use an AppArmor profile if available
+  profile <- if(use_apparmor()){
     ifelse(isTRUE(grepl("^/webhook", REQDATA$PATH_INFO)), "opencpu-main", "opencpu-exec")
   }
 

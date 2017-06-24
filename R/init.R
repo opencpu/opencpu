@@ -29,10 +29,6 @@ ocpu_init <- function(){
     use_apparmor(TRUE)
   }
 
-  if(isTRUE(getOption("no_rapparmor"))){
-    no_rapparmor(TRUE)
-  }
-
   # Copies default config file if not exists
   create_user_config()
 
@@ -53,7 +49,7 @@ ocpu_init <- function(){
   dir.create(ocpu_temp(), showWarnings = FALSE, recursive = TRUE, mode = "0777")
   dir.create(ocpu_store(), showWarnings = FALSE, recursive = TRUE, mode = "0777")
 
-  # Needed for install.packages() in rapache / rapparmor
+  # Needed for install.packages() in rapache
   if(is_rapache()){
     sys:::set_tempdir(ocpu_temp())
     Sys.setenv(TMPDIR = tempdir())
