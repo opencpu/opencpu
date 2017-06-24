@@ -26,12 +26,12 @@ Imports:
     mime,
     protolite,
     brew,
-    openssl,
-    pander,
-    haven
+    openssl
 Suggests:
     unix (>= 1.3),
+    haven,
     feather,
+    pander,
     R.rsp
 SystemRequirements: pandoc, apparmor (optional)
 VignetteBuilder: knitr, R.rsp
