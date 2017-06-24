@@ -67,12 +67,12 @@ send_email <- function(to, ...){
   })
 }
 
-address <- function(name, address){
-  if(!length(address) || !is.character(address) || !grepl("@", address, fixed = TRUE) || grepl("noreply", addres))
+address <- function(name, email){
+  if(!length(email) || !is.character(email) || !grepl("@", email, fixed = TRUE) || grepl("noreply", email))
     return(NULL)
   if(!length(name) || !is.character(name) || !nchar(name))
-    return(address)
-  sprintf('"%s"<%s>', name, address)
+    return(email)
+  sprintf('"%s"<%s>', name, email)
 }
 
 errbuf <- function(e){
