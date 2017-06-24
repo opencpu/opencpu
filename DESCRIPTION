@@ -19,7 +19,7 @@ Imports:
     devtools (>= 1.12),
     sys (>= 1.3),
     webutils (>= 0.6),
-    curl (>= 2.7),
+    curl (>= 2.6),
     sendmailR,
     rappdirs,
     zip,
