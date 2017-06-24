@@ -19,7 +19,7 @@ Imports:
     devtools (>= 1.12),
     sys (>= 1.3),
     webutils (>= 0.6),
-    curl (>= 2.5),
+    curl (>= 2.7),
     sendmailR,
     rappdirs,
     zip,
@@ -45,5 +45,4 @@ Description: A system for embedded scientific computing and reproducible researc
 LazyData: yes
 RoxygenNote: 6.0.1
 Roxygen: list(markdown = TRUE)
-Remotes: jeroen/webutils, hadley/evaluate
-
+Remotes: jeroen/curl jeroen/webutils, hadley/evaluate

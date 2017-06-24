@@ -68,7 +68,7 @@ send_email <- function(to, ...){
 }
 
 address <- function(name, address){
-  if(!length(address) || !is.character(address) || !grepl("@", address, fixed = TRUE))
+  if(!length(address) || !is.character(address) || !grepl("@", address, fixed = TRUE) || grepl("noreply", addres))
     return(NULL)
   if(!length(name) || !is.character(name) || !nchar(name))
     return(address)
