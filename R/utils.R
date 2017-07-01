@@ -228,3 +228,9 @@ parse_utf8 <- function(x){
     stop("Unparsable argument: ", x)
   })
 }
+
+ocpu_grdev <- function(file, width, height, paper, ...){
+  grDevices::pdf(NULL, width = 11.69, height = 8.27, paper = "A4r", ...)
+  dev.control(displaylist = "enable")
+  graphics::par("bg" = "white")
+}
