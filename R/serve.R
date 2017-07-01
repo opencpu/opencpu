@@ -55,6 +55,7 @@ serve <- function(REQDATA, run_worker = NULL){
 
   ocpu_grdev <- function(file, width, height, paper, ...){
     grDevices::pdf(NULL, width = 11.69, height = 8.27, paper = "A4r", ...)
+    dev.control(displaylist = "enable")
     graphics::par("bg" = "white")
   }
 
