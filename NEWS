@@ -1,3 +1,6 @@
+2.0.4
+ - Removed the manual call to gc() at the end of each request because it is very slow
+
 2.0.3
  - Much improved support for UTF-8 (requires updated 'webutils' and 'evaluate')
  - Multipart requests now support binary form-data fields in 'appplication/rds',

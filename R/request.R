@@ -72,8 +72,8 @@ reshandler <- function(e){
   res$reset();
   req$reset();
 
-  # close files and what not
-  gc()
+  # close open files? Disabled: this is very slow.
+  # gc()
 
   #return
   return(response);
