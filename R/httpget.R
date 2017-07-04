@@ -20,8 +20,8 @@ httpget <- function(){
   reqtail <- utils::tail(reqpath, -1);
 
   switch(reqhead,
-    "library" = httpget_library(.libPaths(), reqtail),
-    "lib" = httpget_library(.libPaths(), reqtail), # new alias for /library
+    "library" = httpget_library(NULL, reqtail),
+    "lib" = httpget_library(NULL, reqtail), # new alias for /library
     "tmp" = httpget_tmp(reqtail),
     "doc" = httpget_doc(reqtail),
     "user" = httpget_user(reqtail),
