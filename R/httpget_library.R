@@ -9,7 +9,15 @@ httpget_library <- function(lib.loc, requri){
   pkgname <- utils::head(requri, 1);
   if(!length(pkgname)){
     res$checkmethod();
-    res$sendlist(list.files(lib.loc))
+    packages <- c()
+    if (is.null(lib.loc)) {
+        lib.loc <- .libPaths()
+        packages <- loadedNamespaces()
+    }
+
+    packages <- c(packages, list.files(lib.loc))
+    unique(packages)
+    res$sendlist(packages)
   }
 
   #shorthand for pkg::object notation
