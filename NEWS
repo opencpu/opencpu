@@ -1,3 +1,6 @@
+2.0.4
+ - Single user server now uses flush.console() after printing logs to the console
+
 2.0.3.1 (internal)
  - Removed the manual call to gc() at the end of each request because it is very slow
 
