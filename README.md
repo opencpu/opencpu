@@ -56,6 +56,6 @@ ocpu_start_server()
 Or to start an App:
 
 ```r
-ocpu_start_app("rwebapps/stocks")
+ocpu_start_app("rwebapps/stockapp")
 ```
 
