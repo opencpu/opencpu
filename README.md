@@ -4,7 +4,6 @@
 
 [![Build Status](https://travis-ci.org/opencpu/opencpu.svg?branch=master)](https://travis-ci.org/opencpu/opencpu)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/jeroen/opencpu?branch=master&svg=true)](https://ci.appveyor.com/project/jeroen/opencpu)
-[![Coverage Status](https://codecov.io/github/opencpu/opencpu/coverage.svg?branch=master)](https://codecov.io/github/opencpu/opencpu?branch=master)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/opencpu)](http://cran.r-project.org/package=opencpu)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/opencpu)](http://cran.r-project.org/web/packages/opencpu/index.html)
 [![Github Stars](https://img.shields.io/github/stars/opencpu/opencpu.svg?style=social&label=Github)](https://github.com/opencpu/opencpu)
@@ -36,7 +35,7 @@ sudo apt-get update
 sudo apt-get upgrade
 
 #install opencpu server
-sudo apt-get install -y opencpu
+sudo apt-get install -y opencpu-server
 
 #optional
 sudo apt-get install -y rstudio-server 
