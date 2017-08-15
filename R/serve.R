@@ -42,16 +42,14 @@ serve <- function(REQDATA, run_worker = NULL){
   }
 
   # Don't enforce proc limit when running single user server (regular user)
-  nproc <- if(is_rapache()){
-    config("rlimit.nproc")
+  limits <- if(config("enable.rlimits")){
+    c(
+      cpu = timeout + 3,
+      as = config("rlimit.as"),
+      fsize = config("rlimit.fsize"),
+      nproc = if(is_rapache()) config("rlimit.nproc")
+    )
   }
-
-  limits <- c(
-    cpu = timeout + 3,
-    as = config("rlimit.as"),
-    fsize = config("rlimit.fsize"),
-    nproc = nproc
-  )
 
   # RApache (cloud server) runs request in a fork, saves workding dir and wipes tmpdir afterwards
   request({
