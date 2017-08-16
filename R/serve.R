@@ -13,7 +13,7 @@ serve <- function(REQDATA, run_worker = NULL){
       mytmp <- normalizePath(tmp)
       on.exit({
         gc() #GC on windows closes open file descriptors before moving dir!
-        if(file.exists(file.path(mytmp, "workspace")))
+        if(file.exists(file.path(mytmp, "workspace/.RData")))
           file_move(file.path(mytmp, "workspace"), sessiondir(hash))
       }, add = TRUE)
       on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
