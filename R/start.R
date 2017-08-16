@@ -91,6 +91,7 @@ ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload =
       if(grepl("elapsed time limit", e$message)){
         log("Worker timeout (%ds, see rlimit.post in user.conf). Killing process %d!", timeout, node$pid)
         tools::pskill(node$pid)
+        stop(sprintf("Timeout reached: %ds (see rlimit.post in user.conf)", timeout))
       }
       stop(e)
     })
