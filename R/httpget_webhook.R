@@ -48,7 +48,7 @@ httpget_webhook <- function(){
 }
 
 
-webhook_install <- function(payload = NULL, sendmail = TRUE, ...){
+webhook_install <- function(payload = NULL, sendmail = TRUE, mail_owner = TRUE, ...){
 
   #install the package
   result <- github_install(...)
@@ -57,7 +57,7 @@ webhook_install <- function(payload = NULL, sendmail = TRUE, ...){
   if(isTRUE(sendmail)) {
 
     #formulate email message
-    email_args <- create_email(result$success, result$output, payload)
+    email_args <- create_email(result$success, result$output, payload, mail_owner)
     email_args$control = list(smtpServer = config("smtp.server"))
 
     # try to send it
