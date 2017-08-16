@@ -77,15 +77,23 @@ ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload =
 
   # main interface
   run_worker <- function(fun, ..., timeout = NULL){
-    if(length(timeout)){
-      setTimeLimit(elapsed = timeout)
-      on.exit(setTimeLimit(cpu = Inf, elapsed = Inf), add = TRUE)
-    }
-    cl <- get_worker()
-    on.exit(kill_workers(cl), add = TRUE)
-    node <- cl[[1]]
-    sendCall(node, fun, list(...))
-    res <- recvResult(node)
+    res <- tryCatch({
+      if(length(timeout)){
+        setTimeLimit(elapsed = timeout)
+        on.exit(setTimeLimit(cpu = Inf, elapsed = Inf), add = TRUE)
+      }
+      cl <- get_worker()
+      on.exit(kill_workers(cl), add = TRUE)
+      node <- cl[[1]]
+      sendCall(node, fun, list(...))
+      recvResult(node)
+    }, error = function(e){
+      if(grepl("elapsed time limit", e$message)){
+        log("Worker timeout (%ds, see rlimit.post in user.conf). Killing process %d!", timeout, node$pid)
+        tools::pskill(node$pid, tools::SIGKILL)
+      }
+      stop(e)
+    })
     if(inherits(res, "try-error"))
       stop(res)
     res

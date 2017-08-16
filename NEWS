@@ -1,5 +1,6 @@
 2.0.4
- - Single user server now uses flush.console() after printing logs to the console
+ - Single user server: flush.console() after printing logs to the console
+ - Single user server: kill child process if a worker hits timeout
  - Support JSON null values for rlimits in config
  - Add URL parameter 'mail_owner' to webhook url (default is TRUE)
  - Cloud server: automatically add libjvm path to ldpaths
