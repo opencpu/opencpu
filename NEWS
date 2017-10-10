@@ -1,3 +1,6 @@
+2.0.5
+ - Fix bug where only the first package would actually get preloaded
+
 2.0.4
  - Single user server: flush.console() after printing logs to the console
  - Single user server: kill child process if a worker hits timeout

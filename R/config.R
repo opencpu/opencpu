@@ -9,7 +9,7 @@ config <- local({
       val <- newconf[[i]]
       name <- names(newconf[i])
       # Turn JSON 'null' value into NA
-      conflist[[name]] <<- ifelse(length(val), val, NA)
+      conflist[[name]] <<- if(length(val)) val else NA
     }
   }
 
