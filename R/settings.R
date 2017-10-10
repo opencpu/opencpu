@@ -52,8 +52,11 @@ load_config_and_settings <- local({
       options(bitmapType = "cairo")
     }
 
+    #load custom pkgs but avoid the old packages from '/usr/lib/opencpu/library'
     if(isTRUE(preload)){
-      #preload libraries
+      old_libs <- .libPaths()
+      on.exit(.libPaths(old_libs), add = TRUE)
+      .libPaths(c("/usr/local/lib/opencpu/site-library"))
       for(thispackage in config("preload")){
         try(getNamespace(thispackage), silent=TRUE);
       }
