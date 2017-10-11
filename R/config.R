@@ -1,7 +1,7 @@
 # Helper for loading and getting settings
 config <- local({
   conflist <- list()
-  confpaths <- list()
+  confpaths <- character()
 
   load <- function(filepath){
     message("Loading config from ", filepath)
