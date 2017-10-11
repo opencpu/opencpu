@@ -1,9 +1,11 @@
 # Helper for loading and getting settings
 config <- local({
   conflist <- list()
+  confpaths <- list()
 
   load <- function(filepath){
     message("Loading config from ", filepath)
+    confpaths <<- c(confpaths, filepath)
     newconf <- as.list(fromJSON(filepath));
     for(i in seq_along(newconf)){
       val <- newconf[[i]]

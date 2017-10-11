@@ -1,10 +1,14 @@
 httpget_info <- function(requri){
   #get sessioninfo
-  myobject <- utils::sessionInfo();
-  
+  myobject <- list(
+    session = utils::sessionInfo(),
+    config = environment(config)$confpaths,
+    libpaths = .libPaths()
+  )
+
   #only GET allowed
   res$checkmethod("GET");
-  
+
   #return object
   switch(req$method(),
     "GET" = httpget_object(myobject, "print", "sessionInfo"),
