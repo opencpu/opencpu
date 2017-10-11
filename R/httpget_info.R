@@ -1,6 +1,7 @@
 httpget_info <- function(requri){
   #some diagnostics
   myobject <- structure(list(
+    Version = as.character(packageVersion('opencpu')),
     System = utils::sessionInfo(),
     Configuration = environment(config)$confpaths,
     Libraries = .libPaths()
@@ -27,7 +28,7 @@ print.opencpu_info <- function(x, ...){
   titles <- names(x)
   cat(" OpenCPU: Producing and Reproducing Results\n\n")
   for(i in seq_along(x)){
-    cat(sprintf("## %s:\n", titles[i]))
+    cat(sprintf("## %s\n", titles[i]))
     print(x[[i]])
     cat("\n")
   }
