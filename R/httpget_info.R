@@ -1,7 +1,6 @@
 httpget_info <- function(requri){
   #some diagnostics
   myobject <- structure(list(
-    Version = as.character(packageVersion('opencpu')),
     System = utils::sessionInfo(),
     Configuration = environment(config)$confpaths,
     Libraries = .libPaths()
@@ -26,7 +25,9 @@ httpget_info <- function(requri){
 
 print.opencpu_info <- function(x, ...){
   titles <- names(x)
-  cat(" OpenCPU: Producing and Reproducing Results\n\n")
+  type <- ifelse(is_rapache(), "Cloud", "Single-User")
+  cat("OpenCPU: Producing and Reproducing Results\n")
+  cat(sprintf("%s Server (version: %s)\n\n", type, as.character(packageVersion('opencpu'))))
   for(i in seq_along(x)){
     cat(sprintf("## %s\n", titles[i]))
     print(x[[i]])
