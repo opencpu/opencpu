@@ -1,15 +1,15 @@
 httpget_info <- function(requri){
   #some diagnostics
-  myobject <- list(
-    session = utils::sessionInfo(),
-    config = environment(config)$confpaths,
-    libpaths = .libPaths()
-  )
+  myobject <- structure(list(
+    Session = utils::sessionInfo(),
+    Config = environment(config)$confpaths,
+    Libpaths = .libPaths()
+  ), class = "opencpu_info")
 
   if(!is_windows()){
     try({
-      myobject$rlimits <- unix::rlimit_all()
-      myobject$apparmor <- unlist(sys::aa_config())
+      myobject$Limits <- unix::rlimit_all()
+      myobject$Apparmor <- unlist(sys::aa_config())
     }, silent = TRUE)
   }
 
@@ -21,4 +21,14 @@ httpget_info <- function(requri){
     "GET" = httpget_object(myobject, "print", "sessionInfo"),
     stop("invalid method")
   );
+}
+
+print.opencpu_info <- function(x, ...){
+  titles <- names(x)
+  cat(" OpenCPU: Producing and Reproducing Results\n\n")
+  for(i in seq_along(x)){
+    cat(sprintf("## %s:\n", titles[i]))
+    print(x[[i]])
+    cat("\n")
+  }
 }
