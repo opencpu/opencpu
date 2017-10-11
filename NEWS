@@ -1,5 +1,6 @@
 2.0.5
  - Fix bug where only the first package would actually get preloaded
+ - The /ocpu/info API shows some additional config/system info
 
 2.0.4
  - Single user server: flush.console() after printing logs to the console
