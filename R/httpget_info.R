@@ -3,7 +3,8 @@ httpget_info <- function(requri){
   myobject <- structure(list(
     System = utils::sessionInfo(),
     Configuration = environment(config)$confpaths,
-    Libraries = .libPaths()
+    Libraries = .libPaths(),
+    Apps = github_rootpath()
   ), class = "opencpu_info")
 
   if(!is_windows()){
