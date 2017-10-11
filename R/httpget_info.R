@@ -1,10 +1,17 @@
 httpget_info <- function(requri){
-  #get sessioninfo
+  #some diagnostics
   myobject <- list(
+    session = utils::sessionInfo(),
     config = environment(config)$confpaths,
-    libpaths = .libPaths(),
-    session = utils::sessionInfo()
+    libpaths = .libPaths()
   )
+
+  if(!is_windows()){
+    try({
+      myobject$rlimits <- unix::rlimit_all()
+      myobject$apparmor <- unlist(sys::aa_config())
+    }, silent = TRUE)
+  }
 
   #only GET allowed
   res$checkmethod("GET");
