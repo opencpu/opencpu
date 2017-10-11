@@ -1,9 +1,9 @@
 httpget_info <- function(requri){
   #some diagnostics
   myobject <- structure(list(
-    Session = utils::sessionInfo(),
-    Config = environment(config)$confpaths,
-    Libpaths = .libPaths()
+    System = utils::sessionInfo(),
+    Configuration = environment(config)$confpaths,
+    Libraries = .libPaths()
   ), class = "opencpu_info")
 
   if(!is_windows()){
