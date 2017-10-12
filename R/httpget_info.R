@@ -28,7 +28,7 @@ print.opencpu_info <- function(x, ...){
   titles <- names(x)
   type <- ifelse(is_rapache(), "Cloud", "Single-User")
   cat("# OpenCPU: Producing and Reproducing Results\n")
-  cat(sprintf("%s Server (version: %s)\n\n", type, as.character(packageVersion('opencpu'))))
+  cat(sprintf("%s Server (version: %s)\n\n", type, as.character(utils::packageVersion('opencpu'))))
   for(i in seq_along(x)){
     cat(sprintf("## %s\n", titles[i]))
     print(x[[i]])
