@@ -21,7 +21,12 @@ github_userlib <- function(gituser, gitrepo){
 github_package_info <- function(repo){
   tryCatch({
   url <- sprintf("https://raw.githubusercontent.com/%s/master/DESCRIPTION", repo)
-  con <- curl::curl(url)
+  handle <- curl::new_handle()
+  token <- github_token()
+  if(length(token)){
+    curl::handle_setheaders(handle, Authorization = paste("token", token))
+  }
+  con <- curl::curl(url, handle = handle)
   on.exit(close(con))
   out <- as.list(as.data.frame(read.dcf(con), stringsAsFactors = FALSE))
   }, error = function(e){
@@ -50,9 +55,9 @@ github_install <- function(repo, username, ref, args = NULL, upgrade_dependencie
   package <- app_info$package
 
   #Override auth_token if set in key
-  mysecret <- gitsecret()
-  if(length(mysecret) && length(mysecret$auth_token) && nchar(mysecret$auth_token)){
-    all_args$auth_token = mysecret$auth_token
+  token <- github_token()
+  if(length(token)){
+    all_args$auth_token = token
   }
 
   # Create the Rscript call
