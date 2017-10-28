@@ -18,11 +18,12 @@ github_userlib <- function(gituser, gitrepo){
   file.path(github_rootpath(), paste(github_prefix, gituser, gitrepo, sep="_"))
 }
 
-github_package_info <- function(repo){
+github_package_info <- function(repo, token = NULL){
   tryCatch({
   url <- sprintf("https://raw.githubusercontent.com/%s/master/DESCRIPTION", repo)
   handle <- curl::new_handle()
-  token <- github_token()
+  if(!length(token))
+    token <- github_token()
   if(length(token)){
     curl::handle_setheaders(handle, Authorization = paste("token", token))
   }
@@ -51,7 +52,7 @@ github_install <- function(repo, username, ref, args = NULL, upgrade_dependencie
 
   # Download metadata before actually installing. Errors if no DESCRIPTION exists.
   # TODO: get this info from 'output' above
-  app_info <- github_package_info(all_args$repo)
+  app_info <- github_package_info(all_args$repo, auth_token)
   package <- app_info$package
 
   #Override auth_token if set in key
