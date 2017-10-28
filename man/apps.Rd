@@ -9,7 +9,7 @@
 \alias{update_apps}
 \title{OpenCPU Application}
 \usage{
-install_apps(repo, auth_token = devtools::github_pat(), ...)
+install_apps(repo, ...)
 
 remove_apps(repo)
 
@@ -21,8 +21,6 @@ update_apps(...)
 }
 \arguments{
 \item{repo}{a github repository such as \code{user/repo}, see \link{install_github}.}
-
-\item{auth_token}{passed to \code{install_github}}
 
 \item{...}{additional options for \code{install_github}}
 }

@@ -13,7 +13,6 @@
 #'
 #' @export
 #' @param repo a github repository such as `user/repo`, see [install_github].
-#' @param auth_token passed to `install_github`
 #' @param ... additional options for `install_github`
 #' @rdname apps
 #' @name apps
@@ -21,12 +20,12 @@
 #' @family ocpu
 #' @example examples/apps.R
 #' @export
-install_apps <- function(repo, auth_token = devtools::github_pat(), ...){
-  lapply(repo, install_apps_one, auth_token = auth_token, ...)
+install_apps <- function(repo, ...){
+  lapply(repo, install_apps_one, ...)
   repo[repo %in% installed_apps()]
 }
 
-install_apps_one <- function(repo, force = NULL, lib = NULL, auth_token = NULL, ...){
+install_apps_one <- function(repo, force = NULL, lib = NULL, auth_token = devtools::github_pat(), ...){
   info <- ocpu_app_info(repo)
   github_info <- github_package_info(url_path(info$user, info$repo), auth_token)
   package <- github_info$package
