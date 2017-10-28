@@ -1,5 +1,6 @@
 2.0.6
- - Fix Github auth in webhook (either use /etc/opencpu/secret.conf or GITHUB_PAT envvar)
+ - Support auth_token in webhook (either set /etc/opencpu/secret.conf or GITHUB_PAT in /etc/opencpu/Renviron)
+ - Pass down 'rapache' option to webhook installer process to load proper config files
 
 2.0.5
  - Fix bug where only the first package would actually get preloaded
