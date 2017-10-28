@@ -22,8 +22,6 @@ github_package_info <- function(repo, token = NULL){
   tryCatch({
   url <- sprintf("https://raw.githubusercontent.com/%s/master/DESCRIPTION", repo)
   handle <- curl::new_handle()
-  if(!length(token))
-    token <- github_token()
   if(length(token)){
     curl::handle_setheaders(handle, Authorization = paste("token", token))
   }
@@ -56,11 +54,7 @@ github_install <- function(repo, username, ref, args = NULL, upgrade_dependencie
   package <- app_info$package
 
   #Override auth_token if set in key
-  all_args$auth_token <- if(length(auth_token)){
-    auth_token
-  } else {
-    github_token()
-  }
+  all_args$auth_token <- auth_token
 
   # Create the Rscript call
   arg_list <- paste(deparse(all_args), collapse="\n")
