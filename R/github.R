@@ -35,7 +35,7 @@ github_package_info <- function(repo){
   stats::setNames(out, tolower(names(out)))
 }
 
-github_install <- function(repo, username, ref, args = NULL, upgrade_dependencies = FALSE, ...){
+github_install <- function(repo, username, ref, args = NULL, upgrade_dependencies = FALSE, auth_token = NULL, ...){
   #get args
   all_args <- list(...)
   all_args$upgrade_dependencies <- upgrade_dependencies
@@ -55,9 +55,10 @@ github_install <- function(repo, username, ref, args = NULL, upgrade_dependencie
   package <- app_info$package
 
   #Override auth_token if set in key
-  token <- github_token()
-  if(length(token)){
-    all_args$auth_token = token
+  all_args$auth_token <- if(length(auth_token)){
+    auth_token
+  } else {
+    github_token()
   }
 
   # Create the Rscript call
