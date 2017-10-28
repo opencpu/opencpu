@@ -34,10 +34,11 @@ github_package_info <- function(repo, token = NULL){
   stats::setNames(out, tolower(names(out)))
 }
 
-github_install <- function(repo, username, ref, args = NULL, upgrade_dependencies = FALSE, auth_token = NULL, ...){
+github_install <- function(repo, username, ref, args = NULL, upgrade_dependencies = FALSE, auth_token = github_token(), ...){
   #get args
   all_args <- list(...)
   all_args$upgrade_dependencies <- upgrade_dependencies
+  all_args$auth_token <- auth_token
   all_args$repo <- url_path(username, repo)
   all_args$ref <- ref
 
@@ -52,9 +53,6 @@ github_install <- function(repo, username, ref, args = NULL, upgrade_dependencie
   # TODO: get this info from 'output' above
   app_info <- github_package_info(all_args$repo, auth_token)
   package <- app_info$package
-
-  #Override auth_token if set in key
-  all_args$auth_token <- auth_token
 
   # Create the Rscript call
   arg_list <- paste(deparse(all_args), collapse="\n")
