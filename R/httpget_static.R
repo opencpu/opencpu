@@ -1,13 +1,11 @@
-httpget_static <- function(){
+httpget_static <- function(requri){
   #only GET
-  res$checkmethod();
-  
-  #windows doesn't like trailing slash
-  filepath <- sub("/$", "", utils::URLdecode(req$path_info()));
-  
+  res$checkmethod()
+
   #set cache value
-  res$setcache("static");   
-  
+  res$setcache("static")
+
   #send it
-  res$sendfile(system.file(filepath, package=packagename));    
+  testapp <- system.file('test', package = 'opencpu')
+  res$sendfile(do.call(file.path, as.list(c(testapp, requri))))
 }
