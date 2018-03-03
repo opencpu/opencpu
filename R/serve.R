@@ -23,7 +23,7 @@ serve <- function(REQDATA, run_worker = NULL){
       )
       return(tryCatch({
         run_worker(eval, expr = expr, envir = list(REQDATA = REQDATA), timeout = config("timelimit.post"))
-      }, error = reshandler)) #extra error catching shouldn't be needed but just in case
+      }, error = error_handler)) #extra error catching shouldn't be needed but just in case
     }
   }
 
