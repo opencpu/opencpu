@@ -5,7 +5,9 @@ httpget_static <- function(requri){
   #set cache value
   res$setcache("static")
 
-  #send it
+  # Prevent path traversal attack via ..%2F..%2F..%2F
   testapp <- system.file('test', package = 'opencpu')
-  res$sendfile(do.call(file.path, as.list(c(testapp, requri))))
+  path <- do.call(file.path, as.list(c(testapp, requri)))
+  assert_subdir(path, testapp)
+  res$sendfile(path)
 }

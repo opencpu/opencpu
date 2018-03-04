@@ -234,3 +234,10 @@ ocpu_grdev <- function(file, width, height, paper, ...){
   grDevices::dev.control(displaylist = "enable")
   graphics::par("bg" = "white")
 }
+
+assert_subdir <- function(path, parent){
+  path <- normalizePath(path, mustWork = TRUE)
+  parent <- normalizePath(parent, mustWork = TRUE)
+  if(!identical(parent, substr(path, 1, nchar(parent))))
+    stop(sprintf("Path %s is not a subdir of %s", path, parent))
+}
