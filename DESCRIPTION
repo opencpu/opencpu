@@ -16,7 +16,7 @@ Imports:
     knitr (>= 1.6),
     jsonlite (>= 1.4),
     devtools (>= 1.12),
-    sys (>= 1.4),
+    sys (>= 1.6),
     webutils (>= 0.6),
     curl (>= 2.6),
     sendmailR,
@@ -44,3 +44,4 @@ Description: A system for embedded scientific computing and reproducible researc
 LazyData: yes
 RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)
+Remotes: jeroen/sys
