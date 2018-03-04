@@ -1,4 +1,4 @@
-httpget_static <- function(requri){
+httpget_testapp <- function(requri){
   #only GET
   res$checkmethod()
 
