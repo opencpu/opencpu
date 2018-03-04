@@ -1,6 +1,6 @@
 Package: opencpu
 Title: Producing and Reproducing Results
-Version: 2.0.6.9000
+Version: 2.0.7
 Authors@R: person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berkeley.edu",
     comment = c(ORCID = "0000-0002-4035-0289"))
 License: Apache License 2.0

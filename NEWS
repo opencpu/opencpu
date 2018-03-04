@@ -1,6 +1,8 @@
 2.0.7
  - Internally switch to condition system to raise ocpu-success
-
+ - Move all reading of files inside the forked process
+ - Check for path traversal for GET requests. Note that you should really enable AppArmor in production.
+ - Faster serialization in sys::eval_save() in sys 1.6
 
 2.0.6
  - Support auth_token in webhook (either set /etc/opencpu/secret.conf or GITHUB_PAT in /etc/opencpu/Renviron)
