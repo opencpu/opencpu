@@ -1,9 +1,9 @@
 ## do req is the main function
 ## it should never actually return
 ## functions should always call respond()
-request <- function(expr){
+request <- function(REQDATA){
 	tryCatch({
-		eval(expr);
+		main(REQDATA);
 		respond(503L, write_to_file("function returned without calling respond"));
 	}, ocpu_response = success_handler, error = error_handler);
 }
@@ -26,13 +26,13 @@ respond <- function(status = 503L, body=NULL, headers=list()){
       message = "ocpu success",
       call = NULL
     ),
-    class=c("ocpu_response", "error", "condition"),
+    class=c("ocpu_response", "condition"),
     status = status,
     body = body,
     headers = headers
   );
 
-	base::stop(e)
+	base::signalCondition(e)
 }
 
 success_handler <- function(e){
@@ -70,13 +70,11 @@ respond_data <- function(response){
   response$headers[["X-ocpu-version"]] = as.character(utils::packageVersion(packagename));
 
   #reset req/res state
-  res$reset();
-  req$reset();
+  res$reset()
+  req$reset()
 
   # close open files? Disabled: this is very slow.
   # gc()
 
-  #return
-  return(response);
+  return(response)
 }
-

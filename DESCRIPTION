@@ -6,7 +6,6 @@ Authors@R: person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berk
 License: Apache License 2.0
 Encoding: UTF-8
 URL: https://www.opencpu.org (website)
-    https://opencpu.github.io (documentation)
     https://github.com/opencpu/opencpu#readme (devel)
 BugReports: https://github.com/opencpu/opencpu/issues
 Depends:
@@ -43,5 +42,5 @@ Description: A system for embedded scientific computing and reproducible researc
     The entire system is fully open source and permissively licensed. The OpenCPU website
     has detailed documentation and example apps.
 LazyData: yes
-RoxygenNote: 6.0.1
+RoxygenNote: 6.0.1.9000
 Roxygen: list(markdown = TRUE)

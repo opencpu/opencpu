@@ -5,7 +5,7 @@ serve <- function(REQDATA, run_worker = NULL){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
       pwd <- getwd()
       on.exit(setwd(pwd), add = TRUE)
-      return(request(main(REQDATA)));
+      return(request(REQDATA))
     } else {
       hash <- generate_hash()
       tmp <- file.path(ocpu_temp(), hash)
@@ -19,7 +19,7 @@ serve <- function(REQDATA, run_worker = NULL){
       on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
       expr <- c(
         call("Sys.setenv", OCPU_SESSION_DIR = mytmp),
-        parse(text = "opencpu:::request(opencpu:::main(REQDATA))")
+        parse(text = "opencpu:::request(REQDATA)")
       )
       return(tryCatch({
         run_worker(eval, expr = expr, envir = list(REQDATA = REQDATA), timeout = config("timelimit.post"))
@@ -52,20 +52,18 @@ serve <- function(REQDATA, run_worker = NULL){
   }
 
   # RApache (cloud server) runs request in a fork, saves workding dir and wipes tmpdir afterwards
-  request({
-    hash <- generate_hash()
-    tmp <- file.path(ocpu_temp(), hash)
-    if(!dir.create(tmp))
-      stop(sprintf("Failed to create tempdir %s. Check directory permissions.", tmp))
-    mytmp <- normalizePath(tmp)
-    if(REQDATA$METHOD == "POST"){
-      on.exit({
-        if(file.exists(file.path(mytmp, "workspace")))
-          file_move(file.path(mytmp, "workspace"), sessiondir(hash))
-      }, add = TRUE)
-    }
-    on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
-    sys::eval_safe(main(REQDATA), tmp = mytmp, timeout = as.numeric(timeout), profile = profile,
-                   rlimits = limits, device = ocpu_grdev)
-  })
+  hash <- generate_hash()
+  tmp <- file.path(ocpu_temp(), hash)
+  if(!dir.create(tmp))
+    stop(sprintf("Failed to create tempdir %s. Check directory permissions.", tmp))
+  mytmp <- normalizePath(tmp)
+  if(REQDATA$METHOD == "POST"){
+    on.exit({
+      if(file.exists(file.path(mytmp, "workspace")))
+        file_move(file.path(mytmp, "workspace"), sessiondir(hash))
+    }, add = TRUE)
+  }
+  on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
+  sys::eval_safe(request(REQDATA), tmp = mytmp, timeout = as.numeric(timeout),
+                        profile = profile, rlimits = limits, device = ocpu_grdev)
 }
