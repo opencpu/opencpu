@@ -41,8 +41,8 @@ rapachehandler <- function(){
 
   # Silence extra output
   sink("/dev/null")
-  response <- serve(REQDATA);
-  sink();
+  on.exit(sink(), add = TRUE)
+  response <- serve(REQDATA)
 
   #set server header
   response$headers["X-ocpu-server"] <- "rApache";
