@@ -5,6 +5,7 @@
  - Cloud server: update package library
  - Docker / Launchpad: update rstudio-server
  - Docker: workaround bug in rstudio (explicitly disable apparmor)
+ - rapache handler now properly closes sink() even in case of system errors
 
 2.0.7
  - Internally switch to condition system to raise ocpu-success
