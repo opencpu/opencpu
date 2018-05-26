@@ -25,9 +25,9 @@ install_apps <- function(repo, ...){
   repo[repo %in% installed_apps()]
 }
 
-install_apps_one <- function(repo, force = NULL, lib = NULL, ...){
+install_apps_one <- function(repo, force = NULL, lib = NULL, auth_token = devtools::github_pat(), ...){
   info <- ocpu_app_info(repo)
-  github_info <- github_package_info(url_path(info$user, info$repo))
+  github_info <- github_package_info(url_path(info$user, info$repo), auth_token)
   package <- github_info$package
   if(!length(lib))
     lib <- info$path
@@ -53,7 +53,7 @@ install_apps_one <- function(repo, force = NULL, lib = NULL, ...){
     }
   }
   inlib(lib, {
-    devtools::install_github(repo, force = force, ...)
+    devtools::install_github(repo, force = force, auth_token = auth_token, ...)
     writeLines(package, file.path(lib, "_APP_"))
   })
 }

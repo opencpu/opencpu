@@ -56,6 +56,7 @@ ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload =
       cl <- makeCluster(n)
       lapply(cl, sendCall, fun = function(){
         lapply(preload, getNamespace)
+        Sys.getpid()
       }, args = list())
       pool <<- c(pool, cl)
     }
@@ -67,23 +68,33 @@ ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload =
       add_workers(1)
     node <- pool[[1]]
     pool <<- pool[-1]
-    res <- recvResult(node)
-    if(inherits(res, "try-error"))
-      warning("Worker preload error: ", res, call. = FALSE, immediate. = TRUE)
+    pid <- recvResult(node)
+    if(inherits(pid, "try-error"))
+      warning("Worker preload error: ", pid, call. = FALSE, immediate. = TRUE)
+    node$pid <- pid
     structure(list(node), class = c("SOCKcluster", "cluster"))
   }
 
   # main interface
   run_worker <- function(fun, ..., timeout = NULL){
-    if(length(timeout)){
-      setTimeLimit(elapsed = timeout)
-      on.exit(setTimeLimit(cpu = Inf, elapsed = Inf), add = TRUE)
-    }
-    cl <- get_worker()
-    on.exit(kill_workers(cl), add = TRUE)
-    node <- cl[[1]]
-    sendCall(node, fun, list(...))
-    res <- recvResult(node)
+    res <- tryCatch({
+      if(length(timeout)){
+        setTimeLimit(elapsed = timeout)
+        on.exit(setTimeLimit(cpu = Inf, elapsed = Inf), add = TRUE)
+      }
+      cl <- get_worker()
+      on.exit(kill_workers(cl), add = TRUE)
+      node <- cl[[1]]
+      sendCall(node, fun, list(...))
+      recvResult(node)
+    }, error = function(e){
+      if(grepl("elapsed time limit", e$message)){
+        log("Worker timeout (%ds, see rlimit.post in user.conf). Killing process %d!", timeout, node$pid)
+        tools::pskill(node$pid)
+        stop(sprintf("Timeout reached: %ds (see rlimit.post in user.conf)", timeout))
+      }
+      stop(e)
+    })
     if(inherits(res, "try-error"))
       stop(res)
     res
@@ -91,7 +102,11 @@ ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload =
 
   kill_workers <- function(cl){
     log("Stopped %d worker(s)", length(cl))
-    stopCluster(cl)
+    stopCluster(cl) # does not work when child is busy
+
+    #This prevends child from cleaning own tempdir
+    #log("Killing process %d", cl[[1]]$pid)
+    #tools::pskill(cl[[1]]$pid, tools::SIGKILL) # try to interrupt gracefully
   }
 
   # Initiate worker pool

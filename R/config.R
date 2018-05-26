@@ -1,13 +1,17 @@
 # Helper for loading and getting settings
 config <- local({
   conflist <- list()
+  confpaths <- character()
 
   load <- function(filepath){
     message("Loading config from ", filepath)
+    confpaths <<- c(confpaths, filepath)
     newconf <- as.list(fromJSON(filepath));
     for(i in seq_along(newconf)){
-      name <- names(newconf[i]);
-      conflist[[name]] <<- newconf[[i]];
+      val <- newconf[[i]]
+      name <- names(newconf[i])
+      # Turn JSON 'null' value into NA
+      conflist[[name]] <<- if(length(val)) val else NA
     }
   }
 

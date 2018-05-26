@@ -5,7 +5,7 @@ serve <- function(REQDATA, run_worker = NULL){
     if(REQDATA$METHOD %in% c("HEAD", "GET", "OPTIONS")){
       pwd <- getwd()
       on.exit(setwd(pwd), add = TRUE)
-      return(request(main(REQDATA)));
+      return(request(REQDATA))
     } else {
       hash <- generate_hash()
       tmp <- file.path(ocpu_temp(), hash)
@@ -13,17 +13,17 @@ serve <- function(REQDATA, run_worker = NULL){
       mytmp <- normalizePath(tmp)
       on.exit({
         gc() #GC on windows closes open file descriptors before moving dir!
-        if(file.exists(file.path(mytmp, "workspace")))
+        if(file.exists(file.path(mytmp, "workspace/.RData")))
           file_move(file.path(mytmp, "workspace"), sessiondir(hash))
       }, add = TRUE)
       on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
       expr <- c(
         call("Sys.setenv", OCPU_SESSION_DIR = mytmp),
-        parse(text = "opencpu:::request(opencpu:::main(REQDATA))")
+        parse(text = "opencpu:::request(REQDATA)")
       )
       return(tryCatch({
         run_worker(eval, expr = expr, envir = list(REQDATA = REQDATA), timeout = config("timelimit.post"))
-      }, error = reshandler)) #extra error catching shouldn't be needed but just in case
+      }, error = error_handler)) #extra error catching shouldn't be needed but just in case
     }
   }
 
@@ -42,32 +42,28 @@ serve <- function(REQDATA, run_worker = NULL){
   }
 
   # Don't enforce proc limit when running single user server (regular user)
-  nproc <- if(is_rapache()){
-    config("rlimit.nproc")
+  limits <- if(config("enable.rlimits")){
+    c(
+      cpu = timeout + 3,
+      as = config("rlimit.as"),
+      fsize = config("rlimit.fsize"),
+      nproc = if(is_rapache()) config("rlimit.nproc")
+    )
   }
 
-  limits <- c(
-    cpu = timeout + 3,
-    as = config("rlimit.as"),
-    fsize = config("rlimit.fsize"),
-    nproc = nproc
-  )
-
   # RApache (cloud server) runs request in a fork, saves workding dir and wipes tmpdir afterwards
-  request({
-    hash <- generate_hash()
-    tmp <- file.path(ocpu_temp(), hash)
-    if(!dir.create(tmp))
-      stop(sprintf("Failed to create tempdir %s. Check directory permissions.", tmp))
-    mytmp <- normalizePath(tmp)
-    if(REQDATA$METHOD == "POST"){
-      on.exit({
-        if(file.exists(file.path(mytmp, "workspace")))
-          file_move(file.path(mytmp, "workspace"), sessiondir(hash))
-      }, add = TRUE)
-    }
-    on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
-    sys::eval_safe(main(REQDATA), tmp = mytmp, timeout = as.numeric(timeout), profile = profile,
-                   rlimits = limits, device = ocpu_grdev)
-  })
+  hash <- generate_hash()
+  tmp <- file.path(ocpu_temp(), hash)
+  if(!dir.create(tmp))
+    stop(sprintf("Failed to create tempdir %s. Check directory permissions.", tmp))
+  mytmp <- normalizePath(tmp)
+  if(REQDATA$METHOD == "POST"){
+    on.exit({
+      if(file.exists(file.path(mytmp, "workspace")))
+        file_move(file.path(mytmp, "workspace"), sessiondir(hash))
+    }, add = TRUE)
+  }
+  on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
+  sys::eval_safe(request(REQDATA), tmp = mytmp, timeout = as.numeric(timeout),
+                        profile = profile, rlimits = limits, device = ocpu_grdev)
 }

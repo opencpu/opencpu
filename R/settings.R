@@ -52,8 +52,8 @@ load_config_and_settings <- local({
       options(bitmapType = "cairo")
     }
 
+    #load custom pkgs but avoid the old packages from '/usr/lib/opencpu/library'
     if(isTRUE(preload)){
-      #preload libraries
       for(thispackage in config("preload")){
         try(getNamespace(thispackage), silent=TRUE);
       }

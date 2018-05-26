@@ -28,7 +28,7 @@ httpget <- function(){
     "github" = httpget_apps(reqtail),
     "apps" = httpget_apps(reqtail), # new alias for /github
     "webhook" = httpget_webhook(),
-    "test" = httpget_static(),
+    "test" = httpget_testapp(reqtail),
     "info" = httpget_info(),
     res$notfound(message=paste("Invalid top level api: /", reqhead, sep=""))
   )
