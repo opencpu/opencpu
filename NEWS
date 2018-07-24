@@ -1,3 +1,7 @@
+2.1.0
+ - Bump major version because the cloud server now targets R 3.5.x
+ - Require latest 'sys' and 'evaluate'
+
 2.0.8
  - Increase default key length to 13 to prevent hash collisions
  - Docker: start cron daemon by default
