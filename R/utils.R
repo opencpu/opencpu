@@ -50,7 +50,7 @@ dir.move <- function(from, to){
   }
   stopifnot(dir.create(to, recursive=TRUE));
   setwd(from)
-  if(all(file.copy(list.files(all.files=TRUE, include.dirs=TRUE), to, recursive=TRUE))){
+  if(all(file.copy(list.files(include.dirs=TRUE), to, recursive=TRUE))){
     #success!
     unlink(from, recursive=TRUE);
     return(TRUE)
