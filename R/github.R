@@ -46,7 +46,7 @@ github_install <- function(repo, username, ref, args = NULL, upgrade_dependencie
   gitpath <- github_userlib(username, repo)
 
   # temporary location
-  gittmpdir <- paste0(gitpath, "_tmp")
+  gittmpdir <- paste0(gitpath, "_00TMP")
   if(file.exists(gittmpdir)){
     info <- file.info(gittmpdir)
     time_limit <- config("timelimit.webhook")
