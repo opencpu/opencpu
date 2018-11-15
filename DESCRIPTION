@@ -11,7 +11,7 @@ BugReports: https://github.com/opencpu/opencpu/issues
 Depends:
     R (>= 3.0.0)
 Imports:
-    evaluate (>= 0.10.1),
+    evaluate (>= 0.12),
     httpuv (>= 1.3),
     knitr (>= 1.6),
     jsonlite (>= 1.4),
