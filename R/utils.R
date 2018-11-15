@@ -158,7 +158,7 @@ stop <- function(..., call. = FALSE, domain = NULL){
 stub <- function(){
   curl::curl_fetch_memory()
   pander::pander()
-  devtools::install_github()
+  remotes::install_github()
   brew::brew()
   httpuv::runServer()
   knitr::knit()
