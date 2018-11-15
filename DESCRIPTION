@@ -8,8 +8,6 @@ Encoding: UTF-8
 URL: https://www.opencpu.org (website)
     https://github.com/opencpu/opencpu#readme (devel)
 BugReports: https://github.com/opencpu/opencpu/issues
-Depends:
-    R (>= 3.0.0)
 Imports:
     evaluate (>= 0.12),
     httpuv (>= 1.3),
