@@ -9,3 +9,7 @@ github_remote <- function(...){
 parse_git_repo <- function(...){
   getFromNamespace('parse_git_repo', 'remotes')(...)
 }
+
+github_pat <- function(...){
+  getFromNamespace('github_pat', 'remotes')(...)
+}
