@@ -34,10 +34,10 @@ github_package_info <- function(repo, token = NULL){
   stats::setNames(out, tolower(names(out)))
 }
 
-github_install <- function(repo, username, ref, args = NULL, upgrade_dependencies = FALSE, auth_token = github_token(), ...){
+github_install <- function(repo, username, ref, args = NULL, upgrade = FALSE, auth_token = github_token(), ...){
   #get args
   all_args <- list(...)
-  all_args$upgrade_dependencies <- upgrade_dependencies
+  all_args$upgrade <- upgrade
   all_args$auth_token <- auth_token
   all_args$repo <- url_path(username, repo)
   all_args$ref <- ref
