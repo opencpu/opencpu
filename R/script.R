@@ -26,5 +26,8 @@ run_rscript <- function(cmd, stop_on_error = TRUE){
     prettycmd <- paste(c("", cmd), collapse = "\n  ")
     stop(sprintf("Rscript failed: %sIn R script: %s\n", output, prettycmd))
   }
+
+  # Strip \\r lines (progress bars)
+  output <- gsub("\n.*\r(?!\n)", "\n", output, perl = TRUE)
   structure(output, status = status)
 }
