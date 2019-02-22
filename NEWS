@@ -1,3 +1,6 @@
+2.1.1
+ - Replace sys::eval_safe() with unix::eval_safe()
+
 2.1.0
  - Replace devtools dependency with remotes
  - Cloud server: always keep ocpu system lib on the path

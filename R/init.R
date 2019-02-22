@@ -51,7 +51,7 @@ ocpu_init <- function(){
 
   # Needed for install.packages() in rapache
   if(is_rapache()){
-    sys:::set_tempdir(ocpu_temp())
+    unix:::set_tempdir(ocpu_temp())
     Sys.setenv(TMPDIR = tempdir())
     Sys.setenv(HOME = tempdir())
     options(configure.vars = paste0("TMPDIR=", tempdir()))
