@@ -45,6 +45,7 @@ dir.move <- function(from, to){
   stopifnot(length(from) == 1);
   stopifnot(length(to) == 1);
   stopifnot(!file.exists(to));
+  stopifnot(dir.create(dirname(to), recursive=TRUE));
   if(file.rename(from, to)){
     return(TRUE)
   }
@@ -57,7 +58,7 @@ dir.move <- function(from, to){
   }
   #fail!
   unlink(to, recursive=TRUE);
-  stop("Failed to move ", from, " to ", to);
+  stop("Failed to move dir", from, " to ", to);
 }
 
 send_email <- function(to, ...){
@@ -126,9 +127,26 @@ islazydata <- function(x, ns){
     identical("lazyLoadDBfetch", deparse(eval(call("substitute", as.name(x), ns))[[1]]))
 }
 
+#' splitpath("12345678901") # gives "12/34/56/78/901"
+#' splitpath("123456") # gives "12/34/56"
+#' splitpath("12345") # gives "12/34/5"
+splitpath <- function(hash, split_by=2, split_cnt=4) {
+    split_cnt <- min(split_cnt, (nchar(hash) - 1)  %/% split_by)
+    split_pos <- seq_len(split_cnt) * split_by
+    # last split_pos is strictly less then nchar(hash)
+    stopifnot(tail(split_pos, 1) < nchar(hash))
+    
+    ends <- c(split_pos, nchar(hash))
+    starts <- c(1, split_pos + 1)
+    
+    parts <- substring(hash, starts, ends)
+    res <- paste0(parts, collapse="/")
+    res
+}
+
 #actual directory
 sessiondir <- function(hash){
-  file.path(ocpu_store(), hash);
+  file.path(ocpu_store(), splitpath(hash));
 }
 
 #http path for a session (not actual file path!)
@@ -173,7 +191,7 @@ eval_current <- function(expr, envir=parent.frame(), timeout = 60){
 # Note:
 file_move <- function(from, to){
   if(!file.rename(from, to))
-    stop(sprintf("Failed to move %s to %s", from, to))
+    stop(sprintf("Failed to move file %s to %s", from, to))
 }
 
 guess_content_type <- function(file){

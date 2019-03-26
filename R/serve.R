@@ -14,7 +14,7 @@ serve <- function(REQDATA, run_worker = NULL){
       on.exit({
         gc() #GC on windows closes open file descriptors before moving dir!
         if(file.exists(file.path(mytmp, "workspace/.RData")))
-          file_move(file.path(mytmp, "workspace"), sessiondir(hash))
+          dir.move(file.path(mytmp, "workspace"), sessiondir(hash))
       }, add = TRUE)
       on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
       expr <- c(
@@ -60,7 +60,7 @@ serve <- function(REQDATA, run_worker = NULL){
   if(REQDATA$METHOD == "POST"){
     on.exit({
       if(file.exists(file.path(mytmp, "workspace")))
-        file_move(file.path(mytmp, "workspace"), sessiondir(hash))
+        dir.move(file.path(mytmp, "workspace"), sessiondir(hash))
     }, add = TRUE)
   }
   on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)

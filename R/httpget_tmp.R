@@ -11,6 +11,7 @@ httpget_tmp <- function(requri){
     res$checkmethod();
     res$checktrail();
     allfiles <- list.files(ocpu_store(), pattern=paste("^", prefix, sep=""));
+
     res$sendlist(allfiles);
   }
 
@@ -21,7 +22,7 @@ httpget_tmp <- function(requri){
     reqtail <- c("R", parts[2], reqtail)
   }
 
-  sessionpath <- file.path(ocpu_store(), reqhead);
+  sessionpath <- file.path(ocpu_store(), splitpath(reqhead));
 
   #set cache value
   res$setcache("tmp");
