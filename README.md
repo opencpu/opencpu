@@ -26,11 +26,11 @@
 
 ## Cloud Server
 
-To install the cloud server in Ubuntu 16.04
+To install the cloud server on Ubuntu Server:
 
 ```sh
-#requires Ubuntu 16.04 (Xenial)
-sudo add-apt-repository -y ppa:opencpu/opencpu-2.0
+#requires Ubuntu 16.04 (Xenial) or 18.04 (Bionic)
+sudo add-apt-repository -y ppa:opencpu/opencpu-2.1
 sudo apt-get update 
 sudo apt-get upgrade
 

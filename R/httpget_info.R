@@ -10,7 +10,7 @@ httpget_info <- function(requri){
   if(!is_windows()){
     try({
       myobject$Limits <- unix::rlimit_all()
-      myobject$Apparmor <- unlist(sys::aa_config())
+      myobject$Apparmor <- unlist(unix::aa_config())
     }, silent = TRUE)
   }
 

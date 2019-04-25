@@ -64,6 +64,9 @@ serve <- function(REQDATA, run_worker = NULL){
     }, add = TRUE)
   }
   on.exit(unlink(mytmp, recursive = TRUE), add = TRUE)
-  sys::eval_safe(request(REQDATA), tmp = mytmp, timeout = as.numeric(timeout),
-                        profile = profile, rlimits = limits, device = ocpu_grdev)
+
+  # Extra tryCatch in case eval_safe() raises a timeout/memory error
+  tryCatch(unix::eval_safe(request(REQDATA), tmp = mytmp, timeout = as.numeric(timeout),
+                        profile = profile, rlimits = limits, device = ocpu_grdev),
+           error = error_handler)
 }
