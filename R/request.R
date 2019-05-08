@@ -1,11 +1,11 @@
 ## do req is the main function
 ## it should never actually return
 ## functions should always call respond()
-request <- function(expr){
+request <- function(REQDATA){
 	tryCatch({
-		eval(expr);
+		main(REQDATA);
 		respond(503L, write_to_file("function returned without calling respond"));
-	}, error=reshandler);
+	}, ocpu_response = success_handler, error = error_handler);
 }
 
 respond <- function(status = 503L, body=NULL, headers=list()){
@@ -26,33 +26,34 @@ respond <- function(status = 503L, body=NULL, headers=list()){
       message = "ocpu success",
       call = NULL
     ),
-    class=c("error", "condition", "ocpu_response"),
+    class=c("ocpu_response", "condition"),
     status = status,
     body = body,
     headers = headers
   );
 
-	base::stop(e)
+	base::signalCondition(e)
 }
 
-reshandler <- function(e){
+success_handler <- function(e){
+  res <- list(
+    body = readBin(attr(e, "body"), raw(), file.info(attr(e, "body"))$size),
+    status = attr(e, "status"),
+    headers = attr(e, "headers")
+  )
+  respond_data(res)
+}
 
-  #process response
-  response <- if(inherits(e, "ocpu_response")){
-    # success resopnse
-    list(
-      body = readBin(attr(e, "body"), raw(), file.info(attr(e, "body"))$size),
-      status = attr(e, "status"),
-      headers = attr(e, "headers")
-    )
-  } else {
-    #error response
-    list(
-      status = 400L,
-      body = errbuf(e),
-      headers = list("Content-Type" = 'text/plain; charset=utf-8')
-    )
-  }
+error_handler <- function(e){
+  res <- list(
+    status = 400L,
+    body = errbuf(e),
+    headers = list("Content-Type" = 'text/plain; charset=utf-8')
+  )
+  respond_data(res)
+}
+
+respond_data <- function(response){
 
   #add CORS header
   if(isTRUE(config("enable.cors"))){
@@ -69,13 +70,11 @@ reshandler <- function(e){
   response$headers[["X-ocpu-version"]] = as.character(utils::packageVersion(packagename));
 
   #reset req/res state
-  res$reset();
-  req$reset();
+  res$reset()
+  req$reset()
 
   # close open files? Disabled: this is very slow.
   # gc()
 
-  #return
-  return(response);
+  return(response)
 }
-

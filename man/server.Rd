@@ -68,3 +68,4 @@ installed_apps()
 \seealso{
 Other ocpu: \code{\link{apps}}
 }
+\concept{ocpu}

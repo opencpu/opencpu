@@ -1,13 +1,13 @@
-httpget_static <- function(){
+httpget_testapp <- function(requri){
   #only GET
-  res$checkmethod();
-  
-  #windows doesn't like trailing slash
-  filepath <- sub("/$", "", utils::URLdecode(req$path_info()));
-  
+  res$checkmethod()
+
   #set cache value
-  res$setcache("static");   
-  
-  #send it
-  res$sendfile(system.file(filepath, package=packagename));    
+  res$setcache("static")
+
+  # Prevent path traversal attack via ..%2F..%2F..%2F
+  testapp <- system.file('test', package = 'opencpu')
+  path <- do.call(file.path, as.list(c(testapp, requri)))
+  assert_subdir(path, testapp)
+  res$sendfile(path)
 }

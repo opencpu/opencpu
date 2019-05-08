@@ -1,4 +1,4 @@
-create_email <- function(success, output, payload) {
+create_email <- function(success, output, payload, mail_owner) {
   #get some fields from the payload
   gituser <- payload$repository$owner$name;
   gitrepo <- payload$repository$name;
@@ -59,7 +59,7 @@ create_email <- function(success, output, payload) {
 
   # add recipients
   data$to <- pusher
-  if(!identical(owner, pusher))
+  if(!identical(owner, pusher) && isTRUE(mail_owner))
     data$cc <- owner
 
   #also mail to mailing list

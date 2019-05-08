@@ -7,6 +7,7 @@ run_rscript <- function(cmd, stop_on_error = TRUE){
     paste0("environment(.libPaths)$.lib.loc <- ", deparse(.libPaths(), 500), ";"),
     paste0("options(repos = ", deparse(getOption('repos'), 500), ");"),
     paste0("options(configure.vars = ", deparse(getOption('configure.vars'), 500), ");"),
+    paste0("options(rapache = ", deparse(getOption('rapache')), ");"),
     cmd
   )
 
@@ -25,5 +26,8 @@ run_rscript <- function(cmd, stop_on_error = TRUE){
     prettycmd <- paste(c("", cmd), collapse = "\n  ")
     stop(sprintf("Rscript failed: %sIn R script: %s\n", output, prettycmd))
   }
+
+  # Strip \\r lines (progress bars)
+  output <- gsub("\n.*\r(?!\n)", "\n", output, perl = TRUE)
   structure(output, status = status)
 }
