@@ -55,7 +55,7 @@ parse_post <- function(reqbody, contenttype){
   }
 
   return(lapply(obj, function(x){
-    if(isTRUE(is.atomic(x) && length(x) == 1)){
+    if(isTRUE(is.atomic(x) && length(x) == 1 && !length(dim(x)))){
       #primitives as expressions
       return(deparse_atomic(x))
     } else {
