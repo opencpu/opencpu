@@ -1,3 +1,7 @@
+2.1.2
+ - Fix parsing for length 1 matrix objects parameters
+ - Version bump for R 3.6.0
+
 2.1.1
  - Replace sys::eval_safe() with unix::eval_safe()
 
