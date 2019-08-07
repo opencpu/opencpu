@@ -60,11 +60,21 @@ dir.move <- function(from, to){
   stop("Failed to move ", from, " to ", to);
 }
 
-send_email <- function(to, ...){
-  sendmail <- from("sendmailR", "sendmail");
-  lapply(to, function(rcpt){
-    sendmail(to = rcpt, ...);
-  })
+extract_email <- function(str){
+  sub('.*<(.*)>.*', '\\1', str)
+}
+
+send_email <- function(from, to, subject, msg, cc = NULL, bcc = NULL,
+                         smtp_server = "localhost", verbose = FALSE, ...){
+  body <- paste(c(
+    sprintf("From: %s", from),
+    sprintf("To: %s", to),
+    if(length(cc))
+      sprintf("Cc: %s", cc),
+    sprintf("Subject: %s", subject),
+    "", msg), collapse = "\r\n")
+  curl::send_mail(mail_from = extract_email(from), mail_rcpt = extract_email(c(to, cc, bcc)),
+                  smtp_server = smtp_server, verbose = verbose, message = body, ...)
 }
 
 address <- function(name, email){
