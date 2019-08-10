@@ -20,6 +20,10 @@ ocpu_store <-function(){
 }
 
 ocpu_init <- function(){
+  if(is_testload()){
+    return(NULL)
+  }
+
   # Check for cloud server options
   if(isTRUE(getOption("rapache"))){
     is_rapache(TRUE)
@@ -58,3 +62,8 @@ ocpu_init <- function(){
     options(configure.vars = paste0("TMPDIR=", tempdir()))
   }
 }
+
+is_testload <- function(){
+  as.logical(nchar(Sys.getenv("R_INSTALL_PKG")))
+}
+
