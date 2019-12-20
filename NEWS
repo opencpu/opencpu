@@ -1,3 +1,14 @@
+2.1.4
+ - Do not initiate config during check/testload to comply with CRAN policy
+
+2.1.3
+ - Replace sendmailR with new curl::send_mail()
+ - Bump and stack update for R 3.6.1
+
+2.1.2
+ - Fix parsing for length 1 matrix objects parameters
+ - Version bump for R 3.6.0
+
 2.1.1
  - Replace sys::eval_safe() with unix::eval_safe()
 

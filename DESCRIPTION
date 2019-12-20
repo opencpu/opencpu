@@ -1,6 +1,6 @@
 Package: opencpu
 Title: Producing and Reproducing Results
-Version: 2.1.1
+Version: 2.1.4
 Authors@R: person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berkeley.edu",
     comment = c(ORCID = "0000-0002-4035-0289"))
 License: Apache License 2.0
@@ -18,8 +18,7 @@ Imports:
     remotes (>= 2.0.2),
     sys (>= 2.1),
     webutils (>= 0.6),
-    curl (>= 2.6),
-    sendmailR,
+    curl (>= 4.0),
     rappdirs,
     zip,
     mime,

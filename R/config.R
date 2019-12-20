@@ -33,12 +33,15 @@ create_user_config <- function(){
     }
   } else {
     defaultconf <- system.file("config/defaults.conf", package = packagename);
-    userconf <- get_user_conf()
-    dir.create(dirname(userconf), showWarnings = FALSE, recursive = TRUE)
-    if(file.copy(defaultconf, userconf)){
-      message("Creating new user config file: ", configfile);
-    } else {
-      warning("Failed to create new config file: ", configfile, ". Using default config.")
+    confdir <- dirname(configfile)
+    dir.create(confdir, showWarnings = FALSE, recursive = TRUE)
+    if(file.exists(confdir)){
+      if(file.copy(defaultconf, configfile)){
+        message("Creating new user config file: ", configfile);
+      } else {
+        stop(jsonlite::toJSON(names(Sys.getenv())))
+        warning("Failed to create new config file: ", configfile, ". Using default config.")
+      }
     }
   }
 }
