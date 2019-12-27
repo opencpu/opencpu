@@ -6,8 +6,8 @@ httpget_package_r <- function(pkgpath, requri){
   
   #Package has to be loaded from reqlib, but dependencies might be loaded from global libs.
   inlib(reqlib,{
-    loadPackageFrom(reqpackage, reqlib);
     
+    library(reqpackage, lib.loc = reqlib, character.only=TRUE);
     #reqhead is function/object name
     reqobject <- utils::head(requri, 1);
     reqformat <- requri[2];    

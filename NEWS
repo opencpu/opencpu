@@ -1,5 +1,6 @@
 2.1.5
  - The /ocpu/library API now includes loaded namespaces
+ - Do not attempt anymore to unload preloaded packages
 
 2.1.4
  - Do not initiate config during check/testload to comply with CRAN policy
