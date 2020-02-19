@@ -44,6 +44,7 @@ httpget_object <- local({
       "png" = httpget_object_png(object),
       "pdf" = httpget_object_pdf(object, objectname),
       "svg" = httpget_object_svg(object, objectname),
+      "svglite" = httpget_object_svglite(object, objectname),
       res$notfound(message=paste("Invalid output format for objects:", reqformat))
     )
   }
@@ -229,6 +230,16 @@ httpget_object <- local({
     mytmp <- tempfile();
     do.call(function(width=11.69, height=8.27, pointsize=12, ...){
       svg(file=mytmp, width=as.numeric(width), height=as.numeric(height), pointsize=as.numeric(pointsize), ...);
+    }, req$get());
+    on.exit(dev.off())
+    res$setheader("Content-Type", "image/svg+xml");
+    try_print_plot(object, mytmp)
+  }
+
+  httpget_object_svglite <- function(object, objectname){
+    mytmp <- tempfile();
+    do.call(function(width=11.69, height=8.27, pointsize=12, ...){
+      svglite::svglite(file=mytmp, width=as.numeric(width), height=as.numeric(height), pointsize=as.numeric(pointsize), ...);
     }, req$get());
     on.exit(dev.off())
     res$setheader("Content-Type", "image/svg+xml");

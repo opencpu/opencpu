@@ -8,7 +8,7 @@ Encoding: UTF-8
 URL: https://www.opencpu.org (website)
     https://github.com/opencpu/opencpu#readme (devel)
 BugReports: https://github.com/opencpu/opencpu/issues
-Depends:	
+Depends: 
     R (>= 3.0.0)
 Imports:
     evaluate (>= 0.12),
@@ -30,7 +30,8 @@ Suggests:
     haven,
     feather,
     pander,
-    R.rsp
+    R.rsp,
+    svglite
 SystemRequirements: pandoc, apparmor (optional)
 VignetteBuilder: knitr, R.rsp
 Description: A system for embedded scientific computing and reproducible research with R.
