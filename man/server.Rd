@@ -9,8 +9,14 @@
 \alias{ocpu_start_app}
 \title{OpenCPU Single-User Server}
 \usage{
-ocpu_start_server(port = 5656, root = "/ocpu", workers = 2,
-  preload = NULL, on_startup = NULL, no_cache = FALSE)
+ocpu_start_server(
+  port = 5656,
+  root = "/ocpu",
+  workers = 2,
+  preload = NULL,
+  on_startup = NULL,
+  no_cache = FALSE
+)
 
 ocpu_start_app(app, update = TRUE, ...)
 }
@@ -66,6 +72,7 @@ installed_apps()
 }
 }
 \seealso{
-Other ocpu: \code{\link{apps}}
+Other ocpu: 
+\code{\link{apps}}
 }
 \concept{ocpu}

@@ -42,5 +42,5 @@ Description: A system for embedded scientific computing and reproducible researc
     The entire system is fully open source and permissively licensed. The OpenCPU website
     has detailed documentation and example apps.
 LazyData: yes
-RoxygenNote: 6.1.1
+RoxygenNote: 7.0.2
 Roxygen: list(markdown = TRUE)
