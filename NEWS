@@ -1,3 +1,6 @@
+2.1.6
+ - Added new graphics output format 'svglite'
+
 2.1.5
  - The /ocpu/library API now includes loaded namespaces
  - Do not attempt anymore to unload preloaded packages
