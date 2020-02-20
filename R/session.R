@@ -64,7 +64,7 @@ session_eval <- function(input, args = NULL, storeval=FALSE, format="list"){
   res$setstatus(201)
 
   # Shortcuts to get output immediately
-  if(format %in% c("png", "svg", "pdf")){
+  if(format %in% c("png", "svg", "pdf", "svglite")){
     myplots <- extract(output$res, "graphics")
     if(length(myplots) < 1)
       res$error("Function call did not generate any graphics", 400)
