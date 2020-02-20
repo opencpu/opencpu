@@ -47,9 +47,12 @@ load_config_and_settings <- local({
     if(!length(getOption('repos')))
       options(repos=config('repos'))
 
-    #use cairo if available
-    if(!identical(getOption("bitmapType"), "cairo") && isTRUE(capabilities()[["cairo"]])){
-      options(bitmapType = "cairo")
+    # Running capabilities() during check gives weird warning on CRAN MacOS
+    if(!is_check()){
+      #use cairo if available
+      if(!identical(getOption("bitmapType"), "cairo") && isTRUE(capabilities()[["cairo"]])){
+        options(bitmapType = "cairo")
+      }
     }
 
     #load custom pkgs but avoid the old packages from '/usr/lib/opencpu/library'
@@ -60,3 +63,8 @@ load_config_and_settings <- local({
     }
   }
 })
+
+is_check <- function(){
+  isTRUE("CheckExEnv" %in% search()) ||
+    any(c("_R_CHECK_TIMINGS_", "_R_CHECK_LICENSE_") %in% names(Sys.getenv()))
+}
