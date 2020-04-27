@@ -195,3 +195,14 @@ ocpu_start_app <- function(app, update = TRUE, ...){
     start_local_app_local(app, ...)
   }
 }
+
+## WORKAROUND: https://github.com/rstudio/rstudio/issues/6692
+## Use 'sequential' setup of PSOCK cluster in RStudio Console on macOS and R 4.0.0
+makeCluster <- function(..., setup_strategy = NULL){
+  if (Sys.getenv("RSTUDIO") == "1" && !nzchar(Sys.getenv("RSTUDIO_TERM")) &&
+      Sys.info()["sysname"] == "Darwin" && getRversion() >= "4") {
+    parallel::makeCluster(..., setup_strategy = "sequential")
+  } else {
+    parallel::makeCluster(...)
+  }
+}
