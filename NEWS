@@ -1,3 +1,7 @@
+2.2.0
+ - Version bump for R 4.0.0 / Ubuntu Focal
+ - Workaround for broken psockcluster in RStudio on MacOS
+
 2.1.6
  - Added new graphics output format 'svglite'
 
