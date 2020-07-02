@@ -1,3 +1,7 @@
+2.2.0
+ - Bump version because we are now targeting R 4.0
+ - Add option to disable SSL in SMTP for webhook emails
+
 2.1.7
  - Workaround for broken psockcluster in RStudio on MacOS
 
