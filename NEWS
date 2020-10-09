@@ -1,3 +1,6 @@
+2.2.1
+ - Fix webhook for non-master default branch
+
 2.2.0
  - Bump version because we are now targeting R 4.0
  - Add option to disable SSL in SMTP for webhook emails
