@@ -20,7 +20,7 @@ github_userlib <- function(gituser, gitrepo){
 
 github_package_info <- function(repo, token = NULL){
   tryCatch({
-  url <- sprintf("https://raw.githubusercontent.com/%s/master/DESCRIPTION", repo)
+  url <- sprintf("https://raw.githubusercontent.com/%s/HEAD/DESCRIPTION", repo)
   handle <- curl::new_handle()
   if(length(token)){
     curl::handle_setheaders(handle, Authorization = paste("token", token))
