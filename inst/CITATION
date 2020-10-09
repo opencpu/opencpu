@@ -5,11 +5,11 @@ citEntry(entry = "Article",
   author       = personList(as.person("Jeroen Ooms")),
   journal      = "arXiv:1406.4806 [stat.CO]",
   year         = "2014",
-  url          = "http://arxiv.org/abs/1406.4806",
+  url          = "https://arxiv.org/abs/1406.4806",
 
   textVersion  =
   paste("Jeroen Ooms (2014).",
         "The OpenCPU System: Towards a Universal Interface for Scientific Computing through Separation of Concerns",
         "arXiv:1406.4806 [stat.CO]",
-        "URL http://arxiv.org/abs/1406.4806.")
+        "URL https://arxiv.org/abs/1406.4806")
 )
