@@ -3,7 +3,6 @@
 language: R
 sudo: required
 cache: packages
-dist: trusty
 
 env:
   - _R_CHECK_FORCE_SUGGESTS_=false
@@ -11,7 +10,7 @@ env:
 addons:
   apt:
     packages:
-      - libapparmor-dev   
+      - libapparmor-dev
       - libprotobuf-dev
       - protobuf-compiler
       - libicu-dev
