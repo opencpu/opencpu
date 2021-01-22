@@ -3,8 +3,11 @@ github_prefix <- "ocpu_github"
 getlocaldir <- function(){
   if(is_rapache() || is_admin()){
     return("/usr/local/lib/opencpu")
+  } else if(getRversion() < 4 || is_windows() || is_mac()){
+    rappdirs::user_data_dir('opencpu')
+  } else {
+    tools::R_user_dir('opencpu')
   }
-  rappdirs::user_data_dir("opencpu")
 }
 
 github_rootpath <- function(){

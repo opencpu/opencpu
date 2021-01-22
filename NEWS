@@ -1,3 +1,7 @@
+2.2.2
+ - On R 4.0 the location where the user config file for the single-user
+   server is stored is now changed to comply with new CRAN policies.
+
 2.2.1
  - Fix webhook for non-master default branch
 
