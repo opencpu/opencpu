@@ -207,9 +207,12 @@ httpget_object <- local({
 
   httpget_object_png <- function(object){
     mytmp <- tempfile();
+    args <- req$get()
+    if(!is_mac())
+      args$type = 'cairo'
     do.call(function(width=800, height=600, pointsize=12, ...){
-      png(type="cairo", file=mytmp, width=as.numeric(width), height=as.numeric(height), pointsize=as.numeric(pointsize), ...);
-    }, req$get());
+      png(file=mytmp, width=as.numeric(width), height=as.numeric(height), pointsize=as.numeric(pointsize), ...);
+    }, args)
     on.exit(dev.off())
     res$setheader("Content-Type", "image/png");
     try_print_plot(object, mytmp)
