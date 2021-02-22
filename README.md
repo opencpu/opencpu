@@ -1,6 +1,6 @@
 # opencpu
 
-##### *Producing and Reproducing Results*
+> Producing and Reproducing Results
 
 [![Build Status](https://travis-ci.org/opencpu/opencpu.svg?branch=master)](https://travis-ci.org/opencpu/opencpu)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/jeroen/opencpu?branch=master&svg=true)](https://ci.appveyor.com/project/jeroen/opencpu)
@@ -8,13 +8,13 @@
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/opencpu)](http://cran.r-project.org/web/packages/opencpu/index.html)
 [![Github Stars](https://img.shields.io/github/stars/opencpu/opencpu.svg?style=social&label=Github)](https://github.com/opencpu/opencpu)
 
-> A system for embedded scientific computing and reproducible research with R.
-  The OpenCPU server exposes a simple but powerful HTTP api for RPC and data interchange
-  with R. This provides a reliable and scalable foundation for statistical services or 
-  building R web applications. The OpenCPU server runs either as a single-user development
-  server within the interactive R session, or as a multi-user Linux stack based on Apache2. 
-  The entire system is fully open source and permissively licensed. The OpenCPU website
-  has detailed documentation and example apps.
+A system for embedded scientific computing and reproducible research with R.
+The OpenCPU server exposes a simple but powerful HTTP api for RPC and data interchange
+with R. This provides a reliable and scalable foundation for statistical services or 
+building R web applications. The OpenCPU server runs either as a single-user development
+server within the interactive R session, or as a multi-user Linux stack based on Apache2. 
+The entire system is fully open source and permissively licensed. The OpenCPU website
+has detailed documentation and example apps.
 
 ## Documentation
 
@@ -29,8 +29,8 @@
 To install the cloud server on Ubuntu Server:
 
 ```sh
-#requires Ubuntu 16.04 (Xenial) or 18.04 (Bionic)
-sudo add-apt-repository -y ppa:opencpu/opencpu-2.1
+#requires Ubuntu 20.04 (Focal)
+sudo add-apt-repository -y ppa:opencpu/opencpu-2.2
 sudo apt-get update 
 sudo apt-get upgrade
 
@@ -57,4 +57,3 @@ Or to start an App:
 ```r
 ocpu_start_app("rwebapps/stockapp")
 ```
-
