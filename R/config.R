@@ -50,6 +50,6 @@ get_user_conf <- function(){
   if(is_rapache() || is_admin()){
     return("/etc/opencpu/server.conf")
   } else {
-    file.path(getlocaldir(), "user.conf")
+    file.path(getlocaldir('config'), "user.conf")
   }
 }
