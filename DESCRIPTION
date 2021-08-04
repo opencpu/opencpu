@@ -1,6 +1,6 @@
 Package: opencpu
 Title: Producing and Reproducing Results
-Version: 2.2.4
+Version: 2.2.4.1
 Authors@R: person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berkeley.edu",
     comment = c(ORCID = "0000-0002-4035-0289"))
 License: Apache License 2.0
@@ -26,7 +26,7 @@ Imports:
     brew,
     openssl
 Suggests:
-    unix (>= 1.4),
+    unix (>= 1.5.3),
     haven,
     feather,
     pander,
