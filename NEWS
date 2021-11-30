@@ -1,3 +1,6 @@
+2.2.6
+ - Fix bug for parsing JSON null values in R-4.1 and up
+
 2.2.4
  - As per CRAN demands, the config file for the single-user server is now
    stored in tools::R_user_dir('opencpu', 'config')
