@@ -26,6 +26,7 @@ Imports:
     brew,
     openssl
 Suggests:
+    arrow,
     unix (>= 1.5.3),
     haven,
     feather,

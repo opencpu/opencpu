@@ -70,7 +70,7 @@ session_eval <- function(input, args = NULL, storeval=FALSE, format="list"){
       res$error("Function call did not generate any graphics", 400)
     object <- myplots[[length(myplots)]] # last generated plot
     httpget_object(object, format)
-  } else if(format %in% c("print", "md", "bin", "csv", "feather", "json", "rda", "rds", "pb", "tab", "ndjson")){
+  } else if(format %in% c("print", "md", "bin", "csv", "feather", "feather2","arrowipc", "json", "rda", "rds", "pb", "tab", "ndjson")){
     httpget_object(get(".val", sessionenv), format, "object")
   } else if(format %in% c("console")) {
     httpget_object(extract(output$res, format), "text")
