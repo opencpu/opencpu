@@ -1,5 +1,6 @@
 2.2.7
- - Add new output formats 'feather2' and 'arrowpic'
+ - The 'feather' format is now proviced via the 'arrow' package
+ - Add new output 'arrowpic'
 
 2.2.6
  - Fix bug for parsing JSON null values in R-4.1 and up

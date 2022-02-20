@@ -31,7 +31,6 @@ httpget_object <- local({
       "bin" = httpget_object_bin(object, objectname),
       "csv" = httpget_object_csv(object, objectname),
       "feather" = httpget_object_feather(object, objectname),
-      "feather2" = httpget_object_feather2(object, objectname),
       "arrowipc" = httpget_object_arrowipc(object, objectname),
       "spss" = httpget_object_spss(object, objectname),
       "sas" = httpget_object_sas(object, objectname),
@@ -74,7 +73,7 @@ httpget_object <- local({
     res$finish();
   }
 
-  httpget_object_feather2 <- function(object, objectname){
+  httpget_object_feather <- function(object, objectname){
     mytmp <- tempfile();
     do.call(arrow::write_feather, c(list(x = object, sink = mytmp), req$get()));
     res$setbody(file = mytmp)
@@ -88,16 +87,7 @@ httpget_object <- local({
     do.call(arrow::write_ipc_stream, c(list(x = object, sink = mytmp), req$get()));
     res$setbody(file = mytmp)
     res$setheader("Content-Type", "application/arrowipc")
-    res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".feather", sep=""));
-    res$finish();
-  }
-
-  httpget_object_feather <- function(object, objectname){
-    mytmp <- tempfile();
-    do.call(feather::write_feather, c(list(x = object, path = mytmp), req$get()));
-    res$setbody(file = mytmp)
-    res$setheader("Content-Type", "application/feather")
-    res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".feather", sep=""));
+    res$setheader("Content-disposition", paste("attachment;filename=", objectname, ".arrow", sep=""));
     res$finish();
   }
 
