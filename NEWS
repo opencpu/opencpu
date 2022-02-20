@@ -1,6 +1,6 @@
 2.2.7
- - The 'feather' format is now proviced via the 'arrow' package
- - Add new output 'arrowpic'
+ - The 'feather' format is now provided via the 'arrow' package
+ - Add new output formats 'arrowipc' and 'parquet' from arrow
 
 2.2.6
  - Fix bug for parsing JSON null values in R-4.1 and up

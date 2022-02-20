@@ -6,7 +6,7 @@ Authors@R: person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berk
 License: Apache License 2.0
 Encoding: UTF-8
 URL: https://www.opencpu.org (website)
-    https://github.com/opencpu/opencpu#readme (devel)
+    https://github.com/opencpu/opencpu (devel)
 BugReports: https://github.com/opencpu/opencpu/issues
 Depends: 
     R (>= 3.0.0)
