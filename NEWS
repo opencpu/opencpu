@@ -1,3 +1,7 @@
+2.2.8
+ - Workarounds for moved R_LIBS_SITE and R_LIBS_USER in Debian
+ - Default platform is now Ubuntu-22.04 with R-4.2
+
 2.2.7
  - The 'feather' format is now provided via the 'arrow' package, which uses
    feather v2 by default. Use /feather?version=1 to get the old v1 format.
