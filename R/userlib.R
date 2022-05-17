@@ -3,8 +3,8 @@ userlibpath <- function(username, postfix=""){
   home <- homedir(username);
   check_mode(home)
   homelib <- sub("~", home, Sys.getenv("R_LIBS_USER", default_lib_user()), fixed=TRUE);
-  if(is_rapache()){
-    # This is needed as of R-4.2 because R now sets R_LIBS_USER itself
+  if(is_rapache() || is_admin()){
+    # This is needed as of R-4.2 because R now hardcodes R_LIBS_USER to a full path
     apache_home <- homedir(Sys.info()[['user']])
     homelib <- sub(apache_home, home, homelib, fixed = TRUE)
   }
