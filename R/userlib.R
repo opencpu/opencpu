@@ -3,6 +3,11 @@ userlibpath <- function(username, postfix=""){
   home <- homedir(username);
   check_mode(home)
   homelib <- sub("~", home, Sys.getenv("R_LIBS_USER", default_lib_user()), fixed=TRUE);
+  if(is_rapache()){
+    # This is needed as of R-4.2 because R now sets R_LIBS_USER itself
+    apache_home <- homedir(Sys.info()[['user']])
+    homelib <- sub(apache_home, home, homelib, fixed = TRUE)
+  }
   homelib <- gsub("/+$", "", homelib);
   homelib <- paste(homelib, postfix, sep="");
   if(file.exists(homelib)){
