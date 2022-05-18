@@ -1,5 +1,5 @@
 2.2.8
- - Workarounds for moved R_LIBS_SITE and R_LIBS_USER in Debian
+ - Fixes for R-4.2 changes in R_LIBS_SITE and R_LIBS_USER
  - Default platform is now Ubuntu-22.04 with R-4.2
 
 2.2.7
