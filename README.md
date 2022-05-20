@@ -2,11 +2,8 @@
 
 > Producing and Reproducing Results
 
-[![Build Status](https://travis-ci.org/opencpu/opencpu.svg?branch=master)](https://travis-ci.org/opencpu/opencpu)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/jeroen/opencpu?branch=master&svg=true)](https://ci.appveyor.com/project/jeroen/opencpu)
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/opencpu)](http://cran.r-project.org/package=opencpu)
 [![CRAN RStudio mirror downloads](http://cranlogs.r-pkg.org/badges/opencpu)](http://cran.r-project.org/web/packages/opencpu/index.html)
-[![Github Stars](https://img.shields.io/github/stars/opencpu/opencpu.svg?style=social&label=Github)](https://github.com/opencpu/opencpu)
 
 A system for embedded scientific computing and reproducible research with R.
 The OpenCPU server exposes a simple but powerful HTTP api for RPC and data interchange
