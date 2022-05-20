@@ -29,7 +29,7 @@ has detailed documentation and example apps.
 To install the cloud server on Ubuntu Server:
 
 ```sh
-#requires Ubuntu 20.04 (Focal)
+#requires Ubuntu 22.04 (Jammy) or 20.04 (Focal)
 sudo add-apt-repository -y ppa:opencpu/opencpu-2.2
 sudo apt-get update 
 sudo apt-get upgrade
