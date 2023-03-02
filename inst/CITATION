@@ -1,8 +1,8 @@
 citHeader("To cite OpenCPU in publications use:")
 
-citEntry(entry = "Article",
+bibentry("Article",
   title        = "The OpenCPU System: Towards a Universal Interface for Scientific Computing through Separation of Concerns",
-  author       = personList(as.person("Jeroen Ooms")),
+  author       = as.personList("Jeroen Ooms"),
   journal      = "arXiv:1406.4806 [stat.CO]",
   year         = "2014",
   url          = "https://arxiv.org/abs/1406.4806",
