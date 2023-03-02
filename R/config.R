@@ -4,7 +4,7 @@ config <- local({
   confpaths <- character()
 
   load <- function(filepath){
-    message("Loading config from ", filepath)
+    packageStartupMessage("Loading config from ", filepath)
     confpaths <<- c(confpaths, filepath)
     newconf <- as.list(fromJSON(filepath));
     for(i in seq_along(newconf)){

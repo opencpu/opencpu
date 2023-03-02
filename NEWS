@@ -1,3 +1,6 @@
+2.2.9
+ - Use packageStartupMessage() for loading messages
+
 2.2.8
  - Fixes for R-4.2 changes in R_LIBS_SITE and R_LIBS_USER
  - Default platform is now Ubuntu-22.04 with R-4.2
