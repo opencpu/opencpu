@@ -1,3 +1,6 @@
+2.2.10
+  - Fix getRversion type for CRAN
+
 2.2.9
  - Use packageStartupMessage() for loading messages
 

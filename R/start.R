@@ -52,7 +52,7 @@ ocpu_start_server <- function(port = 5656, root ="/ocpu", workers = 2, preload =
   add_workers <- function(n = 1){
     if(length(pool) < workers){
       log("Starting %d new worker(s). Preloading: %s", n, paste(preload, collapse = ", "))
-      cl <- makeCluster(n)
+      cl <- parallel::makeCluster(n)
       lapply(cl, sendCall, fun = function(){
         lapply(preload, getNamespace)
         Sys.getpid()
@@ -193,16 +193,5 @@ ocpu_start_app <- function(app, update = TRUE, ...){
     ocpu_start_app_github(app, update = update, ...)
   } else {
     start_local_app_local(app, ...)
-  }
-}
-
-## WORKAROUND: https://github.com/rstudio/rstudio/issues/6692
-## Use 'sequential' setup of PSOCK cluster in RStudio Console on macOS and R 4.0.0
-makeCluster <- function(..., setup_strategy = NULL){
-  if (Sys.getenv("RSTUDIO") == "1" && !nzchar(Sys.getenv("RSTUDIO_TERM")) &&
-      Sys.info()["sysname"] == "Darwin" && getRversion() >= "4") {
-    parallel::makeCluster(..., setup_strategy = "sequential")
-  } else {
-    parallel::makeCluster(...)
   }
 }
