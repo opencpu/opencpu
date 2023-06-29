@@ -5,8 +5,8 @@ Authors@R: person("Jeroen", "Ooms", role = c("aut", "cre"), email = "jeroen@berk
     comment = c(ORCID = "0000-0002-4035-0289"))
 License: Apache License 2.0
 Encoding: UTF-8
-URL: https://www.opencpu.org (website)
-    https://github.com/opencpu/opencpu (devel)
+URL: https://www.opencpu.org 
+    https://opencpu.r-universe.dev/opencpu
 BugReports: https://github.com/opencpu/opencpu/issues
 Depends: 
     R (>= 3.0.0)
