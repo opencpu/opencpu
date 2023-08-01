@@ -17,6 +17,19 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
     }
     invisible()
   }, error = function(e){
+    tr <- sys.calls()
+
+    isErrorHandler <- vapply(tr,
+                             function(x) identical(x[[1]], quote(.handleSimpleError)), logical(1))
+    errorHandlerIndex <- min(c(length(isErrorHandler)+1, which(isErrorHandler)))
+
+    tr <- head(tr, errorHandlerIndex-1)
+    isEval <- vapply(tr,
+                     function(x) identical(x[[1]], quote(eval)), logical(1))
+    lastEvalIndex <- max(c(0, which(isEval)))
+    tr <- tail(tr, length(tr) - lastEvalIndex)
+
+    e$trace <- tr
     error_object <<- e
   })
 

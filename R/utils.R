@@ -198,7 +198,12 @@ deparse_query <- function(x){
 format_user_error <- function(e){
   errmsg <- e$message;
   if(length(e$call)){
-    errmsg <- c(errmsg, "", "In call:", deparse(e$call));
+    errmsg <- c(errmsg, "", "In call:", deparse(e$call), "")
+    if (length(e$trace) > 0) {
+      trace_lines <- unlist(lapply(seq_along(e$trace),
+                                   function(i) c(paste0(i, ": "), deparse(e$trace[[i]]))))
+      errmsg <- c(errmsg, "Stacktrace:", trace_lines)
+    }
   }
   return(errmsg)
 }
