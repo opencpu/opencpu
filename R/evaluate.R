@@ -36,6 +36,25 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
   res <- evaluate::evaluate(input = input, envir = sessionenv, stop_on_error = 1, output_handler = myhandler)
 
   error_object <- rlang:::peek_last_error()
+
+  if (!is.null(error_object$trace)) {
+    tr <- error_object$trace
+    n <- nrow(tr)
+
+    isErrorHandler <- vapply(tr$call,
+                             function(x) identical(x[[1]], quote(.handleSimpleError)), logical(1))
+    errorHandlerIndex <- min(c(length(isErrorHandler)+1, which(isErrorHandler)))
+
+    isOverheadCall <- tr$namespace %in% c("evaluate", "opencpu")
+    lastOverheadIndex <- max(c(0, which(isOverheadCall)))
+
+    trIdx <- seq2(lastOverheadIndex + 1, errorHandlerIndex-1)
+
+    error_object$trace <- rlang:::trace_slice(tr, trIdx)
+
+  }
+
+
   # return both
   list (
     res = res,
