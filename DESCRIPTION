@@ -21,6 +21,7 @@ Imports:
     curl (>= 4.0),
     rappdirs,
     rlang,
+    vctrs,
     zip,
     mime,
     protolite,

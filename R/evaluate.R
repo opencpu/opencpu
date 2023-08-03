@@ -49,11 +49,6 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
   )
 }
 
-# Copied from evaluate:::render
-evaluate_render <- function(x){
-  if (isS4(x)) methods::show(x) else print(x)
-}
-
 add_rlang_trace <- function(error_object){
   err <- rlang::cnd_entrace(error_object)
 
@@ -70,8 +65,22 @@ add_rlang_trace <- function(error_object){
 
     trIdx <- rlang::seq2(lastOverheadIndex + 1, errorHandlerIndex-1)
 
-    err$trace <- rlang:::trace_slice(tr, trIdx)
+    err$trace <- rlang_trace_slice(tr, trIdx)
 
   }
   return(err)
+}
+
+# Copied from rlang:::trace_slice
+rlang_trace_slice <- function (trace, i) {
+  i <- vctrs::vec_as_location(i, nrow(trace))
+  parent <- match(trace$parent, i, nomatch = 0)
+  out <- vctrs::vec_slice(trace, i)
+  out$parent <- parent[i]
+  out
+}
+
+# Copied from evaluate:::render
+evaluate_render <- function(x){
+  if (isS4(x)) methods::show(x) else print(x)
 }
