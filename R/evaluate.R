@@ -1,9 +1,9 @@
 evaluate_input <- function(input, args = NULL, storeval = FALSE) {
 
   #setup handler
-  rlang:::poke_last_error(NULL) # reset all previous errors if any
+  error_object <- NULL
   myhandler <- evaluate::new_output_handler(value = function(myval, visible = TRUE){
-    if(isTRUE(storeval)){
+    if(isTRUE(storeval) && is.null(error_object)){
       assign(".val", myval, sessionenv);
     }
     if(isTRUE(visible)){
@@ -16,7 +16,9 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
       }
     }
     invisible()
-  }, error = rlang::entrace)
+  }, error = function(e){
+    error_object <<- e
+  })
 
   #create session for output objects
   if(!length(args)){
@@ -35,7 +37,7 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
   }
   res <- evaluate::evaluate(input = input, envir = sessionenv, stop_on_error = 1, output_handler = myhandler)
 
-  error_object <- rlang:::peek_last_error()
+  error_object <- rlang::cnd_entrace(error_object)
 
   if (!is.null(error_object$trace)) {
     tr <- error_object$trace
