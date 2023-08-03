@@ -22,6 +22,7 @@ Imports:
     rappdirs,
     rlang,
     vctrs,
+    methods,
     zip,
     mime,
     protolite,

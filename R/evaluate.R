@@ -37,7 +37,7 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
   }
   res <- evaluate::evaluate(input = input, envir = sessionenv, stop_on_error = 1, output_handler = myhandler)
 
-  if(length(error_object) && length(error_object$call)){
+  if(length(error_object) && length(error_object$call) && isTRUE(config("error.backtrace"))){
     error_object <- add_rlang_trace(error_object)
   }
 
