@@ -37,25 +37,9 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
   }
   res <- evaluate::evaluate(input = input, envir = sessionenv, stop_on_error = 1, output_handler = myhandler)
 
-  error_object <- rlang::cnd_entrace(error_object)
-
-  if (!is.null(error_object$trace)) {
-    tr <- error_object$trace
-    n <- nrow(tr)
-
-    isErrorHandler <- vapply(tr$call,
-                             function(x) identical(x[[1]], quote(.handleSimpleError)), logical(1))
-    errorHandlerIndex <- min(c(length(isErrorHandler)+1, which(isErrorHandler)))
-
-    isOverheadCall <- tr$namespace %in% c("evaluate", "opencpu")
-    lastOverheadIndex <- max(c(0, which(isOverheadCall)))
-
-    trIdx <- rlang::seq2(lastOverheadIndex + 1, errorHandlerIndex-1)
-
-    error_object$trace <- rlang:::trace_slice(tr, trIdx)
-
+  if(length(error_object) && length(error_object$call)){
+    error_object <- add_rlang_trace(error_object)
   }
-
 
   # return both
   list (
@@ -68,4 +52,26 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
 # Copied from evaluate:::render
 evaluate_render <- function(x){
   if (isS4(x)) methods::show(x) else print(x)
+}
+
+add_rlang_trace <- function(error_object){
+  err <- rlang::cnd_entrace(error_object)
+
+  if (!is.null(err$trace)) {
+    tr <- err$trace
+    n <- nrow(tr)
+
+    isErrorHandler <- vapply(tr$call,
+                             function(x) identical(x[[1]], quote(.handleSimpleError)), logical(1))
+    errorHandlerIndex <- min(c(length(isErrorHandler)+1, which(isErrorHandler)))
+
+    isOverheadCall <- tr$namespace %in% c("evaluate", "opencpu")
+    lastOverheadIndex <- max(c(0, which(isOverheadCall)))
+
+    trIdx <- rlang::seq2(lastOverheadIndex + 1, errorHandlerIndex-1)
+
+    err$trace <- rlang:::trace_slice(tr, trIdx)
+
+  }
+  return(err)
 }
