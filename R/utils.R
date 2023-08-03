@@ -199,9 +199,8 @@ format_user_error <- function(e){
   errmsg <- e$message;
   if(length(e$call)){
     errmsg <- c(errmsg, "", "In call:", deparse(e$call), "")
-    if (!is.null(e$trace) > 0) {
-      trace_lines <- capture.output(print(e$trace))
-      errmsg <- c(errmsg, "Stacktrace:", trace_lines)
+    if (length(e$trace)) {
+      errmsg <- c(errmsg, "Stacktrace:", format(e$trace))
     }
   }
   return(errmsg)
