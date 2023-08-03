@@ -3,7 +3,7 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
   #setup handler
   rlang:::poke_last_error(NULL) # reset all previous errors if any
   myhandler <- evaluate::new_output_handler(value = function(myval, visible = TRUE){
-    if(isTRUE(storeval) && is.null(error_object)){
+    if(isTRUE(storeval)){
       assign(".val", myval, sessionenv);
     }
     if(isTRUE(visible)){
@@ -48,7 +48,7 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
     isOverheadCall <- tr$namespace %in% c("evaluate", "opencpu")
     lastOverheadIndex <- max(c(0, which(isOverheadCall)))
 
-    trIdx <- seq2(lastOverheadIndex + 1, errorHandlerIndex-1)
+    trIdx <- rlang::seq2(lastOverheadIndex + 1, errorHandlerIndex-1)
 
     error_object$trace <- rlang:::trace_slice(tr, trIdx)
 
