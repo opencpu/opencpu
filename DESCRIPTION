@@ -20,6 +20,7 @@ Imports:
     webutils (>= 0.6),
     curl (>= 4.0),
     rappdirs,
+    rlang,
     zip,
     mime,
     protolite,
