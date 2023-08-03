@@ -1,3 +1,8 @@
+2.2.11
+  - Errors raised by R now by default include a backtrace if available. You can
+    opt-out by setting 'error.backtrace' to false in your user.conf.
+  - Fix error.showcall to actually show/hide the call from errors.
+
 2.2.10
   - Fix getRversion type for CRAN
 
