@@ -12,7 +12,7 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
         cat("List of length ", length(myval), "\n")
         cat(paste("[", names(myval), "]", sep="", collapse="\n"))
       } else {
-        getFromNamespace("render", "evaluate")(myval)
+        evaluate_render(myval)
       }
     }
     invisible()
@@ -61,4 +61,9 @@ evaluate_input <- function(input, args = NULL, storeval = FALSE) {
     sessionenv = sessionenv,
     error = error_object
   )
+}
+
+# Copied from evaluate:::render
+evaluate_render <- function(x){
+  if (isS4(x)) methods::show(x) else print(x)
 }
