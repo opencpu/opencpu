@@ -28,23 +28,23 @@ httpget_webhook <- function(){
 
   #Post-Receive data
   gitref <- payload$ref;
-  giturl <- payload$repository$url;
+  giturl <- payload$repository$clone_url;
   gitrepo <- payload$repository$name;
-  gitmaster <- payload$repository$master_branch;
+  gitmain <- payload$repository$default_branch;
   gituser <- tolower(payload$repository$owner$name);
 
   #Ignore all but master
-  if(is.null(gitref) || is.na(gitref) || !length(gitref) || gitref != paste0("refs/heads/", gitmaster)){
-    res$sendtext(sprintf("Ignoring non-master: %s (default/master branch is '%s')", gitref, gitmaster))
+  if(is.null(gitref) || is.na(gitref) || !length(gitref) || gitref != paste0("refs/heads/", gitmain)){
+    res$sendtext(sprintf("Ignoring non-main: %s (default/master branch is '%s')", gitref, gitmain))
   }
 
   #Check for gihtub
   if(!grepl("^https://github.com", giturl)){
-    stop("Currently only Github CI is supported.");
+    stop("Currently only Github CI is supported. Found: ", giturl);
   }
 
   #trigger install and email
-  do.call(webhook_install, c(list(payload = payload), repo = gitrepo, username = gituser, ref = gitmaster, req$get()))
+  do.call(webhook_install, c(list(payload = payload), repo = gitrepo, username = gituser, ref = gitmain, req$get()))
 }
 
 
