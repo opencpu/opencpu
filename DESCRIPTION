@@ -33,11 +33,10 @@ Suggests:
     unix (>= 1.5.3),
     haven,
     pander,
-    R.rsp,
     svglite
 SystemRequirements: pandoc, apparmor (optional)
-VignetteBuilder: knitr, R.rsp
-Description: A system for embedded scientific computing and reproducible research with R.
+Description: A system for embedded scientific computing and reproducible research with R 
+    as described in <doi:10.48550/arXiv.1406.4806>.
     The OpenCPU server exposes a simple but powerful HTTP api for RPC and data interchange
     with R. This provides a reliable and scalable foundation for statistical services or 
     building R web applications. The OpenCPU server runs either as a single-user development
