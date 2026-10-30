@@ -34,7 +34,7 @@ create_email <- function(success, output, payload, mail_owner) {
       paste0("Build ", commitname, " successful: ", url_path(public_url(), "apps", what))
     }
   } else {
-    paste("Build", commitname, "failed. Either an error occured during package installation, or the package name does not match the name of the Github repository.");
+    paste("Build", commitname, "failed. Either an error occurred during package installation, or the package name does not match the name of the Github repository.");
   }
 
   # Create recipient formats
