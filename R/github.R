@@ -32,7 +32,7 @@ github_package_info <- function(repo, token = NULL){
   on.exit(close(con))
   out <- as.list(as.data.frame(read.dcf(con), stringsAsFactors = FALSE))
   }, error = function(e){
-    stop(sprintf("Failed to read %s. Repsitory does not contain a proper R package.", url))
+    stop(sprintf("Failed to read %s. Repository does not contain a proper R package.", url))
   })
   stats::setNames(out, tolower(names(out)))
 }

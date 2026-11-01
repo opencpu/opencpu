@@ -39,6 +39,6 @@ check_mode <- function(path){
   }
   # Check for r-x permission
   if((mode & "005") < 5){
-    stop("Directory ", path, " is not readble. Try running: chmod +rx ", path)
+    stop("Directory ", path, " is not readable. Try running: chmod +rx ", path)
   }
 }
