@@ -43,7 +43,7 @@ parse_post <- function(reqbody, contenttype){
   } else if(grepl("^application/rds", contenttype)){
     obj <- readRDS(gzcon(rawConnection(reqbody)))
   } else {
-    stop("POST body with unknown conntent type: ", contenttype);
+    stop("POST body with unknown content type: ", contenttype);
   }
 
   # Empty POST data
